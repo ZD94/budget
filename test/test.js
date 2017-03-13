@@ -4,7 +4,10 @@
 'use strict';
 const _ = require("lodash");
 const path = require("path");
-require('../regTsNode');
+let p = path.normalize(path.join("../", __dirname));
+require('app-module-path').addPath(p);
+require('../common/node_ts')
+    .install(false);
 
 let glob = require("glob");
 let files1 = glob.sync("test/*.test.@(ts|js)");

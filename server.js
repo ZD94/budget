@@ -3,4 +3,5 @@
  */
 'use strict';
 
-require("./common/node_ts");
+require("app-module-path/register")
+require("common/node_ts").install(false);

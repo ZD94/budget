@@ -4,22 +4,31 @@
 
 'use strict';
 
-import {getBudget} from '../../lib/budget';
-import {IQueryBudgetParams, EAirCabin, EGender} from "../../lib/type";
+import {getBudget} from 'lib/budget';
+import {IQueryBudgetParams, EAirCabin, EGender} from "_type/budget";
+import {ICity} from "_type/city";
+
+let CITY_BJ: ICity = {
+    id: 'CT_131',
+    name: "北京",
+    code: "BJS",
+    isAbroad: false,
+    letter: 'BJ'
+}
 
 describe("lib/budget.ts", () => {
     it("#getBudget() should be oa", (done) => {
         let params: IQueryBudgetParams = {
-            fromCity: 'CT_131',
+            fromCity: CITY_BJ,
             appid: '123456',
             sign: 'test',
             timestamp: Date.now()+"",
             ret: true,
             segs: [
                 {
-                    city: 'CT_231',
-                    beginTime: '2017-01-01',
-                    endTime: '2017-01-01',
+                    city:CITY_BJ,
+                    beginTime: new Date('2017-01-01'),
+                    endTime: new Date('2017-01-01'),
                     location: {
                         latitude: 123,
                         longitude: 46,

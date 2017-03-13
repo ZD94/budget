@@ -5,3 +5,6 @@
 
 require("app-module-path/register")
 require("common/node_ts").install(false);
+
+let config = require("./config");
+require("./common/model").init(config.pg.url);

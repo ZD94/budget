@@ -19,19 +19,19 @@ export class App extends ModelObject {
     @Create()
     static create() :App { return null}
 
-    @Field(Types.UUID)
+    @Field({type: Types.UUID})
     get id() :string { return uuid.v1()}
     set id(id: string) {}
 
-    @Field(Types.STRING(50))
+    @Field({type: Types.STRING(50)})
     get key() :string {return null}
     set key(key: string) {}
 
-    @Field(Types.STRING(50))
+    @Field({type: Types.STRING(50)})
     get name() :string { return null}
     set name(name: string) {}
 
-    @Field(Types.TEXT)
+    @Field({type: Types.TEXT})
     get ip(): string { return null}
     set ip(ip: string) {}
 }

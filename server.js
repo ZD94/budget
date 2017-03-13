@@ -3,4 +3,4 @@
  */
 'use strict';
 
-require("./regTsNode");
+require("./common/node_ts");

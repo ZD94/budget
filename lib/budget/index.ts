@@ -7,48 +7,74 @@ import {
     IQueryBudgetParams, IBudgetResult, IBudgetItem, ITrafficBudgetItem, ETrafficType, EAirCabin,
     EBudgetType, IHotelBudgetItem, EHotelStar, IQueryTrafficBudgetParams, IQueryHotelBudgetParams
 } from "_type/budget";
+import {HotelBudgetStrategyFactory, TrafficBudgetStrategyFactory} from "./strategy/index";
+import {Models} from "_type/index";
 
-async function getHotelBudget(params: IQueryHotelBudgetParams) :Promise<IHotelBudgetItem>{
+async function getHotelBudget(params: IQueryHotelBudgetParams) :Promise<IHotelBudgetItem> {
+    //酒店原始数据, 入住日期，离店日期，公司偏好，个人差旅标准，员工，是否同性合并
+    let {hotels, checkInDate, checkOutDate, prefers, policies, staffs, combineRoom, isRetMarkedData} = params;
+    //需要的差旅标准
+    let strategy = await HotelBudgetStrategyFactory.getStrategy({
+        checkInDate,
+        checkOutDate,
+        prefers,
+        policies,
+        staffs,
+        combineRoom,
+    }, {isRecord: false});
+    let budget = await strategy.getResult(hotels, isRetMarkedData);
     let hotelBudget: IHotelBudgetItem = {
-        checkInDate: new Date('2017-06-01'),
-        checkOutDate: new Date('2017-09-01'),
+        checkInDate: params.checkInDate,
+        checkOutDate: params.checkOutDate,
         star: EHotelStar.FIVE,
-        price: 500,
+        price: budget.price,
         type: EBudgetType.HOTEL,
+        name: budget.name,
+        agent: budget.agent,
+        link: budget.link,
+        markedScoreData: budget.markedScoreData,
     }
     return hotelBudget;
 }
 
 async function getTrafficBudget(params: IQueryTrafficBudgetParams) :Promise<ITrafficBudgetItem> {
-    let budget: ITrafficBudgetItem = {
-        departTime: new Date('2017-01-01'),
-        arrivalTime: new Date('2017-01-01'),
-        trafficType: ETrafficType.PLANE,
+    //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
+    let {beginTime, endTime, policies, prefers, tickets, staffs, isRetMarkedData} = params;
+    let strategy = await TrafficBudgetStrategyFactory.getStrategy({
+        beginTime,
+        endTime,
+        policies,
+        prefers,
+        tickets,
+        staffs,
+    }, {isRecord: false});
+
+    let budget: ITrafficBudgetItem = await strategy.getResult(tickets, isRetMarkedData);
+    let trafficBudget: ITrafficBudgetItem = {
+        departTime: budget.departTime,
+        arrivalTime: budget.arrivalTime,
+        trafficType: budget.trafficType,
         cabin: EAirCabin.ECONOMY,
-        fromCity: {
-            id: 'CT_131',
-            name: '北京',
-            code: 'BJS',
-            letter: 'BJ',
-            isAbroad: false,
-        },
-        toCity: {
-            id:'CT_132',
-            name: '上海',
-            code: 'SHA',
-            letter: 'SH',
-            isAbroad: false
-        },
+        fromCity: budget.fromCity,
+        toCity: budget.toCity,
         type: EBudgetType.TRAFFIC,
-        price: 1000,
+        price: budget.price,
         discount: 0.5,
+        markedScoreData: budget.markedScoreData,
     }
-    return budget;
+    return trafficBudget;
 }
 
 export async function getBudget(params: IQueryBudgetParams) :Promise<IBudgetResult>{
-    let {policies, staffs, segs, fromCity, prefers, ret} = params;
+    let {policies, staffs, segs, fromCity, prefers, ret, tickets, hotels, isRetMarkedData, appid} = params;
 
+    let app = await Models.app.get(appid);
+    if (!app) {
+        throw new Error("appid invalid");
+    }
+    if (!app.isSupportDebug) {
+        isRetMarkedData = false;
+    }
     let budgets: IBudgetItem[] = [];
     for(var i=0, ii=segs.length; i<ii; i++) {
         let seg = segs[i];
@@ -61,6 +87,8 @@ export async function getBudget(params: IQueryBudgetParams) :Promise<IBudgetResu
             beginTime: seg.beginTime,
             endTime: seg.endTime,
             prefers,
+            tickets,
+            isRetMarkedData
         }
         let trafficBudget = await getTrafficBudget(trafficParams);
         budgets.push(trafficBudget);
@@ -71,15 +99,36 @@ export async function getBudget(params: IQueryBudgetParams) :Promise<IBudgetResu
             checkInDate: seg.beginTime,
             checkOutDate: seg.endTime,
             prefers,
+            hotels,
+            isRetMarkedData
         }
         let hotelBudget = await getHotelBudget(hotelParams);
         budgets.push(hotelBudget);
         fromCity = toCity;
     }
 
+    //删除原始数据
+    delete params.hotels;
+    delete params.tickets;
+
+    let m = Models.budget.create({appid: appid, query: params, result: budgets});
+    m = await m.save();
     let result: IBudgetResult = {
-        id: "123",
+        id: m.id,
         budgets: budgets,
     }
     return result;
+}
+
+export async function getBudgetCache(params: {appid: string, id: string}) :Promise<IBudgetResult>{
+    let {appid, id} = params;
+    let app = await Models.app.get(appid);
+    if (!app) {
+        throw new Error("invalid appid");
+    }
+    let m = await Models.budget.get(id);
+    return {
+        id: m.id,
+        budgets: m.result,
+    }
 }

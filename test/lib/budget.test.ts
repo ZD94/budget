@@ -4,7 +4,7 @@
 
 'use strict';
 
-import {getBudget} from 'lib/budget';
+import {getBudget, getBudgetCache} from 'lib/budget';
 import {IQueryBudgetParams, EAirCabin, EGender} from "_type/budget";
 import {ICity} from "_type/city";
 
@@ -16,11 +16,19 @@ let CITY_BJ: ICity = {
     letter: 'BJ'
 }
 
+let appid = '00000000-0000-0000-0000-000000000001'
+
+let hotels = require("./test-hotels.json");
+let tickets = require("./test-transit-tickets.json");
+
 describe("lib/budget.ts", () => {
     it("#getBudget() should be oa", (done) => {
         let params: IQueryBudgetParams = {
+            hotels: hotels,
+            tickets: tickets,
+            isRetMarkedData: true,
             fromCity: CITY_BJ,
-            appid: '123456',
+            appid: appid,
             sign: 'test',
             timestamp: Date.now()+"",
             ret: true,
@@ -55,6 +63,17 @@ describe("lib/budget.ts", () => {
             })
             .catch( (err) => {
                 throw err
+            })
+    })
+
+    it("#getBudgetCache() should be ok", function(done) {
+        getBudgetCache({appid: appid, id: 'f5d2b840-086b-11e7-b25e-33a5c04dc7af'})
+            .then( (result) => {
+                console.log(JSON.stringify(result));
+                done();
+            })
+            .catch( (err) => {
+                throw err;
             })
     })
 })

@@ -4,7 +4,7 @@
 
 'use strict';
 
-import TransitWaitDurationPrefer = require('lib/budget/prefer/ticket-transitWaitDurationPrefer');
+import TransitWaitDurationPrefer = require('api/budget/prefer/ticket-transitWaitDurationPrefer');
 import {IFinalTicket} from "_type/budget";
 const tickets: Array<IFinalTicket> = require('./test-transit-tickets.json');
 

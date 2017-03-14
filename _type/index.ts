@@ -5,6 +5,9 @@
 'use strict';
 import {ModelInterface} from "../common/model/interface";
 import {ModelDelegate} from "../common/model/delegate";
+import {App} from "./app";
+import {Budget} from "_type/budget";
+
 export interface ModelsInterface {
     app: ModelInterface<App>;
     budget: ModelInterface<Budget>;
@@ -15,18 +18,3 @@ export var Models: ModelsInterface = {
     budget: new ModelDelegate<Budget>(),
 };
 
-import {App} from "./app";
-import {Budget} from "./budget";
-import {createServerService} from "../common/model/sequelize";
-
-export function initModels(models: ModelsInterface){
-    for(let k in models){
-        if(Models[k])
-            Models[k].setTarget(models[k]);
-    }
-}
-
-initModels({
-    app:createServerService<App>(App),
-    budget: createServerService<Budget>(Budget),
-});

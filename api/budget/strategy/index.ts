@@ -49,6 +49,9 @@ function formatHotel(hotels: IHotel[]) : IFinalHotel[] {
     for(let i=0, ii=hotels.length; i<ii; i++) {
         let hotel = hotels[i]
         let agents = hotel.agents || hotel['agent'];
+        if (!agents) {
+            continue;
+        }
         for(var j=0, jj=agents.length; j< jj; j++) {
             _hotels.push({
                 name: hotel.name,

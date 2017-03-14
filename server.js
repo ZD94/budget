@@ -1,41 +1,74 @@
 /**
- * Created by wlh on 2017/3/10.
+ * Created by YCXJ on 2014/5/6.
  */
 'use strict';
+//可以直接require服务器根目录下的模块
+require('app-module-path').addPath(__dirname);
+require('common/node_ts').install();
 
-var path = require("path");
-require("app-module-path/register")
-require("common/node_ts").install(false);
+Error.stackTraceLimit = 40;
+var zone = require('common/zone');
 
-require("_type");
+global.Promise = require('bluebird');
+Promise.promisifyAll(require("redis"));
+Promise.promisifyAll(require("fs"));
 
-//初始化数据库
-let config = require("config");
-let model = require("common/model")
-model.init(config.pg.url);
-model.initDefines();
+var config = require("./config");
+
+// Promise.config({ warnings: false });
+// if(config.debug) {
+//     Promise.config({ longStackTraces: false });
+// }
+
+var path = require('path');
 
 var Logger = require('common/logger');
-Logger.init({
-    path: path.join(__dirname, "log"),
-    prefix: "jlbudget_",
-    console: false,
-    mods: {
-        sequelize: { console: false }
-    }
+Logger.init(config.logger);
+var logger = new Logger('main');
+
+var cache = require("common/cache");
+cache.init({redis_conf: config.redis.url, prefix: 'jlbudget:cache'});
+
+var model = require('common/model');
+model.init(config.postgres.url);
+
+var API = require('common/api');
+
+var Server = require('common/server');
+var server = new Server(config.appName, config.pid_file);
+
+server.cluster = config.cluster;
+
+server.http_logtype = config.logger.httptype;
+server.http_port = config.port;
+if(config.socket_file){
+    server.http_port = config.socket_file;
+}
+// server.http_root = path.join(__dirname, 'www');
+// server.http_favicon = path.join(server.http_root, 'favicon.ico');
+//server.on('init.http_handler', require('./app'));
+
+server.api_path = path.join(__dirname, 'api');
+server.api_port = config.apiPort;
+server.api_config = config.api;
+
+//
+server.on('init.api', function(API){
+    console.log("init.api")
+//     API.registerAuthWeb(API.auth.authentication);
 });
 
-model.databaseSync()
-    .catch( (err) => {
-        console.error(err);
-        throw err;
-    })
+server.on('init.http', function(server){
+    console.log("init.http")
+});
 
-const app = require("./router");
+zone.forkStackTrace().run(function(){
+    server.start();
+});
 
-
-
-
-const http = require("http");
-let server = http.createServer(app);
-server.listen(3000);
+process.on('unhandledRejection', (reason, p) => {
+    if (config.debug) {
+        throw reason;
+    }
+    logger.error(reason);
+});

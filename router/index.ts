@@ -12,7 +12,7 @@ import bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 import {restful} from "./restful";
-import {getBudgetCache, getBudget} from "../lib/budget";
+import {getBudgetCache, getBudget, getHotelBudget, getTrafficBudget} from "../lib/budget";
 
 const url = '/budget';
 const prefix = '/v1';
@@ -47,8 +47,48 @@ let m = {
             combineRoom
         });
         res.json(result);
+    },
+    hotel: async function(req, res, next) {
+        // let appid = req.query.appid;
+        let obj = req.body.json;
+        let params = JSON.parse(obj);
+        let {prefers, hotels, checkInDate, checkOutDate, staffs, policies, combineRoom, city} = params;
+        let budget = await getHotelBudget({
+            prefers,
+            hotels,
+            staffs,
+            checkInDate,
+            checkOutDate,
+            policies,
+            combineRoom,
+            city,
+        });
+        res.json(budget);
+    },
+    traffic: async function(req, res, next) {
+        let obj = req.body.json;
+        let params = JSON.parse(obj);
+        let {prefers, tickets, beginTime, endTime, staffs, policies, fromCity, toCity} = params;
+        let budget = await getTrafficBudget({
+            prefers,
+            tickets,
+            beginTime,
+            endTime,
+            staffs,
+            policies,
+            fromCity,
+            toCity,
+        })
+        res.json(budget);
     }
 }
+
+m.hotel['method'] = 'POST'
+m.hotel['url'] = '/hotel';
+
+m.traffic['method'] = 'POST';
+m.traffic['url'] = '/traffic';
+
 restful(app, url, m, {prefix: prefix, middleware: middleware})
 
 app.use(function(err, req, res, next) {

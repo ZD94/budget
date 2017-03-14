@@ -22,24 +22,50 @@ export function restful(app, url, module: IRestfulModule, options: {prefix?: str
     let prefix = options.prefix || '/';
     let middleware = options.middleware || [];
 
-    let url1 = path.normalize(prefix + url + '/:id');
-    let url2 = path.normalize(prefix + url);
-    if (module.get && typeof module.get == 'function') {
-        app.get(url1, middleware, wrapHandleError(module.get));
-        // console.log(`挂载:app.get(${url1})`)
+    let urls = {
+        get:    {url: '/:id', method: 'GET'},
+        update: {url: '/:id', method: 'POST'},
+        create: {url: '/', method: 'POST'},
+        delete: {url: '/:id', method: 'DELETE'}
     }
-    if (module.update && typeof module.update) {
-        app.post(url1, middleware, wrapHandleError(module.update)); //新增
-        // console.log(`挂载:app.post(${url1})`)
+
+    for(let key in module) {
+        let item = urls[key];
+        let fn = module[key]
+        let link;
+        let method;
+        if (item &&  fn && typeof fn == 'function' ) {
+            method = item.method ? item.method : 'GET';
+            link = item.url;
+        } else {
+            link = fn.url;
+            method = fn.method ? fn.method : 'GET';
+        }
+
+        if (link && method) {
+            link = path.normalize(prefix + url + link);
+            app[method.toLowerCase()](link, middleware, wrapHandleError(fn));
+        }
     }
-    if (module.create && typeof module.create) {
-        app.post(url2, middleware, wrapHandleError(module.create)); //新增
-        // console.log(`挂载:app.post(${url2})`)
-    }
-    if (module.delete && typeof module.delete) {
-        app.delete(url1, middleware, wrapHandleError(module.delete));
-        // console.log(`挂载:app.delete(${url2})`)
-    }
+    // let url1 = path.normalize(prefix + url + '/:id');
+    // let url2 = path.normalize(prefix + url);
+    //
+    // if (module.get && typeof module.get == 'function') {
+    //     app.get(url1, middleware, wrapHandleError(module.get));
+    //     // console.log(`挂载:app.get(${url1})`)
+    // }
+    // if (module.update && typeof module.update) {
+    //     app.post(url1, middleware, wrapHandleError(module.update)); //新增
+    //     // console.log(`挂载:app.post(${url1})`)
+    // }
+    // if (module.create && typeof module.create) {
+    //     app.post(url2, middleware, wrapHandleError(module.create)); //新增
+    //     // console.log(`挂载:app.post(${url2})`)
+    // }
+    // if (module.delete && typeof module.delete) {
+    //     app.delete(url1, middleware, wrapHandleError(module.delete));
+    //     // console.log(`挂载:app.delete(${url2})`)
+    // }
 }
 
 function wrapHandleError(fn) {

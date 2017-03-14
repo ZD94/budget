@@ -23,15 +23,23 @@ export class App extends ModelObject {
     get id() :string { return uuid.v1()}
     set id(id: string) {}
 
+    //通信秘钥
     @Field({type: Types.STRING(50)})
     get key() :string {return null}
     set key(key: string) {}
 
+    //名字
     @Field({type: Types.STRING(50)})
     get name() :string { return null}
     set name(name: string) {}
 
+    //白名单
     @Field({type: Types.TEXT})
     get ip(): string { return null}
     set ip(ip: string) {}
+
+    //是否支持调试
+    @Field({type: Types.BOOLEAN})
+    get isSupportDebug() :boolean{ return false}
+    set isSupportDebug(debug: boolean) {}
 }

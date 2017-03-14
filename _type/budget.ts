@@ -40,6 +40,43 @@ export interface IAuthParams {
     sign: string;
 }
 
+//代理商
+export interface IAgent {
+    name: string;
+    bookUrl?: string;    //预订链接
+    price: number;
+}
+
+//酒店代理商
+export interface IHotelAgent extends IAgent{
+}
+
+//酒店
+export interface IHotel {
+    name: string;
+    latitude: string;
+    longitude: string;
+    agents: Array<IHotelAgent>;
+    star: string| number;
+    checkInDate: string;
+    checkOutDate: string;
+}
+
+export interface IFinalHotel {
+    name: string;
+    latitude: string;
+    longitude: string;
+    star: number;
+    agent: string;
+    price: number;
+    bookUrl?: string;
+    score?: number;
+    reasons?: string[];
+    checkInDate: string;
+    checkOutDate: string;
+    outPriceRange: boolean;
+}
+
 export interface IQueryHotelBudgetParams {
     city: ICity;
     checkInDate: Date;
@@ -47,6 +84,82 @@ export interface IQueryHotelBudgetParams {
     policies: IPolicySet;
     staffs: IStaff[];
     prefers: IPrefer[];
+    hotels?: IHotel[];
+    combineRoom?: boolean;
+    isRetMarkedData?: boolean;
+}
+
+//仓位信息
+export interface ICabin {
+    name: string;
+    price: number;
+    remainNum?: number;
+}
+
+export interface IFlightAgent extends IAgent {
+    cabins: Array<ICabin>
+}
+
+export interface ITicket {
+    No: string;   //航班号或者车次
+    agents: Array<IFlightAgent>,   //代理商
+    departDateTime: string; //出发时间
+    arrivalDateTime: string;    //到达时间
+    originPlace: string;    //出发城市
+    destination: string;    //目的地
+    duration: number;
+    originStation?: string; //出发机场或者车站
+    destinationStation?: string;    //目的地机场或者车站
+    type: ETrafficType,
+    stops?: string[],   //中转城市
+    segs?: ISeg[],
+}
+
+export interface IFinalTicket {
+    No: string;   //航班号或者车次
+    departDateTime: string; //出发时间
+    arrivalDateTime: string;    //到达时间
+    originPlace: string;    //出发城市
+    destination: string;    //目的地
+    duration: number;
+    originStation?: string; //出发机场或者车站
+    destinationStation?: string;    //目的地机场或者车站
+    type: ETrafficType,
+    agent: string;
+    cabin: string;
+    price: number;
+    score?: number;
+    reasons?: string[];
+    stops?: string[];
+    segs?: any[];
+}
+
+export interface ICraft {
+    kind: string;
+    series: string;
+    name: string;
+}
+
+export interface IAirport {
+    name: string;
+    city: string;
+    code: string;
+    bname: string;
+}
+
+export interface IFlightSeg {
+    deptAirport: IAirport,
+    arriAirport: IAirport,
+    deptDateTime: Date,
+    arriDateTime: Date,
+    craft: ICraft;
+    base: {
+        flgno: string,
+        aircode: string,
+        logourl: string,
+        airsname: string,
+        ishared: boolean,
+    }
 }
 
 export interface IQueryTrafficBudgetParams {
@@ -57,6 +170,8 @@ export interface IQueryTrafficBudgetParams {
     prefers: IPrefer[];
     policies: IPolicySet;
     staffs: IStaff[];
+    tickets?: ITicket[];
+    isRetMarkedData?: boolean;
 }
 
 export interface IQueryBudgetParams extends IAuthParams {
@@ -67,6 +182,9 @@ export interface IQueryBudgetParams extends IAuthParams {
     policies: IPolicySet;     //可能用到的全部差旅标准
     combineRoom: boolean;   //同性是否合并
     prefers?: IPrefer[];
+    tickets?: ITicket[];
+    hotels?: IHotel[];
+    isRetMarkedData?: boolean;
 }
 
 export interface ISeg {
@@ -108,6 +226,8 @@ export interface IBudgetItem {
     price: number;
     type: EBudgetType;
     link?: string;
+    agent?: string;
+    markedScoreData?: any;
 }
 
 export enum EBudgetType {
@@ -116,13 +236,13 @@ export enum EBudgetType {
 }
 
 export enum ETrafficType {
-    TRAIN = 1,
-    PLANE = 2,
-    SHIP = 3,
-    CAR = 4,
-    BUS = 5,
-    SELF_DRIVER = 6,
-    CAR_RENT = 7,
+    TRAIN = 0,
+    PLANE = 1,
+    SHIP = 2,
+    CAR = 3,
+    BUS = 4,
+    SELF_DRIVER = 5,
+    CAR_RENT = 6,
 }
 
 export interface ITrafficBudgetItem extends IBudgetItem {
@@ -134,7 +254,7 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     cabin?: EAirCabin | ETrainSeat | EShipCabin;     //仓位或者座位
     discount?: number;                  //大致折扣
     no?: string;
-    supplier?: string;
+    // supplier?: string;
 }
 
 export interface IHotelBudgetItem extends IBudgetItem {
@@ -142,7 +262,7 @@ export interface IHotelBudgetItem extends IBudgetItem {
     checkOutDate: Date;                   //离店日期
     star: EHotelStar;                       //酒店星级
     name?: string;
-    supplier?: string;
+    // supplier?: string;
 }
 
 export interface IPrefer {
@@ -172,6 +292,6 @@ export class Budget extends ModelObject {
     set query(qs: IQueryBudgetParams) {}
 
     @Field({type: Types.JSONB})
-    get result() :IBudgetResult { return null}
-    set result(result: IBudgetResult) {}
+    get result() :IBudgetItem[] { return null}
+    set result(result: IBudgetItem[]) {}
 }

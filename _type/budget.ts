@@ -174,7 +174,8 @@ export interface IQueryTrafficBudgetParams {
     isRetMarkedData?: boolean;
 }
 
-export interface IQueryBudgetParams extends IAuthParams {
+export interface IQueryBudgetParams {
+    appid: string;
     fromCity?: ICity;       //出发城市
     segs: ISeg[];      //每段查询条件
     ret: boolean;       //是否往返

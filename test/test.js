@@ -8,7 +8,6 @@ require('app-module-path').addPath(path.normalize(path.join(__dirname, '..')));
 require('common/node_ts')
     .install();
 
-
 require("../_type");
 
 //初始化数据库

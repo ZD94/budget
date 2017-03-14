@@ -29,8 +29,6 @@ describe("lib/budget.ts", () => {
             isRetMarkedData: true,
             fromCity: CITY_BJ,
             appid: appid,
-            sign: 'test',
-            timestamp: Date.now()+"",
             ret: true,
             segs: [
                 {

@@ -90,6 +90,7 @@ export async function getBudget(params: IQueryBudgetParams) :Promise<IBudgetResu
             tickets,
             isRetMarkedData
         }
+
         let trafficBudget = await getTrafficBudget(trafficParams);
         budgets.push(trafficBudget);
         let hotelParams = {

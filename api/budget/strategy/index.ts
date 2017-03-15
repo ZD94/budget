@@ -108,12 +108,12 @@ export abstract class AbstractHotelStrategy {
                 "2": 350
             }
             return {
-                name: '',
+                name: null,
                 checkInDate: self.qs.checkInDate,
                 checkOutDate: self.qs.checkOutDate,
-                star: EHotelStar.FIVE,
+                star: null,
                 price: defaultPrice[this.qs.star] as number,
-                agent: "鲸力商旅",
+                agent: null,
                 type: EBudgetType.HOTEL,
                 latitude: 0,
                 longitude: 0,
@@ -212,8 +212,8 @@ export abstract class AbstractTicketStrategy {
                 arrivalTime: new Date(),
                 trafficType: ETrafficType.PLANE,
                 type: EBudgetType.TRAFFIC,
-                No: '',
-            }
+                no: '',
+            } as ITrafficBudgetItem;
         }
 
         _tickets = await this.getMarkedScoreTickets(_tickets);
@@ -256,34 +256,10 @@ export class CommonTicketStrategy extends AbstractTicketStrategy {
     }
 }
 
-export class HighPriceTicketStrategy extends AbstractTicketStrategy {
-    constructor(public query: any, options: any) {
-        super(query, options);
-    }
-
-    async customerMarkedScoreData(tickets: IFinalTicket[]): Promise<IFinalTicket[]> {
-        tickets.sort( (v1, v2) => {
-            let diff = v2.score - v1.score;
-            if (diff) return diff;
-            return v2.price - v1.price;
-        });
-        return tickets;
-    }
-}
-
 export class TrafficBudgetStrategyFactory {
     static async getStrategy(qs, options) {
-        let policy = qs.policy;
         let prefers = qs.prefers || [];  //保存的是企业打分参数信息
-        let strategy;
-        //选择策略
-        switch(policy) {
-            case 'bmw':
-                strategy = new HighPriceTicketStrategy(qs, options);
-                break;
-            default:
-                strategy = new CommonTicketStrategy(qs, options);
-        }
+        let strategy = new CommonTicketStrategy(qs, options);
         //通过企业配置的喜好打分
         for(let k of prefers) {
             let prefer = PreferFactory.getPrefer(k.name, k.options);
@@ -296,7 +272,6 @@ export class TrafficBudgetStrategyFactory {
 
 export class HotelBudgetStrategyFactory {
     static async getStrategy(qs, options) {
-        //let policy = qs.policy;
         let prefers = qs.prefers || [];
         let strategy = new CommonHotelStrategy(qs, options);
         for(let p of prefers) {

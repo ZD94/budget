@@ -4,7 +4,7 @@
 
 'use strict';
 
-import {getBudget, getBudgetCache} from 'lib/budget';
+import {getBudget, getBudgetCache} from 'api/budget/index';
 import {IQueryBudgetParams, EAirCabin, EGender} from "_type/budget";
 import {ICity} from "_type/city";
 

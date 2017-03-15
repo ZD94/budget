@@ -14,14 +14,30 @@ export enum EShipCabin {
 }
 
 export enum EAirCabin {
-    ECONOMY = 1
+    ECONOMY = 2,
+    FIRST = 3,
+    BUSINESS = 4,
+    PREMIUM_ECONOMY = 5,    //高端经济仓
 }
 
 export enum ETrainSeat {
+    BUSINESS_SEAT = 1,
+    FIRST_SEAT = 2,
+    SECOND_SEAT = 3,
+    PRINCIPAL_SEAT = 4,
+    SENIOR_SOFT_SLEEPER = 5,
+    SOFT_SLEEPER = 6,
+    HARD_SLEEPER = 7,
+    SOFT_SEAT = 8,
+    HARD_SEAT = 9,
+    NO_SEAT = 10,
 }
 
 export enum EHotelStar {
     FIVE = 5,
+    FOUR = 4,
+    THREE = 3,
+    TOW = 2,
 }
 
 export enum EGender {
@@ -255,7 +271,6 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     cabin?: EAirCabin | ETrainSeat | EShipCabin;     //仓位或者座位
     discount?: number;                  //大致折扣
     no?: string;
-    // supplier?: string;
 }
 
 export interface IHotelBudgetItem extends IBudgetItem {
@@ -263,7 +278,6 @@ export interface IHotelBudgetItem extends IBudgetItem {
     checkOutDate: Date;                   //离店日期
     star: EHotelStar;                       //酒店星级
     name?: string;
-    // supplier?: string;
 }
 
 export interface IPrefer {

@@ -1,20 +1,25 @@
 /**
- * Created by wlh on 2017/3/10.
+ * Created by wlh on 15/12/9.
  */
-'use strict';
-const _ = require("lodash");
-const path = require("path");
+"use strict";
+var path = require('path');
+process.env.NODE_PATH = '.:'+process.env.NODE_PATH;
+
 require('app-module-path').addPath(path.normalize(path.join(__dirname, '..')));
-require('common/node_ts')
-    .install();
+var zone = require('common/zone');
+require('common/node_ts').install();
 
-require("../_type");
+global.Promise = require('bluebird');
+Promise.config({ longStackTraces: false });
+Promise.promisifyAll(require('fs'));
 
-//初始化数据库
-let config = require("../config");
-let model = require("../common/model")
-model.init(config.pg.url);
-model.initDefines();
+process.on('unhandledRejection', (reason, p) => {
+    throw reason;
+});
+
+require('./mocha-zone')(global);
+
+var config = require("../config");
 
 var Logger = require('common/logger');
 Logger.init({
@@ -25,20 +30,28 @@ Logger.init({
         sequelize: { console: false }
     }
 });
+var logger = new Logger('test');
 
-model.databaseSync()
-    .catch( (err) => {
-        console.error(err);
-        throw err;
-    })
+var API = require('common/api');
 
-let glob = require("glob");
-let files1 = glob.sync("test/*.test.@(ts|js)");
-let files = glob.sync("test/**/*.test.@(ts|js)")
+var model = require('common/model');
+model.init(config.postgres.url_test);
 
-files = _.concat(files, files1);
-files.forEach( (f) => {
-    f = path.resolve(f)
-    f = f.replace(/\.[tj]s$/, "")
-    require(f);
-})
+zone.forkStackTrace()
+    .fork({name: 'test', properties: {session: {}}})
+    .run(function(){
+        Promise.resolve()
+            .then(function(){
+                //return API.initSql(path.join(__dirname, '../api'), config.api_test)
+            })
+            .then(function(){
+                return API.init(path.join(__dirname, '../api'), config.api_test)
+            })
+            .then(API.loadTests.bind(API))
+            .then(run)
+            .catch(function(e){
+                logger.error(e.stack?e.stack:e);
+                console.error(e.stack?e.stack:e);
+                process.exit();
+            });
+    });

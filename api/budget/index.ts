@@ -9,21 +9,47 @@ import {
 } from "_type/budget";
 import {HotelBudgetStrategyFactory, TrafficBudgetStrategyFactory} from "./strategy/index";
 import {Models} from "_type/index";
+import {loadDefaultPrefer, DEFAULT_PREFER_CONFIG_TYPE} from "./prefer/index";
+const L = require("common/language");
+import _ = require("lodash");
 
 class BudgetModule {
+
     static async getHotelBudget(params: IQueryHotelBudgetParams) :Promise<IHotelBudgetItem> {
         //酒店原始数据, 入住日期，离店日期，公司偏好，个人差旅标准，员工，是否同性合并
         let {hotels, checkInDate, checkOutDate, prefers, policies, staffs, combineRoom, isRetMarkedData} = params;
+        if (staffs && staffs.length > 1) {
+            throw L.ERR.NOT_ACCEPTABLE("目前仅支持单人出差");
+        }
+        if (!policies) {
+            policies = {};
+        }
+        let policyKey = staffs[0].policy || 'default';
+        let staffPolicy = policies[policyKey] || {};
+        let star = staffPolicy.hotelStar;
+
+        //合并系统默认标准与企业标准
+        let sysPrefers = loadDefaultPrefer({
+            local: {
+                checkInDate,
+                checkOutDate,
+                star
+            }
+        }, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL);
+        prefers = mergeJSON(sysPrefers, prefers);
+
         //需要的差旅标准
         let strategy = await HotelBudgetStrategyFactory.getStrategy({
+            star: star,
             checkInDate,
             checkOutDate,
             prefers,
-            policies,
             staffs,
             combineRoom,
         }, {isRecord: false});
+
         let budget = await strategy.getResult(hotels, isRetMarkedData);
+
         let hotelBudget: IHotelBudgetItem = {
             checkInDate: params.checkInDate,
             checkOutDate: params.checkOutDate,
@@ -41,6 +67,10 @@ class BudgetModule {
     static async getTrafficBudget(params: IQueryTrafficBudgetParams) :Promise<ITrafficBudgetItem> {
         //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
         let {fromCity, toCity, beginTime, endTime, policies, prefers, tickets, staffs, isRetMarkedData} = params;
+        if (staffs && staffs.length > 1) {
+            throw L.ERR.NOT_ACCEPTABLE("目前仅支持单人出差");
+        }
+
         let strategy = await TrafficBudgetStrategyFactory.getStrategy({
             fromCity,
             toCity,
@@ -136,6 +166,25 @@ class BudgetModule {
             budgets: m.result,
         }
     }
+}
+
+function mergeJSON(defaults, news) {
+    for(let i=0, ii =news.length; i<ii; i++) {
+        let v = news[i];
+        let isHas = false;  //是否包含
+        //查找defaults中是否包含
+        for(let j=0, jj=defaults.length; j<jj; j++) {
+            if (v.name == defaults[j].name) {
+                isHas = true;
+                defaults[j] = _.defaultsDeep(v, defaults[j]);
+                break;
+            }
+        }
+        if (!isHas) {
+            defaults.push(v);
+        }
+    }
+    return defaults;
 }
 
 export= BudgetModule;

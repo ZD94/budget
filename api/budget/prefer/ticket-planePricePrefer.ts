@@ -10,7 +10,7 @@ import {AbstractPrefer} from "./index";
 class PlanePricePrefer extends AbstractPrefer<IFinalTicket> {
     private score: number;
     private percent: number;
-    private cabins: number[];
+    private cabins: number[] | string;
     private type: string;
 
     constructor(name, options) {
@@ -18,6 +18,16 @@ class PlanePricePrefer extends AbstractPrefer<IFinalTicket> {
         if (!this.score) {
             this.score = 0;
         }
+
+        if (typeof this.cabins == 'string') {
+            this.cabins = this.cabins.split(/,/).map( (v)=> Number(v));
+        }
+        this.cabins = this.cabins.map( (v)=> {
+            if (typeof v=='string') {
+                v = parseInt(v);
+            }
+            return v;
+        })
     }
 
     async markScoreProcess(tickets:IFinalTicket[]):Promise<IFinalTicket[]> {
@@ -27,13 +37,13 @@ class PlanePricePrefer extends AbstractPrefer<IFinalTicket> {
         let midPrice = 0;
         let maxPrice = 0;
         let minPrice = 0;
-
+        
         tickets.forEach( (v) => {
-            if (v.type == ETrafficType.PLANE && self.cabins.indexOf(parseInt(v.cabin)) >= 0){
+            if (<number>v.type == <number>ETrafficType.PLANE && self.cabins.indexOf(v.cabin) >= 0) {
                 targetTickets.push(v);
             }
         })
-
+        
         if (targetTickets.length){
             targetTickets.sort( function(v1, v2) {
                 return v1.price - v2.price;
@@ -46,8 +56,10 @@ class PlanePricePrefer extends AbstractPrefer<IFinalTicket> {
         tickets = tickets.map( (v) => {
             if (!v.score) v.score = 0;
             if (!v.reasons) v.reasons = [];
-            if (v.type != ETrafficType.PLANE) return v;
-
+            if (v.type != ETrafficType.PLANE) {
+                v.reasons.push(`飞机价格偏好,类型为非飞机: 0`)
+                return v;
+            }
             if (self.cabins.indexOf(parseInt(v.cabin)) >= 0){
                 if (v.price < midPrice) {
                     // var a = 1 - Math.pow((midPrice - v.price)/(midPrice - minPrice),2);
@@ -71,8 +83,12 @@ class PlanePricePrefer extends AbstractPrefer<IFinalTicket> {
                     var addScore = self.score;
                     v.score += addScore;
                     v.reasons.push(`等于价格偏好的价格 ${addScore}`)
+                } else {
+                    v.reasons.push(`价格偏好 0`)
                 }
 
+            } else {
+                v.reasons.push(`价格偏好，期望${self.cabins},实际:${v.cabin}仓位不符合: 0`)
             }
             return v;
         })

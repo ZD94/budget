@@ -61,6 +61,8 @@ class PlaneNumberPrefer extends AbstractPrefer<IFinalTicket> {
                     var addScore = self.score;
                     v.score += addScore;
                     v.reasons.push(`等于位置偏好 ${addScore}`)
+                } else {
+                    v.reasons.push(`位置偏好 0`)
                 }
             }
             return v;

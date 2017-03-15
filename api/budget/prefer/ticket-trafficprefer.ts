@@ -29,6 +29,8 @@ class TrafficPrefer extends AbstractPrefer<IFinalTicket> {
             if (v.type == _expectTraffic) {
                 v.score += self.score;
                 v.reasons.push(`符合期望交通方式:${self.score}`);
+            } else {
+                v.reasons.push(`符合期望交通方式: 0`)
             }
             return v;
         })

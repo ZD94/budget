@@ -56,11 +56,15 @@ class CabinPrefer extends AbstractPrefer<IFinalTicket> {
                 if (this.expectFlightCabins.indexOf(parseInt(v.cabin)) >= 0) {
                     v['score'] += self.score;
                     v.reasons.push(`座次符合规定: ${self.score}`)
+                } else {
+                    v.reasons.push(`座次符合规定: 0`)
                 }
             } else if (v.type == ETrafficType.TRAIN) {
                 if (this.expectTrainCabins.indexOf(parseInt(v.cabin)) >= 0) {
                     v['score'] += self.score;
                     v.reasons.push(`座次符合规定: ${self.score}`)
+                } else {
+                    v.reasons.push(`座次符合规定: 0`)
                 }
             }
             return v;

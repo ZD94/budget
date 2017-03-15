@@ -38,8 +38,10 @@ class LatestArrivalTimePrefer extends AbstractPrefer<IFinalTicket> {
                 if (_d1 - d > 0) {
                     v['score'] += score;
                     v['reasons'].push(`去程到达时间符合出行条件 ${score}`)
+                    return v;
                 }
             }
+            v.reasons.push(`去程到达时间符合出行条件 0`)
             return v;
         })
         return tickets;

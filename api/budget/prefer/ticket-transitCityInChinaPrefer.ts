@@ -5,6 +5,7 @@
 'use strict';
 import {AbstractPrefer} from "./index";
 import {IFinalTicket, IFlightSeg, ETrafficType} from "_type/budget";
+const API = require("common/api");
 
 class TransitCityInChinaPrefer extends AbstractPrefer<IFinalTicket> {
     private baseScore: number;
@@ -32,13 +33,13 @@ class TransitCityInChinaPrefer extends AbstractPrefer<IFinalTicket> {
 
             //查看中转城市中国外城市数据
             let transitInChinaNum = 0;
-            // for(let i=1, ii=ticket.segs.length; i<ii; i++) {
-            //     let seg = <IFlightSeg>ticket.segs[i];
-            //     let city = await API.place.getCityInfo({name: seg.deptAirport.city});
-            //     if (!city.isAbroad) {
-            //         transitInChinaNum += 1;
-            //     }
-            // }
+            for(let i=1, ii=ticket.segs.length; i<ii; i++) {
+                let seg = <IFlightSeg>ticket.segs[i];
+                let city = await API.place.getCityInfo({name: seg.deptAirport.city});
+                if (!city.isAbroad) {
+                    transitInChinaNum += 1;
+                }
+            }
             if (!transitInChinaNum || transitInChinaNum < 1)
                 return ticket;
 

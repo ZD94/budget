@@ -95,6 +95,8 @@ class SelectTrafficByTimePrefer extends AbstractPrefer<IFinalTicket> {
             if (gainScoreTraffic !== null && gainScoreTraffic !== undefined && v.type == gainScoreTraffic) {
                 v.score += self.score;
                 v.reasons.push(`正确交通方式 +${self.score}`)
+            } else {
+                v.reasons.push(`正确交通方式 0`)
             }
             return v;
         })

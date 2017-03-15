@@ -28,6 +28,8 @@ function preferaircompany(data: IFinalTicket[], expected: Array<string>|string, 
         if (result) {
             v.score += score;
             v.reasons.push(`期望航空公司+${score}`);
+        } else {
+            v.reasons.push(`期望航空公司 0`)
         }
         return v;
     });

@@ -38,6 +38,8 @@ class AgentPrefer extends AbstractPrefer<IFinalTicket> {
             if (result) {
                 v.score += self.score;
                 v.reasons.push(`期望代理商${self.score}`);
+            } else {
+                v.reasons.push(`期望代理商 0`)
             }
             return v;
         });

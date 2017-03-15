@@ -32,8 +32,10 @@ class TrainDurationPrefer extends AbstractPrefer<IFinalTicket> {
                 if (v.duration <= self.trainDuration) {
                     v.score += self.score;
                     v.reasons.push(`符合火车时长${self.score}`);
+                    return v;
                 }
             }
+            v.reasons.push(`符合火车时长 0`)
             return v;
         })
         return tickets;

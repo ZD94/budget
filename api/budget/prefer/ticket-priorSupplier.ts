@@ -33,6 +33,8 @@ class PriorSupplierPrefer extends AbstractPrefer<IFinalTicket> {
             if (v.type == ETrafficType.PLANE && supplier.length > 0 && self.priorSuppliers.indexOf(supplier) >= 0) {
                 v['score'] += self.score;
                 v['reasons'].push(`优先乘坐的供应商 ${self.score}`)
+            } else {
+                v.reasons.push(`优先供应商 0`)
             }
             return v;
         });

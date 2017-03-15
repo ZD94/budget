@@ -34,6 +34,8 @@ class PermitOnlySupplierPrefer extends AbstractPrefer<IFinalTicket> {
             if (v.type == ETrafficType.PLANE && supplier.length > 0 && self.permitSuppliers.indexOf(supplier) < 0) {
                 v['score'] += self.score;
                 v['reasons'].push(`不允许乘坐的供应商 ${self.score}`)
+            } else {
+                v.reasons.push('不允许乘坐的供应商 0')
             }
             return v;
         });

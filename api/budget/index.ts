@@ -12,6 +12,7 @@ import {Models} from "_type/index";
 import {loadDefaultPrefer, DEFAULT_PREFER_CONFIG_TYPE} from "./prefer/index";
 const L = require("common/language");
 import _ = require("lodash");
+import moment = require("moment");
 
 class BudgetModule {
 
@@ -70,7 +71,37 @@ class BudgetModule {
         if (staffs && staffs.length > 1) {
             throw L.ERR.NOT_ACCEPTABLE("目前仅支持单人出差");
         }
+        let sysPrefers;
+        if (!policies) {
+            policies = {};
+        }
+        let policyKey = staffs[0].policy || 'default';
+        let staffPolicy = policies[policyKey] || {};
+        let trainSeat = staffPolicy.trainSeat;
+        let cabin = staffPolicy.cabin;
+        let shipCabin = staffPolicy.shipCabin;
 
+        if (typeof beginTime == 'string') {
+            beginTime = new Date(beginTime);
+        }
+        if (typeof endTime == 'string') {
+            endTime = new Date(endTime);
+        }
+        let qs = {
+            local: {
+                expectTrainCabins: cabin,
+                expectFlightCabins: cabin,
+                leaveDate: moment(beginTime).format("YYYY-MM-DD"),
+                earliestLeaveDateTime: beginTime,
+                latestArrivalDateTime: endTime,
+            }
+        }
+        if (fromCity.isAbroad || toCity.isAbroad) {
+            sysPrefers = loadDefaultPrefer(qs, DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_TICKET)
+        } else {
+            sysPrefers = loadDefaultPrefer(qs, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET)
+        }
+        prefers = mergeJSON(sysPrefers, prefers)
         let strategy = await TrafficBudgetStrategyFactory.getStrategy({
             fromCity,
             toCity,

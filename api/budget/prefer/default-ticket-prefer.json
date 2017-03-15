@@ -82,40 +82,7 @@
       "type": "square",
       "score": 10000,
       "cabins": [
-        2
-      ],
-      "percent": 0.2
-    }
-  },
-  {
-    "name": "planePricePrefer",
-    "options": {
-      "type": "square",
-      "score": 10000,
-      "cabins": [
-        5
-      ],
-      "percent": 0.2
-    }
-  },
-  {
-    "name": "planePricePrefer",
-    "options": {
-      "type": "square",
-      "score": 10000,
-      "cabins": [
-        3
-      ],
-      "percent": 0.2
-    }
-  },
-  {
-    "name": "planePricePrefer",
-    "options": {
-      "type": "square",
-      "score": 10000,
-      "cabins": [
-        4
+        2, 3, 4, 5
       ],
       "percent": 0.2
     }

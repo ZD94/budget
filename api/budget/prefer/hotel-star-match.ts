@@ -3,14 +3,14 @@
  */
 
 'use strict';
-import {IFinalHotel} from "_type/budget";
+import {IFinalHotel, EHotelStar} from "_type/budget";
 import {AbstractPrefer} from "./index";
 
 
 class StarMatchPrefer extends AbstractPrefer<IFinalHotel> {
 
     private score: number;
-    private expectStar:number;
+    private expectStar:string[];
     
     constructor(name, options) {
         super(name, options);
@@ -25,9 +25,11 @@ class StarMatchPrefer extends AbstractPrefer<IFinalHotel> {
             if (!v.score) v.score = 0;
             if (!v.reasons) v.reasons = [];
 
-            if (!v.outPriceRange && v.star == self.expectStar) {
+            if (self.expectStar.indexOf(v.star.toString()) >= 0) {
                 v.score += self.score;
                 v.reasons.push(`符合星级标准+${self.score}`);
+            } else {
+                v.reasons.push(`不符合星际+0`)
             }
             return v;
         })

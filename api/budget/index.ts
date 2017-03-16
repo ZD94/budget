@@ -131,10 +131,13 @@ class BudgetModule {
 
     static async getBudget(params: IQueryBudgetParams) :Promise<IBudgetResult>{
         let {policies, staffs, segs, fromCity, prefers, ret, tickets, hotels, isRetMarkedData, appid} = params;
+        if (!appid) {
+            throw L.ERR.INVALID_ARGUMENT("appid");
+        }
 
         let app = await Models.app.get(appid);
         if (!app) {
-            throw new Error("appid invalid");
+            throw L.ERR.INVALID_ARGUMENT("appid")
         }
         if (!app.isSupportDebug) {
             isRetMarkedData = false;
@@ -187,11 +190,20 @@ class BudgetModule {
 
     static async getBudgetCache(params: {appid: string, id: string}) :Promise<IBudgetResult>{
         let {appid, id} = params;
+        if (!appid) {
+            throw L.ERR.INVALID_ARGUMENT("appid")
+        }
+        if (!id) {
+            throw L.ERR.INVALID_ARGUMENT("id");
+        }
         let app = await Models.app.get(appid);
         if (!app) {
-            throw new Error("invalid appid");
+            throw L.ERR.INVALID_ARGUMENT("appid");
         }
         let m = await Models.budget.get(id);
+        if (!m) {
+            throw L.ERR.INVALID_ARGUMENT("id");
+        }
         return {
             id: m.id,
             budgets: m.result,
@@ -199,7 +211,7 @@ class BudgetModule {
     }
 
     static __initHttpApp(app) {
-        app.post('/budget/v1/make-budget', (req, res, next) => {
+        app.post('/api/v1/budget/make', (req, res, next) => {
             let qs: IQueryBudgetParams
             let json = req.body.json;
             if (typeof json == 'string') {
@@ -214,13 +226,17 @@ class BudgetModule {
             .catch(next);
         })
 
-        app.post('/budget/v1/budget-info', (req, res, next) => {
+        app.get('/api/v1/budget/info', (req, res, next) => {
             let {appid, id} = req.query;
             return BudgetModule.getBudgetCache({appid, id})
             .then( (result) => {
                 res.json(result);
             })
             .catch(next);
+        })
+
+        app.use('/api/v1/budget', function(err, req, res, next) {
+            res.json(err);
         })
     }
 }

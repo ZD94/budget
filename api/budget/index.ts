@@ -197,6 +197,32 @@ class BudgetModule {
             budgets: m.result,
         }
     }
+
+    static __initHttpApp(app) {
+        app.post('/budget/v1/make-budget', (req, res, next) => {
+            let qs: IQueryBudgetParams
+            let json = req.body.json;
+            if (typeof json == 'string') {
+                qs = JSON.parse(json);
+            } else {
+                qs = json;
+            }
+            return BudgetModule.getBudget(qs)
+            .then( (result) => {
+                res.json(result);
+            })
+            .catch(next);
+        })
+
+        app.post('/budget/v1/budget-info', (req, res, next) => {
+            let {appid, id} = req.query;
+            return BudgetModule.getBudgetCache({appid, id})
+            .then( (result) => {
+                res.json(result);
+            })
+            .catch(next);
+        })
+    }
 }
 
 function mergeJSON(defaults, news) {

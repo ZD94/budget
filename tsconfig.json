@@ -1,21 +1,39 @@
 {
+  "compileOnSave": true,
   "compilerOptions": {
+    "target": "ES2015",
     "module": "commonjs",
-    "target": "es6",
-    "outDir": "tmp/",
-    "declaration": true,
-    "experimentalDecorators": true,
-    "baseUrl": ".",
+    "outDir": "tmp/tsreq",
     "noEmitHelpers": true,
     "importHelpers": true,
     "sourceMap": true,
+    "declaration": true,
+    "declarationDir": "tmp/@types",
+    "alwaysStrict": true,
+    "experimentalDecorators": true,
+    "noImplicitUseStrict": false,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
     "paths": {
       "*": ["*", "*/index"]
-    }
+    },
+    "lib": ["ES2015", "DOM"]
+  },
+  "compilerOptionsNotUsing": {
+    "emitDecoratorMetadata": true,
+    "noImplicitAny": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "noUnusedLocals": true
   },
   "exclude": [
     "node_modules",
-    "tmp/",
-    "common/client"
+    "public",
+    "dist",
+    "ionic",
+    "tmp",
+    "*.bak",
+    "*.tar.gz"
+  ],
+  "excludeNotUsing": [
   ]
 }

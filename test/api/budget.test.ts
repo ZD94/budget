@@ -4,7 +4,8 @@
 
 'use strict';
 
-import {getBudget, getBudgetCache} from 'api/budget/index';
+import budget = require('api/budget');
+let {getBudget, getBudgetCache} = budget;
 import {IQueryBudgetParams, EAirCabin, EGender} from "_type/budget";
 import {ICity} from "_type/city";
 

@@ -2,6 +2,7 @@
  * Created by YCXJ on 2014/5/6.
  */
 'use strict';
+
 //可以直接require服务器根目录下的模块
 require('app-module-path').addPath(__dirname);
 require('common/node_ts').install();
@@ -15,10 +16,10 @@ Promise.promisifyAll(require("fs"));
 
 var config = require("./config");
 
-// Promise.config({ warnings: false });
-// if(config.debug) {
-//     Promise.config({ longStackTraces: false });
-// }
+Promise.config({ warnings: false });
+if(config.debug) {
+    Promise.config({ longStackTraces: false });
+}
 
 var path = require('path');
 

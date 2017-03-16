@@ -61,6 +61,7 @@ class BudgetModule {
             agent: budget.agent,
             link: budget.link,
             markedScoreData: budget.markedScoreData,
+            prefers: prefers,
         }
         return hotelBudget;
     }
@@ -89,7 +90,7 @@ class BudgetModule {
         }
         let qs = {
             local: {
-                expectTrainCabins: cabin,
+                expectTrainCabins: trainSeat,
                 expectFlightCabins: cabin,
                 leaveDate: moment(beginTime).format("YYYY-MM-DD"),
                 earliestLeaveDateTime: beginTime,
@@ -123,8 +124,9 @@ class BudgetModule {
             toCity: budget.toCity,
             type: EBudgetType.TRAFFIC,
             price: budget.price,
-            discount: 0.5,
+            discount: null,
             markedScoreData: budget.markedScoreData,
+            prefers: prefers,
         }
         return trafficBudget;
     }

@@ -245,6 +245,7 @@ export interface IBudgetItem {
     link?: string;
     agent?: string;
     markedScoreData?: any;
+    prefers?: any;
 }
 
 export enum EBudgetType {

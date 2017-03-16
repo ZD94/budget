@@ -10,7 +10,7 @@ import {AbstractPrefer} from "./index";
 class PlanePricePrefer extends AbstractPrefer<IFinalTicket> {
     private score: number;
     private percent: number;
-    private cabins: number[] | string;
+    private cabins: number[];
     private type: string;
 
     constructor(name, options) {
@@ -18,9 +18,11 @@ class PlanePricePrefer extends AbstractPrefer<IFinalTicket> {
         if (!this.score) {
             this.score = 0;
         }
-
+        
+        let tmpCabins: string;
         if (typeof this.cabins == 'string') {
-            this.cabins = this.cabins.split(/,/).map( (v)=> Number(v));
+            tmpCabins = this.cabins;
+            this.cabins = tmpCabins.split(/,/).map( (v)=> Number(v));
         }
         this.cabins = this.cabins.map( (v)=> {
             if (typeof v=='string') {
@@ -39,7 +41,7 @@ class PlanePricePrefer extends AbstractPrefer<IFinalTicket> {
         let minPrice = 0;
         
         tickets.forEach( (v) => {
-            if (<number>v.type == <number>ETrafficType.PLANE && self.cabins.indexOf(v.cabin) >= 0) {
+            if (<number>v.type == <number>ETrafficType.PLANE && self.cabins.indexOf(parseInt(v.cabin)) >= 0) {
                 targetTickets.push(v);
             }
         })

@@ -18,7 +18,7 @@ class PlanePricePrefer extends AbstractPrefer<IFinalTicket> {
         if (!this.score) {
             this.score = 0;
         }
-        
+
         let tmpCabins: string;
         if (typeof this.cabins == 'string') {
             tmpCabins = this.cabins;
@@ -39,13 +39,13 @@ class PlanePricePrefer extends AbstractPrefer<IFinalTicket> {
         let midPrice = 0;
         let maxPrice = 0;
         let minPrice = 0;
-        
+
         tickets.forEach( (v) => {
             if (<number>v.type == <number>ETrafficType.PLANE && self.cabins.indexOf(parseInt(v.cabin)) >= 0) {
                 targetTickets.push(v);
             }
         })
-        
+
         if (targetTickets.length){
             targetTickets.sort( function(v1, v2) {
                 return v1.price - v2.price;

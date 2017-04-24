@@ -50,7 +50,6 @@ class ArrivalTimePrefer extends AbstractPrefer<IFinalTicket> {
                     return v;
                 }
             }
-            v.reasons.push('到达时间符合规定时间');
             return v;
         })
         return tickets;

@@ -4,7 +4,6 @@
 
 'use strict';
 
-import {App} from "_type/app";
 import {Budget} from "_type/budget";
 import {createServerService} from "../common/model/sequelize";
 import {ModelsInterface, Models} from "../_type/index";
@@ -17,6 +16,5 @@ export function initModels(models: ModelsInterface){
 }
 
 initModels({
-    app:createServerService<App>(App),
     budget: createServerService<Budget>(Budget),
 });

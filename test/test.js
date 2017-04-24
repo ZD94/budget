@@ -45,7 +45,7 @@ zone.forkStackTrace()
                 //return API.initSql(path.join(__dirname, '../api'), config.api_test)
             })
             .then(function(){
-                return API.init(path.join(__dirname, '../api'), config.api_test)
+                return API.init(path.join(__dirname, '../api'), config.api)
             })
             .then(API.loadTests.bind(API))
             .then(run)

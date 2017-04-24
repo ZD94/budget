@@ -17,6 +17,9 @@
   "author": "jingli",
   "license": "ISC",
   "dependencies": {
+    "@jingli/dnode-api": "^1.0.5",
+    "@jingli/language": "^1.0.0",
+    "@jingli/logger": "^1.0.1",
     "@types/lodash": "^4.14.55",
     "app-module-path": "^2.2.0",
     "body-parser": "^1.17.1",

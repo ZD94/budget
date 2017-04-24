@@ -1,24 +1,41 @@
 /**
- * Created by wlh on 2017/3/10.
+ * Created by wlh on 15/12/12.
  */
-
-'use strict';
 import {
-    IQueryBudgetParams, IBudgetResult, IBudgetItem, ITrafficBudgetItem, ETrafficType, EAirCabin,
+    IQueryBudgetParams, IBudgetResult, IBudgetItem, ITrafficBudgetItem, EAirCabin,
     EBudgetType, IHotelBudgetItem, EHotelStar, IQueryTrafficBudgetParams, IQueryHotelBudgetParams
 } from "_type/budget";
-import {HotelBudgetStrategyFactory, TrafficBudgetStrategyFactory} from "./strategy/index";
-import {Models} from "_type/index";
-import {loadDefaultPrefer, DEFAULT_PREFER_CONFIG_TYPE} from "./prefer/index";
-const L = require("common/language");
-import _ = require("lodash");
-import moment = require("moment");
 
-class BudgetModule {
+const validate = require("common/validate");
+import L from '@jingli/language';
+const moment = require('moment');
+const cache = require("common/cache");
+const utils = require("common/utils");
+import _ = require("lodash");
+
+import {
+    TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory
+} from "./strategy/index";
+
+import {DEFAULT_PREFER_CONFIG_TYPE, loadPrefers} from "./prefer";
+import {Models} from "_type/index";
+
+export default class ApiTravelBudget {
 
     static async getHotelBudget(params: IQueryHotelBudgetParams) :Promise<IHotelBudgetItem> {
         //酒店原始数据, 入住日期，离店日期，公司偏好，个人差旅标准，员工，是否同性合并
-        let {hotels, checkInDate, checkOutDate, prefers, policies, staffs, combineRoom, isRetMarkedData} = params;
+        let {
+            hotels,
+            checkInDate,
+            checkOutDate,
+            prefers,
+            policies,
+            staffs,
+            combineRoom,
+            city,
+            isRetMarkedData
+        } = params;
+
         if (staffs && staffs.length > 1) {
             throw L.ERR.NOT_ACCEPTABLE("目前仅支持单人出差");
         }
@@ -28,16 +45,15 @@ class BudgetModule {
         let policyKey = staffs[0].policy || 'default';
         let staffPolicy = policies[policyKey] || {};
         let star = staffPolicy.hotelStar;
-
-        //合并系统默认标准与企业标准
-        let sysPrefers = loadDefaultPrefer({
-            local: {
-                checkInDate,
-                checkOutDate,
-                star
-            }
-        }, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL);
-        prefers = mergeJSON(sysPrefers, prefers);
+        let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL;
+        if (city.isAbroad) {
+            key = DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_HOTEL
+        }
+        prefers = loadPrefers(prefers, {local: {
+            checkInDate,
+            checkOutDate,
+            star,
+        }}, key);
 
         //需要的差旅标准
         let strategy = await HotelBudgetStrategyFactory.getStrategy({
@@ -49,7 +65,7 @@ class BudgetModule {
             combineRoom,
         }, {isRecord: false});
 
-        let budget = await strategy.getResult(hotels, isRetMarkedData);
+        let budget = await strategy.getResult(hotels);
 
         let hotelBudget: IHotelBudgetItem = {
             checkInDate: params.checkInDate,
@@ -98,9 +114,9 @@ class BudgetModule {
             }
         }
         if (fromCity.isAbroad || toCity.isAbroad) {
-            sysPrefers = loadDefaultPrefer(qs, DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_TICKET)
+            sysPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_TICKET)
         } else {
-            sysPrefers = loadDefaultPrefer(qs, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET)
+            sysPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET)
         }
         prefers = mergeJSON(sysPrefers, prefers)
         let strategy = await TrafficBudgetStrategyFactory.getStrategy({
@@ -133,17 +149,6 @@ class BudgetModule {
 
     static async getBudget(params: IQueryBudgetParams) :Promise<IBudgetResult>{
         let {policies, staffs, segs, fromCity, prefers, ret, tickets, hotels, isRetMarkedData, appid} = params;
-        if (!appid) {
-            throw L.ERR.INVALID_ARGUMENT("appid");
-        }
-
-        let app = await Models.app.get(appid);
-        if (!app) {
-            throw L.ERR.INVALID_ARGUMENT("appid")
-        }
-        if (!app.isSupportDebug) {
-            isRetMarkedData = false;
-        }
         let budgets: IBudgetItem[] = [];
         for(var i=0, ii=segs.length; i<ii; i++) {
             let seg = segs[i];
@@ -160,7 +165,7 @@ class BudgetModule {
                 isRetMarkedData
             }
 
-            let trafficBudget = await BudgetModule.getTrafficBudget(trafficParams);
+            let trafficBudget = await ApiTravelBudget.getTrafficBudget(trafficParams);
             budgets.push(trafficBudget);
             let hotelParams = {
                 policies,
@@ -172,7 +177,7 @@ class BudgetModule {
                 hotels,
                 isRetMarkedData
             }
-            let hotelBudget = await BudgetModule.getHotelBudget(hotelParams);
+            let hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
             budgets.push(hotelBudget);
             fromCity = toCity;
         }
@@ -198,10 +203,6 @@ class BudgetModule {
         if (!id) {
             throw L.ERR.INVALID_ARGUMENT("id");
         }
-        let app = await Models.app.get(appid);
-        if (!app) {
-            throw L.ERR.INVALID_ARGUMENT("appid");
-        }
         let m = await Models.budget.get(id);
         if (!m) {
             throw L.ERR.INVALID_ARGUMENT("id");
@@ -221,7 +222,7 @@ class BudgetModule {
             } else {
                 qs = json;
             }
-            return BudgetModule.getBudget(qs)
+            return ApiTravelBudget.getBudget(qs)
             .then( (result) => {
                 res.json(result);
             })
@@ -230,7 +231,7 @@ class BudgetModule {
 
         app.get('/api/v1/budget/info', (req, res, next) => {
             let {appid, id} = req.query;
-            return BudgetModule.getBudgetCache({appid, id})
+            return ApiTravelBudget.getBudgetCache({appid, id})
             .then( (result) => {
                 res.json(result);
             })
@@ -262,4 +263,42 @@ function mergeJSON(defaults, news) {
     return defaults;
 }
 
-export= BudgetModule;
+function getTimezoneStr(seconds) {
+    const HOUR = 60 * 60
+    const MINUTE = 60;
+    let hours = seconds / HOUR
+    if (hours < 0) {
+        hours = Math.ceil(hours);
+    } else {
+        hours = Math.floor(hours);
+    }
+    let minute = (seconds - hours * HOUR) / MINUTE;
+    if (minute < 0) {
+        minute = Math.ceil(minute)
+    } else {
+        minute = Math.floor(minute)
+    }
+    let ret = 'GMT';
+    if (hours < 0) {
+        ret += '-'
+        if (hours > -10) {
+            ret += '0'
+        }
+        hours = -hours;
+        ret += hours;
+    } else {
+        ret += '+';
+        if (hours < 10) {
+            ret += '0'
+        }
+        ret += hours;
+    }
+    if (minute < 0) {
+        minute = -minute;
+    }
+    if (minute < 10) {
+        ret += '0'
+    }
+    ret += minute;
+    return " "+ret;
+}

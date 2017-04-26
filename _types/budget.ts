@@ -4,10 +4,10 @@
 
 'use strict';
 
-import {ICity} from '_type/city';
+import {ICity} from '_types/city';
 import {ModelObject} from "common/model/object";
 import {Table, Field, Create} from "common/model/common";
-import {Models} from "_type/index";
+import {Models} from "_types/index";
 import uuid = require("uuid");
 import {Types} from "../common/model/index";
 export enum EShipCabin {
@@ -286,7 +286,7 @@ export interface IPrefer {
     options: any;
 }
 
-@Table(Models.budget, "openapi.budget")
+@Table(Models.budget, "budget.budget")
 export class Budget extends ModelObject {
     constructor(target:Object) {
         super(target)

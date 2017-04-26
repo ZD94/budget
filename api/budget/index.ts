@@ -4,7 +4,7 @@
 import {
     IQueryBudgetParams, IBudgetResult, IBudgetItem, ITrafficBudgetItem, EAirCabin,
     EBudgetType, IHotelBudgetItem, EHotelStar, IQueryTrafficBudgetParams, IQueryHotelBudgetParams
-} from "_type/budget";
+} from "_types/budget";
 
 const validate = require("common/validate");
 import L from '@jingli/language';
@@ -18,7 +18,7 @@ import {
 } from "./strategy/index";
 
 import {DEFAULT_PREFER_CONFIG_TYPE, loadPrefers} from "./prefer";
-import {Models} from "_type/index";
+import {Models} from "_types/index";
 
 export default class ApiTravelBudget {
 
@@ -175,7 +175,8 @@ export default class ApiTravelBudget {
                 checkOutDate: seg.endTime,
                 prefers,
                 hotels,
-                isRetMarkedData
+                isRetMarkedData,
+                appid,
             }
             let hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
             budgets.push(hotelBudget);
@@ -206,6 +207,9 @@ export default class ApiTravelBudget {
         let m = await Models.budget.get(id);
         if (!m) {
             throw L.ERR.INVALID_ARGUMENT("id");
+        }
+        if (m.appid != appid) {
+            throw L.ERR.NOT_FOUND();
         }
         return {
             id: m.id,

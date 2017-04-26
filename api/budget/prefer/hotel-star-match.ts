@@ -3,7 +3,7 @@
  */
 
 'use strict';
-import {IFinalHotel, EHotelStar} from "_type/budget";
+import {IFinalHotel, EHotelStar} from "_types/budget";
 import {AbstractPrefer} from "./index";
 import _ = require("lodash");
 

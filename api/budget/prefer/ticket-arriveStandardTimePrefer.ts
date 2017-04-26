@@ -3,7 +3,7 @@
  */
 
 'use strict';
-import {IFinalTicket} from "_type/budget";
+import {IFinalTicket} from "_types/budget";
 import {AbstractPrefer} from "./index";
 
 class ArriveStandardTimePrefer extends AbstractPrefer<IFinalTicket> {

@@ -4,9 +4,9 @@
 
 'use strict';
 
-import {Budget} from "_type/budget";
+import {Budget} from "_types/budget";
 import {createServerService} from "../common/model/sequelize";
-import {ModelsInterface, Models} from "../_type/index";
+import {ModelsInterface, Models} from "../_types/index";
 
 export function initModels(models: ModelsInterface){
     for(let k in models){

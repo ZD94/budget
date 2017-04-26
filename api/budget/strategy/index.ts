@@ -8,7 +8,7 @@ import {IPrefer} from '../prefer'
 import {
     IHotel, IFinalHotel, IHotelBudgetItem, EHotelStar, EBudgetType, IFinalTicket, ITicket,
     ITrafficBudgetItem, ETrafficType, EAirCabin
-} from "_type/budget";
+} from "_types/budget";
 
 function formatTicketData(tickets: ITicket[]) : IFinalTicket[] {
     let _tickets : IFinalTicket[] = [];

@@ -3,7 +3,7 @@
  */
 
 'use strict';
-import {IFinalTicket, ETrafficType} from "_type/budget";
+import {IFinalTicket, ETrafficType} from "_types/budget";
 import {AbstractPrefer} from "./index";
 //优先供应商
 

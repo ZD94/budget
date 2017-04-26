@@ -5,7 +5,7 @@
 'use strict';
 import {ModelInterface} from "../common/model/interface";
 import {ModelDelegate} from "../common/model/delegate";
-import {Budget} from "_type/budget";
+import {Budget} from "_types/budget";
 
 export interface ModelsInterface {
     budget: ModelInterface<Budget>;

@@ -6,7 +6,7 @@ var path = require('path');
 process.env.NODE_PATH = '.:'+process.env.NODE_PATH;
 
 require('app-module-path').addPath(path.normalize(path.join(__dirname, '..')));
-var zone = require('common/zone');
+var zone = require('@jingli/zone-setup');
 require('common/node_ts').install();
 
 global.Promise = require('bluebird');
@@ -17,11 +17,11 @@ process.on('unhandledRejection', (reason, p) => {
     throw reason;
 });
 
-require('./mocha-zone')(global);
+// require('./mocha-zone')(global);
 
-var config = require("../config");
+var config = require("@jingli/config");
 
-var Logger = require('common/logger');
+var Logger = require('@jingli/logger');
 Logger.init({
     path: path.join(__dirname, "../log"),
     prefix: "mocha_",
@@ -32,19 +32,19 @@ Logger.init({
 });
 var logger = new Logger('test');
 
-var API = require('common/api');
+var API = require('@jingli/dnode-api');
 
-var model = require('common/model');
-model.init(config.postgres.url_test);
+var DB = require('@jingli/database');
+DB.init(config.postgres.url_test);
 
 zone.forkStackTrace()
     .fork({name: 'test', properties: {session: {}}})
     .run(function(){
-        Promise.resolve()
+        return Promise.resolve()
             .then(function(){
-                //return API.initSql(path.join(__dirname, '../api'), config.api_test)
+                return API.initSql(path.join(__dirname, '../api'), config.api_test)
             })
-            .then(function(){
+            .then(function(ret){
                 return API.init(path.join(__dirname, '../api'), config.api)
             })
             .then(API.loadTests.bind(API))
@@ -53,5 +53,5 @@ zone.forkStackTrace()
                 logger.error(e.stack?e.stack:e);
                 console.error(e.stack?e.stack:e);
                 process.exit();
-            });
+            })
     });

@@ -4,10 +4,10 @@
 
 'use strict';
 
-import budget = require('api/budget');
-let {getBudget, getBudgetCache} = budget;
-import {IQueryBudgetParams, EAirCabin, EGender} from "_type/budget";
-import {ICity} from "_type/city";
+import ApiTravelBudget = require('api/budget');
+let {getBudget, getBudgetCache} = ApiTravelBudget;
+import {IQueryBudgetParams, EAirCabin, EGender} from "_types/budget";
+import {ICity} from "_types/city";
 
 let CITY_BJ: ICity = {
     id: 'CT_131',

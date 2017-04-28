@@ -73,7 +73,8 @@ export function loadPrefers(prefers: any[], qs: {local: any}, type?: DEFAULT_PRE
     }
     let _prefers = JSON.stringify(defaultPrefers);
     let _compiled = _.template(_prefers, { 'imports': { 'moment': moment } });
-    return JSON.parse(_compiled(qs));
+    let obj = JSON.parse(_compiled(qs));
+    return obj;
 }
 
 function mergePrefers(prefers: any[], newPrefers: any[]) {
@@ -85,7 +86,6 @@ function mergePrefers(prefers: any[], newPrefers: any[]) {
     });
     return prefers;
 }
-
 
 export var hotelPrefers = {
     starMatch: require('./hotel-star-match'),

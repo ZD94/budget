@@ -10,4 +10,6 @@ export interface ICity {
     isAbroad: boolean;
     letter: string;
     code?: string;  //三字码
+    longitude?: number;
+    latitude?: number;
 }

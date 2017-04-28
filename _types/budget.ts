@@ -94,7 +94,7 @@ export interface IFinalHotel {
 }
 
 export interface IQueryHotelBudgetParams {
-    city: ICity;
+    city: ICity| string;
     checkInDate: Date;
     checkOutDate: Date;
     policies: IPolicySet;
@@ -275,10 +275,15 @@ export interface ITrafficBudgetItem extends IBudgetItem {
 }
 
 export interface IHotelBudgetItem extends IBudgetItem {
-    checkInDate: Date;                    //入住日期
-    checkOutDate: Date;                   //离店日期
     star: EHotelStar;                       //酒店星级
     name?: string;
+}
+
+export interface IHotelBudgetResult {
+    city: string;                         //入住城市ID
+    checkInDate: Date;                    //入住日期
+    checkOutDate: Date;                   //离店日期
+    budgets: IHotelBudgetItem[];
 }
 
 export interface IPrefer {

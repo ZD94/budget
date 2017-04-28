@@ -3,7 +3,8 @@
  */
 import {
     IQueryBudgetParams, IBudgetResult, IBudgetItem, ITrafficBudgetItem, EAirCabin,
-    EBudgetType, IHotelBudgetItem, EHotelStar, IQueryTrafficBudgetParams, IQueryHotelBudgetParams
+    EBudgetType, IHotelBudgetItem, EHotelStar, IQueryTrafficBudgetParams, IQueryHotelBudgetParams, IStaff, EGender,
+    IHotelBudgetResult
 } from "_types/budget";
 
 const validate = require("common/validate");
@@ -19,10 +20,17 @@ import {
 
 import {DEFAULT_PREFER_CONFIG_TYPE, loadPrefers} from "./prefer";
 import {Models} from "_types/index";
+import {ICity} from "_types/city";
+import {countRoom} from "./helper";
+var API = require("@jingli/dnode-api");
 
 export default class ApiTravelBudget {
 
-    static async getHotelBudget(params: IQueryHotelBudgetParams) :Promise<IHotelBudgetItem> {
+    static async getHotelBudget(params: IQueryHotelBudgetParams) :Promise<IHotelBudgetResult> {
+        if (!params) {
+            throw L.ERROR_CODE(500, 'params not exist');
+        }
+
         //酒店原始数据, 入住日期，离店日期，公司偏好，个人差旅标准，员工，是否同性合并
         let {
             hotels,
@@ -36,50 +44,74 @@ export default class ApiTravelBudget {
             isRetMarkedData
         } = params;
 
-        if (staffs && staffs.length > 1) {
-            throw L.ERR.NOT_ACCEPTABLE("目前仅支持单人出差");
+        if (typeof city == 'string') {
+            city = (await API.place.getCityInfo({cityCode: city})) as ICity;
         }
+
+        if (combineRoom) {
+            throw L.ERROR_CODE(502, '目前还不支持自动合并住宿');
+        }
+
+        // if (staffs && staffs.length > 1) {
+        //     throw L.ERROR_CODE(502, '目前仅支持单人住宿预算');
+        // }
+
         if (!policies) {
             policies = {};
         }
-        let policyKey = staffs[0].policy || 'default';
-        let staffPolicy = policies[policyKey] || {};
-        let star = staffPolicy.hotelStar;
+
         let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL;
         if (city.isAbroad) {
             key = DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_HOTEL
         }
-        prefers = loadPrefers(prefers, {local: {
-            checkInDate,
-            checkOutDate,
-            star,
-        }}, key);
+        if (!hotels || !hotels.length) {
+            hotels = await API.hotel.search_hotels({
+                checkInDate,
+                checkOutDate,
+                city,
+                latitude: city.latitude,
+                longitude: city.longitude,
+                // guests: staffs.length,
+                // rooms: countRoom(staffs),
+            })
+        }
 
-        //需要的差旅标准
-        let strategy = await HotelBudgetStrategyFactory.getStrategy({
-            star: star,
-            checkInDate,
-            checkOutDate,
-            prefers,
-            staffs,
-            combineRoom,
-        }, {isRecord: false});
+        let budgets = await Promise.all( staffs.map( async (staff) => {
+            let policyKey = staff.policy || 'default';
+            let staffPolicy = policies[policyKey] || {};
+            let star = staffPolicy.hotelStar;
+            let allPrefers = loadPrefers(prefers, {local: {
+                checkInDate,
+                checkOutDate,
+                star,
+            }}, key);
+            //需要的差旅标准
+            let strategy = await HotelBudgetStrategyFactory.getStrategy({
+                star: star,
+                checkInDate,
+                checkOutDate,
+                prefers: allPrefers,
+            }, {isRecord: false});
+            let budget = await strategy.getResult(hotels, isRetMarkedData);
+            let hotelBudget: IHotelBudgetItem = {
+                star: EHotelStar.FIVE,
+                price: budget.price,
+                type: EBudgetType.HOTEL,
+                name: budget.name,
+                agent: budget.agent,
+                link: budget.link,
+                markedScoreData: budget.markedScoreData,
+                prefers: allPrefers,
+            }
+            return hotelBudget;
+        }));
 
-        let budget = await strategy.getResult(hotels);
-
-        let hotelBudget: IHotelBudgetItem = {
+        return {
+            city: city.id,
             checkInDate: params.checkInDate,
             checkOutDate: params.checkOutDate,
-            star: EHotelStar.FIVE,
-            price: budget.price,
-            type: EBudgetType.HOTEL,
-            name: budget.name,
-            agent: budget.agent,
-            link: budget.link,
-            markedScoreData: budget.markedScoreData,
-            prefers: prefers,
+            budgets,
         }
-        return hotelBudget;
     }
 
     static async getTrafficBudget(params: IQueryTrafficBudgetParams) :Promise<ITrafficBudgetItem> {
@@ -178,8 +210,8 @@ export default class ApiTravelBudget {
                 isRetMarkedData,
                 appid,
             }
-            let hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
-            budgets.push(hotelBudget);
+            // let hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
+            // budgets.push(hotelBudget);
             fromCity = toCity;
         }
 
@@ -306,3 +338,4 @@ function getTimezoneStr(seconds) {
     ret += minute;
     return " "+ret;
 }
+

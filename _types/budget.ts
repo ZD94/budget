@@ -269,7 +269,7 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     no?: string;
 }
 
-export interface ITrafficBudgetResult {
+export interface ITrafficBudgetResult extends Array<ITrafficBudgetItem> {
     [index: number]: ITrafficBudgetItem;
 }
 
@@ -281,7 +281,7 @@ export interface IHotelBudgetItem extends IBudgetItem {
     name?: string;
 }
 
-export interface IHotelBudgetResult {
+export interface IHotelBudgetResult extends Array<IHotelBudgetItem> {
     [index: number]: IHotelBudgetItem;
 }
 

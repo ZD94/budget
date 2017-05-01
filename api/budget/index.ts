@@ -122,7 +122,6 @@ export default class ApiTravelBudget {
                 throw L.ERR.NOT_ACCEPTABLE(requiredParams[key]);
             }
         }
-        let sysPrefers;
         if (!policies) {
             policies = {};
         }
@@ -172,7 +171,7 @@ export default class ApiTravelBudget {
             let staffPolicy = policies[policyKey] || {};
             let trainSeat = staffPolicy.trainSeat;
             let cabin = staffPolicy.cabin;
-            let shipCabin = staffPolicy.shipCabin;
+            // let shipCabin = staffPolicy.shipCabin;
             let qs = {
                 local: {
                     expectTrainCabins: trainSeat,
@@ -183,19 +182,20 @@ export default class ApiTravelBudget {
                 }
             }
 
+            let sysPrefers;
             if ((<ICity>fromCity).isAbroad || (<ICity>toCity).isAbroad) {
                 sysPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_TICKET)
             } else {
                 sysPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET)
             }
-            prefers = mergeJSON(sysPrefers, prefers)
+            let allPrefers = mergeJSON(sysPrefers, prefers)
             let strategy = await TrafficBudgetStrategyFactory.getStrategy({
                 fromCity,
                 toCity,
                 beginTime,
                 endTime,
                 policies,
-                prefers,
+                prefers: allPrefers,
                 tickets,
                 staffs,
             }, {isRecord: false});
@@ -213,7 +213,7 @@ export default class ApiTravelBudget {
                 price: budget.price,
                 discount: null,
                 markedScoreData: budget.markedScoreData,
-                prefers: prefers,
+                prefers: allPrefers,
             }
             return trafficBudget as ITrafficBudgetItem;
         }))
@@ -256,7 +256,7 @@ export default class ApiTravelBudget {
                     endTime: seg.endTime,
                     prefers,
                     tickets,
-                    isRetMarkedData
+                    isRetMarkedData: true,
                 }
                 trafficBudget = await ApiTravelBudget.getTrafficBudget(trafficParams);
             }
@@ -272,7 +272,7 @@ export default class ApiTravelBudget {
                     checkOutDate: seg.endTime,
                     prefers,
                     hotels,
-                    isRetMarkedData,
+                    isRetMarkedData: true,
                 }
                 hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
             }
@@ -295,7 +295,7 @@ export default class ApiTravelBudget {
         let m = Models.budget.create({query: params, result: result});
         m = await m.save();
         result.id = m.id;
-        return result;
+        return handleBudgetResult(result, isRetMarkedData)
     }
 
     static async getBudgetCache(params: {id: string}) :Promise<FinalBudgetResultInterface>{
@@ -308,10 +308,39 @@ export default class ApiTravelBudget {
             throw L.ERR.INVALID_ARGUMENT("id");
         }
         m.result.id = m.id;
-        return m.result;
+        return handleBudgetResult(m.result, true);
     }
 
     static __initHttpApp = require("./http");
+}
+
+function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: boolean) :FinalBudgetResultInterface {
+    let result = {};
+    if(!isRetMarkedData) {
+        let cities = data.cities;
+        for(var city of cities) {
+            let item = data.budgets[city];
+            if (item.traffic) {
+                item.traffic = item.traffic.map( (staffTrafficBudget) => {
+                    delete staffTrafficBudget['prefers'];
+                    delete staffTrafficBudget['markedScoreData'];
+                    return staffTrafficBudget;
+                });
+            }
+            if (item.hotel) {
+                item.hotel = item.hotel.map( (staffHotelBudget) => {
+                    delete staffHotelBudget['prefers'];
+                    delete staffHotelBudget['markedScoreData'];
+                    return staffHotelBudget;
+                });
+            }
+            result[city] = item;
+        }
+    } else {
+        result = data.budgets;
+    }
+    data.budgets = result;
+    return data;
 }
 
 function mergeJSON(defaults, news) {

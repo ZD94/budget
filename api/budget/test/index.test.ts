@@ -258,6 +258,7 @@ describe("api/budget", () => {
     describe("getBudget", function() {
 
         it("#API.budget.getBudget should be ok", function(done) {
+            this.timeout(10 * 1000);
             let params = {
                 fromCity: 'CT_231',
                 staffs: [

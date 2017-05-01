@@ -191,7 +191,6 @@ export interface IQueryTrafficBudgetParams {
 }
 
 export interface IQueryBudgetParams {
-    appid: string;
     fromCity?: ICity| string;       //出发城市
     segments: ISegment[];      //每段查询条件
     ret: boolean;       //是否往返
@@ -209,6 +208,8 @@ export interface ISegment {
     beginTime: Date;   //事务开始时间
     endTime: Date; //事务结束时间
     location?: ILocation; //经纬度，如果不存在使用城市经纬度
+    noHotel?: boolean;  //是否需要住宿
+    noTraffic?: boolean;    //是否需要交通
 }
 
 export interface ILocation {
@@ -301,10 +302,6 @@ export class Budget extends ModelObject {
     @Field({type: Types.UUID})
     get id() { return uuid.v1()}
     set id(id: string) {}
-
-    @Field({type: Types.UUID})
-    get appid() { return null}
-    set appid(appid: string) {}
 
     @Field({type: Types.JSONB})
     get query() : IQueryBudgetParams{ return null}

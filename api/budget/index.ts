@@ -4,7 +4,7 @@
 import {
     IQueryBudgetParams, ITrafficBudgetItem, EAirCabin,
     EBudgetType, IHotelBudgetItem, EHotelStar, IQueryTrafficBudgetParams, IQueryHotelBudgetParams, IStaff, EGender,
-    IHotelBudgetResult, ITrafficBudgetResult, FinalBudgetResultInterface
+    IHotelBudgetResult, ITrafficBudgetResult, FinalBudgetResultInterface, ISegment
 } from "_types/budget";
 
 const validate = require("common/validate");
@@ -21,6 +21,7 @@ import {
 import {DEFAULT_PREFER_CONFIG_TYPE, loadPrefers} from "./prefer";
 import {Models} from "_types/index";
 import {ICity} from "_types/city";
+import {countDays} from "./helper";
 var API = require("@jingli/dnode-api");
 
 export default class ApiTravelBudget {
@@ -225,72 +226,90 @@ export default class ApiTravelBudget {
     }
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
-        let {policies, staffs, segments, fromCity, prefers, ret, tickets, hotels, isRetMarkedData, appid} = params;
+        let {policies, staffs, segments, fromCity, prefers, ret, tickets, hotels, isRetMarkedData} = params;
         let segBudgets = {};
+        let cities = [];
+        if (typeof fromCity == 'string') {
+            fromCity = (await API.place.getCityInfo({cityCode: fromCity})) as ICity;
+        }
+        if (ret) {
+            let l = segments.length;
+            let segment: ISegment = {
+                city: segments[l].city,
+                beginTime: segments[l].endTime,
+                endTime: moment(segments[l].endTime).format('YYYY-MM-DD 21:00'),
+                noHotel: true,
+            }
+            segments.push(segment);
+        }
+
         for(var i=0, ii=segments.length; i<ii; i++) {
             let seg = segments[i];
             let toCity = seg.city;
             if (typeof toCity == 'string') {
                 toCity = (await API.place.getCityInfo({cityCode: toCity})) as ICity;
             }
-            let trafficParams = {
-                policies,
-                staffs,
-                fromCity: fromCity,
-                toCity: toCity,
-                beginTime: seg.beginTime,
-                endTime: seg.endTime,
-                prefers,
-                tickets,
-                isRetMarkedData
+            let trafficBudget;
+            if (!seg.noTraffic) {
+                let trafficParams = {
+                    policies,
+                    staffs,
+                    fromCity: fromCity,
+                    toCity: toCity,
+                    beginTime: seg.beginTime,
+                    endTime: seg.endTime,
+                    prefers,
+                    tickets,
+                    isRetMarkedData
+                }
+                trafficBudget = await ApiTravelBudget.getTrafficBudget(trafficParams);
             }
-            let trafficBudget = await ApiTravelBudget.getTrafficBudget(trafficParams);
-
-            //判断停留时间是否跨天
-            let hotelParams = {
-                policies,
-                staffs,
-                city: toCity,
-                checkInDate: seg.beginTime,
-                checkOutDate: seg.endTime,
-                prefers,
-                hotels,
-                isRetMarkedData,
-                appid,
+            let hotelBudget;
+            if (!seg.noHotel && countDays(seg.endTime, seg.beginTime) > 0) {
+                //判断停留时间是否跨天
+                let days = moment(moment(seg.endTime).format("YYYY-MM-DD")).diff(moment(seg.beginTime).format("YYYY-MM-DD"), 'days');
+                let hotelParams = {
+                    policies,
+                    staffs,
+                    city: toCity,
+                    checkInDate: seg.beginTime,
+                    checkOutDate: seg.endTime,
+                    prefers,
+                    hotels,
+                    isRetMarkedData,
+                }
+                hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
             }
-            let hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
             fromCity = toCity;
-
+            //预算
             segBudgets[toCity.id] = {
                 hotel: hotelBudget,
                 traffic: trafficBudget,
             }
+            //城市
+            cities.push(toCity.id);
         }
+        //如果有返程，计算返程交通预算
+
         let result: FinalBudgetResultInterface = {
-            cities: [],
+            cities: cities,
             budgets: segBudgets
         }
 
-        // let m = Models.budget.create({appid: appid, query: params, result: result});
-        // m = await m.save();
-        // result.id = m.id;
+        let m = Models.budget.create({query: params, result: result});
+        m = await m.save();
+        result.id = m.id;
         return result;
     }
 
-    static async getBudgetCache(params: {appid: string, id: string}) :Promise<FinalBudgetResultInterface>{
-        let {appid, id} = params;
-        if (!appid) {
-            throw L.ERR.INVALID_ARGUMENT("appid")
-        }
+    static async getBudgetCache(params: {id: string}) :Promise<FinalBudgetResultInterface>{
+        let {id} = params;
         if (!id) {
             throw L.ERR.INVALID_ARGUMENT("id");
         }
         let m = await Models.budget.get(id);
         if (!m) {
             throw L.ERR.INVALID_ARGUMENT("id");
-        }
-        if (m.appid != appid) {
-            throw L.ERR.NOT_FOUND();
         }
         m.result.id = m.id;
         return m.result;
@@ -317,44 +336,3 @@ function mergeJSON(defaults, news) {
     }
     return defaults;
 }
-
-function getTimezoneStr(seconds) {
-    const HOUR = 60 * 60
-    const MINUTE = 60;
-    let hours = seconds / HOUR
-    if (hours < 0) {
-        hours = Math.ceil(hours);
-    } else {
-        hours = Math.floor(hours);
-    }
-    let minute = (seconds - hours * HOUR) / MINUTE;
-    if (minute < 0) {
-        minute = Math.ceil(minute)
-    } else {
-        minute = Math.floor(minute)
-    }
-    let ret = 'GMT';
-    if (hours < 0) {
-        ret += '-'
-        if (hours > -10) {
-            ret += '0'
-        }
-        hours = -hours;
-        ret += hours;
-    } else {
-        ret += '+';
-        if (hours < 10) {
-            ret += '0'
-        }
-        ret += hours;
-    }
-    if (minute < 0) {
-        minute = -minute;
-    }
-    if (minute < 10) {
-        ret += '0'
-    }
-    ret += minute;
-    return " "+ret;
-}
-

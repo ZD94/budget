@@ -23,8 +23,8 @@ export = function(app) {
     })
 
     app.get('/api/v1/budget/info', (req, res, next) => {
-        let {appid, id} = req.query;
-        return ApiTravelBudget.getBudgetCache({appid, id})
+        let {id} = req.query;
+        return ApiTravelBudget.getBudgetCache({id})
             .then( (result) => {
                 res.json(result);
             })

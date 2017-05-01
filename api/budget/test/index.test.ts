@@ -7,7 +7,7 @@
 var assert = require("assert");
 var API = require("@jingli/dnode-api");
 import moment = require("moment");
-import {countRoom} from "../helper";
+import {countRoom, countDays} from "../helper";
 import {EGender, EHotelStar, ETrainSeat, EAirCabin, IQueryBudgetParams} from "_types/budget";
 import Logger from "@jingli/logger";
 const logger = new Logger("mocha");
@@ -158,6 +158,38 @@ describe("api/budget", () => {
             let num = countRoom(staffs, true)
             assert.equal(num, 3);
         })
+
+        it("#countDays should be ok", function() {
+            let beginTime = moment('2017-05-10 12:00').toDate();
+            let endTime = moment('2017-05-10 23:00').toDate();
+
+            let days = countDays(endTime, beginTime);
+            assert.equal(0, days);
+        });
+
+        it("#countDays should be ok", function() {
+            let beginTime = moment('2017-05-10T12:00').toDate();
+            let endTime = moment('2017-05-11T05:00').toDate();
+
+            let days = countDays(endTime, beginTime);
+            assert.equal(1, days);
+        });
+
+        it("#countDays should throw error when endTime < beginTime", function() {
+            let beginTime = moment('2017-05-11T05:00').toDate();
+            let endTime = moment('2017-05-10T12:00').toDate();
+
+            let days;
+            try {
+                days = countDays(endTime, beginTime)
+            } catch(err) {
+                assert.equal(!!err, true);
+                return;
+            }
+            if (days !== undefined) {
+                throw new Error("not pass");
+            }
+        });
     })
 
 
@@ -225,7 +257,6 @@ describe("api/budget", () => {
 
         it("#API.budget.getBudget should be ok", function(done) {
             let params = {
-                appid: '',
                 fromCity: 'CT_231',
                 staffs: [
                     {
@@ -248,13 +279,13 @@ describe("api/budget", () => {
                 ret: false
             } as IQueryBudgetParams
             return API.budget.createBudget(params)
-                .then( (budgets) => {
-                    logger.log("budgets==>"+ JSON.stringify(budgets));
-                    return budgets;
-                })
-                .then( () => {
+                .then( (budgetResult) => {
+                    logger.log("budgets==>"+ JSON.stringify(budgetResult));
+                    let cities = budgetResult.cities;
+                    assert.equal(!!cities, true);
+                    assert.equal(cities[0], 'CT_131');
                     done();
-                });
+                })
         })
     })
 })

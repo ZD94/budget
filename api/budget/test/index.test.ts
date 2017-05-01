@@ -253,7 +253,7 @@ describe("api/budget", () => {
         })
     })
     
-    describe("budget", function() {
+    describe("getBudget", function() {
 
         it("#API.budget.getBudget should be ok", function(done) {
             let params = {
@@ -285,6 +285,116 @@ describe("api/budget", () => {
                     assert.equal(!!cities, true);
                     assert.equal(cities[0], 'CT_131');
                     done();
+                })
+                .catch( (err) => {
+                    throw err;
+                })
+        })
+
+        it("#API.budget.getBudget should be ok", function(done) {
+            this.timeout(10 * 1000);
+            let params = {
+                fromCity: 'CT_231',
+                staffs: [
+                    {
+                        gender: EGender.FEMALE,
+                        policy: 'staff'
+                    },
+                    {
+                        gender: EGender.MALE,
+                        policy: 'manager'
+                    }
+                ],
+                policies: {
+                    "staff": {
+                        hotelStar: [EHotelStar.FOUR],
+                        trainSeat: [ETrainSeat.SECOND_SEAT],
+                        cabin: [EAirCabin.ECONOMY]
+                    },
+                    "manager": {
+                        hotelStar: [EHotelStar.FIVE],
+                        trainSeat: [ETrainSeat.FIRST_SEAT],
+                        cabin: [EAirCabin.FIRST, EAirCabin.BUSINESS]
+                    }
+                },
+                segments:[
+                    {
+                        city: 'CT_131',
+                        beginTime: moment().add(3, 'days').toDate(),
+                        endTime: moment().add(4, 'days').toDate(),
+                    },
+                    {
+                        city: 'CT_179',
+                        beginTime: moment().add(4, 'days').toDate(),
+                        endTime: moment().add(5, 'days').toDate(),
+                    }
+                ],
+                ret: false
+            } as IQueryBudgetParams
+            return API.budget.createBudget(params)
+                .then( (budgetResult) => {
+                    logger.log("budgets==>"+ JSON.stringify(budgetResult));
+                    let cities = budgetResult.cities;
+                    assert.equal(!!cities, true);
+                    assert.equal(cities[0], 'CT_131');
+                    done();
+                })
+                .catch( (err) => {
+                    throw err;
+                })
+        })
+
+        it("#API.budget.getBudget should be ok", function(done) {
+            this.timeout(10 * 1000);
+            let params = {
+                fromCity: 'CT_231',
+                staffs: [
+                    {
+                        gender: EGender.FEMALE,
+                        policy: 'staff'
+                    },
+                    {
+                        gender: EGender.MALE,
+                        policy: 'manager'
+                    }
+                ],
+                policies: {
+                    "staff": {
+                        hotelStar: [EHotelStar.FOUR],
+                        trainSeat: [ETrainSeat.SECOND_SEAT],
+                        cabin: [EAirCabin.ECONOMY]
+                    },
+                    "manager": {
+                        hotelStar: [EHotelStar.FIVE],
+                        trainSeat: [ETrainSeat.FIRST_SEAT],
+                        cabin: [EAirCabin.FIRST, EAirCabin.BUSINESS]
+                    }
+                },
+                segments:[
+                    {
+                        city: 'CT_131',
+                        beginTime: moment().add(3, 'days').toDate(),
+                        endTime: moment().add(4, 'days').toDate(),
+                    },
+                    {
+                        city: 'CT_179',
+                        beginTime: moment().add(4, 'days').toDate(),
+                        endTime: moment().add(5, 'days').toDate(),
+                    }
+                ],
+                ret: true
+            } as IQueryBudgetParams
+            return API.budget.createBudget(params)
+                .then( (budgetResult) => {
+                    logger.log("budgets==>"+ JSON.stringify(budgetResult));
+                    let cities = budgetResult.cities;
+                    assert.equal(!!cities, true);
+                    assert.equal(cities[0], 'CT_131');
+                    assert.equal(cities[cities.length], 'CT_231');
+                    done();
+                })
+                .catch( (err) => {
+                    throw err;
                 })
         })
     })

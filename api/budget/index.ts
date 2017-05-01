@@ -52,10 +52,6 @@ export default class ApiTravelBudget {
             throw L.ERROR_CODE(502, '目前还不支持自动合并住宿');
         }
 
-        // if (staffs && staffs.length > 1) {
-        //     throw L.ERROR_CODE(502, '目前仅支持单人住宿预算');
-        // }
-
         if (!policies) {
             policies = {};
         }
@@ -233,11 +229,11 @@ export default class ApiTravelBudget {
             fromCity = (await API.place.getCityInfo({cityCode: fromCity})) as ICity;
         }
         if (ret) {
-            let l = segments.length;
+            let lastIdx = segments.length -1;
             let segment: ISegment = {
-                city: segments[l].city,
-                beginTime: segments[l].endTime,
-                endTime: moment(segments[l].endTime).format('YYYY-MM-DD 21:00'),
+                city: fromCity,
+                beginTime: segments[lastIdx].endTime,
+                endTime: moment(segments[lastIdx].endTime).format('YYYY-MM-DD 21:00'),
                 noHotel: true,
             }
             segments.push(segment);

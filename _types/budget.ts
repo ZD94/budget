@@ -128,7 +128,7 @@ export interface ITicket {
     destinationStation?: string;    //目的地机场或者车站
     type: ETrafficType,
     stops?: string[],   //中转城市
-    segs?: ISeg[],
+    segs?: ISegment[],
 }
 
 export interface IFinalTicket {
@@ -179,8 +179,8 @@ export interface IFlightSeg {
 }
 
 export interface IQueryTrafficBudgetParams {
-    fromCity: ICity;
-    toCity: ICity;
+    fromCity: ICity | string;
+    toCity: ICity | string;
     beginTime: Date;
     endTime: Date;
     prefers: IPrefer[];
@@ -192,20 +192,20 @@ export interface IQueryTrafficBudgetParams {
 
 export interface IQueryBudgetParams {
     appid: string;
-    fromCity?: ICity;       //出发城市
-    segs: ISeg[];      //每段查询条件
+    fromCity?: ICity| string;       //出发城市
+    segments: ISegment[];      //每段查询条件
     ret: boolean;       //是否往返
     staffs: IStaff[];  //出差员工
     policies: IPolicySet;     //可能用到的全部差旅标准
-    combineRoom: boolean;   //同性是否合并
+    combineRoom?: boolean;   //同性是否合并
     prefers?: IPrefer[];
     tickets?: ITicket[];
     hotels?: IHotel[];
     isRetMarkedData?: boolean;
 }
 
-export interface ISeg {
-    city: ICity;    //目的地
+export interface ISegment {
+    city: ICity| string;    //目的地
     beginTime: Date;   //事务开始时间
     endTime: Date; //事务结束时间
     location?: ILocation; //经纬度，如果不存在使用城市经纬度
@@ -233,12 +233,6 @@ export interface IPolicy {
     shipCabin?: Array<EShipCabin>;      //轮船
 }
 
-
-export interface IBudgetResult {
-    id:string;
-    budgets: Array<IBudgetItem>;
-}
-
 export interface IBudgetItem {
     price: number;
     type: EBudgetType;
@@ -264,8 +258,8 @@ export enum ETrafficType {
 }
 
 export interface ITrafficBudgetItem extends IBudgetItem {
-    fromCity: ICity;                           //出发城市
-    toCity: ICity;                        //目的城市
+    fromCity: string;                           //出发城市
+    toCity: string;                        //目的城市
     departTime: Date;
     arrivalTime: Date;
     trafficType: ETrafficType;                  //交通类别,飞机、火车、轮船、大巴、打车或者自驾,租车
@@ -274,16 +268,20 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     no?: string;
 }
 
+export interface ITrafficBudgetResult {
+    [index: number]: ITrafficBudgetItem;
+}
+
 export interface IHotelBudgetItem extends IBudgetItem {
+    city: string;
+    checkInDate: Date;
+    checkOutDate: Date;
     star: EHotelStar;                       //酒店星级
     name?: string;
 }
 
 export interface IHotelBudgetResult {
-    city: string;                         //入住城市ID
-    checkInDate: Date;                    //入住日期
-    checkOutDate: Date;                   //离店日期
-    budgets: IHotelBudgetItem[];
+    [index: number]: IHotelBudgetItem;
 }
 
 export interface IPrefer {
@@ -291,7 +289,7 @@ export interface IPrefer {
     options: any;
 }
 
-@Table(Models.budget, "budget.budget")
+@Table(Models.budget, "budget.")
 export class Budget extends ModelObject {
     constructor(target:Object) {
         super(target)
@@ -313,6 +311,19 @@ export class Budget extends ModelObject {
     set query(qs: IQueryBudgetParams) {}
 
     @Field({type: Types.JSONB})
-    get result() :IBudgetItem[] { return null}
-    set result(result: IBudgetItem[]) {}
+    get result() :FinalBudgetResultInterface { return null}
+    set result(result: FinalBudgetResultInterface) {}
+}
+
+export interface FinalBudgetResultInterface {
+    id?: string;
+    cities: string[];
+    budgets: {
+        [index: string]: SegmentBudgetItem
+    }
+}
+
+export interface SegmentBudgetItem {
+    traffic: ITrafficBudgetResult,
+    hotel: IHotelBudgetResult
 }

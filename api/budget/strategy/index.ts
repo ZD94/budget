@@ -108,6 +108,7 @@ export abstract class AbstractHotelStrategy {
                 "2": 350
             }
             return {
+                city: self.qs.city ? self.qs.city.id : '',
                 name: null,
                 checkInDate: self.qs.checkInDate,
                 checkOutDate: self.qs.checkOutDate,
@@ -126,6 +127,9 @@ export abstract class AbstractHotelStrategy {
         _hotels = await this.customMarkedScoreData(_hotels);
         let ret = _hotels[0];
         let result: any = {
+            city: self.qs.city ? self.qs.city.id : '',
+            checkInDate: self.qs.checkInDate,
+            checkOutDate: self.qs.checkOutDate,
             price: ret.price,
             agent: ret.agent,
             name: ret.name,
@@ -205,8 +209,8 @@ export abstract class AbstractTicketStrategy {
         let _tickets = formatTicketData(tickets);
         if (!_tickets || !_tickets.length) {
             return {
-                fromCity: self.qs.fromCity,
-                toCity: self.qs.toCity,
+                fromCity: self.qs.fromCity.id,
+                toCity: self.qs.toCity.id,
                 price: -1,
                 departTime: new Date(),
                 arrivalTime: new Date(),
@@ -228,8 +232,8 @@ export abstract class AbstractTicketStrategy {
             no: ret.No,
             agent: ret.agent,
             cabin: EAirCabin.ECONOMY,
-            fromCity: self.qs.fromCity,
-            toCity: self.qs.toCity,
+            fromCity: self.qs.fromCity.id,
+            toCity: self.qs.toCity.id,
             departTime: new Date(ret.departDateTime),
             arrivalTime: new Date(ret.arrivalDateTime),
             trafficType: ret.type,

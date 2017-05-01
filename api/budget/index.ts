@@ -2,9 +2,9 @@
  * Created by wlh on 15/12/12.
  */
 import {
-    IQueryBudgetParams, IBudgetResult, IBudgetItem, ITrafficBudgetItem, EAirCabin,
+    IQueryBudgetParams, ITrafficBudgetItem, EAirCabin,
     EBudgetType, IHotelBudgetItem, EHotelStar, IQueryTrafficBudgetParams, IQueryHotelBudgetParams, IStaff, EGender,
-    IHotelBudgetResult
+    IHotelBudgetResult, ITrafficBudgetResult, FinalBudgetResultInterface
 } from "_types/budget";
 
 const validate = require("common/validate");
@@ -21,7 +21,6 @@ import {
 import {DEFAULT_PREFER_CONFIG_TYPE, loadPrefers} from "./prefer";
 import {Models} from "_types/index";
 import {ICity} from "_types/city";
-import {countRoom} from "./helper";
 var API = require("@jingli/dnode-api");
 
 export default class ApiTravelBudget {
@@ -71,8 +70,6 @@ export default class ApiTravelBudget {
                 city,
                 latitude: city.latitude,
                 longitude: city.longitude,
-                // guests: staffs.length,
-                // rooms: countRoom(staffs),
             })
         }
 
@@ -93,7 +90,11 @@ export default class ApiTravelBudget {
                 prefers: allPrefers,
             }, {isRecord: false});
             let budget = await strategy.getResult(hotels, isRetMarkedData);
+
             let hotelBudget: IHotelBudgetItem = {
+                checkInDate: params.checkInDate,
+                checkOutDate: params.checkOutDate,
+                city: (<ICity>city).id,
                 star: EHotelStar.FIVE,
                 price: budget.price,
                 type: EBudgetType.HOTEL,
@@ -105,86 +106,133 @@ export default class ApiTravelBudget {
             }
             return hotelBudget;
         }));
-
-        return {
-            city: city.id,
-            checkInDate: params.checkInDate,
-            checkOutDate: params.checkOutDate,
-            budgets,
-        }
+        return budgets;
     }
 
-    static async getTrafficBudget(params: IQueryTrafficBudgetParams) :Promise<ITrafficBudgetItem> {
+    static async getTrafficBudget(params: IQueryTrafficBudgetParams) :Promise<ITrafficBudgetResult> {
         //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
         let {fromCity, toCity, beginTime, endTime, policies, prefers, tickets, staffs, isRetMarkedData} = params;
-        if (staffs && staffs.length > 1) {
-            throw L.ERR.NOT_ACCEPTABLE("目前仅支持单人出差");
+        let requiredParams = {
+            fromCity: "出发城市",
+            toCity: '目的地',
+            beginTime: '事情开始时间',
+            endTime: '事情终结时间',
+            policies: '差旅政策',
+            staffs: '出差人',
+        }
+        for(let key in requiredParams) {
+            if (!params[key]) {
+                throw L.ERR.NOT_ACCEPTABLE(requiredParams[key]);
+            }
         }
         let sysPrefers;
         if (!policies) {
             policies = {};
         }
-        let policyKey = staffs[0].policy || 'default';
-        let staffPolicy = policies[policyKey] || {};
-        let trainSeat = staffPolicy.trainSeat;
-        let cabin = staffPolicy.cabin;
-        let shipCabin = staffPolicy.shipCabin;
+        if (!prefers) {
+            prefers = [];
+        }
 
         if (typeof beginTime == 'string') {
             beginTime = new Date(beginTime);
         }
+
         if (typeof endTime == 'string') {
             endTime = new Date(endTime);
         }
-        let qs = {
-            local: {
-                expectTrainCabins: trainSeat,
-                expectFlightCabins: cabin,
-                leaveDate: moment(beginTime).format("YYYY-MM-DD"),
-                earliestLeaveDateTime: beginTime,
-                latestArrivalDateTime: endTime,
-            }
-        }
-        if (fromCity.isAbroad || toCity.isAbroad) {
-            sysPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_TICKET)
-        } else {
-            sysPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET)
-        }
-        prefers = mergeJSON(sysPrefers, prefers)
-        let strategy = await TrafficBudgetStrategyFactory.getStrategy({
-            fromCity,
-            toCity,
-            beginTime,
-            endTime,
-            policies,
-            prefers,
-            tickets,
-            staffs,
-        }, {isRecord: false});
 
-        let budget: ITrafficBudgetItem = await strategy.getResult(tickets, isRetMarkedData);
-        let trafficBudget: ITrafficBudgetItem = {
-            departTime: budget.departTime,
-            arrivalTime: budget.arrivalTime,
-            trafficType: budget.trafficType,
-            cabin: EAirCabin.ECONOMY,
-            fromCity: budget.fromCity,
-            toCity: budget.toCity,
-            type: EBudgetType.TRAFFIC,
-            price: budget.price,
-            discount: null,
-            markedScoreData: budget.markedScoreData,
-            prefers: prefers,
+        if (typeof fromCity == 'string') {
+            fromCity = await API.place.getCityInfo({cityCode: fromCity});
         }
-        return trafficBudget;
+        if (typeof toCity == 'string') {
+            toCity = await API.place.getCityInfo({cityCode: toCity});
+        }
+
+        if (!tickets) {
+            let trainTickets = await API.train.search_ticket({
+                leaveDate: beginTime,
+                originPlace: fromCity,
+                destination: toCity,
+                // cabin: trainSeat,
+            });
+            let flightTickets = await API.flight.search_ticket({
+                leaveDate: beginTime,
+                originPlace: fromCity,
+                destination: toCity,
+                // cabin: cabin
+            });
+            if (!trainTickets) {
+                trainTickets = []
+            }
+            if (!flightTickets) {
+                flightTickets = [];
+            }
+            tickets = _.concat(trainTickets, flightTickets);
+        }
+
+        let staffBudgets = await Promise.all( staffs.map( async (staff) => {
+            let policyKey = staff.policy || 'default';
+            let staffPolicy = policies[policyKey] || {};
+            let trainSeat = staffPolicy.trainSeat;
+            let cabin = staffPolicy.cabin;
+            let shipCabin = staffPolicy.shipCabin;
+            let qs = {
+                local: {
+                    expectTrainCabins: trainSeat,
+                    expectFlightCabins: cabin,
+                    leaveDate: moment(beginTime).format("YYYY-MM-DD"),
+                    earliestLeaveDateTime: beginTime,
+                    latestArrivalDateTime: endTime,
+                }
+            }
+
+            if ((<ICity>fromCity).isAbroad || (<ICity>toCity).isAbroad) {
+                sysPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_TICKET)
+            } else {
+                sysPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET)
+            }
+            prefers = mergeJSON(sysPrefers, prefers)
+            let strategy = await TrafficBudgetStrategyFactory.getStrategy({
+                fromCity,
+                toCity,
+                beginTime,
+                endTime,
+                policies,
+                prefers,
+                tickets,
+                staffs,
+            }, {isRecord: false});
+
+            let budget = await strategy.getResult(tickets, isRetMarkedData);
+
+            let trafficBudget: ITrafficBudgetItem = {
+                departTime: budget.departTime,
+                arrivalTime: budget.arrivalTime,
+                trafficType: budget.trafficType,
+                cabin: budget.cabin,
+                fromCity: budget.fromCity,
+                toCity: budget.toCity,
+                type: EBudgetType.TRAFFIC,
+                price: budget.price,
+                discount: null,
+                markedScoreData: budget.markedScoreData,
+                prefers: prefers,
+            }
+            return trafficBudget as ITrafficBudgetItem;
+        }))
+
+        return staffBudgets;
     }
 
-    static async getBudget(params: IQueryBudgetParams) :Promise<IBudgetResult>{
-        let {policies, staffs, segs, fromCity, prefers, ret, tickets, hotels, isRetMarkedData, appid} = params;
-        let budgets: IBudgetItem[] = [];
-        for(var i=0, ii=segs.length; i<ii; i++) {
-            let seg = segs[i];
+    static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
+        let {policies, staffs, segments, fromCity, prefers, ret, tickets, hotels, isRetMarkedData, appid} = params;
+        let segBudgets = {};
+        for(var i=0, ii=segments.length; i<ii; i++) {
+            let seg = segments[i];
             let toCity = seg.city;
+            if (typeof toCity == 'string') {
+                toCity = (await API.place.getCityInfo({cityCode: toCity})) as ICity;
+            }
             let trafficParams = {
                 policies,
                 staffs,
@@ -196,9 +244,9 @@ export default class ApiTravelBudget {
                 tickets,
                 isRetMarkedData
             }
-
             let trafficBudget = await ApiTravelBudget.getTrafficBudget(trafficParams);
-            budgets.push(trafficBudget);
+
+            //判断停留时间是否跨天
             let hotelParams = {
                 policies,
                 staffs,
@@ -210,25 +258,26 @@ export default class ApiTravelBudget {
                 isRetMarkedData,
                 appid,
             }
-            // let hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
-            // budgets.push(hotelBudget);
+            let hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
             fromCity = toCity;
+
+            segBudgets[toCity.id] = {
+                hotel: hotelBudget,
+                traffic: trafficBudget,
+            }
+        }
+        let result: FinalBudgetResultInterface = {
+            cities: [],
+            budgets: segBudgets
         }
 
-        //删除原始数据
-        delete params.hotels;
-        delete params.tickets;
-
-        let m = Models.budget.create({appid: appid, query: params, result: budgets});
-        m = await m.save();
-        let result: IBudgetResult = {
-            id: m.id,
-            budgets: budgets,
-        }
+        // let m = Models.budget.create({appid: appid, query: params, result: result});
+        // m = await m.save();
+        // result.id = m.id;
         return result;
     }
 
-    static async getBudgetCache(params: {appid: string, id: string}) :Promise<IBudgetResult>{
+    static async getBudgetCache(params: {appid: string, id: string}) :Promise<FinalBudgetResultInterface>{
         let {appid, id} = params;
         if (!appid) {
             throw L.ERR.INVALID_ARGUMENT("appid")
@@ -243,41 +292,11 @@ export default class ApiTravelBudget {
         if (m.appid != appid) {
             throw L.ERR.NOT_FOUND();
         }
-        return {
-            id: m.id,
-            budgets: m.result,
-        }
+        m.result.id = m.id;
+        return m.result;
     }
 
-    static __initHttpApp(app) {
-        app.post('/api/v1/budget/make', (req, res, next) => {
-            let qs: IQueryBudgetParams
-            let json = req.body.json;
-            if (typeof json == 'string') {
-                qs = JSON.parse(json);
-            } else {
-                qs = json;
-            }
-            return ApiTravelBudget.getBudget(qs)
-            .then( (result) => {
-                res.json(result);
-            })
-            .catch(next);
-        })
-
-        app.get('/api/v1/budget/info', (req, res, next) => {
-            let {appid, id} = req.query;
-            return ApiTravelBudget.getBudgetCache({appid, id})
-            .then( (result) => {
-                res.json(result);
-            })
-            .catch(next);
-        })
-
-        app.use('/api/v1/budget', function(err, req, res, next) {
-            res.json(err);
-        })
-    }
+    static __initHttpApp = require("./http");
 }
 
 function mergeJSON(defaults, news) {

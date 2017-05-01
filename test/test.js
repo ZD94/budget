@@ -34,13 +34,16 @@ var logger = new Logger('test');
 
 var API = require('@jingli/dnode-api');
 
-var DB = require('@jingli/database');
-DB.init(config.postgres.url_test);
+var db = require('@jingli/database');
+db.init(config.postgres.url_test);
 
 zone.forkStackTrace()
     .fork({name: 'test', properties: {session: {}}})
     .run(function(){
         return Promise.resolve()
+            .then( () => {
+                return db.DB.sync({force: false})
+            })
             .then(function(){
                 return API.initSql(path.join(__dirname, '../api'), config.api_test)
             })

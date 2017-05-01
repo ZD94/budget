@@ -8,13 +8,13 @@ require('app-module-path').addPath(__dirname);
 require('common/node_ts').install();
 
 Error.stackTraceLimit = 40;
-var zone = require('common/zone');
+var zone = require('@jingli/zone-setup');
 
 global.Promise = require('bluebird');
 Promise.promisifyAll(require("redis"));
 Promise.promisifyAll(require("fs"));
 
-var config = require("./config");
+var config = require("@jingli/config");
 
 Promise.config({ warnings: false });
 if(config.debug) {
@@ -23,15 +23,16 @@ if(config.debug) {
 
 var path = require('path');
 
-var Logger = require('common/logger');
+var Logger = require('@jingli/logger');
 Logger.init(config.logger);
 var logger = new Logger('main');
 
 var cache = require("common/cache");
 cache.init({redis_conf: config.redis.url, prefix: 'jlbudget:cache'});
 
-var model = require('common/model');
-model.init(config.postgres.url);
+var db = require('@jingli/database');
+db.init(config.postgres.url);
+db.DB.sync({force: false});
 
 var API = require('@jingli/dnode-api');
 

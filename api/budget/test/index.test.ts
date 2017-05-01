@@ -9,11 +9,13 @@ var API = require("@jingli/dnode-api");
 import moment = require("moment");
 import {countRoom} from "../helper";
 import {EGender, EHotelStar, ETrainSeat, EAirCabin, IQueryBudgetParams} from "_types/budget";
+import Logger from "@jingli/logger";
+const logger = new Logger("mocha");
 
 describe("api/budget", () => {
 
     describe("hotel", function() {
-        it("API.budget.getHotelBudget should throw error", () => {
+        it("#API.budget.getHotelBudget should throw error", () => {
             return API.budget.getHotelBudget()
                 .catch( (err) => {
                     assert.equal(err.code, 500);
@@ -44,7 +46,7 @@ describe("api/budget", () => {
             }
             return API.budget.getHotelBudget(params)
                 .then( (budget) => {
-                    console.log('单人预算结果:==>', budget);
+                    logger.log('单人预算结果:==>'+JSON.stringify(budget));
                     return;
                 })
         })
@@ -80,7 +82,7 @@ describe("api/budget", () => {
             }
             return API.budget.getHotelBudget(params)
                 .then( (budgetResult) => {
-                    console.log("多人预算结果==>", JSON.stringify(budgetResult));
+                    logger.log("多人预算结果==>"+ JSON.stringify(budgetResult));
                     return true;
                 })
         })
@@ -214,7 +216,7 @@ describe("api/budget", () => {
                 endTime: moment().add(4, 'days').format("YYYY-MM-DD HH:mm:ss")
             }
             let budgets = await API.budget.getTrafficBudget(params);
-            console.log("多人预算==>", JSON.stringify(budgets));
+            logger.log("多人预算==>"+ JSON.stringify(budgets));
             return budgets;
         })
     })
@@ -247,7 +249,7 @@ describe("api/budget", () => {
             } as IQueryBudgetParams
             return API.budget.createBudget(params)
                 .then( (budgets) => {
-                    console.log("budgets==>", JSON.stringify(budgets));
+                    logger.log("budgets==>"+ JSON.stringify(budgets));
                     return budgets;
                 })
                 .then( () => {

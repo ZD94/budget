@@ -30,8 +30,5 @@ export function countDays(endTime: Date, beginTime: Date) : number {
     let dateFormat = 'YYYY-MM-DD'
     let days =  moment(moment(endTime).format(dateFormat))
         .diff(moment(beginTime).format(dateFormat), 'days');
-    if (days < 0) {
-        throw new Error('can not endTime  < beginTime');
-    }
-    return days;
+    return days < 0 ? 0 : days;
 }

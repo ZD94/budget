@@ -87,21 +87,12 @@ describe("api/budget", () => {
                 })
         })
 
-        it("#countRoom should be ok with combineRoom=false", function() {
-            let staffs = [
-                {
-                    gender: EGender.MALE,
-                    policy: ""
-                },
-                {
-                    gender: EGender.FEMALE,
-                    policy: ""
-                }
-            ]
-            let num = countRoom(staffs, false);
-            assert.equal(num, 2);
-        })
 
+
+
+    })
+
+    describe("countRoom", function() {
         it("#countRoom should be ok with combineRoom=true AND 1M+1FM=2 rooms", function() {
             let staffs = [
                 {
@@ -159,6 +150,23 @@ describe("api/budget", () => {
             assert.equal(num, 3);
         })
 
+        it("#countRoom should be ok with combineRoom=false", function() {
+            let staffs = [
+                {
+                    gender: EGender.MALE,
+                    policy: ""
+                },
+                {
+                    gender: EGender.FEMALE,
+                    policy: ""
+                }
+            ]
+            let num = countRoom(staffs, false);
+            assert.equal(num, 2);
+        })
+    })
+
+    describe("countDays", function() {
         it("#countDays should be ok", function() {
             let beginTime = moment('2017-05-10 12:00').toDate();
             let endTime = moment('2017-05-10 23:00').toDate();
@@ -180,15 +188,9 @@ describe("api/budget", () => {
             let endTime = moment('2017-05-10T12:00').toDate();
 
             let days;
-            try {
-                days = countDays(endTime, beginTime)
-            } catch(err) {
-                assert.equal(!!err, true);
-                return;
-            }
-            if (days !== undefined) {
-                throw new Error("not pass");
-            }
+            days = countDays(endTime, beginTime)
+            assert.equal(0, days);
+
         });
     })
 
@@ -390,7 +392,7 @@ describe("api/budget", () => {
                     let cities = budgetResult.cities;
                     assert.equal(!!cities, true);
                     assert.equal(cities[0], 'CT_131');
-                    assert.equal(cities[cities.length], 'CT_231');
+                    assert.equal(cities[cities.length-1], 'CT_231');
                     done();
                 })
                 .catch( (err) => {

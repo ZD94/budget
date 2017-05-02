@@ -6,7 +6,19 @@
 import {IQueryBudgetParams} from "../../_types/budget";
 import ApiTravelBudget from "./index";
 
+function checkSign(appid, timestamp, sign) :boolean {
+    return appid && appid == 'jinglitest';
+}
+
 export = function(app) {
+    app.use('/api/v1', function(req, res, next) {
+        let {appid, timestamp, sign} = req.headers;
+        if (checkSign(appid, timestamp, sign)) {
+            return next();
+        }
+        return res.send(403, 'invalid sign');
+    });
+
     app.post('/api/v1/budget/make', (req, res, next) => {
         let qs: IQueryBudgetParams
         let json = req.body.json;

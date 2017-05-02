@@ -118,7 +118,7 @@ export abstract class AbstractHotelStrategy {
                 type: EBudgetType.HOTEL,
                 latitude: 0,
                 longitude: 0,
-            }
+            } as IHotelBudgetItem;
         }
         _hotels = await this.getMarkedScoreHotels(_hotels);
         _hotels.sort( (v1, v2) => {

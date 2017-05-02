@@ -279,6 +279,8 @@ export interface IHotelBudgetItem extends IBudgetItem {
     checkOutDate: Date;
     star: EHotelStar;                       //酒店星级
     name?: string;
+    latitude?: number;
+    longitude?: number;
 }
 
 export interface IHotelBudgetResult extends Array<IHotelBudgetItem> {

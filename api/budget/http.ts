@@ -39,8 +39,6 @@ export = function(app) {
         if (isRetMarkedData == 'false' || isRetMarkedData == '0') {
             isRetMarkedData = false;
         }
-        console.log('isRetMarkedData==>', isRetMarkedData)
-
         return ApiTravelBudget.getBudgetCache({id, isRetMarkedData})
             .then( (result) => {
                 res.json(result);

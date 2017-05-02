@@ -19,7 +19,7 @@ build:dist:
   stage: build
   only:
     - branches
-  image: $DOCKER_REG/jl-build
+  image: $DOCKER_REG/jl-build:v2
   cache:
     key: $CI_PIPELINE_ID
     paths:

@@ -23,8 +23,13 @@ export = function(app) {
     })
 
     app.get('/api/v1/budget/info', (req, res, next) => {
-        let {id} = req.query;
-        return ApiTravelBudget.getBudgetCache({id})
+        let {id, isRetMarkedData} = req.query;
+        if (isRetMarkedData == 'false' || isRetMarkedData == '0') {
+            isRetMarkedData = false;
+        }
+        console.log('isRetMarkedData==>', isRetMarkedData)
+
+        return ApiTravelBudget.getBudgetCache({id, isRetMarkedData})
             .then( (result) => {
                 res.json(result);
             })

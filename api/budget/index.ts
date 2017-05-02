@@ -20,7 +20,7 @@ import {
 
 import {DEFAULT_PREFER_CONFIG_TYPE, loadPrefers} from "./prefer";
 import {Models} from "_types/index";
-import {ICity} from "_types/city";
+import {ICity, CityService} from "_types/city";
 import {countDays} from "./helper";
 var API = require("@jingli/dnode-api");
 
@@ -45,7 +45,7 @@ export default class ApiTravelBudget {
         } = params;
 
         if (typeof city == 'string') {
-            city = (await API.place.getCityInfo({cityCode: city})) as ICity;
+            city = await CityService.getCity(city);
         }
 
         if (combineRoom) {
@@ -138,10 +138,10 @@ export default class ApiTravelBudget {
         }
 
         if (typeof fromCity == 'string') {
-            fromCity = await API.place.getCityInfo({cityCode: fromCity});
+            fromCity = await CityService.getCity(fromCity);
         }
         if (typeof toCity == 'string') {
-            toCity = await API.place.getCityInfo({cityCode: toCity});
+            toCity = await CityService.getCity(toCity);
         }
 
         if (!tickets) {
@@ -226,7 +226,7 @@ export default class ApiTravelBudget {
         let segBudgets = {};
         let cities = [];
         if (typeof fromCity == 'string') {
-            fromCity = (await API.place.getCityInfo({cityCode: fromCity})) as ICity;
+            fromCity = await CityService.getCity(fromCity);
         }
         if (ret) {
             let lastIdx = segments.length -1;
@@ -243,7 +243,7 @@ export default class ApiTravelBudget {
             let seg = segments[i];
             let toCity = seg.city;
             if (typeof toCity == 'string') {
-                toCity = (await API.place.getCityInfo({cityCode: toCity})) as ICity;
+                toCity = await CityService.getCity(toCity);
             }
             let trafficBudget;
             if (!seg.noTraffic) {
@@ -298,17 +298,20 @@ export default class ApiTravelBudget {
         return handleBudgetResult(result, isRetMarkedData)
     }
 
-    static async getBudgetCache(params: {id: string}) :Promise<FinalBudgetResultInterface>{
-        let {id} = params;
+    static async getBudgetCache(params: {id: string, isRetMarkedData?: boolean}) :Promise<FinalBudgetResultInterface>{
+        let {id, isRetMarkedData} = params;
         if (!id) {
             throw L.ERR.INVALID_ARGUMENT("id");
+        }
+        if (!isRetMarkedData) {
+            isRetMarkedData = false;
         }
         let m = await Models.budget.get(id);
         if (!m) {
             throw L.ERR.INVALID_ARGUMENT("id");
         }
         m.result.id = m.id;
-        return handleBudgetResult(m.result, true);
+        return handleBudgetResult(m.result, isRetMarkedData);
     }
 
     static __initHttpApp = require("./http");
@@ -316,10 +319,11 @@ export default class ApiTravelBudget {
 
 function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: boolean) :FinalBudgetResultInterface {
     let result = {};
+    let d = _.cloneDeep(data);
     if(!isRetMarkedData) {
-        let cities = data.cities;
+        let cities = d.cities;
         for(var city of cities) {
-            let item = data.budgets[city];
+            let item = d.budgets[city];
             if (item.traffic) {
                 item.traffic = item.traffic.map( (staffTrafficBudget) => {
                     delete staffTrafficBudget['prefers'];
@@ -337,10 +341,10 @@ function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: b
             result[city] = item;
         }
     } else {
-        result = data.budgets;
+        result = d.budgets;
     }
-    data.budgets = result;
-    return data;
+    d.budgets = result;
+    return d;
 }
 
 function mergeJSON(defaults, news) {

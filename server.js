@@ -65,6 +65,7 @@ server.on('init.http', function(server){
 });
 
 zone.forkStackTrace().run(function(){
+    require("common/model/index")
     server.start();
 });
 

@@ -280,7 +280,46 @@ describe("api/budget", () => {
                     }
                 ],
                 ret: false
-            } as IQueryBudgetParams
+            } as IQueryBudgetParams;
+            logger.log("单人单目的地请求参数==>"+ JSON.stringify(params) )
+            return API.budget.createBudget(params)
+                .then( (budgetResult) => {
+                    logger.log("budgets==>"+ JSON.stringify(budgetResult));
+                    let cities = budgetResult.cities;
+                    assert.equal(!!cities, true);
+                    assert.equal(cities[0], 'CT_131');
+                    done();
+                })
+                .catch( (err) => {
+                    throw err;
+                })
+        })
+
+        it("#API.budget.getBudget should be ok", function(done) {
+            this.timeout(10 * 1000);
+            let params = {
+                fromCity: 'CT_231',
+                staffs: [
+                    {
+                        gender: EGender.FEMALE,
+                        policy: 'staff'
+                    }
+                ],
+                policies: {
+                    "staff": {
+                        hotelStar: [EHotelStar.FIVE, EHotelStar.FOUR]
+                    }
+                },
+                segments:[
+                    {
+                        city: 'CT_131',
+                        beginTime: moment().add(3, 'days').toDate(),
+                        endTime: moment().add(4, 'days').toDate(),
+                    }
+                ],
+                ret: true
+            } as IQueryBudgetParams;
+            logger.log("单人单目的地有返程请求参数==>"+ JSON.stringify(params) )
             return API.budget.createBudget(params)
                 .then( (budgetResult) => {
                     logger.log("budgets==>"+ JSON.stringify(budgetResult));
@@ -334,6 +373,7 @@ describe("api/budget", () => {
                 ],
                 ret: false
             } as IQueryBudgetParams
+            logger.log("多人单目的地==>", JSON.stringify(params));
             return API.budget.createBudget(params)
                 .then( (budgetResult) => {
                     logger.log("budgets==>"+ JSON.stringify(budgetResult));
@@ -387,6 +427,7 @@ describe("api/budget", () => {
                 ],
                 ret: true
             } as IQueryBudgetParams
+            logger.log("多人多目的地==>", JSON.stringify(params));
             return API.budget.createBudget(params)
                 .then( (budgetResult) => {
                     logger.log("budgets==>"+ JSON.stringify(budgetResult));

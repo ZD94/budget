@@ -182,13 +182,12 @@ export default class ApiTravelBudget {
                 }
             }
 
-            let sysPrefers;
+            let allPrefers;
             if ((<ICity>fromCity).isAbroad || (<ICity>toCity).isAbroad) {
-                sysPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_TICKET)
+                allPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_TICKET)
             } else {
-                sysPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET)
+                allPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET)
             }
-            let allPrefers = mergeJSON(sysPrefers, prefers)
             let strategy = await TrafficBudgetStrategyFactory.getStrategy({
                 fromCity,
                 toCity,
@@ -345,23 +344,4 @@ function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: b
     }
     d.budgets = result;
     return d;
-}
-
-function mergeJSON(defaults, news) {
-    for(let i=0, ii =news.length; i<ii; i++) {
-        let v = news[i];
-        let isHas = false;  //是否包含
-        //查找defaults中是否包含
-        for(let j=0, jj=defaults.length; j<jj; j++) {
-            if (v.name == defaults[j].name) {
-                isHas = true;
-                defaults[j] = _.defaultsDeep(v, defaults[j]);
-                break;
-            }
-        }
-        if (!isHas) {
-            defaults.push(v);
-        }
-    }
-    return defaults;
 }

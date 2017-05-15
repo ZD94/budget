@@ -55,6 +55,9 @@ export default class ApiTravelBudget {
         if (!policies) {
             policies = {};
         }
+        if (!prefers) {
+            prefers = {}
+        }
         let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL;
         let companyPrefers = prefers["domesticHotel"];
         if (city.isAbroad) {

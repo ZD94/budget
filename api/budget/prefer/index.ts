@@ -29,8 +29,8 @@ export abstract class AbstractPrefer<T> implements IPrefer<T> {
 }
 
 export enum DEFAULT_PREFER_CONFIG_TYPE  {
-    INTERNAL_TICKET = 1,
-    INTERNAL_HOTEL = 2,
+    ABROAD_TRAFFIC = 1,
+    ABROAD_HOTEL = 2,
     DOMESTIC_TICKET = 3,
     DOMESTIC_HOTEL = 4,
 }
@@ -49,7 +49,7 @@ export function loadPrefers(prefers: any[], qs: {local: any}, type?: DEFAULT_PRE
             }
             defaultPrefers = mergePrefers(sysPrefers, prefers);
             break;
-        case DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_TICKET:
+        case DEFAULT_PREFER_CONFIG_TYPE.ABROAD_TRAFFIC:
             sysPrefers = _.cloneDeep(sysPrefer.abroadTraffic);
             if (!prefers || !prefers.length) {
                 prefers = _.cloneDeep(defaultPrefer.abroadTraffic);
@@ -63,7 +63,7 @@ export function loadPrefers(prefers: any[], qs: {local: any}, type?: DEFAULT_PRE
             }
             defaultPrefers = mergePrefers(sysPrefers, prefers);
             break;
-        case DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_HOTEL:
+        case DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL:
             sysPrefers = _.cloneDeep(sysPrefer.abroadHotel);
             if (!prefers || !prefers.length) {
                 prefers = _.cloneDeep(defaultPrefer.abroadHotel);

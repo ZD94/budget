@@ -55,10 +55,14 @@ export default class ApiTravelBudget {
         if (!policies) {
             policies = {};
         }
-
         let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL;
+        let companyPrefers = prefers["domesticHotel"];
         if (city.isAbroad) {
-            key = DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_HOTEL
+            key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL
+            companyPrefers = prefers["abroadHotel"]
+        }
+        if (!companyPrefers) {
+            companyPrefers = [];
         }
         if (!hotels || !hotels.length) {
             hotels = await API.hotel.search_hotels({
@@ -74,7 +78,7 @@ export default class ApiTravelBudget {
             let policyKey = staff.policy || 'default';
             let staffPolicy = policies[policyKey] || {};
             let star = staffPolicy.hotelStar;
-            let allPrefers = loadPrefers(prefers, {local: {
+            let allPrefers = loadPrefers(companyPrefers, {local: {
                 checkInDate,
                 checkOutDate,
                 star,
@@ -126,7 +130,7 @@ export default class ApiTravelBudget {
             policies = {};
         }
         if (!prefers) {
-            prefers = [];
+            prefers = {};
         }
 
         if (typeof beginTime == 'string') {
@@ -184,9 +188,11 @@ export default class ApiTravelBudget {
 
             let allPrefers;
             if ((<ICity>fromCity).isAbroad || (<ICity>toCity).isAbroad) {
-                allPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.INTERNAL_TICKET)
+                let key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_TRAFFIC;
+                allPrefers = loadPrefers(prefers["abroadTraffic"] || [], qs, key)
             } else {
-                allPrefers = loadPrefers(prefers, qs, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET)
+                let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET;
+                allPrefers = loadPrefers(prefers["domesticTraffic"] || [], qs, key)
             }
             let strategy = await TrafficBudgetStrategyFactory.getStrategy({
                 fromCity,
@@ -248,7 +254,7 @@ export default class ApiTravelBudget {
             if (!seg.noTraffic) {
                 let trafficParams = {
                     policies,
-                    staffs,
+                    staffs: seg.staffs && seg.staffs.length ? seg.staffs : staffs,
                     fromCity: fromCity,
                     toCity: toCity,
                     beginTime: seg.beginTime,

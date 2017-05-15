@@ -99,7 +99,7 @@ export interface IQueryHotelBudgetParams {
     checkOutDate: Date;
     policies: IPolicySet;
     staffs: IStaff[];
-    prefers: IPrefer[];
+    prefers: PreferSet;
     hotels?: IHotel[];
     combineRoom?: boolean;
     isRetMarkedData?: boolean;
@@ -183,7 +183,7 @@ export interface IQueryTrafficBudgetParams {
     toCity: ICity | string;
     beginTime: Date;
     endTime: Date;
-    prefers: IPrefer[];
+    prefers: PreferSet;
     policies: IPolicySet;
     staffs: IStaff[];
     tickets?: ITicket[];
@@ -197,10 +197,14 @@ export interface IQueryBudgetParams {
     staffs: IStaff[];  //出差员工
     policies: IPolicySet;     //可能用到的全部差旅标准
     combineRoom?: boolean;   //同性是否合并
-    prefers?: IPrefer[];
+    prefers?: PreferSet;
     tickets?: ITicket[];
     hotels?: IHotel[];
     isRetMarkedData?: boolean;
+}
+
+export interface PreferSet {
+    [index: string]: IPrefer[]
 }
 
 export interface ISegment {
@@ -210,6 +214,7 @@ export interface ISegment {
     location?: ILocation; //经纬度，如果不存在使用城市经纬度
     noHotel?: boolean;  //是否需要住宿
     noTraffic?: boolean;    //是否需要交通
+    staffs?: IStaff[];  //指定本段参与员工
 }
 
 export interface ILocation {

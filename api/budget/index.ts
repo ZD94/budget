@@ -287,11 +287,6 @@ export default class ApiTravelBudget {
             }
             fromCity = toCity;
             budgets.push([hotelBudget, trafficBudget]);
-            //预算
-            // segBudgets[toCity.id] = {
-            //     hotel: hotelBudget,
-            //     traffic: trafficBudget,
-            // }
             //城市
             cities.push(toCity.id);
         }
@@ -332,13 +327,16 @@ function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: b
     let d = _.cloneDeep(data);
 
     if(!isRetMarkedData) {
-        result = d.budgets.map( (v: (IHotelBudgetItem| ITrafficBudgetItem)[]) => {
-            return v.map( (budgetItem) => {
-                if (!budgetItem)
+        result = d.budgets.map( (v: (IHotelBudgetItem| ITrafficBudgetItem)[][]) => {
+            return v.map( (budgetItems: (IHotelBudgetItem|ITrafficBudgetItem)[]) => {
+                if (!budgetItems)
+                    return budgetItems;
+
+                return budgetItems.map( (budgetItem: (IHotelBudgetItem|ITrafficBudgetItem)) => {
+                    budgetItem['prefers'] = null;
+                    budgetItem['markedScoreData'] = null;
                     return budgetItem;
-                delete budgetItem['prefers'];
-                delete budgetItem['markedScoreData'];
-                return budgetItem;
+                })
             });
         });
     } else {

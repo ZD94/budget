@@ -4,7 +4,7 @@
 import {
     IQueryBudgetParams, ITrafficBudgetItem, EAirCabin,
     EBudgetType, IHotelBudgetItem, EHotelStar, IQueryTrafficBudgetParams, IQueryHotelBudgetParams, IStaff, EGender,
-    IHotelBudgetResult, ITrafficBudgetResult, FinalBudgetResultInterface, ISegment
+    IHotelBudgetResult, ITrafficBudgetResult, FinalBudgetResultInterface, ISegment, SegmentBudgetItem
 } from "_types/budget";
 
 const validate = require("common/validate");
@@ -286,7 +286,7 @@ export default class ApiTravelBudget {
                 hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
             }
             fromCity = toCity;
-            budgets.push([hotelBudget, trafficBudget]);
+            budgets.push({hotel: hotelBudget, traffic: trafficBudget});
             //城市
             cities.push(toCity.id);
         }
@@ -327,18 +327,24 @@ function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: b
     let d = _.cloneDeep(data);
 
     if(!isRetMarkedData) {
-        result = d.budgets.map( (v: (IHotelBudgetItem| ITrafficBudgetItem)[][]) => {
-            return v.map( (budgetItems: (IHotelBudgetItem|ITrafficBudgetItem)[]) => {
-                if (!budgetItems)
-                    return budgetItems;
+        result = d.budgets.map( (v: SegmentBudgetItem) => {
+            if (!v)
+                return v;
+            let hotelBudgets = v.hotel || [];
+            let trafficBudgets = v.traffic || [];
 
-                return budgetItems.map( (budgetItem: (IHotelBudgetItem|ITrafficBudgetItem)) => {
-                    budgetItem['prefers'] = null;
-                    budgetItem['markedScoreData'] = null;
-                    return budgetItem;
-                })
+            v.hotel = hotelBudgets.map((budget: IHotelBudgetItem) => {
+                delete budget.prefers;
+                delete budget.markedScoreData;
+                return budget;
             });
-        });
+            v.traffic = trafficBudgets.map( (budget: ITrafficBudgetItem) => {
+                delete budget.prefers;
+                delete budget.markedScoreData;
+                return budget;
+            })
+            return v;
+        })
     } else {
         result = d.budgets;
     }

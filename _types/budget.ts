@@ -322,12 +322,5 @@ export class Budget extends ModelObject {
 export interface FinalBudgetResultInterface {
     id?: string;
     cities: string[];
-    budgets: {
-        [index: string]: SegmentBudgetItem
-    }
-}
-
-export interface SegmentBudgetItem {
-    traffic: ITrafficBudgetResult,
-    hotel: IHotelBudgetResult
+    budgets: (IHotelBudgetItem[]| ITrafficBudgetItem[])[]
 }

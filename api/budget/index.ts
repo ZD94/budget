@@ -231,6 +231,7 @@ export default class ApiTravelBudget {
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
         let {policies, staffs, segments, fromCity, prefers, ret, tickets, hotels, isRetMarkedData} = params;
+        let budgets = [];
         let segBudgets = {};
         let cities = [];
         if (typeof fromCity == 'string') {
@@ -285,11 +286,12 @@ export default class ApiTravelBudget {
                 hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
             }
             fromCity = toCity;
+            budgets.push([hotelBudget, trafficBudget]);
             //预算
-            segBudgets[toCity.id] = {
-                hotel: hotelBudget,
-                traffic: trafficBudget,
-            }
+            // segBudgets[toCity.id] = {
+            //     hotel: hotelBudget,
+            //     traffic: trafficBudget,
+            // }
             //城市
             cities.push(toCity.id);
         }
@@ -297,7 +299,7 @@ export default class ApiTravelBudget {
 
         let result: FinalBudgetResultInterface = {
             cities: cities,
-            budgets: segBudgets
+            budgets: budgets
         }
 
         let m = Models.budget.create({query: params, result: result});
@@ -326,28 +328,19 @@ export default class ApiTravelBudget {
 }
 
 function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: boolean) :FinalBudgetResultInterface {
-    let result = {};
+    let result;
     let d = _.cloneDeep(data);
+
     if(!isRetMarkedData) {
-        let cities = d.cities;
-        for(var city of cities) {
-            let item = d.budgets[city];
-            if (item.traffic) {
-                item.traffic = item.traffic.map( (staffTrafficBudget) => {
-                    delete staffTrafficBudget['prefers'];
-                    delete staffTrafficBudget['markedScoreData'];
-                    return staffTrafficBudget;
-                });
-            }
-            if (item.hotel) {
-                item.hotel = item.hotel.map( (staffHotelBudget) => {
-                    delete staffHotelBudget['prefers'];
-                    delete staffHotelBudget['markedScoreData'];
-                    return staffHotelBudget;
-                });
-            }
-            result[city] = item;
-        }
+        result = d.budgets.map( (v: (IHotelBudgetItem| ITrafficBudgetItem)[]) => {
+            return v.map( (budgetItem) => {
+                if (!budgetItem)
+                    return budgetItem;
+                delete budgetItem['prefers'];
+                delete budgetItem['markedScoreData'];
+                return budgetItem;
+            });
+        });
     } else {
         result = d.budgets;
     }

@@ -91,6 +91,7 @@ export interface IFinalHotel {
     checkInDate: string;
     checkOutDate: string;
     outPriceRange: boolean;
+    commentScore?: number;
 }
 
 export interface IQueryHotelBudgetParams {

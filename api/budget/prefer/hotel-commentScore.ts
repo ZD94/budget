@@ -3,7 +3,7 @@
  */
 
 'use strict';
-import {IFinalHotel} from "_types/travelbudget";
+import {IFinalHotel} from "_types/budget";
 import {AbstractPrefer} from "./index";
 
 class RemarkPrefer extends AbstractPrefer<IFinalHotel> {

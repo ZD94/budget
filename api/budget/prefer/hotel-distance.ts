@@ -1,6 +1,6 @@
 'use strict';
 import {AbstractPrefer} from "./index";
-import {IFinalHotel} from "_types/travelbudget";
+import {IFinalHotel} from "_types/budget";
 var haversine=require("haversine");
 
 class DistancePrefer extends AbstractPrefer<IFinalHotel>{

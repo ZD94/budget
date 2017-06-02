@@ -4,7 +4,7 @@
 import {
     IQueryBudgetParams, ITrafficBudgetItem, EAirCabin,
     EBudgetType, IHotelBudgetItem, EHotelStar, IQueryTrafficBudgetParams, IQueryHotelBudgetParams, IStaff, EGender,
-    IHotelBudgetResult, ITrafficBudgetResult, FinalBudgetResultInterface, ISegment, SegmentBudgetItem
+    IHotelBudgetResult, ITrafficBudgetResult, FinalBudgetResultInterface, ISegment, SegmentBudgetItem, ETrafficType
 } from "_types/budget";
 
 const validate = require("common/validate");
@@ -209,7 +209,15 @@ export default class ApiTravelBudget {
             }, {isRecord: false});
 
             let budget = await strategy.getResult(tickets, isRetMarkedData);
-
+            let discount = 0;
+            if (budget.trafficType == ETrafficType.PLANE) {
+                let fullPrice = await API.place.getFlightFullPrice({originPlace: budget.fromCity, destination: budget.toCity});
+                let price = fullPrice ? (EAirCabin.ECONOMY ? fullPrice.EPrice: fullPrice.FPrice): 0;
+                if (price) {
+                    discount = Math.round(budget.price/ price * 100)/100
+                    discount = discount < 1? discount:1;
+                }
+            }
             let trafficBudget: ITrafficBudgetItem = {
                 departTime: budget.departTime,
                 arrivalTime: budget.arrivalTime,
@@ -219,7 +227,7 @@ export default class ApiTravelBudget {
                 toCity: budget.toCity,
                 type: EBudgetType.TRAFFIC,
                 price: budget.price,
-                discount: null,
+                discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
             }

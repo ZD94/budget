@@ -40,10 +40,8 @@ class EarliestGoBackTimePrefer extends AbstractPrefer<IFinalTicket> {
                 if (d - _d1 > 0) {
                     v['score'] += score;
                     v['reasons'].push(`回程出发时间符合出行条件 ${score}`)
-                    return v;
                 }
             }
-            v.reasons.push(`回程出发时间符合出行条件 0`)
             return v;
         })
         return tickets;

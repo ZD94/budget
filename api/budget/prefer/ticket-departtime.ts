@@ -39,7 +39,6 @@ class DepartTimePrefer extends AbstractPrefer<IFinalTicket> {
                 if (_d1 - d > 0) {
                     v['score'] += score;
                     v['reasons'].push(`出发时间早于规定时间 ${score}`)
-                    return v;
                 }
             }
 
@@ -48,10 +47,8 @@ class DepartTimePrefer extends AbstractPrefer<IFinalTicket> {
                 if (d - _d2> 0) {
                     v['score'] += score;
                     v['reasons'].push(`出发时间晚于规定时间 ${score}`)
-                    return v;
                 }
             }
-            v.reasons.push(`出发时间晚于规定时间 0`);
             return v;
         })
         return tickets;

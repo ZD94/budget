@@ -91,8 +91,10 @@ export var hotelPrefers = {
     starMatch: require('./hotel-star-match'),
     blackList: require('./hotel-blacklist'),
     represent: require('./hotel-represent'),
-    price: require('./hotel-price'),
-    priceRange: require('./hotel-pricerange')
+    priceRange: require('./hotel-pricerange'),
+    distance:require('./hotel-distance'),
+    price: require('./price'),
+    commentScore:require("./hotel-commentScore")
 }
 
 export var ticketPrefers = {
@@ -107,7 +109,8 @@ export var ticketPrefers = {
     latestArrivalTimePrefer: require('./ticket-latestArrivalTimePrefer'),
     earliestGoBackTimePrefer: require('./ticket-earliestGoBackTimePrefer'),
     trainPricePrefer: require('./ticket-trainPricePrefer'),
-    planePricePrefer: require('./ticket-planePricePrefer'),
+    planePricePrefer: require('./price'),
+    price: require('./price'),
     planeNumberPrefer: require('./ticket-planeNumberPrefer'),
     permitOnlySupplier: require('./ticket-permitOnlySupplier'),
     priorSupplier: require('./ticket-priorSupplier'),

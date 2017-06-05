@@ -86,6 +86,9 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
         }
 
         data = data.map( (v: (IFinalHotel|IFinalTicket)) => {
+            if (v['type'] == ETrafficType.TRAIN) {
+                return v;
+            }
             if(!v.reasons) v.reasons = [];
             if(!v.score) v.score = 0;
             if (self.level.indexOf(parseInt(v['cabin'])) < 0 && self.level.indexOf(parseInt(v['star'])) < 0) {

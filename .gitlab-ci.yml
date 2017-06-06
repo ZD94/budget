@@ -17,7 +17,7 @@ image: docker:git
 
 before_script:
   - 'eval $(ssh-agent -s) && echo "$SSH_PRIVATE_KEY">.k && chmod 600 .k && ssh-add .k && rm -f .k'
-  - 'mkdir -p ~/.ssh && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  - 'mkdir -p ~/.ssh && echo -e "Host *\n\tStrictHostKeyChecking no\n\tSendEnv JL_APP_*\n\n" > ~/.ssh/config'
   - mkdir -p /cache/build-cache/.npm && ln -s /cache/build-cache/.npm ~/
 
 build:dist:

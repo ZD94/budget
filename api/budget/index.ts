@@ -152,25 +152,11 @@ export default class ApiTravelBudget {
         }
 
         if (!tickets) {
-            let trainTickets = await API.train.search_ticket({
-                leaveDate: beginTime,
-                originPlace: fromCity,
-                destination: toCity,
-                // cabin: trainSeat,
-            });
-            let flightTickets = await API.flight.search_ticket({
-                leaveDate: beginTime,
-                originPlace: fromCity,
-                destination: toCity,
-                // cabin: cabin
-            });
-            if (!trainTickets) {
-                trainTickets = []
-            }
-            if (!flightTickets) {
-                flightTickets = [];
-            }
-            tickets = _.concat(trainTickets, flightTickets);
+            tickets = await API.traffic.search_tickets({
+                leaveDate: moment(beginTime).format('YYYY-MM-DD'),
+                originPlace: fromCity.id,
+                destination: toCity.id
+            })
         }
 
         let staffBudgets = await Promise.all( staffs.map( async (staff) => {

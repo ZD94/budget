@@ -19,9 +19,8 @@ describe("hotel", function() {
         let hotels = await API['hotels'].search_hotels({
             checkInDate: checkInDate,
             checkOutDate: checkOutDate,
-            city: city
+            city: city,
         });
-        console.log(hotels);
         assert.equal(util.isArray(hotels), true);
     });
 })

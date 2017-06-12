@@ -247,6 +247,7 @@ export interface IBudgetItem {
     agent?: string;
     markedScoreData?: any;
     prefers?: any;
+    id?: string;
 }
 
 export enum EBudgetType {
@@ -318,6 +319,49 @@ export class Budget extends ModelObject {
     @Field({type: Types.JSONB})
     get result() :FinalBudgetResultInterface { return null}
     set result(result: FinalBudgetResultInterface) {}
+}
+
+@Table(Models.budgetItem, "budget.")
+export class BudgetItem extends ModelObject {
+
+    constructor(target: Object) {
+        super(target);
+    }
+
+    @Create()
+    static create(obj: any): BudgetItem { return null}
+
+    @Field({ type: Types.UUID})
+    get id() { return uuid.v1()}
+    set id(id: string) {}
+
+    @Field({ type: Types.TEXT})
+    get title() :string {return null}
+    set title(title: string) {}
+
+    @Field({type: Types.JSONB})
+    get query() { return null}
+    set query(query) {}
+
+    @Field({type: Types.JSONB})
+    get originData() { return null}
+    set originData(originData) {}
+
+    @Field({type: Types.JSONB})
+    get markedData() {return null}
+    set markedData(markedData: Object) {}
+
+    @Field({type: Types.JSONB})
+    get result() { return null}
+    set result(result) {}
+
+    @Field({type: Types.INTEGER})
+    get status() :Number { return 0}
+    set status(status: Number) {}
+
+    @Field({type: Types.INTEGER})
+    get type() : Number { return 1}
+    set type(type: Number) {}
 }
 
 export interface FinalBudgetResultInterface {

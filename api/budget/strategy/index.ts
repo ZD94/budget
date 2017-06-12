@@ -9,6 +9,8 @@ import {
     IHotel, IFinalHotel, IHotelBudgetItem, EHotelStar, EBudgetType, IFinalTicket, ITicket,
     ITrafficBudgetItem, ETrafficType, EAirCabin
 } from "_types/budget";
+import moment = require("moment");
+import {Models} from "_types/index";
 
 function formatTicketData(tickets: ITicket[]) : IFinalTicket[] {
     let _tickets : IFinalTicket[] = [];
@@ -137,6 +139,17 @@ export abstract class AbstractHotelStrategy {
             latitude: ret.latitude,
             longitude: ret.longitude,
         }
+        //保存调试记录
+        let budgetItem = Models.budgetItem.create({
+            title: `${result.city}(${moment(self.qs.checkInDate).format('YYYY-MM-DD')}-${moment(self.qs.checkOutDate).format('YYYY-MM-DD')})`,
+            query: self.qs,
+            type: EBudgetType.HOTEL,
+            originData: hotels,
+            markedData: _hotels,
+            result: result,
+        })
+        budgetItem = await budgetItem.save();
+        result.id = budgetItem.id;
         if (isRetMarkedData) {
             result.markedScoreData = _hotels;
         }
@@ -238,6 +251,17 @@ export abstract class AbstractTicketStrategy {
             arrivalTime: new Date(ret.arrivalDateTime),
             trafficType: ret.type,
         }
+        //保存调试记录
+        let budgetItem = Models.budgetItem.create({
+            title: `${self.qs.fromCity.name}-${self.qs.toCity.name}(${moment(self.qs.departDateTime).format('YYYY/MM/DD')})`,
+            query: self.qs,
+            type: EBudgetType.TRAFFIC,
+            originData: tickets,
+            markedData: _tickets,
+            result: result,
+        })
+        budgetItem = await budgetItem.save();
+        result.id = budgetItem.id;
         if (isRetMarkedData) {
             result.markedScoreData = _tickets;
         }

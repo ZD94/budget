@@ -92,10 +92,12 @@ export default class ApiTravelBudget {
                 checkInDate,
                 checkOutDate,
                 prefers: allPrefers,
+                city: city,
             }, {isRecord: false});
             let budget = await strategy.getResult(hotels, isRetMarkedData);
 
             let hotelBudget: IHotelBudgetItem = {
+                id: budget.id,
                 checkInDate: params.checkInDate,
                 checkOutDate: params.checkOutDate,
                 city: (<ICity>city).id,
@@ -219,6 +221,7 @@ export default class ApiTravelBudget {
                 }
             }
             let trafficBudget: ITrafficBudgetItem = {
+                id: budget.id,
                 departTime: budget.departTime,
                 arrivalTime: budget.arrivalTime,
                 trafficType: budget.trafficType,
@@ -273,7 +276,7 @@ export default class ApiTravelBudget {
                     endTime: seg.endTime,
                     prefers,
                     tickets,
-                    isRetMarkedData: true,
+                    isRetMarkedData: isRetMarkedData,
                 }
                 trafficBudget = await ApiTravelBudget.getTrafficBudget(trafficParams);
             }
@@ -289,7 +292,7 @@ export default class ApiTravelBudget {
                     checkOutDate: seg.endTime,
                     prefers,
                     hotels,
-                    isRetMarkedData: true,
+                    isRetMarkedData: isRetMarkedData,
                 }
                 hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
             }

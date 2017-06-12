@@ -352,6 +352,10 @@ export class BudgetItem extends ModelObject {
     set markedData(markedData: Object) {}
 
     @Field({type: Types.JSONB})
+    get prefers() { return null}
+    set prefers(prefers: Object) {}
+
+    @Field({type: Types.JSONB})
     get result() { return null}
     set result(result) {}
 

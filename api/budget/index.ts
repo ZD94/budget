@@ -4,7 +4,8 @@
 import {
     IQueryBudgetParams, ITrafficBudgetItem, EAirCabin,
     EBudgetType, IHotelBudgetItem, EHotelStar, IQueryTrafficBudgetParams, IQueryHotelBudgetParams, IStaff, EGender,
-    IHotelBudgetResult, ITrafficBudgetResult, FinalBudgetResultInterface, ISegment, SegmentBudgetItem, ETrafficType
+    IHotelBudgetResult, ITrafficBudgetResult, FinalBudgetResultInterface, ISegment, SegmentBudgetItem, ETrafficType,
+    BudgetItem, IHotel, ITicket
 } from "_types/budget";
 
 const validate = require("common/validate");
@@ -328,6 +329,56 @@ export default class ApiTravelBudget {
         }
         m.result.id = m.id;
         return handleBudgetResult(m.result, isRetMarkedData);
+    }
+
+    static async getBudgetItems(params: {page: number, pageSize: number, type: number}) :Promise<BudgetItem[]>{
+        let {page, pageSize, type} = params;
+        let where: any = {};
+        if (type) {
+            where.type = type;
+        }
+        if (page < 0) {
+            page = 0;
+        }
+        if (pageSize <1) {
+            pageSize = 10;
+        }
+        let offset = ( page - 1 ) * pageSize;
+        let pager = await Models.budgetItem.find({where: where, limit: pageSize, offset: offset, order: [["created_at", "desc"]]});
+        let result = Array.from(pager);
+        return result;
+    }
+
+    /**
+     * 用户调试预算
+     *
+     * @param params
+     * @param {number} params.type 类型 1.交通 2.酒店
+     * @param {array<IHotel>| array<ITicket>} params.originData 原始数据
+     * @param {json} qs 查询条件
+     * @returns {Promise<Budget>}
+     */
+    static async debugBudgetItem(params: {type: number, originData: IHotel[]|ITicket[], query: any, prefers: any[]}) {
+        try {
+            let result;
+            let {query, prefers, type, originData} = params;
+            query.prefers = prefers;
+            if (type == 1) {
+                let strategy = await TrafficBudgetStrategyFactory.getStrategy(query, {isRecord: false});
+                result = await strategy.getResult(<ITicket[]>originData, true)
+            } else {
+                let strategy = await HotelBudgetStrategyFactory.getStrategy(query, {isRecord: false});
+                result = await strategy.getResult(<IHotel[]>originData, true);
+            }
+            // result.prefers = prefers;
+            result.markedData = result.markedScoreData;
+            delete result.markedScoreData;
+            return result;
+        } catch(err) {
+            console.error(err.stack);
+            throw err;
+        }
+
     }
 }
 

@@ -329,8 +329,6 @@ export default class ApiTravelBudget {
         m.result.id = m.id;
         return handleBudgetResult(m.result, isRetMarkedData);
     }
-
-    static __initHttpApp = require("./http");
 }
 
 function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: boolean) :FinalBudgetResultInterface {

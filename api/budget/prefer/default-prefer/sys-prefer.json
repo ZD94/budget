@@ -136,7 +136,9 @@
         {
             "name": "distance",
             "options": {
-                "score": 20000
+                "score": 20000,
+                "latitude": "<%=local.latitude%>",
+                "longitude": "<%=local.longitude%>"
             }
         },
         {

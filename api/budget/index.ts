@@ -37,12 +37,13 @@ export default class ApiTravelBudget {
             hotels,
             checkInDate,
             checkOutDate,
-            prefers,
+            preferSet,
             policies,
             staffs,
             combineRoom,
             city,
-            isRetMarkedData
+            isRetMarkedData,
+            location,
         } = params;
 
         if (typeof city == 'string') {
@@ -56,14 +57,14 @@ export default class ApiTravelBudget {
         if (!policies) {
             policies = {};
         }
-        if (!prefers) {
-            prefers = {}
+        if (!preferSet) {
+            preferSet = {}
         }
         let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL;
-        let companyPrefers = prefers["domesticHotel"];
+        let companyPrefers = preferSet["domesticHotel"];
         if (city.isAbroad) {
             key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL
-            companyPrefers = prefers["abroadHotel"]
+            companyPrefers = preferSet["abroadHotel"]
         }
         if (!companyPrefers) {
             companyPrefers = [];
@@ -73,8 +74,8 @@ export default class ApiTravelBudget {
                 checkInDate,
                 checkOutDate,
                 city,
-                latitude: city.latitude,
-                longitude: city.longitude,
+                latitude: location && location.latitude ? location.latitude: city.latitude,
+                longitude: location && location.longitude ? location.longitude: city.longitude,
             })
         }
 
@@ -87,6 +88,17 @@ export default class ApiTravelBudget {
                 checkOutDate,
                 star,
             }}, key);
+
+            //追加员工设置的标准
+            if (typeof staffPolicy.hotelPrefer == 'number' && staffPolicy.hotelPrefer >= 0 ) {
+                [EHotelStar.FIVE, EHotelStar.FOUR, EHotelStar.THREE, EHotelStar.TOW].forEach( (star) => {
+                    allPrefers.push({
+                        "name":"price",
+                        "options":{"type":"square","score":50000,"level":[star],"percent": staffPolicy.hotelPrefer / 100 }
+                    })
+                })
+            }
+
             //需要的差旅标准
             let strategy = await HotelBudgetStrategyFactory.getStrategy({
                 star: star,
@@ -94,6 +106,8 @@ export default class ApiTravelBudget {
                 checkOutDate,
                 prefers: allPrefers,
                 city: city,
+                latitude: location.latitude || '',
+                longitude: location.latitude || ''
             }, {isRecord: false});
             let budget = await strategy.getResult(hotels, isRetMarkedData);
 
@@ -118,7 +132,7 @@ export default class ApiTravelBudget {
 
     static async getTrafficBudget(params: IQueryTrafficBudgetParams) :Promise<ITrafficBudgetResult> {
         //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
-        let {fromCity, toCity, beginTime, endTime, policies, prefers, tickets, staffs, isRetMarkedData} = params;
+        let {fromCity, toCity, beginTime, endTime, policies, preferSet, tickets, staffs, isRetMarkedData} = params;
         let requiredParams = {
             fromCity: "出发城市",
             toCity: '目的地',
@@ -135,8 +149,8 @@ export default class ApiTravelBudget {
         if (!policies) {
             policies = {};
         }
-        if (!prefers) {
-            prefers = {};
+        if (!preferSet) {
+            preferSet = {};
         }
 
         if (typeof beginTime == 'string') {
@@ -195,10 +209,21 @@ export default class ApiTravelBudget {
             let allPrefers;
             if ((<ICity>fromCity).isAbroad || (<ICity>toCity).isAbroad) {
                 let key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_TRAFFIC;
-                allPrefers = loadPrefers(prefers["abroadTraffic"] || [], qs, key)
+                allPrefers = loadPrefers(preferSet["abroadTraffic"] || [], qs, key)
             } else {
                 let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET;
-                allPrefers = loadPrefers(prefers["domesticTraffic"] || [], qs, key)
+                allPrefers = loadPrefers(preferSet["domesticTraffic"] || [], qs, key)
+            }
+            //追加员工特殊偏好
+            if (typeof staffPolicy.trafficPrefer == 'number' && staffPolicy.trafficPrefer >= 0) {
+                [EAirCabin.BUSINESS, EAirCabin.ECONOMY, EAirCabin.FIRST, EAirCabin.PREMIUM_ECONOMY].forEach( (cabin) => {
+                    allPrefers.push({
+                        "name":"price",
+                        "options":{"type":"square","score":50000,"level":[cabin],"percent": staffPolicy.trafficPrefer / 100 }
+                    })
+                });
+
+                
             }
             let strategy = await TrafficBudgetStrategyFactory.getStrategy({
                 fromCity,
@@ -242,7 +267,7 @@ export default class ApiTravelBudget {
     }
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
-        let {policies, staffs, segments, fromCity, prefers, ret, tickets, hotels, isRetMarkedData} = params;
+        let {policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData} = params;
         let budgets = [];
         let segBudgets = {};
         let cities = [];
@@ -275,7 +300,7 @@ export default class ApiTravelBudget {
                     toCity: toCity,
                     beginTime: seg.beginTime,
                     endTime: seg.endTime,
-                    prefers,
+                    preferSet,
                     tickets,
                     isRetMarkedData: isRetMarkedData,
                 }
@@ -291,9 +316,10 @@ export default class ApiTravelBudget {
                     city: toCity,
                     checkInDate: seg.beginTime,
                     checkOutDate: seg.endTime,
-                    prefers,
+                    preferSet,
                     hotels,
                     isRetMarkedData: isRetMarkedData,
+                    location: seg.location,
                 }
                 hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
             }

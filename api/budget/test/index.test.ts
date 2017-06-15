@@ -14,7 +14,7 @@ const logger = new Logger("mocha");
 
 describe("api/budget", () => {
 
-    describe("hotel", function() {
+    describe("hotel budget", function() {
         it("#API.budget.getHotelBudget should throw error", () => {
             return API.budget.getHotelBudget()
                 .catch( (err) => {
@@ -24,7 +24,7 @@ describe("api/budget", () => {
         })
 
         it("#API.budget.getHotelBudget should be ok without hotels", function() {
-            this.timeout(5000)
+            this.timeout(20 * 1000)
             let dateFormat = 'YYYY-MM-DD'
             let params = {
                 // hotels,
@@ -52,7 +52,7 @@ describe("api/budget", () => {
         })
 
         it("#API.budget.getHotelBudget should be ok without hotels AND muti staffs", function() {
-            this.timeout(5000)
+            this.timeout(20 * 1000)
             let dateFormat = 'YYYY-MM-DD'
             let params = {
                 // hotels,
@@ -195,10 +195,10 @@ describe("api/budget", () => {
     })
 
 
-    describe("traffic", function() {
+    describe("traffic budget", function() {
 
         it("#API.budget.getTrafficBudget should be ok", async function() {
-            this.timeout(5 * 1000)
+            this.timeout(20 * 1000)
             let params = {
                 staffs: [
                     {
@@ -222,7 +222,7 @@ describe("api/budget", () => {
         })
 
         it("#API.budget.getTrafficBudget should be ok with mutip staffs", async function() {
-            this.timeout(5 * 1000)
+            this.timeout(20 * 1000)
             let params = {
                 staffs: [
                     {

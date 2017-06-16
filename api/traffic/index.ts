@@ -6,12 +6,16 @@
 import API from '@jingli/dnode-api';
 import {TASK_NAME} from '../types';
 import {AbstractDataSupport} from "../data-support";
+import {ITicket} from "../../_types/budget";
 
-export interface Ticket {
-
+export interface ISearchTicketParams {
+    leaveDate: string;
+    originPlace: string;
+    destination: string;
 }
-export class TrafficSupport extends AbstractDataSupport<Ticket> {
-    async search_tickets(params) {
+
+export class TrafficSupport extends AbstractDataSupport<ITicket> {
+    async search_tickets(params: ISearchTicketParams) {
         let self = this;
         let flightTickets = await this.search_flight_tickets(params);
         let trainTickets = await this.search_train_tickets(params);
@@ -19,15 +23,25 @@ export class TrafficSupport extends AbstractDataSupport<Ticket> {
     }
 
     private async search_train_tickets(params) {
-        let trains = await this.getData(TASK_NAME.TRAIN, params);
-        let eurTrains = await this.getData(TASK_NAME.TRAIN_EUR, params);
-        return [...trains, ...eurTrains];
+        let {originPlace, destination} = params;
+        let originPlaceObj = await API['place'].getCityInfo({cityCode: originPlace});
+        let destinationObj = await API['place'].getCityInfo({cityCode: destination});
+        if (!originPlaceObj.isAbroad && !destinationObj.isAbroad) {
+            return this.getData(TASK_NAME.TRAIN, params);
+        }
+        //欧铁先注释掉了
+        //this.getData(TASK_NAME.TRAIN_EUR, params);
+        return [];
     }
 
     private async search_flight_tickets(params) {
-        let flights = await this.getData(TASK_NAME.FLIGHT, params);
-        let abroadFlights = await this.getData(TASK_NAME.FLIGHT_ABROAD, params);
-        return [...flights, ...abroadFlights];
+        let {originPlace, destination} = params;
+        let originPlaceObj = await API['place'].getCityInfo({cityCode: originPlace});
+        let destinationObj = await API['place'].getCityInfo({cityCode: destination});
+        if (!originPlaceObj.isAbroad && !destinationObj.isAbroad) {
+            return this.getData(TASK_NAME.FLIGHT, params);
+        }
+        return this.getData(TASK_NAME.FLIGHT_ABROAD, params);
     }
 }
 

@@ -49,6 +49,12 @@ export default class ApiTravelBudget {
         if (typeof city == 'string') {
             city = await CityService.getCity(city);
         }
+        if (!location) {
+            location = {
+                latitude: city.latitude,
+                longitude: city.longitude
+            };
+        }
 
         if (combineRoom) {
             throw L.ERROR_CODE(502, '目前还不支持自动合并住宿');
@@ -169,25 +175,11 @@ export default class ApiTravelBudget {
         }
 
         if (!tickets) {
-            let trainTickets = await API.train.search_ticket({
-                leaveDate: beginTime,
-                originPlace: fromCity,
-                destination: toCity,
-                // cabin: trainSeat,
-            });
-            let flightTickets = await API.flight.search_ticket({
-                leaveDate: beginTime,
-                originPlace: fromCity,
-                destination: toCity,
-                // cabin: cabin
-            });
-            if (!trainTickets) {
-                trainTickets = []
-            }
-            if (!flightTickets) {
-                flightTickets = [];
-            }
-            tickets = _.concat(trainTickets, flightTickets);
+            tickets = await API.traffic.search_tickets({
+                leaveDate: moment(beginTime).format('YYYY-MM-DD'),
+                originPlace: fromCity.id,
+                destination: toCity.id
+            })
         }
 
         let staffBudgets = await Promise.all( staffs.map( async (staff) => {
@@ -285,7 +277,9 @@ export default class ApiTravelBudget {
             segments.push(segment);
         }
 
+        let tasks: Promise<any>[] = [];
         for(var i=0, ii=segments.length; i<ii; i++) {
+            // tasks[i] = [];
             let seg = segments[i];
             let toCity = seg.city;
             if (typeof toCity == 'string') {
@@ -304,8 +298,11 @@ export default class ApiTravelBudget {
                     tickets,
                     isRetMarkedData: isRetMarkedData,
                 }
-                trafficBudget = await ApiTravelBudget.getTrafficBudget(trafficParams);
+                tasks.push(ApiTravelBudget.getTrafficBudget(trafficParams));
+            } else {
+                tasks.push(null);
             }
+
             let hotelBudget;
             if (!seg.noHotel && countDays(seg.endTime, seg.beginTime) > 0) {
                 //判断停留时间是否跨天
@@ -321,14 +318,22 @@ export default class ApiTravelBudget {
                     isRetMarkedData: isRetMarkedData,
                     location: seg.location,
                 }
-                hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
+                tasks.push(ApiTravelBudget.getHotelBudget(hotelParams))
+            } else {
+                tasks.push(null);
             }
             fromCity = toCity;
-            budgets.push({hotel: hotelBudget, traffic: trafficBudget});
             //城市
             cities.push(toCity.id);
         }
-        //如果有返程，计算返程交通预算
+
+        let budgetResults = await Promise.all(tasks);
+        for(var i=0, ii=budgetResults.length; i<ii; i=i+2) {
+            budgets.push({
+                traffic: budgetResults[i],
+                hotel: budgetResults[i+1]
+            })
+        }
 
         let result: FinalBudgetResultInterface = {
             cities: cities,

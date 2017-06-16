@@ -108,7 +108,7 @@ export default class ApiTravelBudget {
                 city: city,
                 latitude: location.latitude || '',
                 longitude: location.latitude || ''
-            }, {isRecord: false});
+            }, {isRecord: true});
             let budget = await strategy.getResult(hotels, isRetMarkedData);
 
             let hotelBudget: IHotelBudgetItem = {
@@ -234,7 +234,7 @@ export default class ApiTravelBudget {
                 prefers: allPrefers,
                 tickets,
                 staffs,
-            }, {isRecord: false});
+            }, {isRecord: true});
 
             let budget = await strategy.getResult(tickets, isRetMarkedData);
             let discount = 0;

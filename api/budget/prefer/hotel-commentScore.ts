@@ -28,7 +28,7 @@ class RemarkPrefer extends AbstractPrefer<IFinalHotel> {
             if(!v.score) v.score=0;
             if(!v.reasons) v.reasons=[];
 
-            let M = v.commentScore * 2;
+            let M = v.commentScore;
             cscore = self.score * Math.pow( (M + 2) , (Math.log(M) - 1) );
             cscore = Math.round( cscore );
 

@@ -257,8 +257,8 @@ describe("api/budget", () => {
     
     describe("getBudget", function() {
 
+        this.timeout(60 * 1000);
         it("#API.budget.getBudget should be ok", function(done) {
-            this.timeout(10 * 1000);
             let params = {
                 fromCity: 'CT_231',
                 staffs: [
@@ -291,12 +291,12 @@ describe("api/budget", () => {
                     done();
                 })
                 .catch( (err) => {
+                    console.error(err.stack)
                     throw err;
                 })
         })
 
         it("#API.budget.getBudget should be ok", function(done) {
-            this.timeout(10 * 1000);
             let params = {
                 fromCity: 'CT_231',
                 staffs: [
@@ -329,12 +329,12 @@ describe("api/budget", () => {
                     done();
                 })
                 .catch( (err) => {
+                    console.error(err.stack)
                     throw err;
                 })
         })
 
         it("#API.budget.getBudget should be ok", function(done) {
-            this.timeout(10 * 1000);
             let params = {
                 fromCity: 'CT_231',
                 staffs: [
@@ -383,12 +383,12 @@ describe("api/budget", () => {
                     done();
                 })
                 .catch( (err) => {
+                    console.error(err.stack)
                     throw err;
                 })
         })
 
         it("#API.budget.getBudget should be ok", function(done) {
-            this.timeout(10 * 1000);
             let params = {
                 fromCity: 'CT_231',
                 staffs: [
@@ -438,6 +438,7 @@ describe("api/budget", () => {
                     done();
                 })
                 .catch( (err) => {
+                    console.error(err.stack)
                     throw err;
                 })
         })

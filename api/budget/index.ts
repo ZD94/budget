@@ -259,6 +259,7 @@ export default class ApiTravelBudget {
     }
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
+        console.log(`调用createBudget==>`, params);
         let {policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData} = params;
         let budgets = [];
         let segBudgets = {};

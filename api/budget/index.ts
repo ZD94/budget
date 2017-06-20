@@ -214,8 +214,6 @@ export default class ApiTravelBudget {
                         "options":{"type":"square","score":50000,"level":[cabin],"percent": staffPolicy.trafficPrefer / 100 }
                     })
                 });
-
-                
             }
             let strategy = await TrafficBudgetStrategyFactory.getStrategy({
                 fromCity,

@@ -88,6 +88,37 @@ describe("api/budget", () => {
         })
 
 
+        it("#API.budget.getHotelBudget should be ok with location", function() {
+            this.timeout(20 * 1000)
+            let dateFormat = 'YYYY-MM-DD'
+            let params = {
+                // hotels,
+                checkInDate: moment().add(3, 'days').format(dateFormat),
+                checkOutDate: moment().add(4, 'days').format(dateFormat),
+                prefers: [],
+                policies: {
+                    "staff": {
+                        hotelStar: EHotelStar.FIVE
+                    }
+                },
+                staffs: [
+                    {
+                        "sex": EGender.FEMALE,
+                        "policy": "staff",
+                    }
+                ],
+                city:"CT_131",
+                location: {
+                    latitude: 39.929986,
+                    longitude: 116.395645,
+                }
+            }
+            return API.budget.getHotelBudget(params)
+                .then( (budgetResult) => {
+                    logger.log("location==>"+ JSON.stringify(budgetResult));
+                    return true;
+                })
+        })
 
 
     })

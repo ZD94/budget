@@ -48,7 +48,6 @@ class DistancePrefer extends AbstractPrefer<IFinalHotel>{
 
         minDistance = Math.min.apply(Math,distances);
         let cscore:number;
-        console.log("minDistance: ",minDistance);
         for (let i = 0; i < hotels.length; i++) {
             if(distances[i]>0){
                 cscore=Math.round(self.score - Math.pow(minDistance, 1 / 6) *

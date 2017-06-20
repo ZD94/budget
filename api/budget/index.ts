@@ -93,6 +93,8 @@ export default class ApiTravelBudget {
                 checkInDate,
                 checkOutDate,
                 star,
+                latitude: location.latitude,
+                longitude: location.longitude,
             }}, key);
 
             //追加员工设置的标准
@@ -112,8 +114,7 @@ export default class ApiTravelBudget {
                 checkOutDate,
                 prefers: allPrefers,
                 city: city,
-                latitude: location.latitude || '',
-                longitude: location.latitude || ''
+                location,
             }, {isRecord: true});
             let budget = await strategy.getResult(hotels, isRetMarkedData);
 

@@ -137,8 +137,10 @@
             "name": "distance",
             "options": {
                 "score": 20000,
-                "latitude": "<%=local.latitude%>",
-                "longitude": "<%=local.longitude%>"
+                "landmark":{
+                    "latitude": "<%=local.latitude%>",
+                    "longitude": "<%=local.longitude%>"
+                }
             }
         },
         {

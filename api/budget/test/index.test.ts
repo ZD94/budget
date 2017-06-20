@@ -441,5 +441,44 @@ describe("api/budget", () => {
                     throw err;
                 })
         })
+
+        it("#API.budget.createBudget should be ok without fromCity", function(done) {
+            this.timeout(10 * 1000);
+            let params = {
+                staffs: [
+                    {
+                        gender: EGender.FEMALE,
+                        policy: 'staff'
+                    }
+                ],
+                policies: {
+                    "staff": {
+                        hotelStar: [EHotelStar.FOUR],
+                        trainSeat: [ETrainSeat.SECOND_SEAT],
+                        cabin: [EAirCabin.ECONOMY]
+                    }
+                },
+                segments:[
+                    {
+                        city: 'CT_131',
+                        beginTime: moment().add(3, 'days').toDate(),
+                        endTime: moment().add(4, 'days').toDate(),
+                    }
+                ],
+                ret: false,
+            } as IQueryBudgetParams
+            logger.log("没有出发地==>", JSON.stringify(params));
+            return API.budget.createBudget(params)
+                .then( (budgetResult) => {
+                    logger.log("budgets==>"+ JSON.stringify(budgetResult));
+                    let cities = budgetResult.cities;
+                    assert.equal(!!cities, true);
+                    assert.equal(cities[0], 'CT_131');
+                    done();
+                })
+                .catch( (err) => {
+                    throw err;
+                })
+        })
     })
 })

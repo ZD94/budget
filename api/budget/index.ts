@@ -4,7 +4,8 @@
 import {
     IQueryBudgetParams, ITrafficBudgetItem, EAirCabin,
     EBudgetType, IHotelBudgetItem, EHotelStar, IQueryTrafficBudgetParams, IQueryHotelBudgetParams, IStaff, EGender,
-    IHotelBudgetResult, ITrafficBudgetResult, FinalBudgetResultInterface, ISegment, SegmentBudgetItem, ETrafficType
+    IHotelBudgetResult, ITrafficBudgetResult, FinalBudgetResultInterface, ISegment, SegmentBudgetItem, ETrafficType,
+    BudgetItem, IHotel, ITicket
 } from "_types/budget";
 
 const validate = require("common/validate");
@@ -36,16 +37,23 @@ export default class ApiTravelBudget {
             hotels,
             checkInDate,
             checkOutDate,
-            prefers,
+            preferSet,
             policies,
             staffs,
             combineRoom,
             city,
-            isRetMarkedData
+            isRetMarkedData,
+            location,
         } = params;
 
         if (typeof city == 'string') {
             city = await CityService.getCity(city);
+        }
+        if (!location) {
+            location = {
+                latitude: city.latitude,
+                longitude: city.longitude
+            };
         }
 
         if (combineRoom) {
@@ -55,14 +63,14 @@ export default class ApiTravelBudget {
         if (!policies) {
             policies = {};
         }
-        if (!prefers) {
-            prefers = {}
+        if (!preferSet) {
+            preferSet = {}
         }
         let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL;
-        let companyPrefers = prefers["domesticHotel"];
+        let companyPrefers = preferSet["domesticHotel"];
         if (city.isAbroad) {
             key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL
-            companyPrefers = prefers["abroadHotel"]
+            companyPrefers = preferSet["abroadHotel"]
         }
         if (!companyPrefers) {
             companyPrefers = [];
@@ -72,8 +80,8 @@ export default class ApiTravelBudget {
                 checkInDate,
                 checkOutDate,
                 city,
-                latitude: city.latitude,
-                longitude: city.longitude,
+                latitude: location && location.latitude ? location.latitude: city.latitude,
+                longitude: location && location.longitude ? location.longitude: city.longitude,
             })
         }
 
@@ -86,16 +94,31 @@ export default class ApiTravelBudget {
                 checkOutDate,
                 star,
             }}, key);
+
+            //追加员工设置的标准
+            if (typeof staffPolicy.hotelPrefer == 'number' && staffPolicy.hotelPrefer >= 0 ) {
+                [EHotelStar.FIVE, EHotelStar.FOUR, EHotelStar.THREE, EHotelStar.TOW].forEach( (star) => {
+                    allPrefers.push({
+                        "name":"price",
+                        "options":{"type":"square","score":50000,"level":[star],"percent": staffPolicy.hotelPrefer / 100 }
+                    })
+                })
+            }
+
             //需要的差旅标准
             let strategy = await HotelBudgetStrategyFactory.getStrategy({
                 star: star,
                 checkInDate,
                 checkOutDate,
                 prefers: allPrefers,
+                city: city,
+                latitude: location.latitude || '',
+                longitude: location.latitude || ''
             }, {isRecord: true});
             let budget = await strategy.getResult(hotels, isRetMarkedData);
 
             let hotelBudget: IHotelBudgetItem = {
+                id: budget.id,
                 checkInDate: params.checkInDate,
                 checkOutDate: params.checkOutDate,
                 city: (<ICity>city).id,
@@ -115,7 +138,7 @@ export default class ApiTravelBudget {
 
     static async getTrafficBudget(params: IQueryTrafficBudgetParams) :Promise<ITrafficBudgetResult> {
         //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
-        let {fromCity, toCity, beginTime, endTime, policies, prefers, tickets, staffs, isRetMarkedData} = params;
+        let {fromCity, toCity, beginTime, endTime, policies, preferSet, tickets, staffs, isRetMarkedData} = params;
         let requiredParams = {
             fromCity: "出发城市",
             toCity: '目的地',
@@ -132,8 +155,8 @@ export default class ApiTravelBudget {
         if (!policies) {
             policies = {};
         }
-        if (!prefers) {
-            prefers = {};
+        if (!preferSet) {
+            preferSet = {};
         }
 
         if (typeof beginTime == 'string') {
@@ -192,10 +215,21 @@ export default class ApiTravelBudget {
             let allPrefers;
             if ((<ICity>fromCity).isAbroad || (<ICity>toCity).isAbroad) {
                 let key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_TRAFFIC;
-                allPrefers = loadPrefers(prefers["abroadTraffic"] || [], qs, key)
+                allPrefers = loadPrefers(preferSet["abroadTraffic"] || [], qs, key)
             } else {
                 let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET;
-                allPrefers = loadPrefers(prefers["domesticTraffic"] || [], qs, key)
+                allPrefers = loadPrefers(preferSet["domesticTraffic"] || [], qs, key)
+            }
+            //追加员工特殊偏好
+            if (typeof staffPolicy.trafficPrefer == 'number' && staffPolicy.trafficPrefer >= 0) {
+                [EAirCabin.BUSINESS, EAirCabin.ECONOMY, EAirCabin.FIRST, EAirCabin.PREMIUM_ECONOMY].forEach( (cabin) => {
+                    allPrefers.push({
+                        "name":"price",
+                        "options":{"type":"square","score":50000,"level":[cabin],"percent": staffPolicy.trafficPrefer / 100 }
+                    })
+                });
+
+
             }
             let strategy = await TrafficBudgetStrategyFactory.getStrategy({
                 fromCity,
@@ -219,6 +253,7 @@ export default class ApiTravelBudget {
                 }
             }
             let trafficBudget: ITrafficBudgetItem = {
+                id: budget.id,
                 departTime: budget.departTime,
                 arrivalTime: budget.arrivalTime,
                 trafficType: budget.trafficType,
@@ -238,7 +273,8 @@ export default class ApiTravelBudget {
     }
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
-        let {policies, staffs, segments, fromCity, prefers, ret, tickets, hotels, isRetMarkedData} = params;
+        console.log(`调用createBudget==>`, params);
+        let {policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData} = params;
         let budgets = [];
         let cities = [];
         if (fromCity && typeof fromCity == 'string') {
@@ -255,6 +291,7 @@ export default class ApiTravelBudget {
             segments.push(segment);
         }
 
+        let tasks: Promise<any>[] = [];
         for(var i=0, ii=segments.length; i<ii; i++) {
             let seg = segments[i];
             let toCity = seg.city;
@@ -270,12 +307,15 @@ export default class ApiTravelBudget {
                     toCity: toCity,
                     beginTime: seg.beginTime,
                     endTime: seg.endTime,
-                    prefers,
+                    preferSet,
                     tickets,
-                    isRetMarkedData: true,
+                    isRetMarkedData: isRetMarkedData,
                 }
-                trafficBudget = await ApiTravelBudget.getTrafficBudget(trafficParams);
+                tasks.push(ApiTravelBudget.getTrafficBudget(trafficParams));
+            } else {
+                tasks.push(null);
             }
+
             let hotelBudget;
             if (!seg.noHotel && countDays(seg.endTime, seg.beginTime) > 0) {
                 //判断停留时间是否跨天
@@ -286,18 +326,27 @@ export default class ApiTravelBudget {
                     city: toCity,
                     checkInDate: seg.beginTime,
                     checkOutDate: seg.endTime,
-                    prefers,
+                    preferSet,
                     hotels,
-                    isRetMarkedData: true,
+                    isRetMarkedData: isRetMarkedData,
+                    location: seg.location,
                 }
-                hotelBudget = await ApiTravelBudget.getHotelBudget(hotelParams);
+                tasks.push(ApiTravelBudget.getHotelBudget(hotelParams))
+            } else {
+                tasks.push(null);
             }
             fromCity = toCity;
-            budgets.push({hotel: hotelBudget, traffic: trafficBudget});
             //城市
             cities.push(toCity.id);
         }
-        //如果有返程，计算返程交通预算
+
+        let budgetResults = await Promise.all(tasks);
+        for(var i=0, ii=budgetResults.length; i<ii; i=i+2) {
+            budgets.push({
+                traffic: budgetResults[i],
+                hotel: budgetResults[i+1]
+            })
+        }
 
         let result: FinalBudgetResultInterface = {
             cities: cities,
@@ -326,7 +375,55 @@ export default class ApiTravelBudget {
         return handleBudgetResult(m.result, isRetMarkedData);
     }
 
-    static __initHttpApp = require("./http");
+    static async getBudgetItems(params: {page: number, pageSize: number, type: number}) :Promise<BudgetItem[]>{
+        let {page, pageSize, type} = params;
+        let where: any = {};
+        if (type) {
+            where.type = type;
+        }
+        if (page < 0) {
+            page = 0;
+        }
+        if (pageSize <1) {
+            pageSize = 10;
+        }
+        let offset = ( page - 1 ) * pageSize;
+        let pager = await Models.budgetItem.find({where: where, limit: pageSize, offset: offset, order: [["created_at", "desc"]]});
+        let result = Array.from(pager);
+        return result;
+    }
+
+    /**
+     * 用户调试预算
+     *
+     * @param params
+     * @param {number} params.type 类型 1.交通 2.酒店
+     * @param {array<IHotel>| array<ITicket>} params.originData 原始数据
+     * @param {json} qs 查询条件
+     * @returns {Promise<Budget>}
+     */
+    static async debugBudgetItem(params: {type: number, originData: IHotel[]|ITicket[], query: any, prefers: any[]}) {
+        try {
+            let result;
+            let {query, prefers, type, originData} = params;
+            query.prefers = prefers;
+            if (type == 1) {
+                let strategy = await TrafficBudgetStrategyFactory.getStrategy(query, {isRecord: false});
+                result = await strategy.getResult(<ITicket[]>originData, true)
+            } else {
+                let strategy = await HotelBudgetStrategyFactory.getStrategy(query, {isRecord: false});
+                result = await strategy.getResult(<IHotel[]>originData, true);
+            }
+            // result.prefers = prefers;
+            result.markedData = result.markedScoreData;
+            delete result.markedScoreData;
+            return result;
+        } catch(err) {
+            console.error(err.stack);
+            throw err;
+        }
+
+    }
 }
 
 function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: boolean) :FinalBudgetResultInterface {

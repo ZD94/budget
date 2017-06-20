@@ -92,7 +92,7 @@ export default class ApiTravelBudget {
                 checkInDate,
                 checkOutDate,
                 prefers: allPrefers,
-            }, {isRecord: false});
+            }, {isRecord: true});
             let budget = await strategy.getResult(hotels, isRetMarkedData);
 
             let hotelBudget: IHotelBudgetItem = {
@@ -206,7 +206,7 @@ export default class ApiTravelBudget {
                 prefers: allPrefers,
                 tickets,
                 staffs,
-            }, {isRecord: false});
+            }, {isRecord: true});
 
             let budget = await strategy.getResult(tickets, isRetMarkedData);
             let discount = 0;

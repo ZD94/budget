@@ -231,7 +231,7 @@ export abstract class AbstractTicketStrategy {
             type: EBudgetType.TRAFFIC,
             no: ret.No,
             agent: ret.agent,
-            cabin: EAirCabin.ECONOMY,
+            cabin: ret.cabin,
             fromCity: self.qs.fromCity.id,
             toCity: self.qs.toCity.id,
             departTime: new Date(ret.departDateTime),

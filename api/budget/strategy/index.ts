@@ -66,7 +66,8 @@ function formatHotel(hotels: IHotel[]) : IFinalHotel[] {
                 agent: agents[j].name,
                 checkInDate: hotel.checkInDate,
                 checkOutDate: hotel.checkOutDate,
-                outPriceRange: false
+                outPriceRange: false,
+                commentScore: hotel.commentScore,
             } as IFinalHotel)
         }
     }

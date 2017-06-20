@@ -76,6 +76,7 @@ export interface IHotel {
     star: string| number;
     checkInDate: string;
     checkOutDate: string;
+    commentScore?: number;
 }
 
 export interface IFinalHotel {

@@ -262,12 +262,11 @@ export default class ApiTravelBudget {
         console.log(`调用createBudget==>`, params);
         let {policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData} = params;
         let budgets = [];
-        let segBudgets = {};
         let cities = [];
-        if (typeof fromCity == 'string') {
+        if (fromCity && typeof fromCity == 'string') {
             fromCity = await CityService.getCity(fromCity);
         }
-        if (ret) {
+        if (ret && fromCity) {
             let lastIdx = segments.length -1;
             let segment: ISegment = {
                 city: fromCity,
@@ -287,7 +286,7 @@ export default class ApiTravelBudget {
                 toCity = await CityService.getCity(toCity);
             }
             let trafficBudget;
-            if (!seg.noTraffic) {
+            if (fromCity && !seg.noTraffic) {
                 let trafficParams = {
                     policies,
                     staffs: seg.staffs && seg.staffs.length ? seg.staffs : staffs,

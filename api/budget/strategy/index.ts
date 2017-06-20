@@ -144,7 +144,7 @@ export abstract class AbstractHotelStrategy {
         if (self.isRecord) {
             //保存调试记录
             let budgetItem = Models.budgetItem.create({
-                title: `${result.city}(${moment(self.qs.checkInDate).format('YYYY-MM-DD')}-${moment(self.qs.checkOutDate).format('YYYY-MM-DD')})`,
+                title: `${self.qs.city ? (self.qs.city.name? self.qs.city.name: result.city):result.city}(${moment(self.qs.checkInDate).format('YYYY-MM-DD')}-${moment(self.qs.checkOutDate).format('YYYY-MM-DD')})`,
                 query: _.cloneDeep(self.qs),
                 type: EBudgetType.HOTEL,
                 originData: hotels,

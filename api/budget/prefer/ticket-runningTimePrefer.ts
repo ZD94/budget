@@ -38,9 +38,9 @@ class RunningTimePrefer extends AbstractPrefer<IFinalTicket> {
         let flights: IFinalTicket[] = [];
         tickets.forEach( (v) => {
             if (v.type == ETrafficType.PLANE) {
-                trains.push(v);
-            }else{
                 flights.push(v);
+            }else{
+                trains.push(v);
             }
         });
         if (trains.length){

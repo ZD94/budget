@@ -274,7 +274,6 @@ export default class ApiTravelBudget {
     }
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
-        console.log("接收到的参数===>", JSON.stringify(params))
         try {
             let {policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData} = params;
             let budgets = [];

@@ -21,9 +21,9 @@ export abstract class AbstractPrefer<T> implements IPrefer<T> {
     }
     abstract async markScoreProcess(data: T[]) : Promise<T[]>;
     async markScore(data: T[]): Promise<T[]> {
-        logger.info(`. BEGIN ${this.name}`);
+        // logger.info(`. BEGIN ${this.name}`);
         let ret = await this.markScoreProcess(data);
-        logger.info(`. END ${this.name}`);
+        // logger.info(`. END ${this.name}`);
         return ret;
     }
 }

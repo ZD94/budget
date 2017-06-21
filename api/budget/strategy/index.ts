@@ -111,13 +111,16 @@ export abstract class AbstractHotelStrategy {
                 "3": 400,
                 "2": 350
             }
+            let checkOutDate = moment(self.qs.checkOutDate).format("YYYY-MM-DD");
+            let checkInDate = moment(self.qs.checkInDate).format("YYYY-MM-DD");
+            let days = moment(checkOutDate).diff(checkInDate, 'days');
             return {
                 city: self.qs.city ? self.qs.city.id : '',
                 name: null,
                 checkInDate: self.qs.checkInDate,
                 checkOutDate: self.qs.checkOutDate,
                 star: null,
-                price: defaultPrice[this.qs.star] as number,
+                price: defaultPrice[this.qs.star] as number * days,
                 agent: null,
                 type: EBudgetType.HOTEL,
                 latitude: 0,

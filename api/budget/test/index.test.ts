@@ -199,27 +199,27 @@ describe("api/budget", () => {
 
     describe("countDays", function() {
         it("#countDays should be ok", function() {
-            let beginTime = moment('2017-05-10 12:00').toDate();
-            let endTime = moment('2017-05-10 23:00').toDate();
-
-            let days = countDays(endTime, beginTime);
+            let beginTime = new Date('2017-05-10T12:00:00');
+            let endTime = new Date('2017-05-10T22:00:00');
+            let timezone = 'Europe/London'
+            let days = countDays(endTime, beginTime, timezone);
             assert.equal(0, days);
         });
 
         it("#countDays should be ok", function() {
-            let beginTime = moment('2017-05-10T12:00').toDate();
-            let endTime = moment('2017-05-11T05:00').toDate();
-
-            let days = countDays(endTime, beginTime);
+            let beginTime = new Date('2017-05-10T05:00:00')
+            let endTime = new Date('2017-05-10T18:00:00');
+            let timezone = 'Asia/Shanghai'
+            let days = countDays(endTime, beginTime, timezone);
             assert.equal(1, days);
         });
 
         it("#countDays should throw error when endTime < beginTime", function() {
-            let beginTime = moment('2017-05-11T05:00').toDate();
-            let endTime = moment('2017-05-10T12:00').toDate();
-
+            let beginTime = new Date('2017-05-11T05:00:00');
+            let endTime = new Date('2017-05-10T12:00:00');
+            let timezone = 'Europe/London'
             let days;
-            days = countDays(endTime, beginTime)
+            days = countDays(endTime, beginTime, timezone)
             assert.equal(0, days);
 
         });

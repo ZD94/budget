@@ -319,17 +319,18 @@ export default class ApiTravelBudget {
                 }
 
                 let hotelBudget;
-                if (!seg.noHotel && countDays(seg.endTime, seg.beginTime) > 0) {
-                    //判断停留时间是否跨天
-                    let checkOutDate = moment(seg.endTime).format("YYYY-MM-DD")
-                    let checkInDate = moment(seg.beginTime).format("YYYY-MM-DD")
+                //判断停留时间是否跨天
+                let timezone = toCity.timezone || 'Asia/Shanghai';
+                if (!seg.noHotel && countDays(seg.endTime, seg.beginTime, timezone) > 0) {
+                    let checkOutDate = moment(seg.endTime).tz(timezone).format("YYYY-MM-DD")
+                    let checkInDate = moment(seg.beginTime).tz(timezone).format("YYYY-MM-DD")
                     let days = moment(checkOutDate).diff(checkInDate, 'days');
                     let hotelParams = {
                         policies,
                         staffs,
                         city: toCity,
-                        checkInDate: seg.beginTime,
-                        checkOutDate: seg.endTime,
+                        checkInDate: checkInDate,
+                        checkOutDate: checkOutDate,
                         preferSet,
                         hotels,
                         isRetMarkedData: isRetMarkedData,

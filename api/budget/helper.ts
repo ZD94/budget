@@ -4,7 +4,8 @@
 
 'use strict';
 import {IStaff, EGender} from "_types/budget";
-import moment = require("moment");
+const moment = require("moment");
+import 'moment-timezone';
 
 export function countRoom(staffs: IStaff[], combineRoom?: boolean) {
     if (!combineRoom) {
@@ -26,9 +27,11 @@ export function countRoom(staffs: IStaff[], combineRoom?: boolean) {
     return Math.ceil(maleNums/ 2) + Math.ceil(femaleNums / 2);
 }
 
-export function countDays(endTime: Date, beginTime: Date) : number {
+export function countDays(endTime: Date, beginTime: Date, timezone: string) : number {
     let dateFormat = 'YYYY-MM-DD'
-    let days =  moment(moment(endTime).format(dateFormat))
-        .diff(moment(beginTime).format(dateFormat), 'days');
+    let endTimeStr = moment(endTime).tz(timezone).format(dateFormat)
+    let beginTimeStr = moment(beginTime).tz(timezone).format(dateFormat)
+    let days =  moment(endTimeStr)
+        .diff(beginTimeStr, 'days');
     return days < 0 ? 0 : days;
 }

@@ -12,9 +12,10 @@ export interface ICity {
     id: string;
     isAbroad: boolean;
     letter: string;
+    timezone: string;
+    longitude: number;
+    latitude: number;
     code?: string;  //三字码
-    longitude?: number;
-    latitude?: number;
 }
 
 

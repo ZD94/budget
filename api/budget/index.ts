@@ -274,90 +274,94 @@ export default class ApiTravelBudget {
     }
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
-        console.log(`调用createBudget==>`, params);
-        let {policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData} = params;
-        let budgets = [];
-        let cities = [];
-        if (fromCity && typeof fromCity == 'string') {
-            fromCity = await CityService.getCity(fromCity);
-        }
-        if (ret && fromCity) {
-            let lastIdx = segments.length -1;
-            let segment: ISegment = {
-                city: fromCity,
-                beginTime: segments[lastIdx].endTime,
-                endTime: moment(segments[lastIdx].endTime).format('YYYY-MM-DD 21:00'),
-                noHotel: true,
+        try {
+            let {policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData} = params;
+            let budgets = [];
+            let cities = [];
+            if (fromCity && typeof fromCity == 'string') {
+                fromCity = await CityService.getCity(fromCity);
             }
-            segments.push(segment);
-        }
-
-        let tasks: Promise<any>[] = [];
-        for(var i=0, ii=segments.length; i<ii; i++) {
-            let seg = segments[i];
-            let toCity = seg.city;
-            if (typeof toCity == 'string') {
-                toCity = await CityService.getCity(toCity);
-            }
-            let trafficBudget;
-            if (fromCity && !seg.noTraffic) {
-                let trafficParams = {
-                    policies,
-                    staffs: seg.staffs && seg.staffs.length ? seg.staffs : staffs,
-                    fromCity: fromCity,
-                    toCity: toCity,
-                    beginTime: seg.beginTime,
-                    endTime: seg.endTime,
-                    preferSet,
-                    tickets,
-                    isRetMarkedData: isRetMarkedData,
+            if (ret && fromCity) {
+                let lastIdx = segments.length -1;
+                let segment: ISegment = {
+                    city: fromCity,
+                    beginTime: segments[lastIdx].endTime,
+                    endTime: moment(segments[lastIdx].endTime).format('YYYY-MM-DD 21:00'),
+                    noHotel: true,
                 }
-                tasks.push(ApiTravelBudget.getTrafficBudget(trafficParams));
-            } else {
-                tasks.push(null);
+                segments.push(segment);
             }
 
-            let hotelBudget;
-            if (!seg.noHotel && countDays(seg.endTime, seg.beginTime) > 0) {
-                //判断停留时间是否跨天
-                let days = moment(moment(seg.endTime).format("YYYY-MM-DD")).diff(moment(seg.beginTime).format("YYYY-MM-DD"), 'days');
-                let hotelParams = {
-                    policies,
-                    staffs,
-                    city: toCity,
-                    checkInDate: seg.beginTime,
-                    checkOutDate: seg.endTime,
-                    preferSet,
-                    hotels,
-                    isRetMarkedData: isRetMarkedData,
-                    location: seg.location,
+            let tasks: Promise<any>[] = [];
+            for(var i=0, ii=segments.length; i<ii; i++) {
+                let seg = segments[i];
+                let toCity = seg.city;
+                if (typeof toCity == 'string') {
+                    toCity = await CityService.getCity(toCity);
                 }
-                tasks.push(ApiTravelBudget.getHotelBudget(hotelParams))
-            } else {
-                tasks.push(null);
+                let trafficBudget;
+                if (fromCity && !seg.noTraffic) {
+                    let trafficParams = {
+                        policies,
+                        staffs: seg.staffs && seg.staffs.length ? seg.staffs : staffs,
+                        fromCity: fromCity,
+                        toCity: toCity,
+                        beginTime: seg.beginTime,
+                        endTime: seg.endTime,
+                        preferSet,
+                        tickets,
+                        isRetMarkedData: isRetMarkedData,
+                    }
+                    tasks.push(ApiTravelBudget.getTrafficBudget(trafficParams));
+                } else {
+                    tasks.push(null);
+                }
+
+                let hotelBudget;
+                if (!seg.noHotel && countDays(seg.endTime, seg.beginTime) > 0) {
+                    //判断停留时间是否跨天
+                    let days = moment(moment(seg.endTime).format("YYYY-MM-DD")).diff(moment(seg.beginTime).format("YYYY-MM-DD"), 'days');
+                    let hotelParams = {
+                        policies,
+                        staffs,
+                        city: toCity,
+                        checkInDate: seg.beginTime,
+                        checkOutDate: seg.endTime,
+                        preferSet,
+                        hotels,
+                        isRetMarkedData: isRetMarkedData,
+                        location: seg.location,
+                    }
+                    tasks.push(ApiTravelBudget.getHotelBudget(hotelParams))
+                } else {
+                    tasks.push(null);
+                }
+                fromCity = toCity;
+                //城市
+                cities.push(toCity.id);
             }
-            fromCity = toCity;
-            //城市
-            cities.push(toCity.id);
-        }
 
-        let budgetResults = await Promise.all(tasks);
-        for(var i=0, ii=budgetResults.length; i<ii; i=i+2) {
-            budgets.push({
-                traffic: budgetResults[i],
-                hotel: budgetResults[i+1]
-            })
-        }
+            let budgetResults = await Promise.all(tasks);
+            for(var i=0, ii=budgetResults.length; i<ii; i=i+2) {
+                budgets.push({
+                    traffic: budgetResults[i],
+                    hotel: budgetResults[i+1]
+                })
+            }
 
-        let result: FinalBudgetResultInterface = {
-            cities: cities,
-            budgets: budgets
-        }
+            let result: FinalBudgetResultInterface = {
+                cities: cities,
+                budgets: budgets
+            }
 
-        let m = Models.budget.create({query: params, result: result});
-        m = await m.save();
-        result.id = m.id;
-        return handleBudgetResult(result, isRetMarkedData)
+            let m = Models.budget.create({query: params, result: result});
+            m = await m.save();
+            result.id = m.id;
+            return handleBudgetResult(result, isRetMarkedData)
+        } catch(err) {
+            console.error(err);
+            throw err;
+        }
     }
 
     static async getBudgetCache(params: {id: string, isRetMarkedData?: boolean}) :Promise<FinalBudgetResultInterface>{

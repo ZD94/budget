@@ -127,6 +127,22 @@ export abstract class AbstractHotelStrategy {
                 longitude: 0,
             } as IHotelBudgetItem;
         }
+
+        //没有预算
+        if (!_hotels || !hotels.length) {
+            return {
+                city: self.qs.city ? self.qs.city.id : '',
+                name: null,
+                checkInDate: self.qs.checkInDate,
+                checkOutDate: self.qs.checkOutDate,
+                star: null,
+                type: EBudgetType.HOTEL,
+                latitude: 0,
+                longitude: 0,
+                price: -1
+            }
+        }
+
         _hotels = await this.getMarkedScoreHotels(_hotels);
         _hotels.sort( (v1, v2) => {
             return v2.score - v1.score;

@@ -104,7 +104,7 @@ export abstract class AbstractHotelStrategy {
     async getResult(hotels: IHotel[], isRetMarkedData?: boolean): Promise<IHotelBudgetItem> {
         let self = this;
         let _hotels = formatHotel(hotels);
-        if (!_hotels || !_hotels.length) {
+        if ((!_hotels || !_hotels.length) && self.qs.city && !self.qs.city.isAbroad) {
             const defaultPrice = {
                 "5": 500,
                 "4": 450,

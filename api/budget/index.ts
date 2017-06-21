@@ -274,6 +274,7 @@ export default class ApiTravelBudget {
     }
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
+        console.log("接收到的参数===>", JSON.stringify(params))
         try {
             let {policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData} = params;
             let budgets = [];
@@ -285,7 +286,7 @@ export default class ApiTravelBudget {
                 let lastIdx = segments.length -1;
                 let segment: ISegment = {
                     city: fromCity,
-                    beginTime: segments[lastIdx].beginTime,
+                    beginTime: segments[lastIdx].endTime,
                     endTime: moment(segments[lastIdx].endTime).format('YYYY-MM-DD 21:00'),
                     noHotel: true,
                 }
@@ -320,7 +321,9 @@ export default class ApiTravelBudget {
                 let hotelBudget;
                 if (!seg.noHotel && countDays(seg.endTime, seg.beginTime) > 0) {
                     //判断停留时间是否跨天
-                    let days = moment(moment(seg.endTime).format("YYYY-MM-DD")).diff(moment(seg.beginTime).format("YYYY-MM-DD"), 'days');
+                    let checkOutDate = moment(seg.endTime).format("YYYY-MM-DD")
+                    let checkInDate = moment(seg.beginTime).format("YYYY-MM-DD")
+                    let days = moment(checkOutDate).diff(checkInDate, 'days');
                     let hotelParams = {
                         policies,
                         staffs,

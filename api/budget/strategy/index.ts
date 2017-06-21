@@ -104,20 +104,23 @@ export abstract class AbstractHotelStrategy {
     async getResult(hotels: IHotel[], isRetMarkedData?: boolean): Promise<IHotelBudgetItem> {
         let self = this;
         let _hotels = formatHotel(hotels);
-        if (!_hotels || !_hotels.length) {
+        if ((!_hotels || !_hotels.length) && self.qs.city && !self.qs.city.isAbroad) {
             const defaultPrice = {
                 "5": 500,
                 "4": 450,
                 "3": 400,
                 "2": 350
             }
+            let checkOutDate = moment(self.qs.checkOutDate).format("YYYY-MM-DD");
+            let checkInDate = moment(self.qs.checkInDate).format("YYYY-MM-DD");
+            let days = moment(checkOutDate).diff(checkInDate, 'days');
             return {
                 city: self.qs.city ? self.qs.city.id : '',
                 name: null,
                 checkInDate: self.qs.checkInDate,
                 checkOutDate: self.qs.checkOutDate,
                 star: null,
-                price: defaultPrice[this.qs.star] as number,
+                price: defaultPrice[this.qs.star] as number * days,
                 agent: null,
                 type: EBudgetType.HOTEL,
                 latitude: 0,

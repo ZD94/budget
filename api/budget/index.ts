@@ -176,12 +176,17 @@ export default class ApiTravelBudget {
         }
 
         if (!tickets) {
-            let trainTickets = await API.train.search_ticket({
-                leaveDate: beginTime,
-                originPlace: fromCity,
-                destination: toCity,
-                // cabin: trainSeat,
-            });
+            let trainTickets;
+            if (!fromCity.isAbroad && !toCity.isAbroad) {
+                trainTickets = await API.train.search_ticket({
+                    leaveDate: beginTime,
+                    originPlace: fromCity,
+                    destination: toCity,
+                    // cabin: trainSeat,
+                });
+            } else {
+                trainTickets = [];
+            }
             let flightTickets = await API.flight.search_ticket({
                 leaveDate: beginTime,
                 originPlace: fromCity,

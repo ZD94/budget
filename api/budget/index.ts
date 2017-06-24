@@ -143,14 +143,14 @@ export default class ApiTravelBudget {
         let requiredParams = {
             fromCity: "出发城市",
             toCity: '目的地',
-            beginTime: '事情开始时间',
-            endTime: '事情终结时间',
+            // beginTime: '事情开始时间',
+            // endTime: '事情终结时间',
             policies: '差旅政策',
             staffs: '出差人',
         }
         for(let key in requiredParams) {
             if (!params[key]) {
-                throw L.ERR.NOT_ACCEPTABLE(requiredParams[key]);
+                throw L.ERR.ERROR_CODE_C(500, `缺少${requiredParams[key]}参数`);
             }
         }
         if (!policies) {
@@ -194,8 +194,8 @@ export default class ApiTravelBudget {
                     expectTrainCabins: trainSeat,
                     expectFlightCabins: cabin,
                     leaveDate: moment(beginTime).format("YYYY-MM-DD"),
-                    earliestLeaveDateTime: beginTime,
-                    latestArrivalDateTime: endTime,
+                    earliestLeaveDateTime: endTime,
+                    latestArrivalDateTime: beginTime,
                 }
             }
 
@@ -259,16 +259,22 @@ export default class ApiTravelBudget {
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
         try {
-            let {policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData} = params;
+            let {policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity} = params;
             let budgets = [];
             let cities = [];
             if (fromCity && typeof fromCity == 'string') {
                 fromCity = await CityService.getCity(fromCity);
             }
+            if (backCity && typeof backCity == 'string') {
+                backCity = await CityService.getCity(backCity);
+            }
             if (ret && fromCity) {
+                if (!backCity) {
+                    backCity = fromCity;
+                }
                 let lastIdx = segments.length -1;
                 let segment: ISegment = {
-                    city: fromCity,
+                    city: backCity,
                     beginTime: segments[lastIdx].endTime,
                     endTime: moment(segments[lastIdx].endTime).format('YYYY-MM-DD 21:00'),
                     noHotel: true,
@@ -291,7 +297,7 @@ export default class ApiTravelBudget {
                         fromCity: fromCity,
                         toCity: toCity,
                         beginTime: seg.beginTime,
-                        endTime: seg.endTime,
+                        // endTime: seg.endTime,
                         preferSet,
                         tickets,
                         isRetMarkedData: isRetMarkedData,

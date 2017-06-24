@@ -187,17 +187,18 @@ export interface IFlightSeg {
 export interface IQueryTrafficBudgetParams {
     fromCity: ICity | string;
     toCity: ICity | string;
-    beginTime: Date;
-    endTime: Date;
     preferSet: PreferSet;
     policies: IPolicySet;
     staffs: IStaff[];
     tickets?: ITicket[];
     isRetMarkedData?: boolean;
+    beginTime?: Date;   //事情开始时间
+    endTime?: Date;     //事情结束时间
 }
 
 export interface IQueryBudgetParams {
     fromCity?: ICity| string;       //出发城市
+    backCity?: ICity| string;       //返回城市
     segments: ISegment[];      //每段查询条件
     ret: boolean;       //是否往返
     staffs: IStaff[];  //出差员工

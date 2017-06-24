@@ -280,16 +280,22 @@ export default class ApiTravelBudget {
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
         try {
-            let {policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData} = params;
+            let {policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity} = params;
             let budgets = [];
             let cities = [];
             if (fromCity && typeof fromCity == 'string') {
                 fromCity = await CityService.getCity(fromCity);
             }
+            if (backCity && typeof backCity == 'string') {
+                backCity = await CityService.getCity(backCity);
+            }
             if (ret && fromCity) {
+                if (!backCity) {
+                    backCity = fromCity;
+                }
                 let lastIdx = segments.length -1;
                 let segment: ISegment = {
-                    city: fromCity,
+                    city: backCity,
                     beginTime: segments[lastIdx].endTime,
                     endTime: moment(segments[lastIdx].endTime).format('YYYY-MM-DD 21:00'),
                     noHotel: true,

@@ -198,6 +198,7 @@ export interface IQueryTrafficBudgetParams {
 
 export interface IQueryBudgetParams {
     fromCity?: ICity| string;       //出发城市
+    backCity?: ICity| string;       //返回城市
     segments: ISegment[];      //每段查询条件
     ret: boolean;       //是否往返
     staffs: IStaff[];  //出差员工

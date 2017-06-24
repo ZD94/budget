@@ -187,13 +187,13 @@ export interface IFlightSeg {
 export interface IQueryTrafficBudgetParams {
     fromCity: ICity | string;
     toCity: ICity | string;
-    beginTime: Date;
-    endTime: Date;
     preferSet: PreferSet;
     policies: IPolicySet;
     staffs: IStaff[];
     tickets?: ITicket[];
     isRetMarkedData?: boolean;
+    beginTime?: Date;   //事情开始时间
+    endTime?: Date;     //事情结束时间
 }
 
 export interface IQueryBudgetParams {

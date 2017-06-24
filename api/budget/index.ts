@@ -143,14 +143,14 @@ export default class ApiTravelBudget {
         let requiredParams = {
             fromCity: "出发城市",
             toCity: '目的地',
-            beginTime: '事情开始时间',
-            endTime: '事情终结时间',
+            // beginTime: '事情开始时间',
+            // endTime: '事情终结时间',
             policies: '差旅政策',
             staffs: '出差人',
         }
         for(let key in requiredParams) {
             if (!params[key]) {
-                throw L.ERR.NOT_ACCEPTABLE(requiredParams[key]);
+                throw L.ERR.ERROR_CODE_C(500, `缺少${requiredParams[key]}参数`);
             }
         }
         if (!policies) {
@@ -213,8 +213,8 @@ export default class ApiTravelBudget {
                     expectTrainCabins: trainSeat,
                     expectFlightCabins: cabin,
                     leaveDate: moment(beginTime).format("YYYY-MM-DD"),
-                    earliestLeaveDateTime: beginTime,
-                    latestArrivalDateTime: endTime,
+                    earliestLeaveDateTime: endTime,
+                    latestArrivalDateTime: beginTime,
                 }
             }
 
@@ -312,7 +312,7 @@ export default class ApiTravelBudget {
                         fromCity: fromCity,
                         toCity: toCity,
                         beginTime: seg.beginTime,
-                        endTime: seg.endTime,
+                        // endTime: seg.endTime,
                         preferSet,
                         tickets,
                         isRetMarkedData: isRetMarkedData,

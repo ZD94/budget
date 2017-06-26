@@ -24,4 +24,18 @@ describe("traffic data", function() {
             throw err;
         }
     })
+
+    it("#search_tickets should be ok", async function() {
+        try {
+            let result = await API['traffic'].search_tickets({
+                leaveDate: moment().add(3, 'days').format("YYYY-MM-DD"),
+                originPlace: "CT_131",
+                destination: "CTW_435"
+            });
+            console.log("result===>", result);
+            assert.equal(util.isArray(result), true);
+        } catch(err) {
+            throw err;
+        }
+    })
 })

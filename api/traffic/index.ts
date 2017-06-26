@@ -36,7 +36,13 @@ export class TrafficSupport extends AbstractDataSupport<ITicket> {
     async search_tickets(params: ISearchTicketParams) {
         let self = this;
         let flightTickets = await self.search_flight_tickets(params);
+        if (!flightTickets) {
+            flightTickets = [];
+        }
         let trainTickets = await self.search_train_tickets(params);
+        if (!trainTickets) {
+            trainTickets = [];
+        }
         return [...trainTickets, ...flightTickets];
     }
 

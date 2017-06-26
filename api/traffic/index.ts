@@ -11,7 +11,6 @@ import Config = require("@jingli/config");
 var redis = require("redis");
 
 let redis_client = null;
-let redis_conf = "redis://localhost:6379";
 
 let Train_IS_USE_CACHE = true;
 let Flight_IS_USE_CACHE = true;

@@ -8,7 +8,7 @@ import moment = require("moment");
 import util = require("util");
 import assert = require("assert");
 
-describe("traffic", function() {
+describe("traffic data", function() {
 
     this.timeout(30 * 1000);
     it("#search_tickets should be ok", async function() {

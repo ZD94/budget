@@ -9,7 +9,7 @@ import moment = require("moment");
 import assert = require("assert");
 import util = require("util");
 
-describe("hotel", function() {
+describe("hotel data", function() {
     this.timeout(30 * 1000)
     it("#search_hotels should be ok", async function() {
         let checkInDate = moment().add(3, 'days').format("YYYY-MM-DD");

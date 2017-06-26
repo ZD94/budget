@@ -17,8 +17,8 @@ export interface ISearchTicketParams {
 export class TrafficSupport extends AbstractDataSupport<ITicket> {
     async search_tickets(params: ISearchTicketParams) {
         let self = this;
-        let flightTickets = await this.search_flight_tickets(params);
-        let trainTickets = await this.search_train_tickets(params);
+        let flightTickets = await self.search_flight_tickets(params);
+        let trainTickets = await self.search_train_tickets(params);
         return [...trainTickets, ...flightTickets];
     }
 

@@ -4,8 +4,7 @@
   "host": "${JL_APP_HOST}",
   "debug": false,
   "ts_node": true,
-
-  "cluster": false,
+  "cluster": true,
   "port": 80,
   "apiPort": 4103,
   "socket_file": "${{rootDir}}/web.sock",
@@ -30,7 +29,8 @@
         "modules": "*"
       },
       {
-        "connect": {"host":"${{hosts.dtask.addr}}", "port": "${{hosts.dtask.port}}"}
+        "connect": {"host":"${{hosts.dtask.addr}}", "port": "${{hosts.dtask.port}}"},
+        "modules": ["dtask_mgr"]
       }
     ]
   },

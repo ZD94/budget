@@ -78,6 +78,22 @@ deploy:test:
     - echo deploy to https://t.jingli365.com
     - ssh test@l.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG -p 192.168.1.2:14203:4103
 
+deploy:jingli365:
+  stage: deploy
+  only:
+    - /^test$/
+  when: manual
+  environment:
+    name: test
+    url: https://budget.jingli365.com
+  script:
+    - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
+    - docker pull $DOCKER_CI_NAME
+    - docker tag $DOCKER_CI_NAME $DOCKER_BRANCH_NAME
+    - docker push $DOCKER_BRANCH_NAME
+    - echo deploy to https://j.jingli365.com
+    - ssh test@j.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG -p 14103:4103
+
 deploy:release:
   stage: deploy
   only:

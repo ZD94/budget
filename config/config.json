@@ -26,7 +26,7 @@
     "remotes": [
       {
         "connect": {"host":"${{hosts.main.addr}}", "port":"${{hosts.main.port}}"},
-        "modules": "*"
+        "modules": ["place"]
       },
       {
         "connect": {"host":"${{hosts.dtask.addr}}", "port": "${{hosts.dtask.port}}"},

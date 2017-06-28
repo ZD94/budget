@@ -76,10 +76,10 @@ export default class ApiTravelBudget {
             companyPrefers = [];
         }
         if (!hotels || !hotels.length) {
-            hotels = await API.hotel.search_hotels({
+            hotels = await API.hotels.search_hotels({
                 checkInDate,
                 checkOutDate,
-                city,
+                city: city.id,
                 latitude: location && location.latitude ? location.latitude: city.latitude,
                 longitude: location && location.longitude ? location.longitude: city.longitude,
             })
@@ -289,7 +289,6 @@ export default class ApiTravelBudget {
                 if (typeof toCity == 'string') {
                     toCity = await CityService.getCity(toCity);
                 }
-                let trafficBudget;
                 if (fromCity && !seg.noTraffic) {
                     let trafficParams = {
                         policies,
@@ -307,7 +306,6 @@ export default class ApiTravelBudget {
                     tasks.push(null);
                 }
 
-                let hotelBudget;
                 //判断停留时间是否跨天
                 let timezone = toCity.timezone || 'Asia/Shanghai';
                 if (!seg.noHotel && countDays(seg.endTime, seg.beginTime, timezone) > 0) {

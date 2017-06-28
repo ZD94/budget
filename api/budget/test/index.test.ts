@@ -514,7 +514,7 @@ describe("api/budget", () => {
         })
 
         it("#API.budget.createBudget should be ok when point to backCity", function(done) {
-            this.timeout(10 * 1000);
+            this.timeout(60 * 1000);
             let params = {
                 staffs: [
                     {

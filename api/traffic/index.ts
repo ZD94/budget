@@ -8,7 +8,6 @@ import {TASK_NAME} from '../types';
 import {AbstractDataSupport} from "../data-support";
 import {ITicket} from "../../_types/budget";
 import Config = require("@jingli/config");
-import L from "@jingli/language";
 
 var redis = require("redis");
 

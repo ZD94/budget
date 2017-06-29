@@ -85,6 +85,9 @@ export default class ApiTravelBudget {
             })
         }
 
+        if (new Date(checkInDate) < new Date()) {
+            throw L.ERR.ERROR_CODE_C(500, '入住日期已过');
+        }
         let budgets = await Promise.all( staffs.map( async (staff) => {
             let policyKey = staff.policy || 'default';
             let staffPolicy = policies[policyKey] || {};
@@ -166,6 +169,9 @@ export default class ApiTravelBudget {
 
         if (typeof endTime == 'string') {
             endTime = new Date(endTime);
+        }
+        if (beginTime < new Date()) {
+            throw L.ERR.ERROR_CODE_C(500, '出发日期已过');
         }
 
         if (typeof fromCity == 'string') {

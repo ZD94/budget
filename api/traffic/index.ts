@@ -89,9 +89,6 @@ export class TrafficSupport extends AbstractDataSupport<ITicket> {
         let result:  ITicket[] =[];
         let client = get_redis();
         let key = `flight:${originPlace}-${destination}:${leaveDate}`;
-        if (originPlaceObj.isAbroad || destinationObj.isAbroad) { 
-            throw L.ERR.ERROR_CODE_C(500, '暂时不能生成国外预算');
-        }
         if(Flight_IS_USE_CACHE){
             try{
                 result = JSON.parse(await client.getAsync(key))

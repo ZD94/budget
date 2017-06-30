@@ -24,6 +24,7 @@ import {Models} from "_types/index";
 import {ICity, CityService} from "_types/city";
 import {countDays} from "./helper";
 var API = require("@jingli/dnode-api");
+var Config = require("@jingli/config");
 
 export default class ApiTravelBudget {
 
@@ -76,13 +77,24 @@ export default class ApiTravelBudget {
             companyPrefers = [];
         }
         if (!hotels || !hotels.length) {
-            hotels = await API.hotels.search_hotels({
-                checkInDate,
-                checkOutDate,
-                city: city.id,
-                latitude: location && location.latitude ? location.latitude: city.latitude,
-                longitude: location && location.longitude ? location.longitude: city.longitude,
-            })
+            if (Config.isUsingFakeData) {
+                hotels = await API.fakeHotels.search_hotels({
+                    checkInDate,
+                    checkOutDate,
+                    city: city.id,
+                    latitude: location && location.latitude ? location.latitude : city.latitude,
+                    longitude: location && location.longitude ? location.longitude : city.longitude,
+                })
+            }
+            if (!Config.isUsingFakeData) {
+                hotels = await API.hotels.search_hotels({
+                    checkInDate,
+                    checkOutDate,
+                    city: city.id,
+                    latitude: location && location.latitude ? location.latitude : city.latitude,
+                    longitude: location && location.longitude ? location.longitude : city.longitude,
+                })
+            }
         }
 
         if (new Date(checkInDate) < new Date()) {
@@ -182,11 +194,20 @@ export default class ApiTravelBudget {
         }
 
         if (!tickets) {
-            tickets = await API.traffic.search_tickets({
-                leaveDate: moment(beginTime).format('YYYY-MM-DD'),
-                originPlace: fromCity.id,
-                destination: toCity.id
-            })
+            if(Config.isUsingFakeData) {
+                tickets = await API.fakeTraffic.search_tickets({
+                    leaveDate: moment(beginTime).format('YYYY-MM-DD'),
+                    originPlace: fromCity.id,
+                    destination: toCity.id
+                });
+            }
+            if(Config.isUsingFakeData) {
+                tickets = await API.traffic.search_tickets({
+                    leaveDate: moment(beginTime).format('YYYY-MM-DD'),
+                    originPlace: fromCity.id,
+                    destination: toCity.id
+                })
+            }
         }
 
         let staffBudgets = await Promise.all( staffs.map( async (staff) => {

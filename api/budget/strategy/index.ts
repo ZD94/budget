@@ -7,7 +7,7 @@ import {ticketPrefers, hotelPrefers} from '../prefer'
 import {IPrefer} from '../prefer'
 import {
     IHotel, IFinalHotel, IHotelBudgetItem, EHotelStar, EBudgetType, IFinalTicket, ITicket,
-    ITrafficBudgetItem, ETrafficType, EAirCabin
+    ITrafficBudgetItem, ETrafficType, EAirCabin, ETrainSeat
 } from "_types/budget";
 import moment = require("moment");
 import _ = require("lodash");
@@ -270,7 +270,7 @@ export abstract class AbstractTicketStrategy {
             type: EBudgetType.TRAFFIC,
             no: ret.No,
             agent: ret.agent,
-            cabin: Number(ret.cabin),
+            cabin: <EAirCabin|ETrainSeat>Number(ret.cabin),
             fromCity: self.qs.fromCity.id,
             toCity: self.qs.toCity.id,
             departTime: new Date(ret.departDateTime),

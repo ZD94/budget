@@ -19,7 +19,8 @@
   },
   "hosts": {
     "main":{"addr":"t.jingli365.com", "port":4201, "www":"https://${{hosts.main.addr}}"},
-    "dtask": {"addr": "t.jingli365.com", "port": 14108}
+    "dtask": {"addr": "t.jingli365.com", "port": 14108},
+    "fakedata": {"addr":"t.jingli365.com", "port": 14109}
   },
   "api": {
     "postgres": "${{postgres.url}}",
@@ -31,6 +32,10 @@
       {
         "connect": {"host":"${{hosts.dtask.addr}}", "port": "${{hosts.dtask.port}}"},
         "modules": ["dtask_mgr"]
+      },
+      {
+        "connect": {"host":"${{hosts.fakedata.addr}}", "port": "${{hosts.fakedata.port}}"},
+        "modules": "*"
       }
     ]
   },
@@ -47,5 +52,6 @@
         }
       }
     }
-  }
+  },
+  "isUsingFakeData":false
 }

@@ -86,7 +86,7 @@ export default class ApiTravelBudget {
         }
 
         if (new Date(checkInDate) < new Date()) {
-            throw L.ERR.ERROR_CODE(500, '入住日期已过');
+            throw L.ERROR_CODE(500, '入住日期已过');
         }
         let budgets = await Promise.all( staffs.map( async (staff) => {
             let policyKey = staff.policy || 'default';
@@ -153,7 +153,7 @@ export default class ApiTravelBudget {
         }
         for(let key in requiredParams) {
             if (!params[key]) {
-                throw L.ERR.ERROR_CODE(500, `缺少${requiredParams[key]}参数`);
+                throw L.ERROR_CODE(500, `缺少${requiredParams[key]}参数`);
             }
         }
         if (!policies) {
@@ -171,7 +171,7 @@ export default class ApiTravelBudget {
             endTime = new Date(endTime);
         }
         if (beginTime < new Date()) {
-            throw L.ERR.ERROR_CODE(500, '出发日期已过');
+            throw L.ERROR_CODE(500, '出发日期已过');
         }
 
         if (typeof fromCity == 'string') {

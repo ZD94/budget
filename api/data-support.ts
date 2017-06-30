@@ -4,6 +4,8 @@
 
 'use strict';
 import API from '@jingli/dnode-api';
+import Logger from '@jingli/logger';
+var logger = new Logger("jibudget");
 
 export abstract class AbstractDataSupport<T> {
 
@@ -16,7 +18,11 @@ export abstract class AbstractDataSupport<T> {
         }
         let result: T[];
         for(let name of names) {
-            result = await API['dtask_mgr'].runTask({name: name, input: params}) as T[];
+            try {
+                result = await API['dtask_mgr'].runTask({name: name, input: params}) as T[];
+            } catch(err) {
+                logger.error(`${name},${params}`, err);
+            }
             if (result && result.length) {
                 break;
             }

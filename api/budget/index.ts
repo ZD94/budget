@@ -97,7 +97,7 @@ export default class ApiTravelBudget {
             }
         }
 
-        if (new Date(checkInDate) < new Date()) {
+        if (new Date(checkInDate) < new Date(moment().format('YYYY-MM-DD'))) {
             throw L.ERROR_CODE(500, '入住日期已过');
         }
         let budgets = await Promise.all( staffs.map( async (staff) => {

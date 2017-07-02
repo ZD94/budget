@@ -30,7 +30,7 @@ export default class ApiTravelBudget {
 
     static async getHotelBudget(params: IQueryHotelBudgetParams) :Promise<IHotelBudgetResult> {
         if (!params) {
-            throw L.ERROR_CODE_C(500, 'params not exist');
+            throw new L.ERROR_CODE_C(500, 'params not exist');
         }
 
         //酒店原始数据, 入住日期，离店日期，公司偏好，个人差旅标准，员工，是否同性合并
@@ -58,7 +58,7 @@ export default class ApiTravelBudget {
         }
 
         if (combineRoom) {
-            throw L.ERROR_CODE_C(502, '目前还不支持自动合并住宿');
+            throw new L.ERROR_CODE_C(502, '目前还不支持自动合并住宿');
         }
 
         if (!policies) {
@@ -98,7 +98,7 @@ export default class ApiTravelBudget {
         }
 
         if (new Date(checkInDate) < new Date(moment().format('YYYY-MM-DD'))) {
-            throw L.ERROR_CODE_C(500, '入住日期已过');
+            throw new L.ERROR_CODE_C(500, '入住日期已过');
         }
         let budgets = await Promise.all( staffs.map( async (staff) => {
             let policyKey = staff.policy || 'default';
@@ -165,7 +165,7 @@ export default class ApiTravelBudget {
         }
         for(let key in requiredParams) {
             if (!params[key]) {
-                throw L.ERROR_CODE_C(500, `缺少${requiredParams[key]}参数`);
+                throw new L.ERROR_CODE_C(500, `缺少${requiredParams[key]}参数`);
             }
         }
         if (!policies) {
@@ -183,7 +183,7 @@ export default class ApiTravelBudget {
             endTime = new Date(endTime);
         }
         if (beginTime < new Date()) {
-            throw L.ERROR_CODE_C(500, '出发日期已过');
+            throw new L.ERROR_CODE_C(500, '出发日期已过');
         }
 
         if (typeof fromCity == 'string') {

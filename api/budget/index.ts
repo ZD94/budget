@@ -201,7 +201,7 @@ export default class ApiTravelBudget {
                     destination: toCity.id
                 });
             }
-            if(Config.isUsingFakeData) {
+            if(!Config.isUsingFakeData) {
                 tickets = await API.traffic.search_tickets({
                     leaveDate: moment(beginTime).format('YYYY-MM-DD'),
                     originPlace: fromCity.id,

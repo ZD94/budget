@@ -77,24 +77,13 @@ export default class ApiTravelBudget {
             companyPrefers = [];
         }
         if (!hotels || !hotels.length) {
-            if (Config.isUsingFakeData) {
-                hotels = await API.fakeHotels.search_hotels({
-                    checkInDate,
-                    checkOutDate,
-                    city: city.id,
-                    latitude: location && location.latitude ? location.latitude : city.latitude,
-                    longitude: location && location.longitude ? location.longitude : city.longitude,
-                })
-            }
-            if (!Config.isUsingFakeData) {
-                hotels = await API.hotels.search_hotels({
-                    checkInDate,
-                    checkOutDate,
-                    city: city.id,
-                    latitude: location && location.latitude ? location.latitude : city.latitude,
-                    longitude: location && location.longitude ? location.longitude : city.longitude,
-                })
-            }
+            hotels = await API.hotels.search_hotels({
+                checkInDate,
+                checkOutDate,
+                city: city.id,
+                latitude: location && location.latitude ? location.latitude : city.latitude,
+                longitude: location && location.longitude ? location.longitude : city.longitude,
+            })
         }
 
         if (new Date(checkInDate) < new Date(moment().format('YYYY-MM-DD'))) {
@@ -194,20 +183,11 @@ export default class ApiTravelBudget {
         }
 
         if (!tickets) {
-            if(Config.isUsingFakeData) {
-                tickets = await API.fakeTraffic.search_tickets({
-                    leaveDate: moment(beginTime).format('YYYY-MM-DD'),
-                    originPlace: fromCity.id,
-                    destination: toCity.id
-                });
-            }
-            if(!Config.isUsingFakeData) {
-                tickets = await API.traffic.search_tickets({
-                    leaveDate: moment(beginTime).format('YYYY-MM-DD'),
-                    originPlace: fromCity.id,
-                    destination: toCity.id
-                })
-            }
+            tickets = await API.traffic.search_tickets({
+                leaveDate: moment(beginTime).format('YYYY-MM-DD'),
+                originPlace: fromCity.id,
+                destination: toCity.id
+            })
         }
 
         let staffBudgets = await Promise.all( staffs.map( async (staff) => {

@@ -19,7 +19,7 @@
   },
   "hosts": {
     "main":{"addr":"t.jingli365.com", "port":4201, "www":"https://${{hosts.main.addr}}"},
-    "fakedata": {"addr": "l.jingli365.com", "port": 14109}
+    "data": {"addr": "l.jingli365.com", "port": 14109}
   },
   "api": {
     "postgres": "${{postgres.url}}",
@@ -29,7 +29,7 @@
         "modules": ["place"]
       },
       {
-        "connect": {"host":"${{hosts.fakedata.addr}}", "port": "${{hosts.fakedata.port}}"},
+        "connect": {"host":"${{hosts.data.addr}}", "port": "${{hosts.data.port}}"},
         "modules": ["hotels","traffic"]
       }
       

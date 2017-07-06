@@ -7,8 +7,8 @@
 export const TASK_NAME = {
     TRAIN: ['ctrip-train-domestic', 'qunar-train-domestic'],
     TRAIN_EUR: ['ctrip-eurorail'],
-    FLIGHT: ['jingzhong-flight', 'ctrip-flight-domestic', 'skyscanner-flight'],
-    FLIGHT_ABROAD: ['skyscanner-flight', 'ctrip-flight-abroad'],
+    FLIGHT: ['phantom-ctrip-flight', 'jingzhong-flight', 'skyscanner-flight'],
+    FLIGHT_ABROAD: ['phantom-ctrip-flight', 'skyscanner-flight'],
     HOTEL: ['ctrip-hotel-domestic'],
     HOTEL_ABROAD: ['ctrip-hotel-abroad']
 }

@@ -285,7 +285,7 @@ export default class ApiTravelBudget {
                 let lastIdx = segments.length -1;
                 let segment: ISegment = {
                     city: backCity,
-                    beginTime: null,
+                    beginTime: moment(segments[lastIdx].endTime).format('YYYY-MM-DD 18:00:00'),
                     endTime: segments[lastIdx].endTime,
                     noHotel: true,
                 }

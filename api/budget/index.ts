@@ -25,14 +25,16 @@ import {ICity, CityService} from "_types/city";
 import {countDays} from "./helper";
 var API = require("@jingli/dnode-api");
 var Config = require("@jingli/config");
+import Logger from "@jingli/logger";
+var logger = new Logger("budget");
 
 export default class ApiTravelBudget {
 
-    static async getHotelBudget(params: IQueryHotelBudgetParams) :Promise<IHotelBudgetResult> {
+    static async getHotelBudget(params: IQueryHotelBudgetParams): Promise<IHotelBudgetResult> {
         if (!params) {
             throw new L.ERROR_CODE_C(500, 'params not exist');
         }
-
+        logger.info("Call getHotelBudget params:", params)
         //酒店原始数据, 入住日期，离店日期，公司偏好，个人差旅标准，员工，是否同性合并
         let {
             hotels,
@@ -141,7 +143,8 @@ export default class ApiTravelBudget {
         return budgets;
     }
 
-    static async getTrafficBudget(params: IQueryTrafficBudgetParams) :Promise<ITrafficBudgetResult> {
+    static async getTrafficBudget(params: IQueryTrafficBudgetParams): Promise<ITrafficBudgetResult> {
+        logger.info("Call getTrafficBudget params:", params)
         //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
         let {fromCity, toCity, beginTime, endTime, policies, preferSet, tickets, staffs, isRetMarkedData} = params;
         let requiredParams = {

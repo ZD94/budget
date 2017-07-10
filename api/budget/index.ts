@@ -209,8 +209,6 @@ export default class ApiTravelBudget {
                 }
             }
 
-            console.log("交通===>", qs)
-
             let allPrefers;
             if ((<ICity>fromCity).isAbroad || (<ICity>toCity).isAbroad) {
                 let key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_TRAFFIC;

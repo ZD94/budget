@@ -204,10 +204,12 @@ export default class ApiTravelBudget {
                     expectTrainCabins: trainSeat,
                     expectFlightCabins: cabin,
                     leaveDate: moment(beginTime).format("YYYY-MM-DD"),
-                    earliestLeaveDateTime: endTime,
-                    latestArrivalDateTime: beginTime,
+                    endTime: endTime,
+                    beginTime: beginTime,
                 }
             }
+
+            console.log("交通===>", qs)
 
             let allPrefers;
             if ((<ICity>fromCity).isAbroad || (<ICity>toCity).isAbroad) {
@@ -285,8 +287,8 @@ export default class ApiTravelBudget {
                 let lastIdx = segments.length -1;
                 let segment: ISegment = {
                     city: backCity,
-                    beginTime: segments[lastIdx].endTime,
-                    endTime: moment(segments[lastIdx].endTime).format('YYYY-MM-DD 21:00'),
+                    beginTime: null,
+                    endTime: segments[lastIdx].endTime,
                     noHotel: true,
                 }
                 segments.push(segment);

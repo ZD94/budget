@@ -146,7 +146,7 @@ export default class ApiTravelBudget {
     static async getTrafficBudget(params: IQueryTrafficBudgetParams): Promise<ITrafficBudgetResult> {
         logger.info("Call getTrafficBudget params:", params)
         //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
-        let {fromCity, toCity, beginTime, endTime, policies, preferSet, tickets, staffs, isRetMarkedData} = params;
+        let { fromCity, toCity, latestArrivalTime, earliestDepartTime, policies, preferSet, tickets, staffs, isRetMarkedData} = params;
         let requiredParams = {
             fromCity: "出发城市",
             toCity: '目的地',
@@ -167,14 +167,14 @@ export default class ApiTravelBudget {
             preferSet = {};
         }
 
-        if (typeof beginTime == 'string') {
-            beginTime = new Date(beginTime);
+        if (typeof latestArrivalTime == 'string') {
+            latestArrivalTime = new Date(latestArrivalTime);
         }
 
-        if (typeof endTime == 'string') {
-            endTime = new Date(endTime);
+        if (typeof earliestDepartTime == 'string') {
+            earliestDepartTime = new Date(earliestDepartTime);
         }
-        if (beginTime < new Date()) {
+        if (latestArrivalTime < new Date()) {
             throw new L.ERROR_CODE_C(500, '出发日期已过');
         }
 
@@ -187,7 +187,7 @@ export default class ApiTravelBudget {
 
         if (!tickets) {
             tickets = await API.traffic.search_tickets({
-                leaveDate: moment(beginTime).format('YYYY-MM-DD'),
+                leaveDate: moment(latestArrivalTime).format('YYYY-MM-DD'),
                 originPlace: fromCity.id,
                 destination: toCity.id
             })
@@ -203,9 +203,9 @@ export default class ApiTravelBudget {
                 local: {
                     expectTrainCabins: trainSeat,
                     expectFlightCabins: cabin,
-                    leaveDate: moment(beginTime).format("YYYY-MM-DD"),
-                    endTime: endTime,
-                    beginTime: beginTime,
+                    leaveDate: moment(latestArrivalTime).format("YYYY-MM-DD"),
+                    earliestDepartTime: earliestDepartTime,
+                    latestArrivalTime: latestArrivalTime,
                 }
             }
 
@@ -229,8 +229,8 @@ export default class ApiTravelBudget {
             let strategy = await TrafficBudgetStrategyFactory.getStrategy({
                 fromCity,
                 toCity,
-                beginTime,
-                endTime,
+                latestArrivalTime,
+                earliestDepartTime,
                 policies,
                 prefers: allPrefers,
                 tickets,
@@ -305,8 +305,8 @@ export default class ApiTravelBudget {
                         staffs: seg.staffs && seg.staffs.length ? seg.staffs : staffs,
                         fromCity: fromCity,
                         toCity: toCity,
-                        beginTime: seg.beginTime,
-                        // endTime: seg.endTime,
+                        latestArrivalTime: seg.beginTime,
+                        earliestDepartTime: i > 0 ? segments[i-1].endTime: null,
                         preferSet,
                         tickets,
                         isRetMarkedData: isRetMarkedData,

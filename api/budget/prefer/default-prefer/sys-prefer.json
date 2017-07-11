@@ -47,14 +47,14 @@
             "name": "earliestGoBackTimePrefer",
             "options": {
                 "score": 100000,
-                "earliestGoBackTime": "<%=local.endTime%>"
+                "earliestGoBackTime": "<%=local.earliestDepartTime%>"
             }
         },
         {
             "name": "latestArrivalTimePrefer",
             "options": {
                 "score": 100000,
-                "latestArrivalTime": "<%=local.beginTime%>"
+                "latestArrivalTime": "<%=local.latestArrivalTime%>"
             }
         }
     ],

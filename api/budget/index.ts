@@ -70,7 +70,7 @@ export default class ApiTravelBudget {
             preferSet = {}
         }
         let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL;
-        let companyPrefers = preferSet["domesticHotel"];
+        let companyPrefers = preferSet["hotel"];
         if (city.isAbroad) {
             key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL
             companyPrefers = preferSet["abroadHotel"]
@@ -215,7 +215,7 @@ export default class ApiTravelBudget {
                 allPrefers = loadPrefers(preferSet["abroadTraffic"] || [], qs, key)
             } else {
                 let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET;
-                allPrefers = loadPrefers(preferSet["domesticTraffic"] || [], qs, key)
+                allPrefers = loadPrefers(preferSet["traffic"] || [], qs, key)
             }
             //追加员工特殊偏好
             if (typeof staffPolicy.trafficPrefer == 'number' && staffPolicy.trafficPrefer >= 0) {
@@ -269,7 +269,8 @@ export default class ApiTravelBudget {
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
         try {
-            let {policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity} = params;
+            let { policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity } = params;
+            logger.info('生成预算参数====>', params)
             let budgets = [];
             let cities = [];
             if (fromCity && typeof fromCity == 'string') {

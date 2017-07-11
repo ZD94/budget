@@ -174,7 +174,16 @@ export default class ApiTravelBudget {
         if (typeof earliestDepartTime == 'string') {
             earliestDepartTime = new Date(earliestDepartTime);
         }
-        if (latestArrivalTime < new Date()) {
+
+        if (!latestArrivalTime && !earliestDepartTime) { 
+            throw new L.ERROR_CODE_C(500, '最早出发，最晚到达时间不能同时为空');
+        }
+
+        if (latestArrivalTime && latestArrivalTime < new Date()) {
+            throw new L.ERROR_CODE_C(500, '出发日期已过');
+        }
+
+        if (earliestDepartTime && earliestDepartTime < new Date()) {
             throw new L.ERROR_CODE_C(500, '出发日期已过');
         }
 
@@ -187,7 +196,7 @@ export default class ApiTravelBudget {
 
         if (!tickets) {
             tickets = await API.traffic.search_tickets({
-                leaveDate: moment(latestArrivalTime).format('YYYY-MM-DD'),
+                leaveDate: moment(latestArrivalTime || earliestDepartTime).format('YYYY-MM-DD'),
                 originPlace: fromCity.id,
                 destination: toCity.id
             })
@@ -270,7 +279,6 @@ export default class ApiTravelBudget {
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
         try {
             let { policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity } = params;
-            logger.info('生成预算参数====>', params)
             let budgets = [];
             let cities = [];
             if (fromCity && typeof fromCity == 'string') {
@@ -286,7 +294,8 @@ export default class ApiTravelBudget {
                 let lastIdx = segments.length -1;
                 let segment: ISegment = {
                     city: backCity,
-                    beginTime: moment(segments[lastIdx].endTime).format('YYYY-MM-DD 18:00:00'),
+                    beginTime: null,
+                    // beginTime: moment(segments[lastIdx].endTime).format('YYYY-MM-DD 18:00:00'),
                     endTime: segments[lastIdx].endTime,
                     noHotel: true,
                 }

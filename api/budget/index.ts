@@ -194,9 +194,10 @@ export default class ApiTravelBudget {
             toCity = await CityService.getCity(toCity);
         }
 
+        let leaveDate = moment(latestArrivalTime || earliestDepartTime).format('YYYY-MM-DD');
         if (!tickets) {
             tickets = await API.traffic.search_tickets({
-                leaveDate: moment(latestArrivalTime || earliestDepartTime).format('YYYY-MM-DD'),
+                leaveDate: leaveDate,
                 originPlace: fromCity.id,
                 destination: toCity.id
             })
@@ -212,7 +213,7 @@ export default class ApiTravelBudget {
                 local: {
                     expectTrainCabins: trainSeat,
                     expectFlightCabins: cabin,
-                    leaveDate: moment(latestArrivalTime).format("YYYY-MM-DD"),
+                    leaveDate: leaveDate,
                     earliestDepartTime: earliestDepartTime,
                     latestArrivalTime: latestArrivalTime,
                 }

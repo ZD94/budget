@@ -214,8 +214,8 @@ export default class ApiTravelBudget {
                     expectTrainCabins: trainSeat,
                     expectFlightCabins: cabin,
                     leaveDate: leaveDate,
-                    earliestDepartTime: earliestDepartTime,
-                    latestArrivalTime: latestArrivalTime,
+                    earliestLeaveDateTime: earliestDepartTime,
+                    latestArrivalDateTime: latestArrivalTime,
                 }
             }
 

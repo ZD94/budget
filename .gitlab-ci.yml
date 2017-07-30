@@ -61,7 +61,7 @@ deploy:master:
     - docker tag $DOCKER_CI_NAME $DOCKER_BRANCH_NAME
     - docker push $DOCKER_BRANCH_NAME
     - echo deploy to https://budget.l.jingli365.com
-    - ssh test@l.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG -p 192.168.1.2:14103:4103
+    - ssh test@l.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG -p 0.0.0.0:14103:4103
 
 deploy:test:
   stage: deploy

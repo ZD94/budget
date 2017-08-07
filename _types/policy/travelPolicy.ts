@@ -5,8 +5,8 @@ import { Types, Values } from 'common/model';
 import {Table, Create, Field, ResolveRef, RemoteCall} from 'common/model/common';
 import { ModelObject } from 'common/model/object';
 import {PaginateInterface} from 'common/model/interface';
-import {CompanyRegion} from "_types/travelPolicy/companyRegion";
-import {RegionPlace} from "_types/travelPolicy/regionPlace";
+import {CompanyRegion} from "_types/policy/companyRegion";
+import {RegionPlace} from "_types/policy/regionPlace";
 var _ = require("lodash");
 const API = require("@jingli/dnode-api")
 

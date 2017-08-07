@@ -4,7 +4,7 @@ import {Table, Create, Field, ResolveRef, RemoteCall} from 'common/model/common'
 import { ModelObject } from 'common/model/object';
 import {RegionPlace} from "./regionPlace"
 import {TravelPolicy} from "./travelPolicy";
-import {Company} from "_types/company/"
+
 
 @Table(Models.companyRegion, "travelPolicy.companyRegion")
 export class CompanyRegion extends ModelObject{
@@ -24,9 +24,9 @@ export class CompanyRegion extends ModelObject{
     set name(val: string) {}
 
     //所属差旅标准
-    @ResolveRef({type: Types.UUID}, Models.company)
-    get company(): Company { return null; }
-    set company(val: Company) {}
+    @Field({type: Types.UUID})
+    get company(): string { return null; }
+    set company(val: string) {}
 
 
 }

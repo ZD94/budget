@@ -2,7 +2,7 @@ import {Models} from '_types';
 import { Types, Values } from 'common/model';
 import {Table, Create, Field, ResolveRef, RemoteCall} from 'common/model/common';
 import { ModelObject } from 'common/model/object';
-import {CompanyRegion} from "_types/travelPolicy/companyRegion";
+import {CompanyRegion} from "_types/policy/companyRegion";
 
 
 

@@ -7,7 +7,7 @@
 import {Budget, BudgetItem} from "_types/budget";
 import {createServerService} from "../common/model/sequelize";
 import {ModelsInterface, Models} from "../_types/index";
-import {TravelPolicy, TravelPolicyRegion, SubsidyTemplate, CompanyRegion, RegionPlace} from "_types/travelPolicy";
+import {TravelPolicy, TravelPolicyRegion, SubsidyTemplate, CompanyRegion, RegionPlace} from "_types/policy";
 
 export function initModels(models: ModelsInterface){
     for(let k in models){

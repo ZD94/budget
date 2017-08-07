@@ -6,7 +6,7 @@
 import {ModelInterface} from "../common/model/interface";
 import {ModelDelegate} from "../common/model/delegate";
 import {Budget, BudgetItem} from "_types/budget";
-import {TravelPolicy,SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionPlace} from "_types/travelPolicy";
+import {TravelPolicy,SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionPlace} from "_types/policy";
 
 export interface ModelsInterface {
     budget: ModelInterface<Budget>;

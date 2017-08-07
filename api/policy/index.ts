@@ -145,8 +145,7 @@ class TravelPolicyModule{
         return tp.save();
 
     }
-
-
+    
     static async updateTravelPolicyRegion(params) : Promise<TravelPolicyRegion>{
         var id = params.id;
         var tpr = await Models.travelPolicyRegion.get(id);

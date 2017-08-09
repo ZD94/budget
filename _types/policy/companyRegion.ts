@@ -25,8 +25,8 @@ export class CompanyRegion extends ModelObject{
 
     //所属差旅标准
     @Field({type: Types.UUID})
-    get company(): string { return null; }
-    set company(val: string) {}
+    get companyId(): string { return null; }
+    set companyId(val: string) {}
 
 
 }

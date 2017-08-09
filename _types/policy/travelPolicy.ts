@@ -251,9 +251,9 @@ export class TravelPolicyRegion extends ModelObject{
     // get travelPolicy(): TravelPolicy { return null; }
     // set travelPolicy(val: TravelPolicy) {}
 
-    @Field({type: Types.UUID})
-    get travelPolicyId(): string { return Values.UUIDV1(); }
-    set travelPolicyId(val: string) {}
+    @ResolveRef({type: Types.UUID}, Models.travelPolicy)
+    get travelPolicyId(): TravelPolicy { return Values.UUIDV1(); }
+    set travelPolicyId(val: TravelPolicy) {}
 
 
     // @ResolveRef({type: Types.UUID}, Models.companyRegion)
@@ -261,9 +261,9 @@ export class TravelPolicyRegion extends ModelObject{
     // set companyRegion(val: CompanyRegion) {}
 
 
-    @Field({type: Types.UUID})
-    get companyRegionId(): string { return Values.UUIDV1(); }
-    set companyRegionId(val: string) {}
+    @ResolveRef({type: Types.UUID}, Models.companyRegion)
+    get companyRegion(): CompanyRegion { return Values.UUIDV1(); }
+    set companyRegion(val: CompanyRegion) {}
 
     @Field({type: Types.ARRAY(Types.INTEGER)})
     get planeLevels(): EPlaneLevel[] {return null}
@@ -324,13 +324,13 @@ export class SubsidyTemplate extends ModelObject{
     set name(val: string) {}
 
     //所属差旅标准
-    // @ResolveRef({type: Types.UUID}, Models.travelPolicy)
-    // get travelPolicy(): TravelPolicy { return null; }
-    // set travelPolicy(val: TravelPolicy) {}
+    @ResolveRef({type: Types.UUID}, Models.travelPolicy)
+    get travelPolicy(): TravelPolicy { return null; }
+    set travelPolicy(val: TravelPolicy) {}
 
-    @Field({type: Types.UUID})
-    get travelPolicyId(): string { return null; }
-    set travelPolicyId(val: string) {}
+    // @Field({type: Types.UUID})
+    // get travelPolicyId(): string { return null; }
+    // set travelPolicyId(val: string) {}
 
 
     @Field({type: Types.BOOLEAN})

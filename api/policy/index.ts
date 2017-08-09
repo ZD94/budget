@@ -145,7 +145,7 @@ class TravelPolicyModule{
         return tp.save();
 
     }
-    
+
     static async updateTravelPolicyRegion(params) : Promise<TravelPolicyRegion>{
         var id = params.id;
         var tpr = await Models.travelPolicyRegion.get(id);
@@ -181,7 +181,7 @@ class TravelPolicyModule{
     }
 
 
-    static async getTravelPolicy(params: {id: string, companyId?: string}) : Promise<TravelPolicy>{
+    static async getTravelPolicy(params: {id:string}) : Promise<TravelPolicy>{
         let id = params.id;
         //var staff = await Staff.getCurrent();
         var tp = await Models.travelPolicy.get(id);
@@ -213,20 +213,12 @@ class TravelPolicyModule{
     // }
 
     // 必须传入 travelPolicyRegionId, companyId
-    static async getTravelPolicies(params): Promise<FindResult>{
+    static async getTravelPolicies(params): Promise<PaginateInterface<TravelPolicy>>{
         // var staff = await Staff.getCurrent();
-
+        // console.log("====>parmas; ", params);
         params.order = params.order || [['createdAt', 'desc']];
 
-        // if(staff){
-        //     params.where.companyId = staff["companyId"];//只允许查询该企业下的差旅标准
-        // }
-
-        let paginate = await Models.travelPolicy.find(params);
-        let ids =  paginate.map(function(t){
-            return t.id;
-        })
-        return {ids: ids, count: paginate['total']};
+        return Models.travelPolicy.find(params);
     }
 
 
@@ -303,14 +295,15 @@ class TravelPolicyModule{
     };
 
 
-    static async getSubsidyTemplates(params): Promise<FindResult>{
+    static async getSubsidyTemplates(params): Promise<PaginateInterface<SubsidyTemplate>>{
         params.order = params.order || [['subsidyMoney', 'desc']];
 
         let paginate = await Models.subsidyTemplate.find(params);
-        let ids =  paginate.map(function(t){
-            return t.id;
-        })
-        return {ids: ids, count: paginate['total']};
+        return paginate;
+        // let ids =  paginate.map(function(t){
+        //     return t.id;
+        // })
+        // return {ids: ids, count: paginate['total']};
     }
     /*************************************补助模板end***************************************/
 
@@ -321,13 +314,16 @@ class TravelPolicyModule{
         return tpr;
     }
 
-    static async getTravelPolicyRegions(params): Promise<FindResult>{
+    static async getTravelPolicyRegions(params): Promise<PaginateInterface<TravelPolicyRegion>>{
         params.order = params.order || [['created_at', 'desc']];
         let paginate = await Models.travelPolicyRegion.find(params);
-        let ids =  paginate.map(function(t){
-            return t.id;
-        })
-        return {ids: ids, count: paginate['total']};
+        console.log("=====> parmas: ", params);
+        // console.log("=====> paginate: ", paginate);
+        return paginate;
+        // let ids =  paginate.map(function(t){
+        //     return t.id;
+        // })
+        // return {ids: ids, count: paginate['total']};
     }
 
 
@@ -344,12 +340,21 @@ class TravelPolicyModule{
     };
 
 
-    static async getCompanyRegions(params) : Promise<FindResult>{
-        let paginate = await Models.companyRegion.find(params);
-        let ids =  paginate.map(function(t){
-            return t.id;
-        })
-        return {ids: ids, count: paginate['total']};
+    static async getCompanyRegions(params) : Promise<PaginateInterface<CompanyRegion>>{
+        console.log("====>getCompanyRegion: ", params);
+        let paginate;
+        try{
+            paginate = await Models.companyRegion.find(params);
+        }catch(err){
+            console.log(err)
+        }
+
+        console.log("====> paginate: ", paginate);
+        return paginate;
+        // let ids =  paginate.map(function(t){
+        //     return t.id;
+        // })
+        // return {ids: ids, count: paginate['total']};
     };
 
 
@@ -375,18 +380,19 @@ class TravelPolicyModule{
     static async getRegionPlace(params: {id: string}) : Promise<RegionPlace>{
         let id = params.id;
         var cregion = await Models.regionPlace.get(id);
-        console.log("cregion: ", cregion);
+        // console.log("cregion: ", cregion);
         return cregion;
     };
 
     @clientExport
     @requireParams(["where.id","where.companyId","where.name"])
-    static async getRegionPlaces(params) : Promise<FindResult>{
+    static async getRegionPlaces(params) : Promise<PaginateInterface<RegionPlace>>{
         let paginate = await Models.regionPlace.find(params);
-        let ids =  paginate.map(function(t){
-            return t.id;
-        })
-        return {ids: ids, count: paginate['total']};
+        return paginate;
+        // let ids =  paginate.map(function(t){
+        //     return t.id;
+        // })
+        // return {ids: ids, count: paginate['total']};
     };
 
     @clientExport

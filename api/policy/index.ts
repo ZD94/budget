@@ -9,7 +9,7 @@ import L from '@jingli/language';
 import {requireParams, clientExport} from '@jingli/dnode-api/dist/src/helper';
 // import {conditionDecorator, condition} from "../_decorator";
 // import {Staff, EStaffStatus,EStaffRole} from "_types/staff";
-import { TravelPolicy, SubsidyTemplate,TravelPolicyRegion,CompanyRegion,RegionPlace } from '_types/policy';
+import { TravelPolicy, SubsidyTemplate,TravelPolicyRegion,CompanyRegion,RegionPlace, EHotelLevel, EPlaneLevel, ETrainLevel, TravelPolicy } from '_types/policy';
 import { Models } from '_types';
 import { FindResult, PaginateInterface } from "common/model/interface";
 import setPrototypeOf = Reflect.setPrototypeOf;
@@ -23,6 +23,32 @@ const regionPlaceCols = RegionPlace['$fieldnames'];
 let API = require("@jingli/dnode-api");
 import {DefaultRegion} from "_types/policy"
 class TravelPolicyModule{
+
+    async getDefaultTravelPolicy(params: {companyId: string}): Promise<TravelPolicy> {
+        let {companyId } = params;
+        let self = this;
+        var tps = await Models.travelPolicy.find({where: {companyId: companyId, isDefault: true}});
+        if(tps && tps.length>0){
+            return tps[0];
+        } else {
+            tps = await Models.travelPolicy.find({where: {companyId: companyId}});
+            if (tps && tps.length) {
+                return tps[0];
+            }
+
+            let travelPolicy = TravelPolicy.create({
+                name: '默认标准',
+                planeLevels: [EPlaneLevel.ECONOMY],
+                trainLevels: [ETrainLevel.SECOND_SEAT],
+                hotelLevels: [EHotelLevel.THREE_STAR], subsidy: 0,
+                isDefault: true,
+                companyId: companyId
+            });
+            travelPolicy = await travelPolicy.save();
+            return travelPolicy;
+        }
+    }
+
 
     // 必须获取的参数： name, companyId, isOpenAbroad, isDefault
     static async createTravelPolicy (params) : Promise<TravelPolicy>{

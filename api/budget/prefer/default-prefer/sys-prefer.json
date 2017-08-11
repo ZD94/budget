@@ -56,6 +56,15 @@
                 "score": 100000,
                 "latestArrivalTime": "<%=local.latestArrivalTime%>"
             }
+        },
+        {
+            "name": "compareTrainPlanPrice",
+            "options": {
+                "score": 80000,
+                "msg"  : "之后放入到公司设置中,  M 与 N 二选一",
+                "M"    : "10%",
+                "N"    : 100
+            }
         }
     ],
     "abroadTraffic": [

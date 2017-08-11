@@ -9,7 +9,7 @@ import L from '@jingli/language';
 import {requireParams, clientExport} from '@jingli/dnode-api/dist/src/helper';
 // import {conditionDecorator, condition} from "../_decorator";
 // import {Staff, EStaffStatus,EStaffRole} from "_types/staff";
-import { TravelPolicy, SubsidyTemplate,TravelPolicyRegion,CompanyRegion,RegionPlace, EHotelLevel, EPlaneLevel, ETrainLevel, TravelPolicy } from '_types/policy';
+import { TravelPolicy, SubsidyTemplate,TravelPolicyRegion,CompanyRegion,RegionPlace, EHotelLevel, EPlaneLevel, ETrainLevel } from '_types/policy';
 import { Models } from '_types';
 import { FindResult, PaginateInterface } from "common/model/interface";
 import setPrototypeOf = Reflect.setPrototypeOf;
@@ -22,7 +22,7 @@ const regionPlaceCols = RegionPlace['$fieldnames'];
 
 let API = require("@jingli/dnode-api");
 import {DefaultRegion} from "_types/policy"
-class TravelPolicyModule{
+export default class TravelPolicyModule{
 
     async getDefaultTravelPolicy(params: {companyId: string}): Promise<TravelPolicy> {
         let {companyId } = params;
@@ -437,6 +437,32 @@ class TravelPolicyModule{
 
     /*************************************地区设置(RegionPlace)end***************************************/
 
+//此端获取参数为
+    // method： create、update、delete、getTravelPolicy, getTravelPolicies
+    // models: travelPolicy, travelPolicyRegion, subsidyTemplate、CompanyRegion、RegionPlace
+
+    static __initHttpApp(app) {
+
+        // async function getOrCreateOrUpdateOrdeleteTarget(model:string, method:string, params:any){
+        //     let method = method + model;
+        //     let result = await TravelPolicyModule[method](params);
+        //     return result;
+        // }
+        //
+        // async function getTargets(model:string, method:string, params:any){
+        //     let method = 'get' + model;
+        //     let result = await TravelPolicyModule[method](params);
+        //     return result;
+        // }
+
+        //所有的travelPolicy、 travelPolicyRegion、subsidyTemplate、CompanyRegion、RegionPace
+        //都使用同一个请求地址。在该函数中实现统一处理，5 种处理方式
+        app.get("/policy/", async function(req, res, next){
+            let {method, params} = req;
+            let result = TravelPolicyModule[method](params);
+
+        });
+    }
 }
 
 function tryConvertToArray(val) {
@@ -446,4 +472,11 @@ function tryConvertToArray(val) {
     return val;
 }
 
-export = TravelPolicyModule;
+
+
+
+
+
+
+
+

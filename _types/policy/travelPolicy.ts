@@ -175,7 +175,7 @@ export class TravelPolicy extends ModelObject{
     }
 
     @RemoteCall()
-    async getBestTravelPolicys(params: {placeId: string, type:string}):Promise<any> {
+    async getBestTravelPolicy(params: {placeId: string, type:string}):Promise<any> {
         let {placeId,type} = params;
         let self = this;
         let placeid = placeId;
@@ -252,8 +252,8 @@ export class TravelPolicyRegion extends ModelObject{
     // set travelPolicy(val: TravelPolicy) {}
 
     @ResolveRef({type: Types.UUID}, Models.travelPolicy)
-    get travelPolicyId(): TravelPolicy { return Values.UUIDV1(); }
-    set travelPolicyId(val: TravelPolicy) {}
+    get travelPolicy(): TravelPolicy { return Values.UUIDV1(); }
+    set travelPolicy(val: TravelPolicy) {}
 
 
     // @ResolveRef({type: Types.UUID}, Models.companyRegion)

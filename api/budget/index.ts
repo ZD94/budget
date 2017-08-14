@@ -27,7 +27,8 @@ var API = require("@jingli/dnode-api");
 var Config = require("@jingli/config");
 import Logger from "@jingli/logger";
 var logger = new Logger("budget");
-
+import { TravelPolicy} from "_types/policy";
+export var NoCityPriceLimit = 0;
 export default class ApiTravelBudget {
 
     static async getHotelBudget(params: IQueryHotelBudgetParams): Promise<IHotelBudgetResult> {
@@ -123,6 +124,26 @@ export default class ApiTravelBudget {
                 location,
             }, {isRecord: true});
             let budget = await strategy.getResult(hotels, isRetMarkedData);
+
+            let maxPriceLimit = 0;
+            let minPriceLimit = 0;
+            let days: number = 0;
+
+            let beginTime = moment(params.checkInDate).hour(12);
+            let endTime = moment(params.checkOutDate).hour(12);
+            days = moment(endTime).diff(beginTime,'days');
+
+            let selector:string;
+            if(!city['isAbroad']) {
+                 selector = 'domestic'
+            } else {
+                selector = 'abroad';
+            }
+
+            maxPriceLimit = policies[selector].maxPriceLimit;
+            minPriceLimit = policies[selector].minPriceLimit;
+
+            budget.price = ApiTravelBudget.limitHotelBudgetByPrefer(minPriceLimit * days,maxPriceLimit * days,budget.price);
 
             let hotelBudget: IHotelBudgetItem = {
                 id: budget.id,
@@ -277,9 +298,32 @@ export default class ApiTravelBudget {
         return staffBudgets;
     }
 
+    static limitHotelBudgetByPrefer(min: number, max:number, hotelBudget: number){
+        if(hotelBudget == -1) {
+            if(max != NoCityPriceLimit) return max;
+            return hotelBudget;
+        }
+        if(min == NoCityPriceLimit && max == NoCityPriceLimit) return hotelBudget;
+
+        if(max != NoCityPriceLimit && min > max) {
+            let tmp = min;
+            min = max;
+            max = tmp;
+        }
+
+        if(hotelBudget > max ) {
+            if(max != NoCityPriceLimit) return max;
+        }
+        if(hotelBudget < min ) {
+            if(min != NoCityPriceLimit) return min;
+        }
+        return hotelBudget;
+    }
+
+
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
         try {
-            let { policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity } = params;
+            let { policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId } = params;
             let budgets = [];
             let cities = [];
             if (fromCity && typeof fromCity == 'string') {
@@ -310,9 +354,32 @@ export default class ApiTravelBudget {
                 if (typeof toCity == 'string') {
                     toCity = await CityService.getCity(toCity);
                 }
+                let tp: TravelPolicy;
+                if(travelPolicyId) {
+                    tp = await Models.travelPolicy.get(travelPolicyId);
+                }
                 if (fromCity && !seg.noTraffic) {
+                    if(tp){
+                        if(toCity["isAbroad"]){
+                            policies = {
+                                abroad:{
+                                    cabin: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "planeLevels"}),
+                                    trainSeat: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trainLevels"}),
+                                    trafficPrefer: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trafficPrefer"}),
+                                }
+                            }
+                        }
+                        if(!toCity["isAbroad"]){
+                            policies = {
+                                domestic:{
+                                    cabin: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "planeLevels"}),
+                                    trafficPrefer: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trafficPrefer"}),
+                                }
+                            }
+                        }
+                    }
                     let trafficParams = {
-                        policies,
+                        policies: policies,
                         staffs: seg.staffs && seg.staffs.length ? seg.staffs : staffs,
                         fromCity: fromCity,
                         toCity: toCity,
@@ -330,11 +397,34 @@ export default class ApiTravelBudget {
                 //判断停留时间是否跨天
                 let timezone = toCity.timezone || 'Asia/Shanghai';
                 if (!seg.noHotel && countDays(seg.endTime, seg.beginTime, timezone) > 0) {
+                    if(tp) {
+                        if(toCity["isAbroad"]){
+                            policies = {
+                                abroad:{
+                                    hotelLevels: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
+                                    hotelPrefer: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelPrefer"}),
+                                    maxPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "maxPriceLimit"}),
+                                    minPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "minPriceLimit"}),
+                                }
+                            }
+                        }
+                        if(!toCity["isAbroad"]){
+                            policies = {
+                                domestic:{
+                                    hotelLevels: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
+                                    hotelPrefer: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelPrefer"}),
+                                    maxPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "maxPriceLimit"}),
+                                    minPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "minPriceLimit"}),
+                                }
+                            }
+                        }
+                    }
+
                     let checkOutDate = moment(seg.endTime).tz(timezone).format("YYYY-MM-DD")
                     let checkInDate = moment(seg.beginTime).tz(timezone).format("YYYY-MM-DD")
                     let days = moment(checkOutDate).diff(checkInDate, 'days');
                     let hotelParams = {
-                        policies,
+                        policies: policies,
                         staffs,
                         city: toCity,
                         checkInDate: checkInDate,

@@ -21,9 +21,6 @@ class compareTrainPlanPrice extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
         }
         this.policies = options.policies;
         this.options = options;
-
-        console.log("compareTrainPlanPrice === > constructor ");
-
     }
 
     async markScoreProcess(data: (IFinalHotel|IFinalTicket)[]): Promise<(IFinalHotel|IFinalTicket)[]> {
@@ -43,8 +40,6 @@ class compareTrainPlanPrice extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
                 trainBasePrice = item.price;
             }
         }
-
-        console.log("计算火车基准价格===>", trainBasePrice);
         
         let planPrice = 0;
         if(this.options.M){
@@ -54,12 +49,11 @@ class compareTrainPlanPrice extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
             planPrice = this.options.N + trainBasePrice;
         }
 
-        console.log("飞机基准价=====>", planPrice);
-
         for(let item of data){
             if(item.type == ETrafficType.PLANE && item.price <= planPrice){
                 item.score = item.score || 0;
                 item.score += this.options.score;
+                item.reasons.push("机票价低于火车基准价 80000");
             }
         }
 

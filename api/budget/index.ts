@@ -442,7 +442,7 @@ export default class ApiTravelBudget {
         }
 
     }
-    
+
     static __initHttpApp(app) {
         app.use('/api/v1', v1);
     }

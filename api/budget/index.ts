@@ -142,8 +142,7 @@ export default class ApiTravelBudget {
 
             maxPriceLimit = policies[selector].maxPriceLimit;
             minPriceLimit = policies[selector].minPriceLimit;
-
-            budget.price = ApiTravelBudget.limitHotelBudgetByPrefer(minPriceLimit * days,maxPriceLimit * days,budget.price);
+            budget.price = await ApiTravelBudget.limitHotelBudgetByPrefer(minPriceLimit * days,maxPriceLimit * days,budget.price);
 
             let hotelBudget: IHotelBudgetItem = {
                 id: budget.id,
@@ -322,8 +321,8 @@ export default class ApiTravelBudget {
 
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
-        try {
-            let { policies, staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId } = params;
+        try {  //policies,
+            let {  staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId } = params;
             let budgets = [];
             let cities = [];
             if (fromCity && typeof fromCity == 'string') {
@@ -346,7 +345,7 @@ export default class ApiTravelBudget {
                 }
                 segments.push(segment);
             }
-
+            let policies:any = {};
             let tasks: Promise<any>[] = [];
             for(var i=0, ii=segments.length; i<ii; i++) {
                 let seg = segments[i];
@@ -419,7 +418,6 @@ export default class ApiTravelBudget {
                             }
                         }
                     }
-
                     let checkOutDate = moment(seg.endTime).tz(timezone).format("YYYY-MM-DD")
                     let checkInDate = moment(seg.beginTime).tz(timezone).format("YYYY-MM-DD")
                     let days = moment(checkOutDate).diff(checkInDate, 'days');

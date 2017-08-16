@@ -14,6 +14,7 @@ const moment = require('moment');
 const cache = require("common/cache");
 const utils = require("common/utils");
 import _ = require("lodash");
+import v1 = require("./www/v1");
 
 import {
     TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory
@@ -441,6 +442,11 @@ export default class ApiTravelBudget {
         }
 
     }
+    
+    static __initHttpApp(app) {
+        app.use('/api/v1', v1);
+    }
+
 }
 
 function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: boolean) :FinalBudgetResultInterface {

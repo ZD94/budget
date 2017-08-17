@@ -102,6 +102,7 @@ export class ISubsidyTemplate {
 }
 
 let API = require("@jingli/dnode-api");
+import route = require("../../app");
 import {DefaultRegion, DefaultRegionId,TravelPolicyType} from "_types/policy";
 export default class TravelPolicyModule{
 
@@ -570,47 +571,27 @@ export default class TravelPolicyModule{
 
     /*************************************地区设置(RegionPlace)end***************************************/
 
-//此端获取参数为
-    // method： create、update、delete、getTravelPolicy, getTravelPolicies
-    // models: travelPolicy, travelPolicyRegion, subsidyTemplate、CompanyRegion、RegionPlace
-
-    static __initHttpApp(app) {
-
-        // async function getOrCreateOrUpdateOrdeleteTarget(model:string, method:string, params:any){
-        //     let method = method + model;
-        //     let result = await TravelPolicyModule[method](params);
-        //     return result;
-        // }
-        //
-        // async function getTargets(model:string, method:string, params:any){
-        //     let method = 'get' + model;
-        //     let result = await TravelPolicyModule[method](params);
-        //     return result;
-        // }
-
-        //所有的travelPolicy、 travelPolicyRegion、subsidyTemplate、CompanyRegion、RegionPace
-        //都使用同一个请求地址。在该函数中实现统一处理，5 种处理方式
-        console.log("======> initHttpApp: ");
-        app.post("/policy/", async function(req, res, next){
-            // let {method, params} = req;
-            console.log("=====> param: ", req.body);
-            let body = req.body;
-            let {fields, method} = req.body;
-            let result =await TravelPolicyModule[method](fields);
-           
-            console.log(result);
-            res.json(result);
-            // res.json("hello world: ");
-        });
-        app.get("/policy/info", async function(req, res, next){
-            // let {method, params} = req;
-            console.log("=====> param: ", req);
-            // let result = TravelPolicyModule[method](params);
-            // res.json(result);
-            res.json("hello world: ");
-        });
-    }
 }
+
+// app.post("/policy/", async function(req, res, next){
+//     // let {method, params} = req;
+//     console.log("=====> param: ", req.body);
+//     let body = req.body;
+//     let {fields, method} = req.body;
+//     let result =await TravelPolicyModule[method](fields);
+//
+//     console.log(result);
+//     res.json(result);
+//     // res.json("hello world: ");
+// });
+// app.get("/policy/info", async function(req, res, next){
+//     // let {method, params} = req;
+//     console.log("=====> param: ", req);
+//     // let result = TravelPolicyModule[method](params);
+//     // res.json(result);
+//     res.json("hello world: ");
+// });
+
 
 function tryConvertToArray(val) {
     if (val && !_.isArray(val)) {

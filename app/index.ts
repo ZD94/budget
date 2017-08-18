@@ -1,40 +1,35 @@
-
 import {modelRestfulHelper} from "./route-helper";
 var express = require("express");
-//
+import commonResp = require("./resp");
 var route = express();
+route.use(commonResp);
 
-route.get('/:model', async function(req, res){
-    console.log("get", req.params);
-    res.json("hello world");
-});
-//
-// route.post('/:model', async function(req, res){
-//     console.log("get", req.params);
-//     res.json("hello world");
-// });
-//
-// route.put('/:model/:id', async function(req, res){
-//     console.log("get", req.params);
-//     res.json("hello world");
-// });
-//
-// route.delete('/:model/:id', async function(req, res){
-//     console.log("get", req.params);
-//     res.json("hello world");
-// });
+let tpRegister = modelRestfulHelper('travelPolicy',
+    {methods: ["find","get","create","update","delete"], query:["companyId", 'id']});
 
-let initializer = modelRestfulHelper('travelPolicy', {methods: ["find"]});
-initializer(route);
+let tprRegister = modelRestfulHelper('travelPolicyRegion',
+    {methods: ["find"], query:['companyId', 'id', 'travelPolicyId','companyRegionId']});
 
+let crRegister = modelRestfulHelper('companyRegion',
+    {methods: ["find"], query:['companyId','id']});
 
-// modelRestfulHelper('travelPolicyRegion', {});
-// modelRestfulHelper('subsidyTemplate', {});
-// modelRestfulHelper('companyRegion', {});
-// modelRestfulHelper('regionPlace', {});
-// modelRestfulHelper('budget', {methods: ["create"]})
+let rpRegister = modelRestfulHelper('regionPlace',
+    {methods: ["find"], query:['companyId','id','companyRegionId']});
 
+let stRegister = modelRestfulHelper('subsidyTemplate',
+    {methods: ["find"], query:['companyId','id', 'travelPolicyId']});
+
+tpRegister(route);
+tprRegister(route)
+crRegister(route)
+rpRegister(route)
+stRegister(route)
 export = route;
+
+
+
+
+
 
 // app.post("/policy", async function(req, res, next){
 //     // let {method, params} = req;
@@ -56,5 +51,18 @@ export = route;
 // });
 
 
+// req.query  用于获取使用？传递参数的参数
+// req.params 用于获取使用/: 获取参数的参数
+// req.data  存储post请求
 
-
+//
+// route.get('/model/:id*?/:companyId*?', async function(req, res){
+//     console.log("data", req.data);
+//     // console.log("route", req.route);
+//     console.log("query", req.query);
+//     console.log("params", req.params);
+//     // console.log("param", req.param);
+//     console.log("url", req.url);
+//     // console.log("req", req);
+//     res.json("hello world");
+// });

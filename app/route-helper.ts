@@ -16,7 +16,6 @@ const tableFields = {
 }
 // console.log(tableFields);
 
-
 const ModelList = {
     travelPolicy: TravelPolicy,
     travelPolicyRegion: TravelPolicyRegion,
@@ -94,8 +93,6 @@ export function modelRestfulHelper(model, options) {
                 }
             }
         }
-
-
     }
 }
 
@@ -106,7 +103,6 @@ export async function registerFind(params) {
     app[method](path,  async (req, res, next) => {
         let params = req.params;
         let query = {where:{$or:[]}};
-
         for(let key in params) {
             if (tableFields[model].indexOf(key) >= 0 && params[key]) {
                 let field = {};

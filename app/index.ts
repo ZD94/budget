@@ -8,22 +8,31 @@ let tpRegister = modelRestfulHelper('travelPolicy',
     {methods: ["find","get","create","update","delete"], query:["companyId", 'id']});
 
 let tprRegister = modelRestfulHelper('travelPolicyRegion',
-    {methods: ["find"], query:['companyId', 'id', 'travelPolicyId','companyRegionId']});
+    {methods: ["find","get","create","update","delete"], query:['companyId', 'id', 'travelPolicyId','companyRegionId']});
 
 let crRegister = modelRestfulHelper('companyRegion',
-    {methods: ["find"], query:['companyId','id']});
+    {methods: ["find","get","create","update","delete"], query:['companyId','id']});
 
 let rpRegister = modelRestfulHelper('regionPlace',
-    {methods: ["find"], query:['companyId','id','companyRegionId']});
+    {methods: ["find","get","create","update","delete"], query:['companyId','id','companyRegionId']});
 
 let stRegister = modelRestfulHelper('subsidyTemplate',
-    {methods: ["find"], query:['companyId','id', 'travelPolicyId']});
+    {methods: ["find","get","create","update","delete"], query:['companyId','id', 'travelPolicyId']});
 
 tpRegister(route);
-tprRegister(route)
-crRegister(route)
-rpRegister(route)
-stRegister(route)
+tprRegister(route);
+crRegister(route);
+rpRegister(route);
+stRegister(route);
+
+
+
+//自定义路由
+route.post('/travelPolicy/:companyId/isDefault', async function(res){
+
+});
+
+
 export = route;
 
 

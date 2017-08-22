@@ -4,15 +4,14 @@
 
 
 'use strict';
-import {IFinalTicket, IFinalHotel, ETrafficType} from "_types/budget";
+import {IFinalTicket,  ETrafficType} from "_types/budget";
 import {AbstractPrefer} from "./index";
 
 
-class compareTrainPlanPrice extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
+class compareTrainPlanPrice extends AbstractPrefer<(IFinalTicket)> {
     private score: number;
-    private percent: number;
-    private level: number[];
-    private type: string;
+    private policies : any;
+    private options : any;
 
     constructor(name: string, options: any) {
         super(name, options);
@@ -23,7 +22,7 @@ class compareTrainPlanPrice extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
         this.options = options;
     }
 
-    async markScoreProcess(data: (IFinalHotel|IFinalTicket)[]): Promise<(IFinalHotel|IFinalTicket)[]> {
+    async markScoreProcess(data: (IFinalTicket)[]): Promise<(IFinalTicket)[]> {
         if (!data.length) return data;
         let self = this;
         let trainSeat; 

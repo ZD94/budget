@@ -26,6 +26,7 @@ import {countDays} from "./helper";
 var API = require("@jingli/dnode-api");
 var Config = require("@jingli/config");
 import Logger from "@jingli/logger";
+import {ModelInterface} from "../../common/model/interface";
 var logger = new Logger("budget");
 
 export default class ApiTravelBudget {
@@ -124,6 +125,12 @@ export default class ApiTravelBudget {
             }, {isRecord: true});
             let budget = await strategy.getResult(hotels, isRetMarkedData);
 
+
+            let deeplinkItem = Models.deeplink.create({
+                url: budget.bookurl
+            })
+            deeplinkItem = await deeplinkItem.save();
+
             let hotelBudget: IHotelBudgetItem = {
                 id: budget.id,
                 checkInDate: params.checkInDate,
@@ -137,6 +144,7 @@ export default class ApiTravelBudget {
                 link: budget.link,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
+                bookurl: deeplinkItem.id
             }
             return hotelBudget;
         }));
@@ -203,6 +211,7 @@ export default class ApiTravelBudget {
             })
         }
 
+
         let staffBudgets = await Promise.all( staffs.map( async (staff) => {
             let policyKey = staff.policy || 'default';
             let staffPolicy = policies[policyKey] || {};
@@ -257,6 +266,13 @@ export default class ApiTravelBudget {
                     discount = discount < 1? discount:1;
                 }
             }
+
+            let deeplinkItem = Models.deeplink.create({
+                url: budget.bookurl,
+            })
+            deeplinkItem = await deeplinkItem.save();
+
+
             let trafficBudget: ITrafficBudgetItem = {
                 id: budget.id,
                 departTime: budget.departTime,
@@ -270,6 +286,7 @@ export default class ApiTravelBudget {
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
+                bookurl: deeplinkItem.id
             }
             return trafficBudget as ITrafficBudgetItem;
         }))

@@ -4,7 +4,7 @@
 
 'use strict';
 
-import {Budget, BudgetItem} from "_types/budget";
+import {Budget, BudgetItem, Deeplink} from "_types/budget";
 import {createServerService} from "../common/model/sequelize";
 import {ModelsInterface, Models} from "../_types/index";
 
@@ -18,4 +18,5 @@ export function initModels(models: ModelsInterface){
 initModels({
     budget: createServerService<Budget>(Budget),
     budgetItem: createServerService<BudgetItem>(BudgetItem),
+    deeplink: createServerService<Deeplink>(Deeplink),
 });

@@ -144,7 +144,7 @@ export default class ApiTravelBudget {
                 link: budget.link,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: deeplinkItem.id
+                bookurl: deeplinkItem.url
             }
             return hotelBudget;
         }));
@@ -286,7 +286,7 @@ export default class ApiTravelBudget {
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: deeplinkItem.id
+                bookurl: deeplinkItem.url
             }
             return trafficBudget as ITrafficBudgetItem;
         }))

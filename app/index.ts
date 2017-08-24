@@ -20,17 +20,17 @@ let stRegister = modelRestfulHelper('subsidyTemplate',
     {methods: ["find","get","create","update","delete"], query:['companyId','id', 'travelPolicyId']});
 
 tpRegister(route);
-tprRegister(route);
-crRegister(route);
-rpRegister(route);
-stRegister(route);
+// tprRegister(route);
+// crRegister(route);
+// rpRegister(route);
+// stRegister(route);
 
 
 
 //自定义路由
-route.post('/travelPolicy/:companyId/isDefault', async function(res){
-
-});
+// route.post('/travelPolicy/:companyId/isDefault', async function(res){
+//
+// });
 
 
 export = route;

@@ -54,10 +54,12 @@ export function modelRestfulHelper(model, options) {
             let url = mountUrl;
             let offset = 0;
             let limit = 12;
-            
+
             app.get(url,  async (req, res, next) => {
+                //请求参数中添加page, 表示请求页数
                 let params = req.query;
                 let query = {where:{}};
+                console.log("====params: ", params);
                 for(let key in params){
                     if(tableFields[model].indexOf(key) >= 0){
                         query.where[key] = params[key];
@@ -65,7 +67,7 @@ export function modelRestfulHelper(model, options) {
                 }
                 if(!query['order'] || query['order'] == undefined) query["order"] = [["createdAt", "desc"]];
                 if(!query['limit'] || query['limit'] == undefined) query["limit"] = limit;
-                console.log("===>query: ", query);
+
                 let result = await Models[model].all(query);
                 result = await transformModelToObject(result,model);
                 res["openapiRes"]({code: 0, msg:'', data: result});
@@ -77,7 +79,7 @@ export function modelRestfulHelper(model, options) {
             app.get(url,  async (req, res, next) => {
                 let params = req.params;
                 let query = {where:{id: params.id}};
-
+                console.log("===>query: ", query);
                 let result = await Models[model].all(query);
                 result = await transformModelToObject(result,model);
                 res["openapiRes"]({code: 0, msg:'', data: result});

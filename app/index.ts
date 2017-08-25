@@ -20,10 +20,10 @@ let stRegister = modelRestfulHelper('subsidyTemplate',
     {methods: ["find","get","create","update","delete"]});
 
 tpRegister(route);
-// tprRegister(route);
-// crRegister(route);
-// rpRegister(route);
-// stRegister(route);
+tprRegister(route);
+crRegister(route);
+rpRegister(route);
+stRegister(route);
 
 
 

@@ -66,14 +66,13 @@ export function modelRestfulHelper(model, options) {
                 }
                 console.log(++counter);
                 if(!query['order'] || query['order'] == undefined) query["order"] = [["createdAt", "desc"]];
-                let result = await Models[model].find(query);
-                let pagers = new Pager(Models[model], query);
-                console.log(result)
-                console.log("====pager: ", pagers)
+                let result = await Models[model].all(query);
+                // let pagers = new Pager(Models[model], query);
+                // console.log(result)
+                // console.log("====pager: ", pagers)
                 // console.log("====>pager: ", result);
                 // console.log("====>pager: ", result[0]);
-
-
+                
                 result = await transformModelToObject(result,model);
                 // console.log("=====>result: ", result);
                 res["openapiRes"]({code: 0, msg:'', data: result});

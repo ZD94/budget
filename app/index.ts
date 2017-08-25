@@ -5,19 +5,19 @@ var route = express();
 route.use(commonResp);
 
 let tpRegister = modelRestfulHelper('travelPolicy',
-    {methods: ["find","get","create","update","delete"], query:["companyId", 'id']});
+    {methods: ["find","get","create","update","delete"]});
 
 let tprRegister = modelRestfulHelper('travelPolicyRegion',
-    {methods: ["find","get","create","update","delete"], query:['companyId', 'id', 'travelPolicyId','companyRegionId']});
+    {methods: ["find","get","create","update","delete"]});
 
 let crRegister = modelRestfulHelper('companyRegion',
-    {methods: ["find","get","create","update","delete"], query:['companyId','id']});
+    {methods: ["find","get","create","update","delete"]});
 
 let rpRegister = modelRestfulHelper('regionPlace',
-    {methods: ["find","get","create","update","delete"], query:['companyId','id','companyRegionId']});
+    {methods: ["find","get","create","update","delete"]});
 
 let stRegister = modelRestfulHelper('subsidyTemplate',
-    {methods: ["find","get","create","update","delete"], query:['companyId','id', 'travelPolicyId']});
+    {methods: ["find","get","create","update","delete"]});
 
 tpRegister(route);
 // tprRegister(route);
@@ -59,6 +59,15 @@ export = route;
 //     res.json("hello world: ");
 // });
 
+
+// route.get("/policy/info", async function(req, res, next){
+//     // let {method, params} = req;
+//     console.log("=====> param: ", req.params);
+//     console.log("=====> param: ", req.query);
+//     // let result = TravelPolicyModule[method](params);
+//     // res.json(result);
+//     res.json("hello world: ");
+// });
 
 // req.query  用于获取使用？传递参数的参数
 // req.params 用于获取使用/: 获取参数的参数

@@ -48,33 +48,26 @@ var counter = 0;
 export function modelRestfulHelper(model, options) {
     let mountUrl = "/" + model;
     let methods = options.methods;
-    let query = options.query;
+    // let query = options.query;
     return async function(app) {
         if (!methods || (methods && methods.indexOf("find") >= 0)) {
             let url = mountUrl;
             let offset = 0;
             let limit = 12;
-
+            
             app.get(url,  async (req, res, next) => {
-                let params = req.params;
+                let params = req.query;
                 let query = {where:{}};
-                let {pager} = params;
                 for(let key in params){
                     if(tableFields[model].indexOf(key) >= 0){
                         query.where[key] = params[key];
                     }
                 }
-                console.log(++counter);
                 if(!query['order'] || query['order'] == undefined) query["order"] = [["createdAt", "desc"]];
+                if(!query['limit'] || query['limit'] == undefined) query["limit"] = limit;
+                console.log("===>query: ", query);
                 let result = await Models[model].all(query);
-                // let pagers = new Pager(Models[model], query);
-                // console.log(result)
-                // console.log("====pager: ", pagers)
-                // console.log("====>pager: ", result);
-                // console.log("====>pager: ", result[0]);
-                
                 result = await transformModelToObject(result,model);
-                // console.log("=====>result: ", result);
                 res["openapiRes"]({code: 0, msg:'', data: result});
             });
         }

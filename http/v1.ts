@@ -44,7 +44,6 @@ route.get('/city', statistic('/city'), httpHandle(async function(req, res) {
     cities = cities.map( (city) => {
         return transformCity(city);
     });
-    console.log("===> api: ",cities);
     res['openapiRes'](0, '', { "cities": cities});
 }));
 
@@ -57,8 +56,6 @@ route.get('/city/:id', statistic('/city/:id'), httpHandle(async (req, res) => {
         city = await API.place.getCityInfo({cityCode: id});
     }
     city = transformCity(city);
-    console.log("====>res: ", res);
-    console.log("====>res['openapiRes']: ", res['openapiRes']);
     res['openapiRes'](0, '', {"cities": [city]});
 }));
 
@@ -73,7 +70,6 @@ route.get('/budget/:id', statistic('/budget/:id'), httpHandle(async function(req
 
 route.post('/budget', statistic('/budget'), httpHandle(async function(req, res) {
     req.clearTimeout();
-    console.log("======> budget: ",req);
     let {staffs, policies, fromCity, segments, ret} = req.json;
     
     if (!staffs) {
@@ -236,7 +232,7 @@ function transformCity(city) {
         name: city.name,
         pinyin: city.pinyin,
         letter: city.letter,
-        latitdue: city.latitude,
+        latitude: city.latitude,
         longitude: city.longitude,
         parentId: city.parentId,
     }

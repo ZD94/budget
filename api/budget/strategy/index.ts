@@ -163,7 +163,6 @@ export abstract class AbstractHotelStrategy {
             bookurl: ret.bookUrl
         }
 
-
         if (self.isRecord) {
             //保存调试记录
             let budgetItem = Models.budgetItem.create({

@@ -55,11 +55,12 @@ export function modelRestfulHelper(model, options) {
             let offset = 0;
             let limit = 12;
 
+            //find
             app.get(url,  async (req, res, next) => {
                 //请求参数中添加page, 表示请求页数
                 let params = req.query;
                 let query = {where:{}};
-                console.log("====params: ", params);
+                console.log("====params: model ", params, model);
                 for(let key in params){
                     if(tableFields[model].indexOf(key) >= 0){
                         query.where[key] = params[key];
@@ -70,6 +71,7 @@ export function modelRestfulHelper(model, options) {
 
                 let result = await Models[model].all(query);
                 result = await transformModelToObject(result,model);
+                // console.log("travelPolicy: result: ", result);
                 res["openapiRes"]({code: 0, msg:'', data: result});
             });
         }
@@ -79,9 +81,10 @@ export function modelRestfulHelper(model, options) {
             app.get(url,  async (req, res, next) => {
                 let params = req.params;
                 let query = {where:{id: params.id}};
-                console.log("===>query: ", query);
+                console.log("===>query: ", query,model);
                 let result = await Models[model].all(query);
                 result = await transformModelToObject(result,model);
+                console.log("travelPolicy: result: ", result);
                 res["openapiRes"]({code: 0, msg:'', data: result});
             });
 
@@ -104,8 +107,8 @@ export function modelRestfulHelper(model, options) {
         if (!methods || (methods && methods.indexOf("update")) >= 0) {
             let url = mountUrl;
             app.put(url,  async (req, res, next) => {
-
-                let params = req.params;
+                console.log("====>body:,model", req.body, model);
+                let params = req.body;
                 let id = params.id ;
                 if(!id || typeof(id) == 'undefined') {
                     res["openapiRes"]({code: 0, msg:'更新对象id不存在', data: result});
@@ -117,16 +120,18 @@ export function modelRestfulHelper(model, options) {
                         obj[key] = params[key];
                     }
                 }
+
                 obj = await obj.save();
                 let result = await transformModelToObject(obj,model);
+                console.log("===========>result: ", result);
                 res["openapiRes"]({code: 0, msg:'', data: result});
             });
         }
 
         if (!methods || (methods && methods.indexOf("create")) >= 0) {
             let url = mountUrl;
-            app.delete(url,  async (req, res, next) => {
-                let params = req.params;
+            app.post(url,  async (req, res, next) => {
+                let params = req.body;
                 let properties = {};
                 for(let key in params){
                     if(tableFields[model].indexOf(key) >= 0){

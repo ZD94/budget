@@ -27,9 +27,21 @@ var API = require("@jingli/dnode-api");
 var Config = require("@jingli/config");
 import Logger from "@jingli/logger";
 import {ModelInterface} from "../../common/model/interface";
+import {Model} from "sequelize";
 var logger = new Logger("budget");
 
 export default class ApiTravelBudget {
+
+    static __initHttpApp(app) {
+        app.get("/deeplink", async (req, res, next)=>{
+            console.log(req.query.id);
+            let bookItem = await Models.deeplink.get(req.query.id);
+            let bookurl = bookItem['url'];
+            res.json({
+                'bookurl': bookurl
+            });
+        });
+    }
 
     static async getHotelBudget(params: IQueryHotelBudgetParams): Promise<IHotelBudgetResult> {
         if (!params) {
@@ -131,6 +143,8 @@ export default class ApiTravelBudget {
             })
             deeplinkItem = await deeplinkItem.save();
 
+            var jingliLinkH = `t.jingli365.com/bookurl/${deeplinkItem.id}` ;
+
             let hotelBudget: IHotelBudgetItem = {
                 id: budget.id,
                 checkInDate: params.checkInDate,
@@ -144,7 +158,7 @@ export default class ApiTravelBudget {
                 link: budget.link,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: deeplinkItem.url
+                bookurl: jingliLinkH
             }
             return hotelBudget;
         }));
@@ -272,6 +286,7 @@ export default class ApiTravelBudget {
             })
             deeplinkItem = await deeplinkItem.save();
 
+            var jingliLinkT = `t.jingli365.com/bookurl/${deeplinkItem.id}`;
 
             let trafficBudget: ITrafficBudgetItem = {
                 id: budget.id,
@@ -286,7 +301,7 @@ export default class ApiTravelBudget {
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: deeplinkItem.url
+                bookurl: jingliLinkT
             }
             return trafficBudget as ITrafficBudgetItem;
         }))

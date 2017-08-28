@@ -5,6 +5,7 @@
 'use strict';
 
 import {Budget, BudgetItem} from "_types/budget";
+import {App, Statistic} from "_types/openapi";
 import {createServerService} from "../common/model/sequelize";
 import {ModelsInterface, Models} from "../_types/index";
 import {TravelPolicy, TravelPolicyRegion, SubsidyTemplate, CompanyRegion, RegionPlace} from "_types/policy";
@@ -24,4 +25,6 @@ initModels({
     companyRegion: createServerService<CompanyRegion>(CompanyRegion),
     regionPlace: createServerService<RegionPlace>(RegionPlace),
     subsidyTemplate: createServerService<SubsidyTemplate>(SubsidyTemplate),
+    app: createServerService<App>(App),
+    statistic: createServerService<Statistic>(Statistic),
 });

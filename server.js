@@ -68,6 +68,12 @@ server.on('init.http', function(httpserver){
 });
 
 
+var httpModule = require('./http');
+server.on('init.http_handler', function(app) {
+    httpModule.initHttp(app);
+})
+
+
 zone.forkStackTrace().run(function(){
     require("common/model/index")
     server.start();

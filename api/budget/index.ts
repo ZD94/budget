@@ -24,7 +24,6 @@ import {Models} from "_types/index";
 import {ICity, CityService} from "_types/city";
 import {countDays} from "./helper";
 var API = require("@jingli/dnode-api");
-var Config = require("@jingli/config");
 import Logger from "@jingli/logger";
 var logger = new Logger("budget");
 import { TravelPolicy} from "_types/policy";
@@ -234,8 +233,8 @@ export default class ApiTravelBudget {
                     expectTrainCabins: trainSeat,
                     expectFlightCabins: cabin,
                     leaveDate: leaveDate,
-                    earliestDepartTime: earliestDepartTime,
-                    latestArrivalTime: latestArrivalTime,
+                    earliestLeaveDateTime: earliestDepartTime,
+                    latestArrivalDateTime: latestArrivalTime,
                 }
             }
 

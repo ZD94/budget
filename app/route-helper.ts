@@ -111,7 +111,7 @@ export function modelRestfulHelper(model, options) {
                 let params = req.body;
                 let id = params.id ;
                 if(!id || typeof(id) == 'undefined') {
-                    res["openapiRes"]({code: 0, msg:'更新对象id不存在', data: result});
+                    res["openapiRes"]({code: 0, msg:'更新对象id不存在', data: null});
                 }
                 let obj = await Models[model].get(id);
 

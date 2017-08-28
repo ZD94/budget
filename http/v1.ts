@@ -13,6 +13,7 @@ let logger = new Logger("openapi");
 import auth = require("./auth");
 import commonRes = require("./resp");
 import statistic = require("./statistic");
+import {getControllers} from "./decorator";
 
 //回复模板中间件
 route.use(commonRes);

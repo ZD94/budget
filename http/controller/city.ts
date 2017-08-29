@@ -20,6 +20,7 @@ export class CityController extends AbstractController {
     async get(req, res, next) {
         let {id} = req.params;
         let city = await API.place.getCityInfo({cityCode: id});
+        city = this.transform(city);
         res.json(this.reply(0, city));
     }
 

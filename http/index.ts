@@ -18,6 +18,6 @@ var router = new express.Router();
 registerControllerToRouter(router);
 
 export async function initHttp(app) {
-    app.use('/api/v1', v1);
+    // app.use('/api/v1', v1);
     app.use('/api/v2', router);
 }

@@ -5,9 +5,7 @@
 'use strict';
 import {IController} from "./IController";
 
-export const ERROR_MSG = {
-    0: 'ok'
-}
+import {ERR_TEXT} from './code';
 
 export abstract class AbstractController implements IController {
 
@@ -15,7 +13,7 @@ export abstract class AbstractController implements IController {
         return {
             code: code,
             data: data,
-            msg: ERROR_MSG[code]
+            msg: ERR_TEXT[code]
         }
     }
 }

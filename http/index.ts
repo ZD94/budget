@@ -16,12 +16,22 @@ export async function initHttp(app) {
     let controllers = await getControllers();
     for(let url in controllers) {
         let Controller = controllers[url];
-        let methods = Object.getOwnPropertyNames(Controller.prototype);
-        let cls = new Controller();
-        for(let fnName of methods) {
-            if (fnName == 'constructor' || /^\$/.test(fnName)) {
-                continue;
+        let methods = [];
+        let prototype = Controller.prototype;
+        do {
+            if (prototype) {
+                methods = methods.concat(Object.getOwnPropertyNames(prototype));
             }
+            prototype = Object.getPrototypeOf(prototype)
+        } while(prototype);
+
+        let cls = new Controller();
+        methods = methods.filter((fnName) => {
+            return ['get', 'update', 'delete', 'add', 'find'].indexOf(fnName) >= 0
+            || (typeof cls[fnName] == 'function' && cls[fnName].$url )
+        });
+
+        for(let fnName of methods) {
             let curUrl = url;
             let method = 'get';
 
@@ -58,14 +68,25 @@ export async function initHttp(app) {
                 if (!id) {
                     return oldFn(req, res, next).bind(this);
                 }
-                if (!cls.$isValidId(id)) {
+                if (!cls.$isValidId.bind(cls)(id)) {
                     if (next && typeof next == 'function') {
                         return next();
                     }
                     return res.send('Invalid Id');
                 }
-                return oldFn(req, res, next).bind(this);
+                return oldFn.bind(cls)(req, res, next)
             }
+
+            //统一处理async错误
+            let fn2 = fn;
+            fn = function(req, res, next) {
+                let ret = fn2.bind(this)(req, res, next);
+                if (ret.then && typeof ret.then == 'function') {
+                    return ret.catch(next);
+                }
+                return ret;
+            }
+
             method = method.toLowerCase();
             app[method](curUrl, fn.bind(cls));
         }

@@ -2,7 +2,7 @@ import {Models} from '_types';
 import { Types, Values } from 'common/model';
 import {Table, Create, Field, ResolveRef, RemoteCall} from 'common/model/common';
 import { ModelObject } from 'common/model/object';
-
+import { SubsidyType } from '_types/policy'
 @Table(Models.policyRegionSubsidy, "travelPolicy")
 export class PolicyRegionSubsidy extends ModelObject{
     constructor(target: Object) {
@@ -28,8 +28,8 @@ export class PolicyRegionSubsidy extends ModelObject{
     get travelPolicyId(): string { return null; }
     set travelPolicyId(val: string) {}
 
-    @Field({type: Types.UUID})
-    get subsidyTypeId(): string { return null; }
-    set subsidyTypeId(val: string) {}
+    @ResolveRef({type: Types.UUID}, Models.subsidyType)
+    get subsidyType(): SubsidyType { return null; }
+    set subsidyType(val: SubsidyType) {}
 
 }

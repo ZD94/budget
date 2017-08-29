@@ -27,6 +27,7 @@ var API = require("@jingli/dnode-api");
 import Logger from "@jingli/logger";
 var logger = new Logger("budget");
 import { TravelPolicy} from "_types/policy";
+import {PolicyRegionSubsidy} from "../../_types/policy/policyRegionSubsidy";
 export var NoCityPriceLimit = 0;
 export default class ApiTravelBudget {
 
@@ -296,6 +297,37 @@ export default class ApiTravelBudget {
         return staffBudgets;
     }
 
+    static async getSubsidyBudget(params: {subsidies: PolicyRegionSubsidy[], leaveDate: Date, goBackDate: Date, isHasBackSubsidy: boolean}): Promise<any> {
+        let { subsidies, leaveDate, goBackDate, isHasBackSubsidy } = params;
+        let budget: any = null
+        if (subsidies && subsidies.length) {
+            let goBackDay = moment(goBackDate).format("YYYY-MM-DD");
+            let leaveDay = moment(leaveDate).format("YYYY-MM-DD");
+            let days = moment(goBackDay).diff(moment(leaveDay), 'days');
+            if (isHasBackSubsidy) { //解决如果只有住宿时最后一天补助无法加到返程目的地上
+                days += 1;
+            }
+
+            let totalMoney = 0;
+            if (days > 0) {
+                let template = [];
+                for(let i = 0; i < subsidies.length; i++){
+                    totalMoney += subsidies[i].subsidyMoney * Math.floor(days/subsidies[i].subsidyType.period);
+                    let subsidy = {name: subsidies[i].subsidyType.name, money: subsidies[i].subsidyMoney, period: subsidies[i].subsidyType.period};
+                    template.push(subsidy);
+                }
+
+                budget = {};
+                budget.fromDate = leaveDate;
+                budget.endDate = (goBackDate == leaveDay || isHasBackSubsidy) ? goBackDate: moment(goBackDate).add(-1, 'days').format('YYYY-MM-DD');
+                budget.price = totalMoney;
+                budget.duringDays = days;
+                budget.template = template;
+            }
+        }
+        return budget;
+    }
+
     static limitHotelBudgetByPrefer(min: number, max:number, hotelBudget: number){
         if(hotelBudget == -1) {
             if(max != NoCityPriceLimit) return max;
@@ -435,16 +467,40 @@ export default class ApiTravelBudget {
                 } else {
                     tasks.push(null);
                 }
+
+                //补助
+                let isHasBackSubsidy = false;
+                if (i == segments.length-1 && !backCity) {
+                    isHasBackSubsidy = true;
+                }
+
+                let subsidies = [];
+                // if(company.isOpenSubsidyBudget){
+                    if(tp){
+                        subsidies = await tp.getSubsidies({placeId: toCity.id});
+                    }
+                    let subsidyParams = {
+                        subsidies: subsidies,
+                        leaveDate: seg.beginTime,
+                        goBackDate: seg.endTime,
+                        isHasBackSubsidy: isHasBackSubsidy
+                    };
+                    tasks.push(ApiTravelBudget.getSubsidyBudget(subsidyParams));
+                // }else{
+                //     tasks.push(null);
+                // }
+
                 fromCity = toCity;
                 //城市
                 cities.push(toCity.id);
             }
 
             let budgetResults = await Promise.all(tasks);
-            for(var i=0, ii=budgetResults.length; i<ii; i=i+2) {
+            for(var i=0, ii=budgetResults.length; i<ii; i=i+3) {
                 budgets.push({
                     traffic: budgetResults[i],
-                    hotel: budgetResults[i+1]
+                    hotel: budgetResults[i+1],
+                    subsidy: budgetResults[i+2]
                 })
             }
 

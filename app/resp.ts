@@ -26,7 +26,7 @@ const template = {
  * @param next
  */
 function commonResp(req: any, res: any, next: any) {
-    res.openapiRes = function (code, errmsg, data) {
+    res.reply = function (code, errmsg, data) {
         if (typeof errmsg == 'object') {
             data = errmsg;
             errmsg = '';

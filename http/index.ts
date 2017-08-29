@@ -10,7 +10,7 @@ import {scannerControllers} from "./core/decorator";
 import {registerControllerToRouter} from "./core/router/index";
 
 import path = require("path");
-scannerControllers(path.join(__dirname, 'controller'), []);
+scannerControllers(path.join(__dirname, 'controller'));
 
 import express = require("express");
 var router = express.Router();

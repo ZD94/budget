@@ -115,7 +115,7 @@ export class BudgetController extends AbstractController {
         if (!budgets) {
             return budgets;
         }
-        for(let city in budgets) {
+        for (let city in budgets) {
             let segmentBudget = budgets[city];
             let trafficBudget = segmentBudget.traffic;
             let hotelBudget = segmentBudget.hotel;
@@ -125,7 +125,7 @@ export class BudgetController extends AbstractController {
             if (!hotelBudget) {
                 hotelBudget = [];
             }
-            trafficBudget = trafficBudget.map( (budget) => {
+            trafficBudget = trafficBudget.map((budget) => {
                 if (budget.trafficType == 1) {
                     budget.cabin = enumToStr(CABIN, budget.cabin) || budget.cabin;
                 } else {
@@ -134,7 +134,7 @@ export class BudgetController extends AbstractController {
                 budget.trafficType = enumToStr(TRAFFIC_TYPE, budget.trafficType) || budget.trafficType;
                 return budget;
             });
-            hotelBudget = hotelBudget.map( (budget) => {
+            hotelBudget = hotelBudget.map((budget) => {
                 budget.star = enumToStr(HOTEL_START, budget.star) || budget.star;
                 return budget;
             });

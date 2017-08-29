@@ -3,7 +3,7 @@ import { Types, Values } from 'common/model';
 import {Table, Create, Field, ResolveRef, RemoteCall} from 'common/model/common';
 import { ModelObject } from 'common/model/object';
 import { SubsidyType } from '_types/policy'
-@Table(Models.policyRegionSubsidy, "travelPolicy")
+@Table(Models.policyRegionSubsidy, "travelPolicy.")
 export class PolicyRegionSubsidy extends ModelObject{
     constructor(target: Object) {
         super(target);

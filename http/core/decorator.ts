@@ -4,9 +4,11 @@
 
 'use strict';
 
-const controllers = {};
+import fs = require("fs")
+import path = require("path");
 
-export async function getControllers() {
+const controllers = {};
+export function getControllers() {
     return controllers;
 }
 
@@ -28,5 +30,26 @@ export function Restful(mountUrl: string) {
             mountUrl = '/' + target.name.replace(/Controller/, '').toLowerCase();
         }
         controllers[mountUrl] = target;
+    }
+}
+
+export function scannerControllers(dir: string, ignores: string[]) {
+    let files = fs.readdirSync(dir);
+    for(let f of files) {
+        let extReg = /\.ts|\.js$/;
+        if (ignores && ignores.indexOf(f.replace(extReg, '')) >= 0) {
+            continue;
+        }
+        let p = path.join(dir, f);
+        let stat = fs.statSync(p);
+        if (stat.isDirectory()) {
+            scannerControllers(p);
+            continue;
+        }
+        if (!extReg.test(p)) {
+            continue;
+        }
+        p = p.replace(extReg, '');
+        require(p);
     }
 }

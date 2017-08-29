@@ -16,4 +16,5 @@ export abstract class AbstractController implements IController {
             msg: ERR_TEXT[code]
         }
     }
+
 }

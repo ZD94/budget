@@ -60,10 +60,7 @@ server.on('init.api', function(API){
 //     API.registerAuthWeb(API.auth.authentication);
 });
 
-const route = require("./app");
-
 server.on('init.http', function(httpserver){
-    server.http_handler.use('/api/v1', route);
     console.log("init.http")
 });
 

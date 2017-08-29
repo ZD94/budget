@@ -19,11 +19,19 @@ let rpRegister = modelRestfulHelper('regionPlace',
 let stRegister = modelRestfulHelper('subsidyTemplate',
     {methods: ["find","get","create","update","delete"]});
 
+let subsidyTypeRegister = modelRestfulHelper('subsidyType',
+    {methods: ["find","get","create","update","delete"]});
+
+let policyRegionSubsidyRegister = modelRestfulHelper('policyRegionSubsidy',
+    {methods: ["find","get","create","update","delete"]});
+
 tpRegister(route);
 tprRegister(route);
 crRegister(route);
 rpRegister(route);
 stRegister(route);
+subsidyTypeRegister(route);
+policyRegionSubsidyRegister(route);
 
 
 

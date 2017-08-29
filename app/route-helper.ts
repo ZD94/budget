@@ -6,8 +6,8 @@ import { Models} from "_types";
 import {TravelPolicy, SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionPlace} from "_types/policy";
 import _ = require("lodash");
 import express = require("express");
-import Response = express.Response;
-import Request = express.Request;
+// import Response = express.Response;
+// import Request = express.Request;
 
 const tableFields = {
     travelPolicy: TravelPolicy['$fieldnames'],
@@ -34,11 +34,12 @@ const AppMehthod = {
 }
 
 export interface Response {
-    reply: (code, data) => void;
+    reply: ({code: number, msg:string, data: any}) => void;
 }
 
 export interface Request {
     appid: string;
+    query?:any
 }
 
 export function Router(path, method, options) {
@@ -76,7 +77,7 @@ export function modelRestfulHelper(model, options) {
                     query["limit"] = limit;
 
                 let result = await Models[model].all(query);
-                result = await transformModelToObject(result, model);
+                result = await transformModelToObject(result, model)
                 res.reply({code: 0, msg:'', data: result});
             });
         }

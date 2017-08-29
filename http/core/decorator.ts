@@ -33,7 +33,7 @@ export function Restful(mountUrl: string) {
     }
 }
 
-export function scannerControllers(dir: string, ignores: string[]) {
+export function scannerControllers(dir: string, ignores?: string[]) {
     let files = fs.readdirSync(dir);
     for(let f of files) {
         let extReg = /\.ts|\.js$/;

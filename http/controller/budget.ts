@@ -74,9 +74,9 @@ export class BudgetController extends AbstractController {
 
     async get(req, res, next) {
         let {id} = req.params;
-        let segmentBudgets = await API.budget.getBudgetCache({id: id});
+        let segmentBudgets = await API['budget'].getBudgetCache({id: id});
         let budgets = segmentBudgets.budgets;
-        budgets = this.transformBundgets(budgets);
+        budgets = this.transformBudgets(budgets);
         segmentBudgets.budgets = budgets;
         res.json(this.reply(0, segmentBudgets));
     }
@@ -97,7 +97,7 @@ export class BudgetController extends AbstractController {
         //转换差旅标准
         policies = transformPolicyStrArgsToEnum(policies);
         let segmentBudgets;
-        segmentBudgets = await API.budget.createBudget({
+        segmentBudgets = await API['budget'].createBudget({
             policies: policies,
             prefers: [],
             staffs: staffs,
@@ -106,7 +106,7 @@ export class BudgetController extends AbstractController {
             segments,
         });
         let budgets = segmentBudgets.budgets;
-        budgets = transformBundgets(budgets);
+        budgets = this.transformBudgets(budgets);
         segmentBudgets.budgets = budgets;
         res.json(this.reply(0, segmentBudgets));
     }
@@ -115,7 +115,7 @@ export class BudgetController extends AbstractController {
         if (!budgets) {
             return budgets;
         }
-        for(let city in budgets) {
+        for (let city in budgets) {
             let segmentBudget = budgets[city];
             let trafficBudget = segmentBudget.traffic;
             let hotelBudget = segmentBudget.hotel;
@@ -125,7 +125,7 @@ export class BudgetController extends AbstractController {
             if (!hotelBudget) {
                 hotelBudget = [];
             }
-            trafficBudget = trafficBudget.map( (budget) => {
+            trafficBudget = trafficBudget.map((budget) => {
                 if (budget.trafficType == 1) {
                     budget.cabin = enumToStr(CABIN, budget.cabin) || budget.cabin;
                 } else {
@@ -134,7 +134,7 @@ export class BudgetController extends AbstractController {
                 budget.trafficType = enumToStr(TRAFFIC_TYPE, budget.trafficType) || budget.trafficType;
                 return budget;
             });
-            hotelBudget = hotelBudget.map( (budget) => {
+            hotelBudget = hotelBudget.map((budget) => {
                 budget.star = enumToStr(HOTEL_START, budget.star) || budget.star;
                 return budget;
             });
@@ -145,3 +145,42 @@ export class BudgetController extends AbstractController {
         return budgets;
     }
 }
+
+//处理差旅政策
+function transformPolicyStrArgsToEnum(policies) {
+    for(let key in policies) {
+        let policy = policies[key];
+        if (!policy.trainSeat) {
+            policy.trainSeat = [];
+        }
+        if (typeof policy.trainSeat == 'string') {
+            policy.trainSeat = [policy.trainSeat]
+        }
+        policy.trainSeat = policy.trainSeat.map( (trainSeat) => {
+            return TRAIN_SEAT[trainSeat];
+        });
+
+        if (!policy.cabin) {
+            policy.cabin = []
+        }
+        if (typeof policy.cabin == 'string') {
+            policy.cabin = [policy.cabin];
+        }
+        policy.cabin = policy.cabin.map( (cabin) => {
+            return CABIN[cabin];
+        });
+
+        if (!policy.hotelStar) {
+            policy.hotelStar = [];
+        }
+        if (typeof policy.hotelStar == 'string') {
+            policy.hotelStar = [policy.hotelStar];
+        }
+        policy.hotelStar = policy.hotelStar.map( (hotelStar) => {
+            return HOTEL_START[hotelStar];
+        })
+        policies[key] = policy;
+    }
+    return policies;
+}
+

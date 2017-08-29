@@ -19,7 +19,7 @@ export class CityController extends AbstractController {
 
     async get(req, res, next) {
         let {id} = req.params;
-        let city = await API.place.getCityInfo({cityCode: id});
+        let city = await API['place'].getCityInfo({cityCode: id});
         city = this.transform(city);
         res.json(this.reply(0, city));
     }
@@ -28,9 +28,9 @@ export class CityController extends AbstractController {
         let {keyword} = req.query;
         let cities = [];
         if (!keyword) {
-            cities = await API.place.queryHotCity({limit: 20});
+            cities = await API['place'].queryHotCity({limit: 20});
         } else {
-            cities = await API.place.queryCity({keyword: keyword});
+            cities = await API['place'].queryCity({keyword: keyword});
         }
         cities = cities.map( (city) => {
             return this.transform(city);

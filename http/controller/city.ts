@@ -23,8 +23,29 @@ export class CityController extends AbstractController {
         res.json(this.reply(0, city));
     }
 
-    @Router('/test')
-    async test(req, res, next) {
-        res.send("ok")
+    async find(req, res, next) {
+        let {keyword} = req.query;
+        let cities = [];
+        if (!keyword) {
+            cities = await API.place.queryHotCity({limit: 20});
+        } else {
+            cities = await API.place.queryCity({keyword: keyword});
+        }
+        cities = cities.map( (city) => {
+            return this.transform(city);
+        });
+        res.json(this.reply(0, cities));
+    }
+
+    private transform(city) {
+        return {
+            id: city.id,
+            name: city.name,
+            pinyin: city.pinyin,
+            letter: city.letter,
+            latitude: city.latitude,
+            longitude: city.longitude,
+            parentId: city.parentId,
+        }
     }
 }

@@ -20,7 +20,9 @@ export abstract class AbstractModelController extends AbstractController {
     async find(req, res, next) {
         let {p, pz, order} = req.query;
         let offset = p * pz;
-        let options = {
+        let options: {
+            [index: string]: any;
+        } = {
             limit: pz,
             offset: offset
         }

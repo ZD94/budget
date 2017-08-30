@@ -310,11 +310,11 @@ export default class ApiTravelBudget {
 
             let totalMoney = 0;
             if (days > 0) {
-                let template = [];
+                let templates = [];
                 for(let i = 0; i < subsidies.length; i++){
                     totalMoney += subsidies[i].subsidyMoney * Math.floor(days/subsidies[i].subsidyType.period);
                     let subsidy = {name: subsidies[i].subsidyType.name, money: subsidies[i].subsidyMoney, period: subsidies[i].subsidyType.period};
-                    template.push(subsidy);
+                    templates.push(subsidy);
                 }
 
                 budget = {};
@@ -322,7 +322,7 @@ export default class ApiTravelBudget {
                 budget.endDate = (goBackDate == leaveDay || isHasBackSubsidy) ? goBackDate: moment(goBackDate).add(-1, 'days').format('YYYY-MM-DD');
                 budget.price = totalMoney;
                 budget.duringDays = days;
-                budget.template = template;
+                budget.templates = templates;
             }
         }
         return budget;
@@ -475,20 +475,21 @@ export default class ApiTravelBudget {
                 }
 
                 let subsidies = [];
-                // if(company.isOpenSubsidyBudget){
-                    if(tp){
+                if(tp){
+                    let companySetingInfo = await Models.companySetingInfo.get(tp.companyId);
+                    if(companySetingInfo.isOpenSubsidyBudget){
                         subsidies = await tp.getSubsidies({placeId: toCity.id});
+                        let subsidyParams = {
+                            subsidies: subsidies,
+                            leaveDate: seg.beginTime,
+                            goBackDate: seg.endTime,
+                            isHasBackSubsidy: isHasBackSubsidy
+                        };
+                        tasks.push(ApiTravelBudget.getSubsidyBudget(subsidyParams));
+                    }else{
+                        tasks.push(null);
                     }
-                    let subsidyParams = {
-                        subsidies: subsidies,
-                        leaveDate: seg.beginTime,
-                        goBackDate: seg.endTime,
-                        isHasBackSubsidy: isHasBackSubsidy
-                    };
-                    tasks.push(ApiTravelBudget.getSubsidyBudget(subsidyParams));
-                // }else{
-                //     tasks.push(null);
-                // }
+                }
 
                 fromCity = toCity;
                 //城市

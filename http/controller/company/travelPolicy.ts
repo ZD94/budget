@@ -110,7 +110,6 @@ export class TravelPolicyController extends AbstractController {
     async update(req, res, next) {
         let params = req.body;
         let id = req.params.id;
-        console.log("====>body, id ", params, id );
         if(!id || typeof(id) == 'undefined') {
             res.json(0, null);
         }

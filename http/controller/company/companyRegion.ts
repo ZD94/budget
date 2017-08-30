@@ -103,6 +103,7 @@ export class CompanyRegionController extends AbstractController {
 
         let result = await Models.companyRegion.all(query);
         if(result == undefined) result = null;
+        console.log("companyRegion====>query: ", query, result[0], result[1]);
         res.json(this.reply(0, result));
     }
 

@@ -88,20 +88,25 @@ export class TravelPolicyController extends AbstractController {
 
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
+        let {p, pz, order} = req.query;
+        p = p || 1;
+        pz = pz || 20;
         let params = req.query;
-        let query = {where:{}};
-        let limit = 20;
+        let query = {
+            where:{},
+            limit: pz,
+            offset: pz * (p-1)
+        };
         for(let key in params){
             if(travalPolicyRegionCols.indexOf(key) >= 0){
                 query.where[key] = params[key];
             }
         }
-        if(!query['order'] || query['order'] == undefined)
-            query["order"] = [["createdAt", "desc"]];
-        if(!query['limit'] || query['limit'] == undefined)
-            query["limit"] = limit;
 
-        let result = await Models.travelPolicy.all(query);
+        if(!order || typeof order == undefined)
+            query["order"] = [["createdAt", "desc"]];
+        let result = await Models.travelPolicy.find(query);
+        result = transform(result);
         if(result == undefined) result = null;
         res.json(this.reply(0, result));
     }
@@ -144,49 +149,34 @@ export class TravelPolicyController extends AbstractController {
         if(!id || typeof(id) == 'undefined') {
             res.json(0, null);
         }
-        let obj = await Models.travelPolicy.get(id);
-        let isDeleted = await obj.destroy();
-        res.reply(0, isDeleted);
+        let isDeleted;
+        let tprs = await Models.travelPolicyRegion.find({travelPolicyId: id});
+        try{
+            await Promise.all(tprs.map(async function(tpr){
+                await tpr.destroy();
+            }));
+            let obj = await Models.travelPolicy.get(id);
+            isDeleted = await obj.destroy();
+        }catch(err){
+            console.log(err);
+        }
+        res.json(this.reply(0, isDeleted));
+        ;
     }
 
 
 }
 
 //处理差旅政策
-function transformPolicyStrArgsToEnum(policies) {
-    for(let key in policies) {
-        let policy = policies[key];
-        if (!policy.trainSeat) {
-            policy.trainSeat = [];
-        }
-        if (typeof policy.trainSeat == 'string') {
-            policy.trainSeat = [policy.trainSeat]
-        }
-        policy.trainSeat = policy.trainSeat.map( (trainSeat) => {
-            return TRAIN_SEAT[trainSeat];
-        });
-
-        if (!policy.cabin) {
-            policy.cabin = []
-        }
-        if (typeof policy.cabin == 'string') {
-            policy.cabin = [policy.cabin];
-        }
-        policy.cabin = policy.cabin.map( (cabin) => {
-            return CABIN[cabin];
-        });
-
-        if (!policy.hotelStar) {
-            policy.hotelStar = [];
-        }
-        if (typeof policy.hotelStar == 'string') {
-            policy.hotelStar = [policy.hotelStar];
-        }
-        policy.hotelStar = policy.hotelStar.map( (hotelStar) => {
-            return HOTEL_START[hotelStar];
-        })
-        policies[key] = policy;
-    }
-    return policies;
+function transform(policies) {
+    let result:any = [];
+    policies.map(function(policy){
+        let tp :any = {};
+         travalPolicyRegionCols.forEach(function(key){
+             tp[key] = policy[key];
+         })
+        result.push(tp)
+    });
+    return result;
 }
 

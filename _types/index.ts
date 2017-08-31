@@ -7,11 +7,13 @@ import {ModelInterface} from "../common/model/interface";
 import {ModelDelegate} from "../common/model/delegate";
 import {Budget, BudgetItem} from "_types/budget";
 import {Statistic, App} from "_types/openapi";
+import {Supplier} from "./supplier";
 export interface ModelsInterface {
     budget: ModelInterface<Budget>,
     budgetItem: ModelInterface<BudgetItem>,
     app: ModelInterface<App>,
     statistic: ModelInterface<Statistic>,
+    supplier: ModelInterface<Supplier>
 }
 
 export var Models: ModelsInterface = {
@@ -19,5 +21,6 @@ export var Models: ModelsInterface = {
     budgetItem: new ModelDelegate<BudgetItem>(),
     app: new ModelDelegate<App>(),
     statistic: new ModelDelegate<Statistic>(),
+    supplier: new ModelDelegate<Supplier>()
 };
 

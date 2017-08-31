@@ -6,6 +6,7 @@
 
 import {Budget, BudgetItem} from "_types/budget";
 import {App, Statistic} from "_types/openapi";
+import {Supplier} from "_types/supplier"
 import {createServerService} from "../common/model/sequelize";
 import {ModelsInterface, Models} from "../_types/index";
 
@@ -21,4 +22,5 @@ initModels({
     budgetItem: createServerService<BudgetItem>(BudgetItem),
     app: createServerService<App>(App),
     statistic: createServerService<Statistic>(Statistic),
+    supplier: createServerService<Supplier>(Supplier)
 });

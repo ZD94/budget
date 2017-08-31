@@ -485,8 +485,8 @@ export default class ApiTravelBudget {
 
                 let subsidies = [];
                 if(tp){
-                    let companySetingInfo = await Models.companySetingInfo.get(tp.companyId);
-                    if(companySetingInfo && companySetingInfo.isOpenSubsidyBudget){
+                    let company = await Models.company.get(tp.companyId);
+                    if(company && company.isOpenSubsidyBudget){
                         subsidies = await tp.getSubsidies({placeId: toCity.id});
                         let subsidyParams = {
                             subsidies: subsidies,

@@ -7,15 +7,15 @@ import {AbstractController} from "http/core/AbstractController";
 import {AbstractModelController} from "http/core/AbstractModelController";
 import {Restful} from "http/core/decorator";
 import API from '@jingli/dnode-api';
-import {CompanySetingInfo} from "_types/companySetingInfo";
+import {Company} from "_types/company";
 import {Models} from "_types";
-var companySetingInfoCols = CompanySetingInfo['$fieldnames'];
+var companyCols = Company['$fieldnames'];
 
 @Restful()
-export class CompanySetingInfoController extends AbstractModelController {
+export class CompanyController extends AbstractModelController {
 
     constructor() {
-        super(Models.companySetingInfo, companySetingInfoCols);
+        super(Models.company, companyCols);
     }
 
 

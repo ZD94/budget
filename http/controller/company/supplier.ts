@@ -11,7 +11,7 @@ import {Supplier} from '_types/supplier';
 var supplierCols = Supplier['$fieldnames'];
 
 
-@Restful()
+@Restful('/company/:companyId/companyRegion')
 export class SupplierController extends AbstractController {
 
     constructor() {

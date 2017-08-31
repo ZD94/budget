@@ -264,6 +264,7 @@ export interface IBudgetItem {
 export enum EBudgetType {
     TRAFFIC = 1,
     HOTEL = 2,
+    SUBSIDY = 3
 }
 
 export enum ETrafficType {
@@ -299,6 +300,14 @@ export interface IHotelBudgetItem extends IBudgetItem {
     name?: string;
     latitude?: number;
     longitude?: number;
+}
+
+export interface ISubsidyItem extends IBudgetItem {
+    city: string;
+    fromDate: Date;
+    endDate: Date;
+    duringDays: number;
+    templates: any;
 }
 
 export interface IHotelBudgetResult extends Array<IHotelBudgetItem> {
@@ -387,5 +396,6 @@ export interface FinalBudgetResultInterface {
 
 export interface SegmentBudgetItem {
     traffic: ITrafficBudgetResult,
-    hotel: IHotelBudgetResult
+    hotel: IHotelBudgetResult,
+    subsidy: ISubsidyItem
 }

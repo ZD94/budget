@@ -301,9 +301,14 @@ export default class ApiTravelBudget {
         let { subsidies, leaveDate, goBackDate, isHasBackSubsidy } = params;
         let budget: any = null
         if (subsidies && subsidies.length) {
-            let goBackDay = moment(goBackDate).format("YYYY-MM-DD");
-            let leaveDay = moment(leaveDate).format("YYYY-MM-DD");
-            let days = moment(goBackDay).diff(moment(leaveDay), 'days');
+            let goBackDay = goBackDate ? moment(goBackDate).format("YYYY-MM-DD") : null;
+            let leaveDay = leaveDate ? moment(leaveDate).format("YYYY-MM-DD") : null;
+            let days = 0;
+            if(!leaveDay || !leaveDay){
+                days = 1;
+            }else{
+                days = moment(goBackDay).diff(leaveDay, 'days');
+            }
             if (isHasBackSubsidy) { //解决如果只有住宿时最后一天补助无法加到返程目的地上
                 days += 1;
             }
@@ -312,9 +317,12 @@ export default class ApiTravelBudget {
             if (days > 0) {
                 let templates = [];
                 for(let i = 0; i < subsidies.length; i++){
-                    totalMoney += subsidies[i].subsidyMoney * Math.floor(days/subsidies[i].subsidyType.period);
-                    let subsidy = {name: subsidies[i].subsidyType.name, money: subsidies[i].subsidyMoney, period: subsidies[i].subsidyType.period};
-                    templates.push(subsidy);
+                    let subsidyDay =  Math.floor(days/subsidies[i].subsidyType.period);
+                    totalMoney += subsidies[i].subsidyMoney * subsidyDay;
+                    let subsidy = {name: subsidies[i].subsidyType.name, period: subsidies[i].subsidyType.period,  money: subsidies[i].subsidyMoney, subsidyId: subsidies[i].id};
+                    if(subsidyDay){
+                        templates.push(subsidy);
+                    }
                 }
 
                 budget = {};
@@ -323,6 +331,7 @@ export default class ApiTravelBudget {
                 budget.price = totalMoney;
                 budget.duringDays = days;
                 budget.templates = templates;
+                budget.type = EBudgetType.SUBSIDY;
             }
         }
         return budget;
@@ -477,7 +486,7 @@ export default class ApiTravelBudget {
                 let subsidies = [];
                 if(tp){
                     let companySetingInfo = await Models.companySetingInfo.get(tp.companyId);
-                    if(companySetingInfo.isOpenSubsidyBudget){
+                    if(companySetingInfo && companySetingInfo.isOpenSubsidyBudget){
                         subsidies = await tp.getSubsidies({placeId: toCity.id});
                         let subsidyParams = {
                             subsidies: subsidies,
@@ -489,6 +498,8 @@ export default class ApiTravelBudget {
                     }else{
                         tasks.push(null);
                     }
+                }else{
+                    tasks.push(null);
                 }
 
                 fromCity = toCity;

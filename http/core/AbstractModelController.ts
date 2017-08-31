@@ -19,7 +19,6 @@ export abstract class AbstractModelController extends AbstractController {
 
     async find(req, res, next) {
         let params = req.query;
-        console.info(params, "params============");
         let {p, pz, order} = params;
         pz = pz || 20;
         p = p || 0;
@@ -69,7 +68,6 @@ export abstract class AbstractModelController extends AbstractController {
 
     async add(req, res, next) {
         let params = req.body;
-        console.info(params, "params==============");
         let properties = {};
         for(let key in params){
             if(this.property.indexOf(key) >= 0){
@@ -84,13 +82,10 @@ export abstract class AbstractModelController extends AbstractController {
     async delete(req, res, next) {
         let params = req.params;
         let id = params.id;
-        console.info(id, "id============");
         if(!id) {
             res.json(this.reply(0, null));
         }
-        console.info(this.model);
         let obj = await this.model.get(id);
-        console.info(obj, "obj===============");
         if(obj){
             let isDeleted = await obj.destroy();
             res.json(this.reply(0, isDeleted));

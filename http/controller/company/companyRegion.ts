@@ -147,7 +147,7 @@ export class CompanyRegionController extends AbstractController {
         }
         let obj = await Models.companyRegion.get(id);
         let isDeleted = await obj.destroy();
-        res.reply(0, isDeleted);
+        res.json(this.reply(0, isDeleted));
     }
 
 

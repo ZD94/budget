@@ -3,9 +3,8 @@
  */
 
 'use strict';
-import {Restful, Router} from "../core/decorator";
+import {AbstractController, Restful, Router} from "@jingli/restful";
 import API from '@jingli/dnode-api';
-import {AbstractController} from "../core/AbstractController";
 
 @Restful()
 export class CityController extends AbstractController {

@@ -66,7 +66,7 @@ function transformStaffStrArgsToEnum(staffs) {
 }
 
 
-@Restful('/company/:id/travelPolicy')
+@Restful('/company/:companyId/travelPolicy')
 export class TravelPolicyController extends AbstractController {
 
     constructor() {

@@ -66,12 +66,17 @@ function transformStaffStrArgsToEnum(staffs) {
 }
 
 
-@Restful()
+@Restful('/company/:companyId/companyRegion')
 export class CompanyRegionController extends AbstractController {
 
     constructor() {
         super();
     }
+
+    // async $before(req, res, next) {
+    //     let {companyId} = req.params;
+    //     return next();
+    // }
 
     $isValidId(id: string) {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
@@ -105,7 +110,7 @@ export class CompanyRegionController extends AbstractController {
 
         let result = await Models.companyRegion.all(query);
         if(result == undefined) result = null;
-        console.log("companyRegion====>query: ", query, result[0], result[1]);
+        // console.log("companyRegion====>query: ", query, result[0], result[1]);
         res.json(this.reply(0, result));
     }
 

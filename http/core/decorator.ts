@@ -20,7 +20,7 @@ export function Router(url: string, method?: string) {
     }
 }
 
-export function Restful(mountUrl: string) {
+export function Restful(mountUrl?: string) {
     return function(target) {
         target.prototype.$isValidId = target.prototype.$isValidId || function(id) {
             return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id.toString());

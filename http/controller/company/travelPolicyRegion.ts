@@ -3,9 +3,8 @@
  */
 
 'use strict';
-import {AbstractController} from "http/core/AbstractController";
-import {Restful} from "http/core/decorator";
-import API from '@jingli/dnode-api';
+
+import {AbstractController, Restful} from "@jingli/restful";
 import {TravelPolicyRegion} from "_types/policy";
 import {Models} from "_types";
 var travelPolicyRegionCols = TravelPolicyRegion['$fieldnames'];
@@ -73,6 +72,10 @@ export class TravelPolicyRegionController extends AbstractController {
 
     constructor() {
         super();
+    }
+
+    $isValidId(id: string) {
+        return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
     async get(req, res, next) {

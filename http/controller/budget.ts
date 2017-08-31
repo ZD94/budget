@@ -3,8 +3,9 @@
  */
 
 'use strict';
-import {AbstractController} from "../core/AbstractController";
-import {Restful} from "../core/decorator";
+
+import {AbstractController, Restful} from "@jingli/restful";
+
 import API from '@jingli/dnode-api';
 
 const HOTEL_START = {
@@ -70,6 +71,10 @@ export class BudgetController extends AbstractController {
 
     constructor() {
         super();
+    }
+
+    $isValidId(id: string) {
+        return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
     async get(req, res, next) {

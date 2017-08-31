@@ -5,8 +5,10 @@
 'use strict';
 
 import {Budget, BudgetItem, Deeplink} from "_types/budget";
+import {App, Statistic} from "_types/openapi";
 import {createServerService} from "../common/model/sequelize";
 import {ModelsInterface, Models} from "../_types/index";
+import {TravelPolicy, TravelPolicyRegion, SubsidyTemplate, CompanyRegion, RegionPlace} from "_types/policy";
 
 export function initModels(models: ModelsInterface){
     for(let k in models){
@@ -19,4 +21,11 @@ initModels({
     budget: createServerService<Budget>(Budget),
     budgetItem: createServerService<BudgetItem>(BudgetItem),
     deeplink: createServerService<Deeplink>(Deeplink),
+    travelPolicy: createServerService<TravelPolicy>(TravelPolicy),
+    travelPolicyRegion: createServerService<TravelPolicyRegion>(TravelPolicyRegion),
+    companyRegion: createServerService<CompanyRegion>(CompanyRegion),
+    regionPlace: createServerService<RegionPlace>(RegionPlace),
+    subsidyTemplate: createServerService<SubsidyTemplate>(SubsidyTemplate),
+    app: createServerService<App>(App),
+    statistic: createServerService<Statistic>(Statistic),
 });

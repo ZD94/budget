@@ -60,9 +60,16 @@ server.on('init.api', function(API){
 //     API.registerAuthWeb(API.auth.authentication);
 });
 
-server.on('init.http', function(server){
+server.on('init.http', function(httpserver){
     console.log("init.http")
 });
+
+
+var httpModule = require('./http');
+server.on('init.http_handler', function(app) {
+    httpModule.initHttp(app);
+})
+
 
 zone.forkStackTrace().run(function(){
     require("common/model/index")

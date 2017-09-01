@@ -40,6 +40,7 @@ export async function manage(companyRegions:string[], cityCode:string, checkOpti
     let {checkFn, params} = checkOptions;
     do{
         regionPlace = await getRegionPlace(companyRegions, cityCode);
+
         if(!regionPlace){
             let parentCity = await getParentCity(cityCode);
             if(!parentCity){
@@ -88,13 +89,17 @@ async function checkPrefer(params:{
     let targetPrefer;
     prefers.map((prefer)=>{
         if(prefer.travelPolicyId == travelPolicyId){
-            targetPrefer = prefer;
+            targetPrefer = prefer.budgetConfig;
         }
     });
 
     if(targetPrefer){
         return targetPrefer;
     }
+    if(regionPlace.placeId == 'CTW_5' || regionPlace.placeId == 'Global'){
+        return prefers[0] && prefers[0].budgetConfig;
+    }
+
     return null;
 }
 
@@ -107,6 +112,7 @@ export async function getSuitablePrefer(params:{companyId:string, placeId:string
     companyRegions.map((item)=>{
         companyRegionIds.push(item.id);
     });
+
     let targetPrefer = await manage(companyRegionIds, placeId, {
             params: {
                 travelPolicyId
@@ -121,3 +127,4 @@ export async function getSuitablePrefer(params:{companyId:string, placeId:string
 
     return targetPrefer;
 }
+

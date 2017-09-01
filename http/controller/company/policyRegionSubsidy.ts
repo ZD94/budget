@@ -2,20 +2,32 @@
  * Created by wyl on 2017/8/29.
  */
 
+
 'use strict';
-import {AbstractController} from "http/core/AbstractController";
-import {AbstractModelController} from "http/core/AbstractModelController";
-import {Restful} from "http/core/decorator";
+import {AbstractController, AbstractModelController, Restful, Router} from "@jingli/restful";
 import API from '@jingli/dnode-api';
 import {PolicyRegionSubsidy} from "_types/policy";
 import {Models} from "_types";
 var policyRegionSubsidyCols = PolicyRegionSubsidy['$fieldnames'];
 
-@Restful()
+@Restful('/company/:companyId/policyRegionSubsidy')
 export class PolicyRegionSubsidyController extends AbstractModelController {
 
     constructor() {
         super(Models.policyRegionSubsidy, policyRegionSubsidyCols);
+    }
+
+    @Router('/getByCity', "GET")
+    async getByCity(req, res, next){
+        console.info("come in ============");
+        let {travelPolicyId, cityId} = req.query;
+        console.info(travelPolicyId, cityId);
+        let tp = await Models.travelPolicy.get(travelPolicyId);
+        let subsidies = [];
+        if(tp){
+            subsidies = await tp.getSubsidies({placeId: cityId});
+        }
+        res.json(this.reply(0, subsidies));
     }
 
     /*async get(req, res, next) {

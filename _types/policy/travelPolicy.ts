@@ -227,7 +227,6 @@ export class TravelPolicy extends ModelObject{
     async getSubsidies(params: {placeId: string}):Promise<any> {
         let {placeId} = params;
         let self = this;
-        let placeid = placeId;
         let tprs = await Models.policyRegionSubsidy.all({
             where: {travelPolicyId: self.id}
         });
@@ -239,27 +238,27 @@ export class TravelPolicy extends ModelObject{
         }
         do {
             let cps = await self.getRegionPlaces({
-                where: {companyRegionId: {$in: crIds}, placeId: placeid}});
+                where: {companyRegionId: {$in: crIds}, placeId: placeId}});
             if(cps && cps.length ){
-                let expectedTpr = await Models.policyRegionSubsidy.find({where: {travelPolicyId: self.id,companyRegionId: cps[0]["companyRegionId"]}});
+                let expectedTpr = await Models.policyRegionSubsidy.all({where: {travelPolicyId: self.id,companyRegionId: cps[0]["companyRegionId"]}});
                 if(expectedTpr && expectedTpr.length){
                     return expectedTpr;
                 }
             }
-            let cityInfo = await API.place.getCityInfo({cityCode: placeid});
+            let cityInfo = await API.place.getCityInfo({cityCode: placeId});
             if (!cityInfo) {
                 return null;
             }
             if(cityInfo.parentId) {
-                placeid = cityInfo.parentId;
+                placeId = cityInfo.parentId;
                 continue;
             }
 
             if(!cityInfo.isAbroad)
-                placeid = DefaultRegionId.domestic;
+                placeId = DefaultRegionId.domestic;
             if(cityInfo.isAbroad)
-                placeid = DefaultRegionId.abroad;
-        } while(placeid);
+                placeId = DefaultRegionId.abroad;
+        } while(placeId);
 
     }
 

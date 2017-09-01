@@ -206,7 +206,6 @@ export default class ApiTravelBudget {
         if (earliestDepartTime && earliestDepartTime < new Date()) {
             throw new L.ERROR_CODE_C(500, '出发日期已过');
         }
-
         if (typeof fromCity == 'string') {
             fromCity = await CityService.getCity(fromCity);
         }
@@ -319,7 +318,7 @@ export default class ApiTravelBudget {
                 for(let i = 0; i < subsidies.length; i++){
                     let subsidyDay =  Math.floor(days/subsidies[i].subsidyType.period);
                     totalMoney += subsidies[i].subsidyMoney * subsidyDay;
-                    let subsidy = {name: subsidies[i].subsidyType.name, period: subsidies[i].subsidyType.period,  money: subsidies[i].subsidyMoney, subsidyId: subsidies[i].id};
+                    let subsidy = {name: subsidies[i].subsidyType.name, period: subsidies[i].subsidyType.period,  money: subsidies[i].subsidyMoney, id: subsidies[i].id};
                     if(subsidyDay){
                         templates.push(subsidy);
                     }

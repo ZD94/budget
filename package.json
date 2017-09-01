@@ -22,6 +22,7 @@
     "@jingli/dnode-api": "^1.1.8",
     "@jingli/language": "^1.0.0",
     "@jingli/logger": "^1.0.1",
+    "@jingli/restful": "0.0.7",
     "@jingli/zone-setup": "^1.0.1",
     "@types/lodash": "^4.14.63",
     "@types/pg": "^6.1.39",

@@ -6,17 +6,15 @@
 
 import http = require("http");
 
-import {scannerControllers} from "./core/decorator";
-import {registerControllerToRouter} from "./core/router/index";
+import {scannerControllers, registerControllerToRouter} from "@jingli/restful";
 
 import path = require("path");
-scannerControllers(path.join(__dirname, 'controller'));
-
 import express = require("express");
 var router = express.Router();
+
+scannerControllers(path.join(__dirname, 'controller'));
 registerControllerToRouter(router);
 
 export async function initHttp(app) {
-    // app.use('/api/v1', v1);
     app.use('/api/v1', router);
 }

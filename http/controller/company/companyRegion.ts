@@ -3,9 +3,7 @@
  */
 
 'use strict';
-import {AbstractController} from "http/core/AbstractController";
-import {Restful} from "http/core/decorator";
-import API from '@jingli/dnode-api';
+import {AbstractController, Restful} from "@jingli/restful";
 import {CompanyRegion} from "_types/policy";
 import {Models} from "_types";
 var companyRegionCols = CompanyRegion['$fieldnames'];
@@ -68,11 +66,20 @@ function transformStaffStrArgsToEnum(staffs) {
 }
 
 
-@Restful()
+@Restful('/company/:companyId/companyRegion')
 export class CompanyRegionController extends AbstractController {
 
     constructor() {
         super();
+    }
+
+    // async $before(req, res, next) {
+    //     let {companyId} = req.params;
+    //     return next();
+    // }
+
+    $isValidId(id: string) {
+        return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
     async get(req, res, next) {
@@ -103,7 +110,7 @@ export class CompanyRegionController extends AbstractController {
 
         let result = await Models.companyRegion.all(query);
         if(result == undefined) result = null;
-        console.log("companyRegion====>query: ", query, result[0], result[1]);
+        // console.log("companyRegion====>query: ", query, result[0], result[1]);
         res.json(this.reply(0, result));
     }
 
@@ -147,7 +154,7 @@ export class CompanyRegionController extends AbstractController {
         }
         let obj = await Models.companyRegion.get(id);
         let isDeleted = await obj.destroy();
-        res.reply(0, isDeleted);
+        res.json(this.reply(0, isDeleted));
     }
 
 

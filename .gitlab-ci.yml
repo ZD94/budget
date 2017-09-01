@@ -9,7 +9,8 @@ variables:
   JL_APP_DAEMON_WAIT_INIT: log/nohup.out
   JL_APP_REDIS: redis://l.jingli365.com:16379
 
-stages:
+
+stages:s
   - build
   - docker
   - deploy
@@ -56,6 +57,7 @@ deploy:master:
   environment:
     name: dev
     url: https://budget.l.jingli365.com
+    JL_APP_POSTGRES: postgres://times:time0418@@l.jingli365.com:15432/jlbudget
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME
@@ -71,6 +73,7 @@ deploy:test:
   environment:
     name: test
     url: https://budget.t.jingli365.com
+    JL_APP_POSTGRES: postgres://times:time0418@@l.jingli365.com:15432/t_jlbudget
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME

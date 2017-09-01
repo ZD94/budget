@@ -35,9 +35,8 @@ build:dist:
     - echo `npmhash`
     - git submodule update --init --checkout
     - npm --registry https://npm.l.jingli365.com install
-    - gulp tarball -n $CI_BUILD_REF_NAME
+    - gulp dist
     - ls dist/http/ -al
-    - scp $CI_PROJECT_NAME-$CI_BUILD_REF_NAME-*.tar.gz test@git.l.jingli365.com:~/versions/
 
 build:image:
   stage: docker

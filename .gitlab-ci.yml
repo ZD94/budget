@@ -9,7 +9,6 @@ variables:
   JL_APP_DAEMON_WAIT_INIT: log/nohup.out
   JL_APP_REDIS: redis://l.jingli365.com:16379
 
-
 stages:
   - build
   - docker

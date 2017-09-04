@@ -148,7 +148,7 @@ export class RegionPlaceController extends AbstractController {
         }
         let obj = await Models.regionPlace.get(id);
         let isDeleted = await obj.destroy();
-        res.reply(0, isDeleted);
+        res.json(this.reply(0, isDeleted));
     }
 
 

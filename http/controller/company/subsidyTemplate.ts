@@ -148,7 +148,7 @@ export class SubsidyTemplateController extends AbstractController {
         }
         let obj = await Models.travelPolicy.get(id);
         let isDeleted = await obj.destroy();
-        res.reply(0, isDeleted);
+        res.json(this.reply(0, isDeleted));
     }
 
 

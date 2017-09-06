@@ -7,7 +7,9 @@ import {ModelInterface} from "../common/model/interface";
 import {ModelDelegate} from "../common/model/delegate";
 import {Budget, BudgetItem} from "_types/budget";
 import {Statistic, App} from "_types/openapi";
+import {Company} from "_types/company";
 import {TravelPolicy,SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionPlace} from "_types/policy";
+import {Account, AccountCompany} from "_types/account";
 
 export interface ModelsInterface {
     budget: ModelInterface<Budget>;
@@ -19,6 +21,9 @@ export interface ModelsInterface {
     companyRegion: ModelInterface<CompanyRegion>;
     regionPlace: ModelInterface<RegionPlace>;
     subsidyTemplate: ModelInterface<SubsidyTemplate>;
+    company: ModelInterface<Company>;
+    account: ModelInterface<Account>;
+    accountCompany: ModelInterface<AccountCompany>;
 }
 
 
@@ -34,5 +39,8 @@ export var Models: ModelsInterface = {
     subsidyTemplate: new ModelDelegate<SubsidyTemplate>(),
     app: new ModelDelegate<App>(),
     statistic: new ModelDelegate<Statistic>(),
+    company: new ModelDelegate<Company>(),
+    account: new ModelDelegate<Account>(),
+    accountCompany: new ModelDelegate<AccountCompany>()
 };
 

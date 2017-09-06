@@ -149,7 +149,7 @@ export class TravelPolicyRegionController extends AbstractController {
         }
         let obj = await Models.travelPolicyRegion.get(id);
         let isDeleted = await obj.destroy();
-        res.reply(0, isDeleted);
+        res.json(this.reply(0, isDeleted));
     }
 
 

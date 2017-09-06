@@ -96,7 +96,8 @@ export class CompanyRegionController extends AbstractController {
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
         let params = req.query;
-        let query = {where:{}};
+        let {companyId} = req.params;
+        let query = {where:{companyId: companyId}};
         let limit = 20;
         for(let key in params){
             if(companyRegionCols.indexOf(key) >= 0){

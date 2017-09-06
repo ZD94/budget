@@ -91,11 +91,12 @@ export class TravelPolicyController extends AbstractController {
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
         let {p, pz, order} = req.query;
+        let {companyId} = req.params;
         p = p || 1;
         pz = pz || 20;
         let params = req.query;
         let query = {
-            where:{},
+            where:{companyId: companyId},
             limit: pz,
             offset: pz * (p-1)
         };

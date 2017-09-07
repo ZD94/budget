@@ -80,3 +80,11 @@
 //     }
 //     return cb();
 // }
+
+export function authenticate(req, res, next) {
+    let key = req.headers['key'] || req.query.key;
+    if (key == 'jinglicloud2017') {
+        return next();
+    }
+    res.sendStatus(403);
+}

@@ -30,6 +30,7 @@ export class CompanyController extends AbstractController{
         res.json(this.reply(0, result));
     }
 
+
     /*async find(req, res, next) {
 
         let {accountId} = req.query;
@@ -40,6 +41,7 @@ export class CompanyController extends AbstractController{
 
         res.send("company/Info find");
     }*/
+
 
 
 

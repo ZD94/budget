@@ -18,4 +18,5 @@ registerControllerToRouter(router);
 
 export async function initHttp(app) {
     app.use('/api/v1', authenticate, router);
+    // app.use('/api/v1', v1);
 }

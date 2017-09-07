@@ -40,7 +40,7 @@ describe('supplier API test', function() {
             });
     });
 
-    it('ADD /POST', function(done) {
+    it.only('ADD /POST', function(done) {
         var data = {
             name: 'ctrip',
             createdAt: moment.now(),
@@ -73,7 +73,7 @@ describe('supplier API test', function() {
             });
     });
 
-    it.only('DELETE /GET', function(done) {
+    it('DELETE /GET', function(done) {
         var data = {
             id: '111a3920-8e18-11e7-b988-2509ac61ba99'
         };

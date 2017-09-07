@@ -358,7 +358,7 @@ export default class ApiTravelBudget {
                 }
                 if (fromCity && !seg.noTraffic) {
                     if(tp){
-                        if(toCity["isAbroad"]){
+                        if(!toCity.isAbroad){
                             policies = {
                                 abroad:{
                                     cabin: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "planeLevels"}),
@@ -367,7 +367,7 @@ export default class ApiTravelBudget {
                                 }
                             }
                         }
-                        if(!toCity["isAbroad"]){
+                        if(toCity.isAbroad){
                             policies = {
                                 domestic:{
                                     cabin: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "planeLevels"}),

@@ -9,7 +9,7 @@ import {Models} from "_types";
 
 
 @Restful()
-export class CompanyInfoController extends AbstractController{
+export class CompanyController extends AbstractController{
 
     constructor() {
         super();
@@ -30,7 +30,7 @@ export class CompanyInfoController extends AbstractController{
         res.json(this.reply(0, result));
     }
 
-    async find(req, res, next) {
+    /*async find(req, res, next) {
 
         let {accountId} = req.query;
         // let companies = await Models.accountCompany.find()
@@ -39,7 +39,7 @@ export class CompanyInfoController extends AbstractController{
         res.json(this.reply(0, result));
 
         res.send("company/Info find");
-    }
+    }*/
 
 
 

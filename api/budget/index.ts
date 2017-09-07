@@ -163,7 +163,6 @@ export default class ApiTravelBudget {
     }
 
     static async getTrafficBudget(params: IQueryTrafficBudgetParams): Promise<ITrafficBudgetResult> {
-        logger.info("Call getTrafficBudget params:", params)
         //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
         let { fromCity, toCity, latestArrivalTime, earliestDepartTime, policies, preferSet, tickets, staffs, isRetMarkedData} = params;
         let requiredParams = {
@@ -360,7 +359,7 @@ export default class ApiTravelBudget {
                     if(tp){
                         if(!toCity.isAbroad){
                             policies = {
-                                abroad:{
+                                domestic:{
                                     cabin: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "planeLevels"}),
                                     trainSeat: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trainLevels"}),
                                     trafficPrefer: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trafficPrefer"}),
@@ -369,7 +368,7 @@ export default class ApiTravelBudget {
                         }
                         if(toCity.isAbroad){
                             policies = {
-                                domestic:{
+                                abroad:{
                                     cabin: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "planeLevels"}),
                                     trafficPrefer: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trafficPrefer"}),
                                 }

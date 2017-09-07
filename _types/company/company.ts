@@ -28,7 +28,7 @@ export class Company extends ModelObject{
     @Field({type: Types.BOOLEAN})
     get isOpenSubsidyBudget(): boolean { return null; }
     set isOpenSubsidyBudget(val: boolean) {}
-
+    
     //保存使用的公共供应商
     @Field({type: Types.JSONB, defaultValue: '[]'})
     get appointedPubilcSuppliers(): any { return []};

@@ -82,7 +82,7 @@ export class TravelPolicyRegionController extends AbstractController {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(this.reply(0, null));
+            return res.json(this.reply(0, null));
         }
         let result = await Models.travelPolicyRegion.get(id);
         if(result == undefined) result = null;
@@ -114,7 +114,7 @@ export class TravelPolicyRegionController extends AbstractController {
         let params = req.body;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(this.reply(0, null));
+            return res.json(this.reply(0, null));
         }
         let obj = await Models.travelPolicyRegion.get(id);
 
@@ -145,7 +145,7 @@ export class TravelPolicyRegionController extends AbstractController {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(this.reply(0, null));
+            return res.json(this.reply(0, null));
         }
         let obj = await Models.travelPolicyRegion.get(id);
         let isDeleted = await obj.destroy();

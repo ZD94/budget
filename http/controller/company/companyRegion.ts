@@ -86,7 +86,7 @@ export class CompanyRegionController extends AbstractController {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(this.reply(0, null));
+            return res.json(this.reply(0, null));
         }
         let result = await Models.companyRegion.get(id);
         if(result == undefined) result = null;
@@ -120,7 +120,7 @@ export class CompanyRegionController extends AbstractController {
         let params = req.body;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(this.reply(0, null));
+            return res.json(this.reply(0, null));
         }
         let obj = await Models.companyRegion.get(id);
 
@@ -151,7 +151,7 @@ export class CompanyRegionController extends AbstractController {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(this.reply(0, null));
+            return res.json(this.reply(0, null));
         }
         let obj = await Models.companyRegion.get(id);
         let isDeleted = await obj.destroy();

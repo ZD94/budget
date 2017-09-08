@@ -81,7 +81,7 @@ export class SubsidyTemplateController extends AbstractController {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(0, null);
+            res.json(this.reply(0, null));
         }
         let result = await Models.subsidyTemplate.get(id);
         if(result == undefined) result = null;
@@ -113,7 +113,7 @@ export class SubsidyTemplateController extends AbstractController {
         let params = req.body;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(0, null);
+            res.json(this.reply(0, null));
         }
         let obj = await Models.subsidyTemplate.get(id);
 
@@ -144,7 +144,7 @@ export class SubsidyTemplateController extends AbstractController {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(0, null);
+            res.json(this.reply(0, null));
         }
         let obj = await Models.travelPolicy.get(id);
         let isDeleted = await obj.destroy();

@@ -192,25 +192,6 @@ export abstract class AbstractHotelStrategy {
     }
 }
 
-
-async function convert2PreferedCurrency(price: number, currency: string){
-    let defaultCurrencyFrom = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';  //表示人民币
-    let query = {
-        where: {
-            currencyFromId: defaultCurrencyFrom,
-            currencyToId: currency,
-        },
-        order:[['postedDate', 'desc'], ['created_at', 'desc']]
-    };
-    let rates = await Models.exchangeRate.find(query);
-    if(rates && rates.length) {
-        let expectedPrice = price * rates[0]["rate"];
-        expectedPrice = Math.round(expectedPrice * 100)/100;
-        return expectedPrice;
-    }
-    return price;
-}
-
 export class CommonHotelStrategy extends AbstractHotelStrategy {
 
     constructor(public qs: any, options: any) {
@@ -390,4 +371,29 @@ class PreferFactory {
         }
         return null;
     }
+}
+
+
+async function convert2PreferedCurrency(price: number, currency: string){
+    let defaultCurrencyFrom = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';  //表示人民币
+    let currenciesTo = await Models.currency.find({
+        where: {
+            $or: [{currency_code: currency}, {currency_name: currency}]
+        }
+    });
+    if(!currenciesTo || !currenciesTo.length) return price;
+    let query = {
+        where: {
+            currencyFromId: defaultCurrencyFrom,
+            currencyToId: currenciesTo[0].id,
+        },
+        order:[['postedDate', 'desc'], ['created_at', 'desc']]
+    };
+    let rates = await Models.exchangeRate.find(query);
+    if(rates && rates.length) {
+        let expectedPrice = price * rates[0]["rate"];
+        expectedPrice = Math.round(expectedPrice * 100)/100;
+        return expectedPrice;
+    }
+    return price;
 }

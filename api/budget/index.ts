@@ -398,7 +398,7 @@ export default class ApiTravelBudget {
                         if(toCity["isAbroad"]){
                             policies = {
                                 abroad:{
-                                    hotelLevels: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
+                                    hotelStar: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
                                     hotelPrefer: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelPrefer"}),
                                     maxPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "maxPriceLimit"}),
                                     minPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "minPriceLimit"}),
@@ -408,7 +408,7 @@ export default class ApiTravelBudget {
                         if(!toCity["isAbroad"]){
                             policies = {
                                 domestic:{
-                                    hotelLevels: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
+                                    hotelStar: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
                                     hotelPrefer: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelPrefer"}),
                                     maxPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "maxPriceLimit"}),
                                     minPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "minPriceLimit"}),

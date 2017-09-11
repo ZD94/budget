@@ -655,5 +655,4 @@ async function convert2PreferedCurrency(price: number, currency: string){
         return expectedPrice;
     }
     return price;
-
 }

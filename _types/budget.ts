@@ -288,6 +288,7 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     cabin?: EAirCabin | ETrainSeat | EShipCabin;     //仓位或者座位
     discount?: number;                  //大致折扣
     no?: string;
+    unit?:string;
 }
 
 export interface ITrafficBudgetResult extends Array<ITrafficBudgetItem> {
@@ -302,6 +303,7 @@ export interface IHotelBudgetItem extends IBudgetItem {
     name?: string;
     latitude?: number;
     longitude?: number;
+    unit?: string;
 }
 
 export interface IHotelBudgetResult extends Array<IHotelBudgetItem> {

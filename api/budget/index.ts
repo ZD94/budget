@@ -146,9 +146,6 @@ class ApiTravelBudget {
             maxPriceLimit = policies[selector].maxPriceLimit;
             minPriceLimit = policies[selector].minPriceLimit;
             budget.price = await ApiTravelBudget.limitHotelBudgetByPrefer(minPriceLimit * days,maxPriceLimit * days,budget.price);
-            if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
-                budget.price = await convert2PreferedCurrency(budget.price, preferedCurrency);
-            }
 
             let hotelBudget: IHotelBudgetItem = {
                 id: budget.id,
@@ -282,9 +279,7 @@ class ApiTravelBudget {
                     discount = discount < 1? discount:1;
                 }
             }
-            if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
-                budget.price = await convert2PreferedCurrency(budget.price, preferedCurrency);
-            }
+
             let trafficBudget: ITrafficBudgetItem = {
                 id: budget.id,
                 departTime: budget.departTime,
@@ -295,6 +290,7 @@ class ApiTravelBudget {
                 toCity: budget.toCity,
                 type: EBudgetType.TRAFFIC,
                 price: budget.price,
+                unit: budget.unit,
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
@@ -639,20 +635,3 @@ async function requestExchangeRate():Promise<any>{
 
 }
 
-async function convert2PreferedCurrency(price: number, currency: string){
-    let defaultCurrencyFrom = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';  //表示人民币
-    let query = {
-        where: {
-            currencyFromId: defaultCurrencyFrom,
-            currencyToId: currency,
-        },
-        order:[['postedDate', 'desc'], ['created_at', 'desc']]
-    };
-    let rates = await Models.exchangeRate.find(query);
-    if(rates && rates.length) {
-        let expectedPrice = price * rates[0]["rate"];
-        expectedPrice = Math.round(expectedPrice * 100)/100;
-        return expectedPrice;
-    }
-    return price;
-}

@@ -12,6 +12,7 @@ import {
 import moment = require("moment");
 import _ = require("lodash");
 import {Models} from "_types/index";
+const defaultCurrencyUnit = 'CNY';
 
 function formatTicketData(tickets: ITicket[]) : IFinalTicket[] {
     let _tickets : IFinalTicket[] = [];
@@ -101,7 +102,7 @@ export abstract class AbstractHotelStrategy {
 
     abstract async customMarkedScoreData(hotels: IFinalHotel[]) :Promise<IFinalHotel[]>;
 
-    async getResult(hotels: IHotel[], isRetMarkedData?: boolean): Promise<IHotelBudgetItem> {
+    async getResult(hotels: IHotel[], isRetMarkedData?: boolean, preferedCurrency?: string): Promise<IHotelBudgetItem> {
         let self = this;
         let _hotels = formatHotel(hotels);
         if ((!_hotels || !_hotels.length) && self.qs.city && !self.qs.city.isAbroad) {
@@ -125,6 +126,7 @@ export abstract class AbstractHotelStrategy {
                 type: EBudgetType.HOTEL,
                 latitude: 0,
                 longitude: 0,
+                unit: defaultCurrencyUnit
             } as IHotelBudgetItem;
         }
 
@@ -139,7 +141,8 @@ export abstract class AbstractHotelStrategy {
                 type: EBudgetType.HOTEL,
                 latitude: 0,
                 longitude: 0,
-                price: -1
+                price: -1,
+                unit: defaultCurrencyUnit
             }
         }
 
@@ -149,11 +152,17 @@ export abstract class AbstractHotelStrategy {
         });
         _hotels = await this.customMarkedScoreData(_hotels);
         let ret = _hotels[0];
+
+        if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
+            ret.price = await convert2PreferedCurrency(ret.price, preferedCurrency);
+        }
+
         let result: any = {
             city: self.qs.city ? self.qs.city.id : '',
             checkInDate: self.qs.checkInDate,
             checkOutDate: self.qs.checkOutDate,
             price: ret.price,
+            unit: preferedCurrency || defaultCurrencyUnit,
             agent: ret.agent,
             name: ret.name,
             star: ret.star,
@@ -181,6 +190,25 @@ export abstract class AbstractHotelStrategy {
         }
         return result;
     }
+}
+
+
+async function convert2PreferedCurrency(price: number, currency: string){
+    let defaultCurrencyFrom = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';  //表示人民币
+    let query = {
+        where: {
+            currencyFromId: defaultCurrencyFrom,
+            currencyToId: currency,
+        },
+        order:[['postedDate', 'desc'], ['created_at', 'desc']]
+    };
+    let rates = await Models.exchangeRate.find(query);
+    if(rates && rates.length) {
+        let expectedPrice = price * rates[0]["rate"];
+        expectedPrice = Math.round(expectedPrice * 100)/100;
+        return expectedPrice;
+    }
+    return price;
 }
 
 export class CommonHotelStrategy extends AbstractHotelStrategy {
@@ -243,7 +271,7 @@ export abstract class AbstractTicketStrategy {
 
     abstract async customerMarkedScoreData(tickets: IFinalTicket[]): Promise<IFinalTicket[]>;
 
-    async getResult(tickets: ITicket[], isRetMarkedData?: boolean) :Promise<ITrafficBudgetItem> {
+    async getResult(tickets: ITicket[], isRetMarkedData?: boolean, preferedCurrency?: string) :Promise<ITrafficBudgetItem> {
         let self = this;
         let _tickets = formatTicketData(tickets);
         if (!_tickets || !_tickets.length) {
@@ -251,6 +279,7 @@ export abstract class AbstractTicketStrategy {
                 fromCity: self.qs.fromCity.id,
                 toCity: self.qs.toCity.id,
                 price: -1,
+                unit: defaultCurrencyUnit,
                 departTime: new Date(),
                 arrivalTime: new Date(),
                 trafficType: ETrafficType.PLANE,
@@ -265,8 +294,13 @@ export abstract class AbstractTicketStrategy {
         });
         _tickets = await this.customerMarkedScoreData(_tickets);
         let ret = _tickets[0];
+        if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
+            ret.price = await convert2PreferedCurrency(ret.price, preferedCurrency);
+        }
+
         let result: ITrafficBudgetItem = {
             price: ret.price,
+            unit: preferedCurrency || defaultCurrencyUnit,
             type: EBudgetType.TRAFFIC,
             no: ret.No,
             agent: ret.agent,

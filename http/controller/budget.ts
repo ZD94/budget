@@ -94,11 +94,10 @@ export class BudgetController extends AbstractController {
         //改restful budget api为传travelPolicyId, 同时添加请求货币类型
         let {staffs, fromCity, segments, ret, travelPolicyId, preferedCurrency} = req.json;
 
-        let preferedCurrencyId = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';  //默认为人民币
         if(preferedCurrency) {
             let currencyIds = await Models.currency.find({where: {$or: [{currency_code: preferedCurrency}, {currency_name: preferedCurrency}]}});
-            if(currencyIds && currencyIds.length) {
-                preferedCurrencyId = currencyIds[0]['id'];
+            if(!currencyIds || !currencyIds.length) {
+                return res.json(this.reply(400, []));
             }
         }
 
@@ -116,7 +115,7 @@ export class BudgetController extends AbstractController {
         let segmentBudgets;
         segmentBudgets = await API['budget'].createBudget({
             // policies: policies,
-            preferedCurrency: preferedCurrencyId,
+            preferedCurrency: preferedCurrency,
             travelPolicyId: travelPolicyId,
             prefers: [],
             staffs: staffs,

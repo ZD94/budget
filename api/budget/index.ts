@@ -170,7 +170,6 @@ class ApiTravelBudget {
     }
 
     static async getTrafficBudget(params: IQueryTrafficBudgetParams): Promise<ITrafficBudgetResult> {
-        logger.info("Call getTrafficBudget params:", params)
         //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
         let { fromCity, toCity, latestArrivalTime, earliestDepartTime, policies, preferSet, tickets, staffs, isRetMarkedData, preferedCurrency} = params;
         let requiredParams = {
@@ -368,18 +367,18 @@ class ApiTravelBudget {
                 }
                 if (fromCity && !seg.noTraffic) {
                     if(tp){
-                        if(toCity["isAbroad"]){
+                        if(!toCity.isAbroad){
                             policies = {
-                                abroad:{
+                                domestic:{
                                     cabin: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "planeLevels"}),
                                     trainSeat: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trainLevels"}),
                                     trafficPrefer: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trafficPrefer"}),
                                 }
                             }
                         }
-                        if(!toCity["isAbroad"]){
+                        if(toCity.isAbroad){
                             policies = {
-                                domestic:{
+                                abroad:{
                                     cabin: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "planeLevels"}),
                                     trafficPrefer: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trafficPrefer"}),
                                 }
@@ -409,7 +408,7 @@ class ApiTravelBudget {
                         if(toCity["isAbroad"]){
                             policies = {
                                 abroad:{
-                                    hotelLevels: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
+                                    hotelStar: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
                                     hotelPrefer: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelPrefer"}),
                                     maxPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "maxPriceLimit"}),
                                     minPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "minPriceLimit"}),
@@ -419,7 +418,7 @@ class ApiTravelBudget {
                         if(!toCity["isAbroad"]){
                             policies = {
                                 domestic:{
-                                    hotelLevels: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
+                                    hotelStar: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
                                     hotelPrefer: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelPrefer"}),
                                     maxPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "maxPriceLimit"}),
                                     minPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "minPriceLimit"}),

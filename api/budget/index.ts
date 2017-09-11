@@ -536,7 +536,7 @@ class ApiTravelBudget {
     static _scheduleTask () {
         let taskId = "currencyExchangeRate";
         logger.info('run task ' + taskId);
-        scheduler('0 0 0 * * *', taskId, async function() {
+        scheduler('0 0 8 * * *', taskId, async function() {
             let MAX_TRY = 3;
             let exchangeRate = [];
             for(let i =0; i < MAX_TRY; i++ ) {

@@ -25,8 +25,8 @@ export class ExchangeRate extends ModelObject{
     set currencyTo(val: string) {}
 
     @Field({type: Types.DATE})
-    get postedDate(): Date { return null; }
-    set postedDate(val: Date) {}
+    get postedAt(): Date { return null; }
+    set postedAt(val: Date) {}
 
 
     @Field({type: Types.NUMERIC})

@@ -126,7 +126,7 @@ class ApiTravelBudget {
                 city: city,
                 location,
             }, {isRecord: true});
-            let budget = await strategy.getResult(hotels, isRetMarkedData);
+            let budget = await strategy.getResult(hotels, isRetMarkedData, preferedCurrency);
 
             let maxPriceLimit = 0;
             let minPriceLimit = 0;
@@ -269,7 +269,7 @@ class ApiTravelBudget {
                 staffs,
             }, {isRecord: true});
 
-            let budget = await strategy.getResult(tickets, isRetMarkedData);
+            let budget = await strategy.getResult(tickets, isRetMarkedData, preferedCurrency);
             let discount = 0;
             if (budget.trafficType == ETrafficType.PLANE) {
                 let fullPrice = await API.place.getFlightFullPrice({originPlace: budget.fromCity, destination: budget.toCity});
@@ -391,6 +391,7 @@ class ApiTravelBudget {
                         preferSet,
                         tickets,
                         isRetMarkedData: isRetMarkedData,
+                        preferedCurrency
                     }
                     tasks.push(ApiTravelBudget.getTrafficBudget(trafficParams));
                 } else {
@@ -435,6 +436,7 @@ class ApiTravelBudget {
                         hotels,
                         isRetMarkedData: isRetMarkedData,
                         location: seg.location,
+                        preferedCurrency
                     }
                     tasks.push(ApiTravelBudget.getHotelBudget(hotelParams))
                 } else {

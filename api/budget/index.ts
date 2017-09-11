@@ -14,6 +14,9 @@ const moment = require('moment');
 const cache = require("common/cache");
 const utils = require("common/utils");
 import _ = require("lodash");
+var request = require("request");
+import {ExchangeRate} from "_types/currency";
+let scheduler = require('common/scheduler');
 
 import {
     TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory
@@ -28,7 +31,7 @@ import Logger from "@jingli/logger";
 var logger = new Logger("budget");
 import { TravelPolicy} from "_types/policy";
 export var NoCityPriceLimit = 0;
-export default class ApiTravelBudget {
+class ApiTravelBudget {
 
     static async getHotelBudget(params: IQueryHotelBudgetParams): Promise<IHotelBudgetResult> {
         if (!params) {
@@ -528,8 +531,48 @@ export default class ApiTravelBudget {
         }
 
     }
+
+
+    static _scheduleTask () {
+        let taskId = "currencyExchangeRate";
+        logger.info('run task ' + taskId);
+        scheduler('0 0 0 * * *', taskId, async function() {
+            let MAX_TRY = 3;
+            let exchangeRate = [];
+            for(let i =0; i < MAX_TRY; i++ ) {
+                try{
+                    exchangeRate = await requestExchangeRate();
+                } catch(err) {
+                    console.log("获取汇率失败")
+                }
+                if(exchangeRate && exchangeRate.length && typeof(exchangeRate) != 'undefined'){
+                    break;
+                }
+            }
+            if(exchangeRate && exchangeRate.length) {
+                let rate;
+                for(let i = 0; i< exchangeRate.length; i++){
+                    if(exchangeRate[i]["currencyF"] == 'CNY') {
+                        rate = exchangeRate[i]["exchange"] || exchangeRate[i]["result"]
+                    }
+                }
+                if(rate) {
+                    let params = {
+                        currencyFrom: '4a66fb50-96a6-11e7-b929-cbb6f90690e1',
+                        currencyTo: '4a66fb51-96a6-11e7-b929-cbb6f90690e1',
+                        postedDate: exchangeRate[0]["updateTime"],
+                        rate: rate
+                    };
+                    let obj = ExchangeRate.create(params);
+                    await obj.save();
+                }
+            }
+        });
+    }
 }
 
+ApiTravelBudget._scheduleTask();
+export default  ApiTravelBudget;
 function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: boolean) :FinalBudgetResultInterface {
     let result;
     let d = _.cloneDeep(data);
@@ -558,4 +601,36 @@ function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: b
     }
     d.budgets = result;
     return d;
+}
+
+
+
+async function requestExchangeRate():Promise<any>{
+    let baseUrl = 'http://op.juhe.cn/onebox/exchange/currency';
+    let qs: {
+        [index:string]:string
+    } = {
+        from: "CNY",
+        to: "USD",
+        key: "58db4718504b1fa7a7448a8024c41864"
+    }
+    return new Promise<any>(async (resolve,reject) => {
+        request({
+            uri: baseUrl,
+            qs: qs,
+            json: true,
+            method: "get"
+        }, async function(err,res) {
+            if(err) return reject(null);
+            let body;
+            if(typeof(res.body) == 'string') {
+                body = JSON.parse(res.body);
+            }
+            if(body && body.result && body.error_code == 0) {
+                return resolve(body.result);
+            }
+            return reject(null)
+        });
+    });
+
 }

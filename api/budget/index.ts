@@ -558,8 +558,8 @@ class ApiTravelBudget {
                 }
                 if(rate) {
                     let params = {
-                        currencyFrom: '4a66fb50-96a6-11e7-b929-cbb6f90690e1',
-                        currencyTo: '4a66fb51-96a6-11e7-b929-cbb6f90690e1',
+                        currencyFromId: '4a66fb50-96a6-11e7-b929-cbb6f90690e1',  //人民币
+                        currencyToId: '4a66fb51-96a6-11e7-b929-cbb6f90690e1',    //美元
                         postedDate: exchangeRate[0]["updateTime"],
                         rate: rate
                     };
@@ -622,9 +622,9 @@ async function requestExchangeRate():Promise<any>{
             method: "get"
         }, async function(err,res) {
             if(err) return reject(null);
-            let body;
+            let body = res.body;
             if(typeof(res.body) == 'string') {
-                body = JSON.parse(res.body);
+                body = JSON.parse(body);
             }
             if(body && body.result && body.error_code == 0) {
                 return resolve(body.result);

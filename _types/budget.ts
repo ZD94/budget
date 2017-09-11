@@ -108,7 +108,8 @@ export interface IQueryHotelBudgetParams {
     location?: {
         latitude: number,
         longitude: number,
-    }
+    },
+    preferedCurrency?: string
 }
 
 //仓位信息
@@ -194,6 +195,7 @@ export interface IQueryTrafficBudgetParams {
     tickets?: ITicket[];
     isRetMarkedData?: boolean;
     earliestDepartTime?: Date;   //最早出发时间
+    preferedCurrency?: string;
 }
 
 export interface IQueryBudgetParams {
@@ -209,6 +211,7 @@ export interface IQueryBudgetParams {
     tickets?: ITicket[];
     hotels?: IHotel[];
     isRetMarkedData?: boolean;
+    preferedCurrency?: string;
 }
 
 export interface PreferSet {

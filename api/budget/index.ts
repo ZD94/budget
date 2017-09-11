@@ -15,8 +15,8 @@ const cache = require("common/cache");
 const utils = require("common/utils");
 import _ = require("lodash");
 var request = require("request");
-import {ExchangeRate} from "_types/currency";
 let scheduler = require('common/scheduler');
+import {ExchangeRate} from "_types/currency"
 
 import {
     TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory
@@ -50,6 +50,7 @@ class ApiTravelBudget {
             city,
             isRetMarkedData,
             location,
+            preferedCurrency
         } = params;
 
         if (typeof city == 'string') {
@@ -145,6 +146,9 @@ class ApiTravelBudget {
             maxPriceLimit = policies[selector].maxPriceLimit;
             minPriceLimit = policies[selector].minPriceLimit;
             budget.price = await ApiTravelBudget.limitHotelBudgetByPrefer(minPriceLimit * days,maxPriceLimit * days,budget.price);
+            if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
+                budget.price = await convert2PreferedCurrency(budget.price, preferedCurrency);
+            }
 
             let hotelBudget: IHotelBudgetItem = {
                 id: budget.id,
@@ -168,7 +172,7 @@ class ApiTravelBudget {
     static async getTrafficBudget(params: IQueryTrafficBudgetParams): Promise<ITrafficBudgetResult> {
         logger.info("Call getTrafficBudget params:", params)
         //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
-        let { fromCity, toCity, latestArrivalTime, earliestDepartTime, policies, preferSet, tickets, staffs, isRetMarkedData} = params;
+        let { fromCity, toCity, latestArrivalTime, earliestDepartTime, policies, preferSet, tickets, staffs, isRetMarkedData, preferedCurrency} = params;
         let requiredParams = {
             fromCity: "出发城市",
             toCity: '目的地',
@@ -279,6 +283,9 @@ class ApiTravelBudget {
                     discount = discount < 1? discount:1;
                 }
             }
+            if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
+                budget.price = await convert2PreferedCurrency(budget.price, preferedCurrency);
+            }
             let trafficBudget: ITrafficBudgetItem = {
                 id: budget.id,
                 departTime: budget.departTime,
@@ -324,7 +331,7 @@ class ApiTravelBudget {
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
         try {  //policies,
-            let {  staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId } = params;
+            let {  staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, preferedCurrency } = params;
             let budgets = [];
             let cities = [];
             if (fromCity && typeof fromCity == 'string') {
@@ -532,7 +539,6 @@ class ApiTravelBudget {
 
     }
 
-
     static _scheduleTask () {
         let taskId = "currencyExchangeRate";
         logger.info('run task ' + taskId);
@@ -573,6 +579,7 @@ class ApiTravelBudget {
 
 ApiTravelBudget._scheduleTask();
 export default  ApiTravelBudget;
+
 function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: boolean) :FinalBudgetResultInterface {
     let result;
     let d = _.cloneDeep(data);
@@ -603,8 +610,6 @@ function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: b
     return d;
 }
 
-
-
 async function requestExchangeRate():Promise<any>{
     let baseUrl = 'http://op.juhe.cn/onebox/exchange/currency';
     let qs: {
@@ -632,5 +637,24 @@ async function requestExchangeRate():Promise<any>{
             return reject(null)
         });
     });
+
+}
+
+async function convert2PreferedCurrency(price: number, currency: string){
+    let defaultCurrencyFrom = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';  //表示人民币
+    let query = {
+        where: {
+            currencyFromId: defaultCurrencyFrom,
+            currencyToId: currency,
+        },
+        order:[['postedDate', 'desc'], ['created_at', 'desc']]
+    };
+    let rates = await Models.exchangeRate.find(query);
+    if(rates && rates.length) {
+        let expectedPrice = price * rates[0]["rate"];
+        expectedPrice = Math.round(expectedPrice * 100)/100;
+        return expectedPrice;
+    }
+    return price;
 
 }

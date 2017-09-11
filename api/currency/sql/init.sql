@@ -88,3 +88,5 @@ insert into currency.currencies(id, "currency_code", "currency_name", "created_a
 insert into currency.currencies(id, "currency_code", "currency_name", "created_at", "updated_at") values ('4a691e39-96a6-11e7-b929-cbb6f90690e1', 'VND', '越南盾', now(), now());
 insert into currency.currencies(id, "currency_code", "currency_name", "created_at", "updated_at") values ('4a691e3a-96a6-11e7-b929-cbb6f90690e1', 'CLP', '智利比索', now(), now());
 insert into currency.currencies(id, "currency_code", "currency_name", "created_at", "updated_at") values ('4a691e3b-96a6-11e7-b929-cbb6f90690e1', 'BYR', '白俄罗斯卢布', now(), now());
+
+update currency.currencies set "deleted_at" = now where id != '4a66fb50-96a6-11e7-b929-cbb6f90690e1' or id != '4a66fb51-96a6-11e7-b929-cbb6f90690e1';

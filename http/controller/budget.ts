@@ -5,6 +5,7 @@
 'use strict';
 
 import {AbstractController, Restful} from "@jingli/restful";
+import {Models} from "_types";
 
 import API from '@jingli/dnode-api';
 
@@ -88,7 +89,18 @@ export class BudgetController extends AbstractController {
 
     async add(req, res, next) {
         req.clearTimeout();
-        let {staffs, policies, fromCity, segments, ret} = req.json;
+        // let {staffs, policies, fromCity, segments, ret} = req.json;
+
+        //改restful budget api为传travelPolicyId, 同时添加请求货币类型
+        let {staffs, fromCity, segments, ret, travelPolicyId, preferedCurrency} = req.json;
+
+        let preferedCurrencyId = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';  //默认为人民币
+        if(preferedCurrency) {
+            let currencyIds = await Models.currency.find({where: {$or: [{currency_code: preferedCurrency}, {currency_name: preferedCurrency}]}});
+            if(currencyIds && currencyIds.length) {
+                preferedCurrencyId = currencyIds[0]['id'];
+            }
+        }
 
         if (!staffs) {
             staffs = []
@@ -100,10 +112,12 @@ export class BudgetController extends AbstractController {
         //转换员工
         staffs = transformStaffStrArgsToEnum(staffs);
         //转换差旅标准
-        policies = transformPolicyStrArgsToEnum(policies);
+        // policies = transformPolicyStrArgsToEnum(policies);
         let segmentBudgets;
         segmentBudgets = await API['budget'].createBudget({
-            policies: policies,
+            // policies: policies,
+            preferedCurrency: preferedCurrencyId,
+            travelPolicyId: travelPolicyId,
             prefers: [],
             staffs: staffs,
             fromCity,

@@ -10,8 +10,6 @@ export enum AccountType{
 }
 
 @Table(Models.account, "auth.")
-@TableIndex('email', {unique: true})
-@TableIndex('mobile', {unique: true})
 export class Account extends ModelObject{
     constructor(target: Object) {
         super(target);

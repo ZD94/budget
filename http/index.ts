@@ -12,7 +12,7 @@ import path = require("path");
 import express = require("express");
 import {authenticate} from "./auth";
 
-var router = express.Router();
+let router = express.Router();
 
 scannerControllers(path.join(__dirname, 'controller'));
 registerControllerToRouter(router);
@@ -35,13 +35,12 @@ function checkOrigin( origin ){
 export async function initHttp(app) {
     
     app.use((req, res, next)=>{
-        if(checkOrigin(req.headers.origin)){
+        if(req.headers.origin && checkOrigin(req.headers.origin)){
             res.header('Access-Control-Allow-Origin', req.headers.origin);
         }
         res.header('Access-Control-Allow-Methods', '*');
         res.header('Access-Control-Allow-Headers', '*');
         next();
     });
-
     app.use('/api/v1', authenticate, router);
 }

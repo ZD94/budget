@@ -322,7 +322,7 @@ export class TrafficBudgetStrategyFactory {
         //通过企业配置的喜好打分
         for(let k of prefers) {
             k.options = k.options || {};
-            k.options.policies = qs.policies;
+            // k.options.policies = qs.policies;
 
             let prefer = PreferFactory.getPrefer(k.name, k.options);
             if (!prefer) continue;
@@ -338,7 +338,7 @@ export class HotelBudgetStrategyFactory {
         let strategy = new CommonHotelStrategy(qs, options);
         for(let p of prefers) {
             p.options = p.options || {};
-            p.options.policies = qs.policies;
+            // p.options.policies = qs.policies;
 
             let prefer = PreferFactory.getPrefer(p.name, p.options, 'hotel');
             if (!prefer) continue;

@@ -341,7 +341,7 @@ export default class ApiTravelBudget {
         try {  //policies,
             let {  staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, companyId, expiredBudget } = params;
 
-            expiredBudget = await this.judgeExpriedBudget({companyId, expiredBudget});
+            expiredBudget = await ApiTravelBudget.judgeExpriedBudget({companyId, expiredBudget});
 
             let budgets = [];
             let cities = [];

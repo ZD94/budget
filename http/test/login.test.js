@@ -56,7 +56,7 @@ describe("1) 测试登录接口", function(){
             }catch(e){
                 result = body;
             }
-            console.log(result);
+            // console.log(result);
             expect(result.code).to.be.equal(0);
             ticket = result.data.ticket;
             done();          
@@ -84,8 +84,8 @@ describe("1) 测试登录接口", function(){
                 }catch(e){
                     result = body;
                 }
-                console.log(result);
-
+                // console.log(result);
+                expect(result.code).to.be.equal(0);
                 done();
             })
         }, 500);

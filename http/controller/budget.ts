@@ -90,17 +90,15 @@ export class BudgetController extends AbstractController {
     async add(req, res, next) {
         req.clearTimeout();
         // let {staffs, policies, fromCity, segments, ret} = req.json;
-
         //改restful budget api为传travelPolicyId, 同时添加请求货币类型
-        let {staffs, fromCity, segments, ret, travelPolicyId, preferedCurrency} = req.json;
+        let {staffs, fromCity, segments, ret, travelPolicyId, preferedCurrency} = req.body;
 
-        if(preferedCurrency) {
+        if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
             let currencyIds = await Models.currency.find({where: {$or: [{currency_code: preferedCurrency}, {currency_name: preferedCurrency}]}});
             if(!currencyIds || !currencyIds.length) {
                 return res.json(this.reply(400, []));
             }
         }
-
         if (!staffs) {
             staffs = []
         }

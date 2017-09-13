@@ -153,7 +153,7 @@ export abstract class AbstractHotelStrategy {
         _hotels = await this.customMarkedScoreData(_hotels);
         let ret = _hotels[0];
 
-        if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
+        if(preferedCurrency && typeof(preferedCurrency) != 'undefined' && preferedCurrency != defaultCurrencyUnit) {
             ret.price = await convert2PreferedCurrency(ret.price, preferedCurrency);
         }
 
@@ -162,7 +162,7 @@ export abstract class AbstractHotelStrategy {
             checkInDate: self.qs.checkInDate,
             checkOutDate: self.qs.checkOutDate,
             price: ret.price,
-            unit: preferedCurrency || defaultCurrencyUnit,
+            unit: preferedCurrency && typeof(preferedCurrency) != 'undefined' ? preferedCurrency: defaultCurrencyUnit,
             agent: ret.agent,
             name: ret.name,
             star: ret.star,
@@ -275,13 +275,13 @@ export abstract class AbstractTicketStrategy {
         });
         _tickets = await this.customerMarkedScoreData(_tickets);
         let ret = _tickets[0];
-        if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
+        if(preferedCurrency && typeof(preferedCurrency) != 'undefined' && preferedCurrency != defaultCurrencyUnit) {
             ret.price = await convert2PreferedCurrency(ret.price, preferedCurrency);
         }
 
         let result: ITrafficBudgetItem = {
             price: ret.price,
-            unit: preferedCurrency || defaultCurrencyUnit,
+            unit: preferedCurrency && typeof(preferedCurrency) != 'undefined' ? preferedCurrency: defaultCurrencyUnit,
             type: EBudgetType.TRAFFIC,
             no: ret.No,
             agent: ret.agent,
@@ -387,7 +387,7 @@ async function convert2PreferedCurrency(price: number, currency: string){
             currencyFromId: defaultCurrencyFrom,
             currencyToId: currenciesTo[0].id,
         },
-        order:[['postedDate', 'desc'], ['created_at', 'desc']]
+        order:[['postedAt', 'desc'], ['createdAt', 'desc']]
     };
     let rates = await Models.exchangeRate.find(query);
     if(rates && rates.length) {

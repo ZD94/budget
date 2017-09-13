@@ -154,6 +154,7 @@ class ApiTravelBudget {
                 city: (<ICity>city).id,
                 star: EHotelStar.FIVE,
                 price: budget.price,
+                unit: budget.unit,
                 type: EBudgetType.HOTEL,
                 name: budget.name,
                 agent: budget.agent,
@@ -563,7 +564,7 @@ class ApiTravelBudget {
                     let params = {
                         currencyFromId: '4a66fb50-96a6-11e7-b929-cbb6f90690e1',  //人民币
                         currencyToId: '4a66fb51-96a6-11e7-b929-cbb6f90690e1',    //美元
-                        postedDate: exchangeRate[0]["updateTime"],
+                        postedAt: exchangeRate[0]["updateTime"],
                         rate: rate
                     };
                     let obj = ExchangeRate.create(params);

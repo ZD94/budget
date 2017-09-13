@@ -3,38 +3,42 @@
  */
 import {AbstractController, Restful} from "@jingli/restful";
 import {Models} from "_types";
+var _ = require("lodash");
 var defaultCurrency = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';
 
-
+@Restful()
 export class ExchangeRateController extends AbstractController {
-
     constructor() {
         super();
     }
 
+    $isValidId(id: string) {
+        return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
+    }
+
     async find(req, res, next) {
-        let {currencyTo} = req.params;
-        console.log("parms: ", req.params)
+        let {currencyTo} = req.query;
         if(!currencyTo || typeof(currencyTo) == 'undefined') {
             return res.json(this.reply(400, []));
         }
-
-        let currencies = await Models.currency.find({
+        let currencies = await Models.currency.all({
             where: {
-                currency_name: currencyTo
+                currencyCode: currencyTo
             }
         });
         let exchangeRateDetail = [];
-        if(!currencies || !currencies.length){
+        if(currencies && currencies.length){
             exchangeRateDetail = await Models.exchangeRate.find({
                 where:{
-                    currency_from_id: defaultCurrency,
-                    currency_to_id: currencies[0].id,
+                    currencyFromId: defaultCurrency,
+                    currencyToId: currencies[0].id,
                 },
                 order: [["postedAt", "desc"], ["createdAt", "desc"]]
             });
+            if(exchangeRateDetail && exchangeRateDetail.length){
+                exchangeRateDetail = _.concat([], exchangeRateDetail[0]);
+            }
         }
-
         res.json(this.reply(200, exchangeRateDetail));
     }
 

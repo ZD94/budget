@@ -105,6 +105,7 @@ export interface IQueryHotelBudgetParams {
     hotels?: IHotel[];
     combineRoom?: boolean;
     isRetMarkedData?: boolean;
+    expiredBudget : boolean;
     location?: {
         latitude: number,
         longitude: number,
@@ -194,6 +195,7 @@ export interface IQueryTrafficBudgetParams {
     tickets?: ITicket[];
     isRetMarkedData?: boolean;
     earliestDepartTime?: Date;   //最早出发时间
+    expiredBudget?: boolean;
 }
 
 export interface IQueryBudgetParams {
@@ -204,6 +206,8 @@ export interface IQueryBudgetParams {
     staffs: IStaff[];  //出差员工
     policies?: IPolicySet;     //可能用到的全部差旅标准
     travelPolicyId?: string;
+    companyId? : string;
+    expiredBudget? : boolean;  //过期是否可以生成预算
     combineRoom?: boolean;   //同性是否合并
     preferSet?: PreferSet;
     tickets?: ITicket[];

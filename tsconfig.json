@@ -32,7 +32,8 @@
     "ionic",
     "tmp",
     "*.bak",
-    "*.tar.gz"
+    "*.tar.gz",
+    "http/test"
   ],
   "excludeNotUsing": [
   ]

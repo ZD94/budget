@@ -1,3 +1,3 @@
-export * from "./exchangeRate";
+export * from "./currencyRate";
 export * from "./currency";
 

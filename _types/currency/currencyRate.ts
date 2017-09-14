@@ -3,14 +3,14 @@ import { Types, Values } from 'common/model';
 import {Table, Create, Field, ResolveRef, RemoteCall} from 'common/model/common';
 import { ModelObject } from 'common/model/object';
 
-@Table(Models.exchangeRate, "currency.exchangeRate")
-export class ExchangeRate extends ModelObject{
+@Table(Models.currencyRate, "currency.currencyRate")
+export class CurrencyRate extends ModelObject{
     constructor(target: Object) {
         super(target);
     }
 
     @Create()
-    static create(obj?: Object): ExchangeRate { return null; }
+    static create(obj?: Object): CurrencyRate { return null; }
 
     @Field({type: Types.UUID})
     get id(): string { return Values.UUIDV1(); }

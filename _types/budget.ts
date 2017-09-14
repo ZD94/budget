@@ -257,6 +257,7 @@ export interface IPolicy {
 export interface IBudgetItem {
     price: number;
     unit?:string;
+    rate?: number;
     type: EBudgetType;
     link?: string;
     agent?: string;

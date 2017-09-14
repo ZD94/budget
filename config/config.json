@@ -49,5 +49,6 @@
       }
     }
   },
-  "isUsingFakeData":false
+  "isUsingFakeData":false,
+  "juHeCurrencyAPIKey":"58db4718504b1fa7a7448a8024c41864"
 }

@@ -16,7 +16,8 @@ const utils = require("common/utils");
 import _ = require("lodash");
 var request = require("request");
 let scheduler = require('common/scheduler');
-import {ExchangeRate} from "_types/currency"
+import {CurrencyRate} from "_types/currency"
+export var defaultCurrencyUnit = 'CNY';
 
 import {
     TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory
@@ -31,6 +32,8 @@ import Logger from "@jingli/logger";
 var logger = new Logger("budget");
 import { TravelPolicy} from "_types/policy";
 export var NoCityPriceLimit = 0;
+var config = require("@jingli/config");
+
 class ApiTravelBudget {
 
     static async getHotelBudget(params: IQueryHotelBudgetParams): Promise<IHotelBudgetResult> {
@@ -155,6 +158,7 @@ class ApiTravelBudget {
                 star: EHotelStar.FIVE,
                 price: budget.price,
                 unit: budget.unit,
+                rate: budget.rate,
                 type: EBudgetType.HOTEL,
                 name: budget.name,
                 agent: budget.agent,
@@ -292,6 +296,7 @@ class ApiTravelBudget {
                 type: EBudgetType.TRAFFIC,
                 price: budget.price,
                 unit: budget.unit,
+                rate: budget.rate,
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
@@ -541,34 +546,49 @@ class ApiTravelBudget {
         let taskId = "currencyExchangeRate";
         logger.info('run task ' + taskId);
         scheduler('0 0 8 * * *', taskId, async function() {
-            let MAX_TRY = 3;
-            let exchangeRate = [];
-            for(let i =0; i < MAX_TRY; i++ ) {
-                try{
-                    exchangeRate = await requestExchangeRate();
-                } catch(err) {
-                    console.log("获取汇率失败")
-                }
-                if(exchangeRate && exchangeRate.length && typeof(exchangeRate) != 'undefined'){
-                    break;
-                }
+            let MAX_TRY = 2;
+            let cnyCurrency = await Models.currency.find({where: {currencyCode: defaultCurrencyUnit}});
+            let cny = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';
+            if(cnyCurrency && cnyCurrency.length) {
+                cny = cnyCurrency[0]['id'];
             }
-            if(exchangeRate && exchangeRate.length) {
-                let rate;
-                for(let i = 0; i< exchangeRate.length; i++){
-                    if(exchangeRate[i]["currencyF"] == 'CNY') {
-                        rate = exchangeRate[i]["exchange"] || exchangeRate[i]["result"]
+            let exchangeRate = [];
+            let where = {
+                where: {},
+                order: [['createdAt', 'ASC']]
+            }
+            let currencies = await Models.currency.all(where);
+            for(let i = 0; i < currencies.length; i++) {
+                if(currencies[i]['currencyCode'] == defaultCurrencyUnit) {
+                    continue;
+                }
+                for(let j =0; j < MAX_TRY; j++ ) {
+                    try{
+                        exchangeRate = await requestExchangeRate(defaultCurrencyUnit, currencies[i]['currencyCode']);
+                    } catch(err) {
+                        console.log("获取汇率失败")
+                    }
+                    if(exchangeRate && exchangeRate.length && typeof(exchangeRate) != 'undefined'){
+                        break;
                     }
                 }
-                if(rate) {
-                    let params = {
-                        currencyFromId: '4a66fb50-96a6-11e7-b929-cbb6f90690e1',  //人民币
-                        currencyToId: '4a66fb51-96a6-11e7-b929-cbb6f90690e1',    //美元
-                        postedAt: exchangeRate[0]["updateTime"],
-                        rate: rate
-                    };
-                    let obj = ExchangeRate.create(params);
-                    await obj.save();
+                if(exchangeRate && exchangeRate.length) {
+                    let rate;
+                    for(let j = 0; j< exchangeRate.length; j++){
+                        if(exchangeRate[j]["currencyF"] == defaultCurrencyUnit) {
+                            rate = exchangeRate[j]["exchange"] || exchangeRate[j]["result"]
+                        }
+                    }
+                    if(rate) {
+                        let params = {
+                            currencyFromId: cny,  //人民币
+                            currencyToId: currencies[i]['id'],    //美元
+                            postedAt: exchangeRate[0]["updateTime"],
+                            rate: rate
+                        };
+                        let obj = CurrencyRate.create(params);
+                        await obj.save();
+                    }
                 }
             }
         });
@@ -608,14 +628,14 @@ function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: b
     return d;
 }
 
-async function requestExchangeRate():Promise<any>{
+async function requestExchangeRate(currencyFrom, currencyTo):Promise<any>{
     let baseUrl = 'http://op.juhe.cn/onebox/exchange/currency';
     let qs: {
         [index:string]:string
     } = {
-        from: "CNY",
-        to: "USD",
-        key: "58db4718504b1fa7a7448a8024c41864"
+        from: currencyFrom,
+        to: currencyTo,
+        key: config.juHeCurrencyAPIKey
     }
     return new Promise<any>(async (resolve,reject) => {
         request({

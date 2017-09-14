@@ -4,10 +4,10 @@
 import {AbstractController, Restful} from "@jingli/restful";
 import {Models} from "_types";
 var _ = require("lodash");
-var defaultCurrency = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';
+var defaultCurrency = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';  //人民币
 
 @Restful()
-export class ExchangeRateController extends AbstractController {
+export class CurrencyRateController extends AbstractController {
     constructor() {
         super();
     }
@@ -28,7 +28,7 @@ export class ExchangeRateController extends AbstractController {
         });
         let exchangeRateDetail = [];
         if(currencies && currencies.length){
-            exchangeRateDetail = await Models.exchangeRate.find({
+            exchangeRateDetail = await Models.currencyRate.find({
                 where:{
                     currencyFromId: defaultCurrency,
                     currencyToId: currencies[0].id,

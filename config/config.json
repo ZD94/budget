@@ -18,7 +18,7 @@
     "url": "${JL_APP_REDIS}"
   },
   "hosts": {
-    "main":{"addr":"t.jingli365.com", "port":4201, "www":"https://${{hosts.main.addr}}"},
+    "main":{"addr":"t.jingli365.com", "port":14201, "www":"https://${{hosts.main.addr}}"},
     "data": {"addr": "l.jingli365.com", "port": 14109}
   },
   "api": {

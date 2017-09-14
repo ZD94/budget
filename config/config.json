@@ -52,6 +52,6 @@
   "isUsingFakeData":false,
   "juHeCurrencyAPIKey":"58db4718504b1fa7a7448a8024c41864",
   "oldPostgres": {
-    "url": "${JL_APP_OLD_POSTGRES}"
+    "url": "${JL_APP_OLD_POSTGRES_URL}"
   }
 }

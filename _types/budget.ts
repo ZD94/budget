@@ -203,7 +203,8 @@ export interface IQueryBudgetParams {
     segments: ISegment[];      //每段查询条件
     ret: boolean;       //是否往返
     staffs: IStaff[];  //出差员工
-    policies: IPolicySet;     //可能用到的全部差旅标准
+    policies?: IPolicySet;     //可能用到的全部差旅标准
+    travelPolicyId?: string;
     combineRoom?: boolean;   //同性是否合并
     preferSet?: PreferSet;
     tickets?: ITicket[];
@@ -247,6 +248,8 @@ export interface IPolicy {
     shipCabin?: Array<EShipCabin>;      //轮船
     hotelPrefer?: number;               //住宿价格偏好值 (0 到 100) 默认 -1
     trafficPrefer?: number;             //交通价格偏好值 0 - 100 默认 -1
+    maxPriceLimit?: number;
+    minPriceLimit?: number;
 }
 
 export interface IBudgetItem {

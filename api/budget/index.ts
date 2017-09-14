@@ -14,6 +14,10 @@ const moment = require('moment');
 const cache = require("common/cache");
 const utils = require("common/utils");
 import _ = require("lodash");
+var request = require("request");
+let scheduler = require('common/scheduler');
+import {CurrencyRate} from "_types/currency"
+export var defaultCurrencyUnit = 'CNY';
 
 import {
     TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory
@@ -34,7 +38,9 @@ import { TravelPolicy } from "_types/policy";
 import config = require("@jingli/config");
 
 export var NoCityPriceLimit = 0;
-export default class ApiTravelBudget {
+var config = require("@jingli/config");
+
+class ApiTravelBudget {
 
     static __initHttpApp(app) {
         app.get("/deeplink", async (req, res, next)=>{
@@ -65,6 +71,7 @@ export default class ApiTravelBudget {
             city,
             isRetMarkedData,
             location,
+            preferedCurrency,
             expiredBudget
         } = params;
 
@@ -142,7 +149,7 @@ export default class ApiTravelBudget {
                 city: city,
                 location,
             }, {isRecord: true});
-            let budget = await strategy.getResult(hotels, isRetMarkedData);
+            let budget = await strategy.getResult(hotels, isRetMarkedData, preferedCurrency);
 
             let deeplinkItem = Models.deeplink.create({
                 url: budget.bookurl
@@ -177,6 +184,8 @@ export default class ApiTravelBudget {
                 city: (<ICity>city).id,
                 star: EHotelStar.FIVE,
                 price: budget.price,
+                unit: budget.unit,
+                rate: budget.rate,
                 type: EBudgetType.HOTEL,
                 name: budget.name,
                 agent: budget.agent,
@@ -192,7 +201,7 @@ export default class ApiTravelBudget {
 
     static async getTrafficBudget(params: IQueryTrafficBudgetParams): Promise<ITrafficBudgetResult> {
         //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
-        let { fromCity, toCity, latestArrivalTime, earliestDepartTime, policies, companyId, travelPolicyId, tickets, staffs, isRetMarkedData, expiredBudget} = params;
+        let { fromCity, toCity, latestArrivalTime, earliestDepartTime, policies, companyId, travelPolicyId, tickets, staffs, isRetMarkedData, preferedCurrency, expiredBudget} = params;
         let requiredParams = {
             fromCity: "出发城市",
             toCity: '目的地',
@@ -296,7 +305,7 @@ export default class ApiTravelBudget {
                 staffs,
             }, {isRecord: true});
 
-            let budget = await strategy.getResult(tickets, isRetMarkedData);
+            let budget = await strategy.getResult(tickets, isRetMarkedData, preferedCurrency);
             let discount = 0;
             if (budget.trafficType == ETrafficType.PLANE) {
                 let fullPrice = await API.place.getFlightFullPrice({originPlace: budget.fromCity, destination: budget.toCity});
@@ -306,14 +315,12 @@ export default class ApiTravelBudget {
                     discount = discount < 1? discount:1;
                 }
             }
-
             let deeplinkItem = Models.deeplink.create({
                 url: budget.bookurl,
             })
             deeplinkItem = await deeplinkItem.save();
 
             var jingliLinkT = `t.jingli365.com/bookurl/${deeplinkItem.id}`;
-
             let trafficBudget: ITrafficBudgetItem = {
                 id: budget.id,
                 departTime: budget.departTime,
@@ -324,6 +331,8 @@ export default class ApiTravelBudget {
                 toCity: budget.toCity,
                 type: EBudgetType.TRAFFIC,
                 price: budget.price,
+                unit: budget.unit,
+                rate: budget.rate,
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
@@ -377,8 +386,7 @@ export default class ApiTravelBudget {
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
         try {  //policies,
-            let {  staffs, segments, fromCity, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, companyId, expiredBudget } = params;
-
+            let {  staffs, segments, fromCity, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, companyId,preferedCurrency, expiredBudget } = params;
             expiredBudget = await ApiTravelBudget.judgeExpriedBudget({companyId, expiredBudget});
             let budgets = [];
             let cities = [];
@@ -445,6 +453,7 @@ export default class ApiTravelBudget {
                         travelPolicyId,
                         tickets,
                         isRetMarkedData: isRetMarkedData,
+                        preferedCurrency,
                         expiredBudget
                     }
                     tasks.push(ApiTravelBudget.getTrafficBudget(trafficParams));
@@ -491,6 +500,7 @@ export default class ApiTravelBudget {
                         hotels,
                         isRetMarkedData: isRetMarkedData,
                         location: seg.location,
+                        preferedCurrency,
                         expiredBudget
                     }
                     tasks.push(ApiTravelBudget.getHotelBudget(hotelParams))
@@ -590,7 +600,59 @@ export default class ApiTravelBudget {
         }
 
     }
+
+    static _scheduleTask () {
+        let taskId = "currencyExchangeRate";
+        logger.info('run task ' + taskId);
+        scheduler('0 38 * * * *', taskId, async function() {
+            let MAX_TRY = 1;
+            let exchangeRate = [];
+            let where = {
+                where: {},
+                order: [['createdAt', 'ASC']]
+            }
+            let currencies = await Models.currency.all(where);
+            for(let i = 0; i < currencies.length; i++) {
+                if(currencies[i]['currencyCode'] == defaultCurrencyUnit) {
+                    continue;
+                }
+                for(let j =0; j < MAX_TRY; j++ ) {
+                    try{
+                        await delay(5 * 1000);
+                        exchangeRate = await requestExchangeRate(defaultCurrencyUnit, currencies[i]['currencyCode']);
+                    } catch(err) {
+                        console.log("获取汇率失败")
+                        return ;
+                    }
+                    if(exchangeRate && exchangeRate.length && typeof(exchangeRate) != 'undefined'){
+                        break;
+                    }
+                }
+                if(exchangeRate && exchangeRate.length) {
+                    let rate;
+                    for(let j = 0; j< exchangeRate.length; j++){
+                        if(exchangeRate[j]["currencyF"] == defaultCurrencyUnit) {
+                            rate = exchangeRate[j]["exchange"] || exchangeRate[j]["result"]
+                        }
+                    }
+                    if(rate) {
+                        let params = {
+                            currencyFrom: defaultCurrencyUnit,  //人民币
+                            currencyTo: currencies[i]['currencyCode'],    //美元
+                            postedAt: exchangeRate[0]["updateTime"],
+                            rate: rate
+                        };
+                        let obj = CurrencyRate.create(params);
+                        await obj.save();
+                    }
+                }
+            }
+        });
+    }
 }
+
+ApiTravelBudget._scheduleTask();
+export default  ApiTravelBudget;
 
 function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: boolean) :FinalBudgetResultInterface {
     let result;
@@ -620,4 +682,42 @@ function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: b
     }
     d.budgets = result;
     return d;
+}
+
+async function requestExchangeRate(currencyFrom, currencyTo):Promise<any>{
+    let baseUrl = 'http://op.juhe.cn/onebox/exchange/currency';
+    let qs: {
+        [index:string]:string
+    } = {
+        from: currencyFrom,
+        to: currencyTo,
+        key: config.juHeCurrencyAPIKey
+    }
+    return new Promise<any>(async (resolve,reject) => {
+        request({
+            uri: baseUrl,
+            qs: qs,
+            json: true,
+            method: "get"
+        }, async function(err,res) {
+            if(err) return reject(null);
+            let body = res.body;
+            if(typeof(res.body) == 'string') {
+                body = JSON.parse(body);
+            }
+            if(body && body.result && body.error_code == 0) {
+                return resolve(body.result);
+            }
+            return reject(null)
+        });
+    });
+
+}
+
+async function delay(ms: number) : Promise<any> {
+    return new Promise( (resolve, reject) => {
+        setTimeout( ()=> {
+            resolve(true);
+        }, ms);
+    });
 }

@@ -10,6 +10,7 @@ import {Statistic, App} from "_types/openapi";
 import {Supplier} from "./supplier";
 import {Company} from "_types/company";
 import {TravelPolicy,SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionPlace} from "_types/policy";
+import {CurrencyRate, Currency} from "_types/currency";
 import {Account, AccountCompany} from "_types/account";
 import {CompanyConfig} from "_types/company";
 import {PreferRegion} from "./preferRegion";
@@ -26,6 +27,8 @@ export interface ModelsInterface {
     companyRegion: ModelInterface<CompanyRegion>;
     regionPlace: ModelInterface<RegionPlace>;
     subsidyTemplate: ModelInterface<SubsidyTemplate>;
+    currencyRate: ModelInterface<CurrencyRate>;
+    currency: ModelInterface<Currency>;
     company: ModelInterface<Company>;
     account: ModelInterface<Account>;
     accountCompany: ModelInterface<AccountCompany>;
@@ -47,6 +50,8 @@ export var Models: ModelsInterface = {
     subsidyTemplate: new ModelDelegate<SubsidyTemplate>(),
     app: new ModelDelegate<App>(),
     statistic: new ModelDelegate<Statistic>(),
+    currencyRate: new ModelDelegate<CurrencyRate>(),
+    currency: new ModelDelegate<Currency>(),
     supplier: new ModelDelegate<Supplier>(),
     company: new ModelDelegate<Company>(),
     account: new ModelDelegate<Account>(),

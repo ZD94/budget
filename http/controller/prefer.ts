@@ -23,7 +23,7 @@ export class PreferController extends AbstractModelController {
         }
 
         let prefer = await Models.prefer.get(id);
-        let companyRegion = await Models.companyRegion.get(prefer.companyRegion.id);
+        let companyRegion = await Models.companyRegion.get(prefer.id);
         if(companyRegion.companyId == companyId){
             next();
         }else{

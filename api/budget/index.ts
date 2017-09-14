@@ -42,7 +42,6 @@ export default class ApiTravelBudget {
             hotels,
             checkInDate,
             checkOutDate,
-            // preferSet,
             companyId,
             travelPolicyId,
             policies,
@@ -71,7 +70,7 @@ export default class ApiTravelBudget {
             policies = {};
         }
 
-        let preferSet = await getSuitablePrefer({companyId, travelPolicyId, placeId:city["id"]});
+        let preferSet = await getSuitablePrefer({companyId, placeId:city["id"]});
 
         let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL;
         let companyPrefers = preferSet["hotel"];
@@ -215,7 +214,6 @@ export default class ApiTravelBudget {
 
         let preferSet = await getSuitablePrefer({
             companyId,
-            travelPolicyId,
             placeId : toCity.id
         });
 
@@ -327,7 +325,7 @@ export default class ApiTravelBudget {
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
         try {  //policies,
-            let {  staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, companyId } = params;
+            let {  staffs, segments, fromCity, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, companyId } = params;
             let budgets = [];
             let cities = [];
             if (fromCity && typeof fromCity == 'string') {
@@ -389,7 +387,6 @@ export default class ApiTravelBudget {
                         toCity: toCity,
                         latestArrivalTime: seg.beginTime,
                         earliestDepartTime: i > 0 ? segments[i-1].endTime: null,
-                        preferSet,
                         companyId,
                         travelPolicyId,
                         tickets,
@@ -434,7 +431,6 @@ export default class ApiTravelBudget {
                         city: toCity,
                         checkInDate: checkInDate,
                         checkOutDate: checkOutDate,
-                        preferSet,
                         companyId,
                         travelPolicyId,
                         hotels,

@@ -23,14 +23,6 @@ export class Prefer extends ModelObject {
     get id() { return Values.UUIDV1()}
     set id(id: string) {}
 
-    @ResolveRef({type: Types.UUID}, Models.companyRegion)
-    get companyRegion(): CompanyRegion { return null; }
-    set companyRegion(val: CompanyRegion) {}
-
-    @Field({type: Types.UUID})
-    get travelPolicyId(): string { return null; }
-    set travelPolicyId(val: string){}
-
     @Field({type: Types.JSONB, defaultValue: '{}'})
     get budgetConfig(): any { return {}};
     set budgetConfig(conf: any) {}

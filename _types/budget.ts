@@ -101,7 +101,6 @@ export interface IQueryHotelBudgetParams {
     checkOutDate: Date;
     policies: IPolicySet;
     staffs: IStaff[];
-    preferSet?: PreferSet;
     companyId?: string;
     travelPolicyId?: string;
     hotels?: IHotel[];
@@ -189,7 +188,6 @@ export interface IFlightSeg {
 export interface IQueryTrafficBudgetParams {
     fromCity: ICity | string;
     toCity: ICity | string;
-    preferSet?: PreferSet;
     companyId?: string;
     travelPolicyId?: string;
     policies: IPolicySet;
@@ -210,7 +208,6 @@ export interface IQueryBudgetParams {
     travelPolicyId?: string;
     companyId?: string;
     combineRoom?: boolean;   //同性是否合并
-    preferSet?: PreferSet;
     tickets?: ITicket[];
     hotels?: IHotel[];
     isRetMarkedData?: boolean;

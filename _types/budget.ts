@@ -101,7 +101,8 @@ export interface IQueryHotelBudgetParams {
     checkOutDate: Date;
     policies: IPolicySet;
     staffs: IStaff[];
-    preferSet: PreferSet;
+    companyId?: string;
+    travelPolicyId?: string;
     hotels?: IHotel[];
     combineRoom?: boolean;
     isRetMarkedData?: boolean;
@@ -189,7 +190,8 @@ export interface IFlightSeg {
 export interface IQueryTrafficBudgetParams {
     fromCity: ICity | string;
     toCity: ICity | string;
-    preferSet: PreferSet;
+    companyId?: string;
+    travelPolicyId?: string;
     policies: IPolicySet;
     staffs: IStaff[];
     latestArrivalTime: Date;     //最晚到达时间
@@ -210,7 +212,6 @@ export interface IQueryBudgetParams {
     companyId? : string;
     expiredBudget? : boolean;  //过期是否可以生成预算
     combineRoom?: boolean;   //同性是否合并
-    preferSet?: PreferSet;
     tickets?: ITicket[];
     hotels?: IHotel[];
     isRetMarkedData?: boolean;

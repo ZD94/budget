@@ -3,7 +3,7 @@
  */
 'use strict';
 
-const request = require("supertest");
+import request = require("supertest");
 // const app = require("../app");
 var assert = require("assert");
 const TEST_ACCOUNT = ['00000000-0000-0000-0000-000000000001', 'jinglisecret']

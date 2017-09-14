@@ -5,14 +5,17 @@
 'use strict';
 import {ModelInterface} from "../common/model/interface";
 import {ModelDelegate} from "../common/model/delegate";
-import {Budget, BudgetItem} from "_types/budget";
+import {Budget, BudgetItem, Deeplink} from "_types/budget";
 import {Statistic, App} from "_types/openapi";
+import {CompanyConfig} from "_types/company";
 import {TravelPolicy,SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionPlace} from "_types/policy";
 import {CurrencyRate, Currency} from "_types/currency";
+import {PreferRegion} from "./preferRegion";
 
 export interface ModelsInterface {
     budget: ModelInterface<Budget>;
     budgetItem: ModelInterface<BudgetItem>;
+    deeplink: ModelInterface<Deeplink>;
     app: ModelInterface<App>,
     statistic: ModelInterface<Statistic>,
     travelPolicy: ModelInterface<TravelPolicy>;
@@ -22,6 +25,8 @@ export interface ModelsInterface {
     subsidyTemplate: ModelInterface<SubsidyTemplate>;
     currencyRate: ModelInterface<CurrencyRate>;
     currency: ModelInterface<Currency>;
+    preferRegion: ModelInterface<PreferRegion>;
+    companyConfig: ModelInterface<CompanyConfig>;
 }
 
 
@@ -30,6 +35,7 @@ export interface ModelsInterface {
 export var Models: ModelsInterface = {
     budget: new ModelDelegate<Budget>(),
     budgetItem: new ModelDelegate<BudgetItem>(),
+    deeplink: new ModelDelegate<Deeplink>(),
     travelPolicy: new ModelDelegate<TravelPolicy>(),
     travelPolicyRegion: new ModelDelegate<TravelPolicyRegion>(),
     companyRegion: new ModelDelegate<CompanyRegion>(),
@@ -39,5 +45,7 @@ export var Models: ModelsInterface = {
     statistic: new ModelDelegate<Statistic>(),
     currencyRate: new ModelDelegate<CurrencyRate>(),
     currency: new ModelDelegate<Currency>(),
+    preferRegion: new ModelDelegate<PreferRegion>(),
+    companyConfig: new ModelDelegate<CompanyConfig>(),
 };
 

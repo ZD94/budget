@@ -34,13 +34,11 @@ initModels({
     subsidyTemplate: createServerService<SubsidyTemplate>(SubsidyTemplate),
     app: createServerService<App>(App),
     statistic: createServerService<Statistic>(Statistic),
-<<<<<<< HEAD
     supplier: createServerService<Supplier>(Supplier),
     company: createServerService<Company>(Company),
     account: createServerService<Account>(Account),
-    accountCompany: createServerService<AccountCompany>(AccountCompany)
-=======
+    accountCompany: createServerService<AccountCompany>(AccountCompany),
     preferRegion: createServerService<PreferRegion>(PreferRegion),
     companyConfig: createServerService<CompanyConfig>(CompanyConfig),
->>>>>>> 997431cd2ac5fa8458295cde78b26581d6bc2789
+
 });

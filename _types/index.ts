@@ -26,14 +26,11 @@ export interface ModelsInterface {
     companyRegion: ModelInterface<CompanyRegion>;
     regionPlace: ModelInterface<RegionPlace>;
     subsidyTemplate: ModelInterface<SubsidyTemplate>;
-<<<<<<< HEAD
     company: ModelInterface<Company>;
     account: ModelInterface<Account>;
     accountCompany: ModelInterface<AccountCompany>;
-=======
     preferRegion: ModelInterface<PreferRegion>;
     companyConfig: ModelInterface<CompanyConfig>;
->>>>>>> 997431cd2ac5fa8458295cde78b26581d6bc2789
 }
 
 
@@ -50,14 +47,11 @@ export var Models: ModelsInterface = {
     subsidyTemplate: new ModelDelegate<SubsidyTemplate>(),
     app: new ModelDelegate<App>(),
     statistic: new ModelDelegate<Statistic>(),
-<<<<<<< HEAD
     supplier: new ModelDelegate<Supplier>(),
     company: new ModelDelegate<Company>(),
     account: new ModelDelegate<Account>(),
-    accountCompany: new ModelDelegate<AccountCompany>()
-=======
+    accountCompany: new ModelDelegate<AccountCompany>(),
     preferRegion: new ModelDelegate<PreferRegion>(),
-    companyConfig: new ModelDelegate<CompanyConfig>(),
->>>>>>> 997431cd2ac5fa8458295cde78b26581d6bc2789
+    companyConfig: new ModelDelegate<CompanyConfig>()
 };
 

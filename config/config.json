@@ -49,5 +49,8 @@
       }
     }
   },
-  "isUsingFakeData":false
+  "isUsingFakeData":false,
+  "oldPostgres": {
+    "url": "${JL_APP_OLD_POSTGRES}"
+  }
 }

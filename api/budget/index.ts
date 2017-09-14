@@ -25,12 +25,27 @@ import {ICity, CityService} from "_types/city";
 import {countDays} from "./helper";
 var API = require("@jingli/dnode-api");
 import Logger from "@jingli/logger";
+import {ModelInterface} from "../../common/model/interface";
+import {Model} from "sequelize";
 var logger = new Logger("budget");
-import { TravelPolicy} from "_types/policy";
+
 import { getSuitablePrefer } from "../prefer"
+import { TravelPolicy } from "_types/policy";
+import config = require("@jingli/config");
 
 export var NoCityPriceLimit = 0;
 export default class ApiTravelBudget {
+
+    static __initHttpApp(app) {
+        app.get("/deeplink", async (req, res, next)=>{
+            console.log(req.query.id);
+            let bookItem = await Models.deeplink.get(req.query.id);
+            let bookurl = bookItem['url'];
+            res.json({
+                'bookurl': bookurl
+            });
+        });
+    }
 
     static async getHotelBudget(params: IQueryHotelBudgetParams): Promise<IHotelBudgetResult> {
         if (!params) {
@@ -50,6 +65,7 @@ export default class ApiTravelBudget {
             city,
             isRetMarkedData,
             location,
+            expiredBudget
         } = params;
 
         if (typeof city == 'string') {
@@ -91,9 +107,10 @@ export default class ApiTravelBudget {
             })
         }
 
-        if (new Date(checkInDate) < new Date(moment().format('YYYY-MM-DD'))) {
+        if(!expiredBudget && new Date(checkInDate) < new Date(moment().format('YYYY-MM-DD'))){
             throw new L.ERROR_CODE_C(500, '入住日期已过');
         }
+            
         let budgets = await Promise.all( staffs.map( async (staff) => {
             let policyKey = staff.policy || 'default';
             let staffPolicy = policies[policyKey] || {};
@@ -127,6 +144,13 @@ export default class ApiTravelBudget {
             }, {isRecord: true});
             let budget = await strategy.getResult(hotels, isRetMarkedData);
 
+            let deeplinkItem = Models.deeplink.create({
+                url: budget.bookurl
+            })
+            deeplinkItem = await deeplinkItem.save();
+
+            var jingliLinkH = config.website + `/bookurl/${deeplinkItem.id}` ;
+
             let maxPriceLimit = 0;
             let minPriceLimit = 0;
             let days: number = 0;
@@ -159,6 +183,7 @@ export default class ApiTravelBudget {
                 link: budget.link,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
+                bookurl: jingliLinkH
             }
             return hotelBudget;
         }));
@@ -167,7 +192,7 @@ export default class ApiTravelBudget {
 
     static async getTrafficBudget(params: IQueryTrafficBudgetParams): Promise<ITrafficBudgetResult> {
         //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
-        let { fromCity, toCity, latestArrivalTime, earliestDepartTime, policies, companyId, travelPolicyId, tickets, staffs, isRetMarkedData} = params;
+        let { fromCity, toCity, latestArrivalTime, earliestDepartTime, policies, companyId, travelPolicyId, tickets, staffs, isRetMarkedData, expiredBudget} = params;
         let requiredParams = {
             fromCity: "出发城市",
             toCity: '目的地',
@@ -197,11 +222,11 @@ export default class ApiTravelBudget {
             throw new L.ERROR_CODE_C(500, '最早出发，最晚到达时间不能同时为空');
         }
 
-        if (latestArrivalTime && latestArrivalTime < new Date()) {
+        if (!expiredBudget && latestArrivalTime && latestArrivalTime < new Date()) {
             throw new L.ERROR_CODE_C(500, '出发日期已过');
         }
 
-        if (earliestDepartTime && earliestDepartTime < new Date()) {
+        if (!expiredBudget && earliestDepartTime && earliestDepartTime < new Date()) {
             throw new L.ERROR_CODE_C(500, '出发日期已过');
         }
 
@@ -225,6 +250,7 @@ export default class ApiTravelBudget {
                 destination: toCity.id
             })
         }
+
 
         let staffBudgets = await Promise.all( staffs.map( async (staff) => {
             let policyKey = staff.policy || 'default';
@@ -280,6 +306,14 @@ export default class ApiTravelBudget {
                     discount = discount < 1? discount:1;
                 }
             }
+
+            let deeplinkItem = Models.deeplink.create({
+                url: budget.bookurl,
+            })
+            deeplinkItem = await deeplinkItem.save();
+
+            var jingliLinkT = `t.jingli365.com/bookurl/${deeplinkItem.id}`;
+
             let trafficBudget: ITrafficBudgetItem = {
                 id: budget.id,
                 departTime: budget.departTime,
@@ -293,6 +327,7 @@ export default class ApiTravelBudget {
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
+                bookurl: jingliLinkT
             }
             return trafficBudget as ITrafficBudgetItem;
         }))
@@ -322,10 +357,29 @@ export default class ApiTravelBudget {
         return hotelBudget;
     }
 
+    /*
+    * content 判断是否可以生产过期预算
+    */
+
+    static async judgeExpriedBudget(params:{companyId?:string, expiredBudget?:boolean}) : Promise<boolean>{
+        let {companyId, expiredBudget} = params;
+        let companyConfig = await Models.companyConfig.get(companyId);
+        if(!companyConfig || !companyConfig.openExpiredBudget){
+            return false;
+        }
+
+        if(expiredBudget != undefined && expiredBudget == false){
+            return false;
+        }
+
+        return true;
+    }
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
         try {  //policies,
-            let {  staffs, segments, fromCity, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, companyId } = params;
+            let {  staffs, segments, fromCity, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, companyId, expiredBudget } = params;
+
+            expiredBudget = await ApiTravelBudget.judgeExpriedBudget({companyId, expiredBudget});
             let budgets = [];
             let cities = [];
             if (fromCity && typeof fromCity == 'string') {
@@ -391,6 +445,7 @@ export default class ApiTravelBudget {
                         travelPolicyId,
                         tickets,
                         isRetMarkedData: isRetMarkedData,
+                        expiredBudget
                     }
                     tasks.push(ApiTravelBudget.getTrafficBudget(trafficParams));
                 } else {
@@ -436,6 +491,7 @@ export default class ApiTravelBudget {
                         hotels,
                         isRetMarkedData: isRetMarkedData,
                         location: seg.location,
+                        expiredBudget
                     }
                     tasks.push(ApiTravelBudget.getHotelBudget(hotelParams))
                 } else {

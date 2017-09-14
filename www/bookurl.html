@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>正在跳转</title>
+</head>
+<body>
+<h1 text-align="center"><strong>正在跳转</strong></h1>
+
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+    function GetRequest() {
+        var url = location.search;
+        var theRequest = new Object();
+        if (url.indexOf("?") != -1) {
+            var str = url.substr(1);
+            var strs = str.split("&");
+            for(var i = 0; i < strs.length; i ++) {
+                theRequest[strs[i].split("=")[0]]=unescape(strs[i].split("=")[1]);
+            }
+        }
+        return theRequest;
+    }
+    var Request = GetRequest();
+    var id = Request['id'];
+
+    function Redirect() {
+        $.ajax({
+            type: 'get',
+            url: '/deeplink',
+            data: {
+                id: id
+            },
+            success: function(res) {
+                window.location = res.bookurl;
+                window.setTimeout(window.location.href, 5000);
+            }
+        });
+    }
+    Redirect();
+
+</script>
+</body>
+</html>

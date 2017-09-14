@@ -564,6 +564,7 @@ class ApiTravelBudget {
                 }
                 for(let j =0; j < MAX_TRY; j++ ) {
                     try{
+                        await delay(5*1000);
                         exchangeRate = await requestExchangeRate(defaultCurrencyUnit, currencies[i]['currencyCode']);
                     } catch(err) {
                         console.log("获取汇率失败")
@@ -658,3 +659,10 @@ async function requestExchangeRate(currencyFrom, currencyTo):Promise<any>{
 
 }
 
+async function delay(ms: number) : Promise<any> {
+    return new Promise( (resolve, reject) => {
+        setTimeout( ()=> {
+            resolve(true);
+        }, ms);
+    });
+}

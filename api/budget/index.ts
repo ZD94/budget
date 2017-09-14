@@ -25,10 +25,24 @@ import {ICity, CityService} from "_types/city";
 import {countDays} from "./helper";
 var API = require("@jingli/dnode-api");
 import Logger from "@jingli/logger";
+import {ModelInterface} from "../../common/model/interface";
+import {Model} from "sequelize";
 var logger = new Logger("budget");
-import { TravelPolicy} from "_types/policy";
+import { TravelPolicy } from "_types/policy";
+import config = require("@jingli/config");
 export var NoCityPriceLimit = 0;
 export default class ApiTravelBudget {
+
+    static __initHttpApp(app) {
+        app.get("/deeplink", async (req, res, next)=>{
+            console.log(req.query.id);
+            let bookItem = await Models.deeplink.get(req.query.id);
+            let bookurl = bookItem['url'];
+            res.json({
+                'bookurl': bookurl
+            });
+        });
+    }
 
     static async getHotelBudget(params: IQueryHotelBudgetParams): Promise<IHotelBudgetResult> {
         if (!params) {
@@ -124,6 +138,13 @@ export default class ApiTravelBudget {
             }, {isRecord: true});
             let budget = await strategy.getResult(hotels, isRetMarkedData);
 
+            let deeplinkItem = Models.deeplink.create({
+                url: budget.bookurl
+            })
+            deeplinkItem = await deeplinkItem.save();
+
+            var jingliLinkH = config.website + `/bookurl/${deeplinkItem.id}` ;
+
             let maxPriceLimit = 0;
             let minPriceLimit = 0;
             let days: number = 0;
@@ -156,6 +177,7 @@ export default class ApiTravelBudget {
                 link: budget.link,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
+                bookurl: jingliLinkH
             }
             return hotelBudget;
         }));
@@ -221,6 +243,7 @@ export default class ApiTravelBudget {
             })
         }
 
+
         let staffBudgets = await Promise.all( staffs.map( async (staff) => {
             let policyKey = staff.policy || 'default';
             let staffPolicy = policies[policyKey] || {};
@@ -275,6 +298,14 @@ export default class ApiTravelBudget {
                     discount = discount < 1? discount:1;
                 }
             }
+
+            let deeplinkItem = Models.deeplink.create({
+                url: budget.bookurl,
+            })
+            deeplinkItem = await deeplinkItem.save();
+
+            var jingliLinkT = `t.jingli365.com/bookurl/${deeplinkItem.id}`;
+
             let trafficBudget: ITrafficBudgetItem = {
                 id: budget.id,
                 departTime: budget.departTime,
@@ -288,6 +319,7 @@ export default class ApiTravelBudget {
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
+                bookurl: jingliLinkT
             }
             return trafficBudget as ITrafficBudgetItem;
         }))

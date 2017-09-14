@@ -154,6 +154,7 @@ export interface IFinalTicket {
     reasons?: string[];
     stops?: string[];
     segs?: any[];
+    bookUrl?: string;
 }
 
 export interface ICraft {
@@ -285,6 +286,7 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     cabin?: EAirCabin | ETrainSeat | EShipCabin;     //仓位或者座位
     discount?: number;                  //大致折扣
     no?: string;
+    bookurl?: string;
 }
 
 export interface ITrafficBudgetResult extends Array<ITrafficBudgetItem> {
@@ -299,6 +301,8 @@ export interface IHotelBudgetItem extends IBudgetItem {
     name?: string;
     latitude?: number;
     longitude?: number;
+    bookurl?: string;
+
 }
 
 export interface IHotelBudgetResult extends Array<IHotelBudgetItem> {
@@ -377,6 +381,31 @@ export class BudgetItem extends ModelObject {
     @Field({type: Types.INTEGER})
     get type() : Number { return 1}
     set type(type: Number) {}
+}
+
+@Table(Models.deeplink, "deeplink.")
+export class Deeplink extends ModelObject {
+
+    constructor(target: Object) {
+        super(target);
+    }
+
+    @Create()
+    static create(obj: any): Deeplink { return null }
+
+    @Field({ type: Types.UUID })
+    get id() { return uuid.v1() }
+    set id(id: string) {}
+
+    @Field({ type: Types.INTEGER })
+    get type(): Number { return 1 }
+    set type(type: Number) {}
+
+    @Field({ type: Types.TEXT })
+    get url(): string { return null }
+    set url(url: string) {}
+
+
 }
 
 export interface FinalBudgetResultInterface {

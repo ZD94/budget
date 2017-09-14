@@ -7,12 +7,12 @@
 import {AbstractModelController, Restful, Router} from "@jingli/restful";
 import API from '@jingli/dnode-api';
 import {Models} from "_types/index";
-import {Prefer} from "_types/prefer";
+import {PreferRegion} from "_types/preferRegion";
 
 @Restful('/company/:companyId/prefer')
 export class PreferController extends AbstractModelController {
     constructor() {
-        super(Models.prefer, Prefer["$fieldnames"]);
+        super(Models.preferRegion, PreferRegion["$fieldnames"]);
     }
 
     //companyId验证在更上一层
@@ -22,7 +22,7 @@ export class PreferController extends AbstractModelController {
             return next();
         }
 
-        let prefer = await Models.prefer.get(id);
+        let prefer = await Models.preferRegion.get(id);
         let companyRegion = await Models.companyRegion.get(prefer.id);
         if(companyRegion.companyId == companyId){
             next();

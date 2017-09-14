@@ -9,7 +9,7 @@ import {Budget, BudgetItem, Deeplink} from "_types/budget";
 import {Statistic, App} from "_types/openapi";
 import {CompanyConfig} from "_types/company";
 import {TravelPolicy,SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionPlace} from "_types/policy";
-import {Prefer} from "./prefer";
+import {PreferRegion} from "./preferRegion";
 
 export interface ModelsInterface {
     budget: ModelInterface<Budget>;
@@ -22,7 +22,7 @@ export interface ModelsInterface {
     companyRegion: ModelInterface<CompanyRegion>;
     regionPlace: ModelInterface<RegionPlace>;
     subsidyTemplate: ModelInterface<SubsidyTemplate>;
-    prefer: ModelInterface<Prefer>;
+    preferRegion: ModelInterface<PreferRegion>;
     companyConfig: ModelInterface<CompanyConfig>;
 }
 
@@ -40,7 +40,7 @@ export var Models: ModelsInterface = {
     subsidyTemplate: new ModelDelegate<SubsidyTemplate>(),
     app: new ModelDelegate<App>(),
     statistic: new ModelDelegate<Statistic>(),
-    prefer: new ModelDelegate<Prefer>(),
+    preferRegion: new ModelDelegate<PreferRegion>(),
     companyConfig: new ModelDelegate<CompanyConfig>(),
 };
 

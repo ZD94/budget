@@ -9,7 +9,7 @@ import {App, Statistic} from "_types/openapi";
 import {createServerService} from "../common/model/sequelize";
 import {ModelsInterface, Models} from "../_types/index";
 import {TravelPolicy, TravelPolicyRegion, SubsidyTemplate, CompanyRegion, RegionPlace} from "_types/policy";
-import {Prefer} from "_types/prefer";
+import {PreferRegion} from "_types/preferRegion";
 import {CompanyConfig} from "_types/company";
 
 export function initModels(models: ModelsInterface){
@@ -30,6 +30,6 @@ initModels({
     subsidyTemplate: createServerService<SubsidyTemplate>(SubsidyTemplate),
     app: createServerService<App>(App),
     statistic: createServerService<Statistic>(Statistic),
-    prefer: createServerService<Prefer>(Prefer),
+    preferRegion: createServerService<PreferRegion>(PreferRegion),
     companyConfig: createServerService<CompanyConfig>(CompanyConfig),
 });

@@ -154,16 +154,12 @@ export abstract class AbstractHotelStrategy {
         });
         _hotels = await this.customMarkedScoreData(_hotels);
         let ret = _hotels[0];
-<<<<<<< HEAD
 
         let rate = 1;
         if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
             rate = await getExpectedCurrencyRate(preferedCurrency);
         }
 
-=======
-        console.log(ret);
->>>>>>> 997431cd2ac5fa8458295cde78b26581d6bc2789
         let result: any = {
             city: self.qs.city ? self.qs.city.id : '',
             checkInDate: self.qs.checkInDate,
@@ -285,15 +281,10 @@ export abstract class AbstractTicketStrategy {
         });
         _tickets = await this.customerMarkedScoreData(_tickets);
         let ret = _tickets[0];
-<<<<<<< HEAD
         let rate = 1;
         if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
             rate = await getExpectedCurrencyRate(preferedCurrency);
         }
-
-=======
-        console.log(ret);
->>>>>>> 997431cd2ac5fa8458295cde78b26581d6bc2789
         let result: ITrafficBudgetItem = {
             price: ret.price,
             unit: preferedCurrency && typeof(preferedCurrency) != 'undefined' ? preferedCurrency: defaultCurrencyUnit,

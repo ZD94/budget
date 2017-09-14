@@ -604,10 +604,10 @@ class ApiTravelBudget {
     static _scheduleTask () {
         let taskId = "currencyExchangeRate";
         logger.info('run task ' + taskId);
-        scheduler('0 0 8 * * *', taskId, async function() {
-            let MAX_TRY = 2;
+        scheduler('0 12 * * * *', taskId, async function() {
+            let MAX_TRY = 1;
             let cnyCurrency = await Models.currency.find({where: {currencyCode: defaultCurrencyUnit}});
-            let cny = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';
+            let cny = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';  //设置人民币为默认源币种
             if(cnyCurrency && cnyCurrency.length) {
                 cny = cnyCurrency[0]['id'];
             }
@@ -623,10 +623,11 @@ class ApiTravelBudget {
                 }
                 for(let j =0; j < MAX_TRY; j++ ) {
                     try{
-                        await delay(5*1000);
+                        await delay(5 * 1000);
                         exchangeRate = await requestExchangeRate(defaultCurrencyUnit, currencies[i]['currencyCode']);
                     } catch(err) {
                         console.log("获取汇率失败")
+                        return ;
                     }
                     if(exchangeRate && exchangeRate.length && typeof(exchangeRate) != 'undefined'){
                         break;

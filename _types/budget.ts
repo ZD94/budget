@@ -208,6 +208,7 @@ export interface IQueryBudgetParams {
     staffs: IStaff[];  //出差员工
     policies?: IPolicySet;     //可能用到的全部差旅标准
     travelPolicyId?: string;
+    companyId?: string;
     combineRoom?: boolean;   //同性是否合并
     preferSet?: PreferSet;
     tickets?: ITicket[];

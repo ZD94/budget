@@ -56,6 +56,8 @@ deploy:master:
   environment:
     name: dev
     url: https://budget.l.jingli365.com
+  variables:
+    JL_APP_OLD_POSTGRES_URL: postgres://times:time0418@l.jingli365.com/qmtrip
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME
@@ -71,6 +73,8 @@ deploy:test:
   environment:
     name: test
     url: https://budget.t.jingli365.com
+  variables:
+    JL_APP_OLD_POSTGRES_URL: postgres://times:time0418@l.jingli365.com/time_test
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME

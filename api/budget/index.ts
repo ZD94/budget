@@ -25,28 +25,47 @@ import {ICity, CityService} from "_types/city";
 import {countDays} from "./helper";
 var API = require("@jingli/dnode-api");
 import Logger from "@jingli/logger";
+import {ModelInterface} from "../../common/model/interface";
+import {Model} from "sequelize";
 var logger = new Logger("budget");
-import { TravelPolicy} from "_types/policy";
+
+import { getSuitablePrefer } from "../prefer"
+import { TravelPolicy } from "_types/policy";
+import config = require("@jingli/config");
+
 export var NoCityPriceLimit = 0;
 export default class ApiTravelBudget {
+
+    static __initHttpApp(app) {
+        app.get("/deeplink", async (req, res, next)=>{
+            console.log(req.query.id);
+            let bookItem = await Models.deeplink.get(req.query.id);
+            let bookurl = bookItem['url'];
+            res.json({
+                'bookurl': bookurl
+            });
+        });
+    }
 
     static async getHotelBudget(params: IQueryHotelBudgetParams): Promise<IHotelBudgetResult> {
         if (!params) {
             throw new L.ERROR_CODE_C(500, 'params not exist');
         }
-        logger.info("Call getHotelBudget params:", params)
+        // logger.info("Call getHotelBudget params:", params)
         //酒店原始数据, 入住日期，离店日期，公司偏好，个人差旅标准，员工，是否同性合并
         let {
             hotels,
             checkInDate,
             checkOutDate,
-            preferSet,
+            companyId,
+            travelPolicyId,
             policies,
             staffs,
             combineRoom,
             city,
             isRetMarkedData,
             location,
+            expiredBudget
         } = params;
 
         if (typeof city == 'string') {
@@ -66,14 +85,14 @@ export default class ApiTravelBudget {
         if (!policies) {
             policies = {};
         }
-        if (!preferSet) {
-            preferSet = {}
-        }
+
+        let preferSet = await getSuitablePrefer({companyId, placeId:city["id"]});
+
         let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL;
         let companyPrefers = preferSet["hotel"];
         if (city.isAbroad) {
             key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL
-            companyPrefers = preferSet["abroadHotel"]
+            // companyPrefers = preferSet["abroadHotel"]
         }
         if (!companyPrefers) {
             companyPrefers = [];
@@ -88,9 +107,10 @@ export default class ApiTravelBudget {
             })
         }
 
-        if (new Date(checkInDate) < new Date(moment().format('YYYY-MM-DD'))) {
+        if(!expiredBudget && new Date(checkInDate) < new Date(moment().format('YYYY-MM-DD'))){
             throw new L.ERROR_CODE_C(500, '入住日期已过');
         }
+            
         let budgets = await Promise.all( staffs.map( async (staff) => {
             let policyKey = staff.policy || 'default';
             let staffPolicy = policies[policyKey] || {};
@@ -124,6 +144,13 @@ export default class ApiTravelBudget {
             }, {isRecord: true});
             let budget = await strategy.getResult(hotels, isRetMarkedData);
 
+            let deeplinkItem = Models.deeplink.create({
+                url: budget.bookurl
+            })
+            deeplinkItem = await deeplinkItem.save();
+
+            var jingliLinkH = config.website + `/bookurl/${deeplinkItem.id}` ;
+
             let maxPriceLimit = 0;
             let minPriceLimit = 0;
             let days: number = 0;
@@ -156,6 +183,7 @@ export default class ApiTravelBudget {
                 link: budget.link,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
+                bookurl: jingliLinkH
             }
             return hotelBudget;
         }));
@@ -163,9 +191,8 @@ export default class ApiTravelBudget {
     }
 
     static async getTrafficBudget(params: IQueryTrafficBudgetParams): Promise<ITrafficBudgetResult> {
-        logger.info("Call getTrafficBudget params:", params)
         //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
-        let { fromCity, toCity, latestArrivalTime, earliestDepartTime, policies, preferSet, tickets, staffs, isRetMarkedData} = params;
+        let { fromCity, toCity, latestArrivalTime, earliestDepartTime, policies, companyId, travelPolicyId, tickets, staffs, isRetMarkedData, expiredBudget} = params;
         let requiredParams = {
             fromCity: "出发城市",
             toCity: '目的地',
@@ -182,9 +209,6 @@ export default class ApiTravelBudget {
         if (!policies) {
             policies = {};
         }
-        if (!preferSet) {
-            preferSet = {};
-        }
 
         if (typeof latestArrivalTime == 'string') {
             latestArrivalTime = new Date(latestArrivalTime);
@@ -198,11 +222,11 @@ export default class ApiTravelBudget {
             throw new L.ERROR_CODE_C(500, '最早出发，最晚到达时间不能同时为空');
         }
 
-        if (latestArrivalTime && latestArrivalTime < new Date()) {
+        if (!expiredBudget && latestArrivalTime && latestArrivalTime < new Date()) {
             throw new L.ERROR_CODE_C(500, '出发日期已过');
         }
 
-        if (earliestDepartTime && earliestDepartTime < new Date()) {
+        if (!expiredBudget && earliestDepartTime && earliestDepartTime < new Date()) {
             throw new L.ERROR_CODE_C(500, '出发日期已过');
         }
 
@@ -213,6 +237,11 @@ export default class ApiTravelBudget {
             toCity = await CityService.getCity(toCity);
         }
 
+        let preferSet = await getSuitablePrefer({
+            companyId,
+            placeId : toCity.id
+        });
+
         let leaveDate = moment(latestArrivalTime || earliestDepartTime).format('YYYY-MM-DD');
         if (!tickets) {
             tickets = await API.traffic.search_tickets({
@@ -221,6 +250,7 @@ export default class ApiTravelBudget {
                 destination: toCity.id
             })
         }
+
 
         let staffBudgets = await Promise.all( staffs.map( async (staff) => {
             let policyKey = staff.policy || 'default';
@@ -241,7 +271,7 @@ export default class ApiTravelBudget {
             let allPrefers;
             if ((<ICity>fromCity).isAbroad || (<ICity>toCity).isAbroad) {
                 let key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_TRAFFIC;
-                allPrefers = loadPrefers(preferSet["abroadTraffic"] || [], qs, key)
+                allPrefers = loadPrefers(preferSet["traffic"] || [], qs, key)
             } else {
                 let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET;
                 allPrefers = loadPrefers(preferSet["traffic"] || [], qs, key)
@@ -276,6 +306,14 @@ export default class ApiTravelBudget {
                     discount = discount < 1? discount:1;
                 }
             }
+
+            let deeplinkItem = Models.deeplink.create({
+                url: budget.bookurl,
+            })
+            deeplinkItem = await deeplinkItem.save();
+
+            var jingliLinkT = `t.jingli365.com/bookurl/${deeplinkItem.id}`;
+
             let trafficBudget: ITrafficBudgetItem = {
                 id: budget.id,
                 departTime: budget.departTime,
@@ -289,6 +327,7 @@ export default class ApiTravelBudget {
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
+                bookurl: jingliLinkT
             }
             return trafficBudget as ITrafficBudgetItem;
         }))
@@ -318,10 +357,29 @@ export default class ApiTravelBudget {
         return hotelBudget;
     }
 
+    /*
+    * content 判断是否可以生产过期预算
+    */
+
+    static async judgeExpriedBudget(params:{companyId?:string, expiredBudget?:boolean}) : Promise<boolean>{
+        let {companyId, expiredBudget} = params;
+        let companyConfig = await Models.companyConfig.get(companyId);
+        if(!companyConfig || !companyConfig.openExpiredBudget){
+            return false;
+        }
+
+        if(expiredBudget != undefined && expiredBudget == false){
+            return false;
+        }
+
+        return true;
+    }
 
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
         try {  //policies,
-            let {  staffs, segments, fromCity, preferSet, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId } = params;
+            let {  staffs, segments, fromCity, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, companyId, expiredBudget } = params;
+
+            expiredBudget = await ApiTravelBudget.judgeExpriedBudget({companyId, expiredBudget});
             let budgets = [];
             let cities = [];
             if (fromCity && typeof fromCity == 'string') {
@@ -358,18 +416,18 @@ export default class ApiTravelBudget {
                 }
                 if (fromCity && !seg.noTraffic) {
                     if(tp){
-                        if(toCity["isAbroad"]){
+                        if(!toCity.isAbroad){
                             policies = {
-                                abroad:{
+                                domestic:{
                                     cabin: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "planeLevels"}),
                                     trainSeat: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trainLevels"}),
                                     trafficPrefer: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trafficPrefer"}),
                                 }
                             }
                         }
-                        if(!toCity["isAbroad"]){
+                        if(toCity.isAbroad){
                             policies = {
-                                domestic:{
+                                abroad:{
                                     cabin: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "planeLevels"}),
                                     trafficPrefer: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trafficPrefer"}),
                                 }
@@ -383,9 +441,11 @@ export default class ApiTravelBudget {
                         toCity: toCity,
                         latestArrivalTime: seg.beginTime,
                         earliestDepartTime: i > 0 ? segments[i-1].endTime: null,
-                        preferSet,
+                        companyId,
+                        travelPolicyId,
                         tickets,
                         isRetMarkedData: isRetMarkedData,
+                        expiredBudget
                     }
                     tasks.push(ApiTravelBudget.getTrafficBudget(trafficParams));
                 } else {
@@ -399,7 +459,7 @@ export default class ApiTravelBudget {
                         if(toCity["isAbroad"]){
                             policies = {
                                 abroad:{
-                                    hotelLevels: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
+                                    hotelStar: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
                                     hotelPrefer: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelPrefer"}),
                                     maxPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "maxPriceLimit"}),
                                     minPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "minPriceLimit"}),
@@ -409,7 +469,7 @@ export default class ApiTravelBudget {
                         if(!toCity["isAbroad"]){
                             policies = {
                                 domestic:{
-                                    hotelLevels: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
+                                    hotelStar: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
                                     hotelPrefer: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelPrefer"}),
                                     maxPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "maxPriceLimit"}),
                                     minPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "minPriceLimit"}),
@@ -426,10 +486,12 @@ export default class ApiTravelBudget {
                         city: toCity,
                         checkInDate: checkInDate,
                         checkOutDate: checkOutDate,
-                        preferSet,
+                        companyId,
+                        travelPolicyId,
                         hotels,
                         isRetMarkedData: isRetMarkedData,
                         location: seg.location,
+                        expiredBudget
                     }
                     tasks.push(ApiTravelBudget.getHotelBudget(hotelParams))
                 } else {

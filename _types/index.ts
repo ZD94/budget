@@ -7,6 +7,7 @@ import {ModelInterface} from "../common/model/interface";
 import {ModelDelegate} from "../common/model/delegate";
 import {Budget, BudgetItem, Deeplink} from "_types/budget";
 import {Statistic, App} from "_types/openapi";
+import {CompanyConfig} from "_types/company";
 import {TravelPolicy,SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionPlace} from "_types/policy";
 
 export interface ModelsInterface {
@@ -20,6 +21,7 @@ export interface ModelsInterface {
     companyRegion: ModelInterface<CompanyRegion>;
     regionPlace: ModelInterface<RegionPlace>;
     subsidyTemplate: ModelInterface<SubsidyTemplate>;
+    companyConfig: ModelInterface<CompanyConfig>;
 }
 
 
@@ -36,5 +38,6 @@ export var Models: ModelsInterface = {
     subsidyTemplate: new ModelDelegate<SubsidyTemplate>(),
     app: new ModelDelegate<App>(),
     statistic: new ModelDelegate<Statistic>(),
+    companyConfig: new ModelDelegate<CompanyConfig>(),
 };
 

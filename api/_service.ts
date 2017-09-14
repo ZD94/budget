@@ -9,6 +9,7 @@ import {App, Statistic} from "_types/openapi";
 import {createServerService} from "../common/model/sequelize";
 import {ModelsInterface, Models} from "../_types/index";
 import {TravelPolicy, TravelPolicyRegion, SubsidyTemplate, CompanyRegion, RegionPlace} from "_types/policy";
+import {CompanyConfig} from "_types/company";
 
 export function initModels(models: ModelsInterface){
     for(let k in models){
@@ -28,4 +29,5 @@ initModels({
     subsidyTemplate: createServerService<SubsidyTemplate>(SubsidyTemplate),
     app: createServerService<App>(App),
     statistic: createServerService<Statistic>(Statistic),
+    companyConfig: createServerService<CompanyConfig>(CompanyConfig),
 });

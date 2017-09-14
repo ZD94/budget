@@ -16,11 +16,11 @@ export class CurrencyRate extends ModelObject{
     get id(): string { return Values.UUIDV1(); }
     set id(val: string) {}
 
-    @ResolveRef({type: Types.UUID}, Models.currency)
+    @Field({type: Types.STRING})
     get currencyFrom():string { return null;}
     set currencyFrom(val: string) {}
 
-    @ResolveRef({type: Types.UUID}, Models.currency)
+    @Field({type: Types.STRING})
     get currencyTo(): string { return null; }
     set currencyTo(val: string) {}
 

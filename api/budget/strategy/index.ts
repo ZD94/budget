@@ -385,28 +385,28 @@ async function getExpectedCurrencyRate(expectedCurrency: string) {
     //4a66fb50-96a6-11e7-b929-cbb6f90690e1 表示人民币
     let currencies = await Models.currency.find({where: {currencyCode: defaultCurrencyUnit}});
     let defaultCNYRate = 1;
-    let defaultCurrencyIdFrom = '';
-    if(currencies && currencies.length) {
-        if(currencies[0]['currencyCode'] == expectedCurrency) {
-            return defaultCNYRate;
-        }
-        defaultCurrencyIdFrom = currencies[0]['id']
-    } else {
-        return defaultCNYRate;
-    }
+    let defaultCurrencyFrom = defaultCurrencyUnit;
+    // if(currencies && currencies.length) {
+    //     if(currencies[0]['currencyCode'] == expectedCurrency) {
+    //         return defaultCNYRate;
+    //     }
+    //     defaultCurrencyIdFrom = currencies[0]['id']
+    // } else {
+    //     return defaultCNYRate;
+    // }
 
 
     currencies = await Models.currency.find({where: {currencyCode: expectedCurrency}});
-    let expectedCurrencyIdTo = '';
+    let expectedCurrencyTo = '';
     if(currencies && currencies.length) {
-        expectedCurrencyIdTo = currencies[0]['id']
+        expectedCurrencyTo = currencies[0]['currencyCode']
     } else {
         return defaultCNYRate;
     }
     let query = {
         where: {
-            currencyFromId: defaultCurrencyIdFrom,
-            currencyToId: expectedCurrencyIdTo,
+            currencyFrom: defaultCurrencyFrom,
+            currencyTo: expectedCurrencyTo,
         },
         order:[['postedAt', 'desc'], ['createdAt', 'desc']]
     };

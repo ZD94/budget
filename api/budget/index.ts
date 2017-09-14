@@ -604,13 +604,8 @@ class ApiTravelBudget {
     static _scheduleTask () {
         let taskId = "currencyExchangeRate";
         logger.info('run task ' + taskId);
-        scheduler('0 12 * * * *', taskId, async function() {
+        scheduler('0 38 * * * *', taskId, async function() {
             let MAX_TRY = 1;
-            let cnyCurrency = await Models.currency.find({where: {currencyCode: defaultCurrencyUnit}});
-            let cny = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';  //设置人民币为默认源币种
-            if(cnyCurrency && cnyCurrency.length) {
-                cny = cnyCurrency[0]['id'];
-            }
             let exchangeRate = [];
             let where = {
                 where: {},
@@ -642,8 +637,8 @@ class ApiTravelBudget {
                     }
                     if(rate) {
                         let params = {
-                            currencyFromId: cny,  //人民币
-                            currencyToId: currencies[i]['id'],    //美元
+                            currencyFrom: defaultCurrencyUnit,  //人民币
+                            currencyTo: currencies[i]['currencyCode'],    //美元
                             postedAt: exchangeRate[0]["updateTime"],
                             rate: rate
                         };

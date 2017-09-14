@@ -4,8 +4,7 @@
 import {AbstractController, Restful} from "@jingli/restful";
 import {Models} from "_types";
 var _ = require("lodash");
-var defaultCurrency = '4a66fb50-96a6-11e7-b929-cbb6f90690e1';  //人民币
-
+var defaultCurrency = 'CNY';
 @Restful()
 export class CurrencyRateController extends AbstractController {
     constructor() {
@@ -21,23 +20,16 @@ export class CurrencyRateController extends AbstractController {
         if(!currencyTo || typeof(currencyTo) == 'undefined') {
             return res.json(this.reply(400, []));
         }
-        let currencies = await Models.currency.all({
-            where: {
-                currencyCode: currencyTo
-            }
-        });
         let exchangeRateDetail = [];
-        if(currencies && currencies.length){
-            exchangeRateDetail = await Models.currencyRate.find({
-                where:{
-                    currencyFromId: defaultCurrency,
-                    currencyToId: currencies[0].id,
-                },
-                order: [["postedAt", "desc"], ["createdAt", "desc"]]
-            });
-            if(exchangeRateDetail && exchangeRateDetail.length){
-                exchangeRateDetail = _.concat([], exchangeRateDetail[0]);
-            }
+        exchangeRateDetail = await Models.currencyRate.find({
+            where:{
+                currencyFrom: defaultCurrency,
+                currencyTo: currencyTo,
+            },
+            order: [["postedAt", "desc"], ["createdAt", "desc"]]
+        });
+        if(exchangeRateDetail && exchangeRateDetail.length){
+            exchangeRateDetail = _.concat([], exchangeRateDetail[0]);
         }
         res.json(this.reply(200, exchangeRateDetail));
     }

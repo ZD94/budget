@@ -7,12 +7,14 @@ import Sequelize = require('sequelize');
 import config = require('@jingli/config');
 
 export = async function(db, transition) {
-    // let db2 = new Sequelize(config.oldPostgres.url);
-    let db2 = new Sequelize('postgres://times:time0418@l.jingli365.com:15432/times');
+    let db2 = new Sequelize(config.oldPostgres.url);
+    // let db2 = new Sequelize('postgres://times:time0418@l.jingli365.com:15432/times');
 
     const sql2 = `select * from company.suppliers where deleted_at is null`;
+    const sql3 = `select * from company.companies where deleted_at is null`;
 
     let suppliers = await db2.query(sql2);
+    let companies = await db2.query(sql3);
 
 
     for (let supplier of suppliers[0]) {
@@ -29,5 +31,18 @@ export = async function(db, transition) {
         '${supplier.traffic_book_link}','${supplier.hotel_book_link}', '${supplier.logo}', '${supplier.is_in_use}', '${supplier.company_id}', '${supplier.supplier_key}')`;
         }
         await db.query(sql);
+    }
+
+    for (let company of companies[0]) {
+        let sql0;
+        let appointed = company.appointed_pubilc_suppliers;
+        if (typeof company.appointed_pubilc_suppliers == 'object') {
+            appointed = JSON.stringify(company.appointed_pubilc_suppliers);
+        }
+        // console.log('appointed', appointed);
+        sql0 = `insert into company.companies (id, name, created_at, updated_at, appointed_pubilc_suppliers) values 
+         ('${company.id}', '${company.name}', now(), now(), '${appointed}')`;
+        // console.log('sql0', sql0);
+        await db.query(sql0);
     }
 }

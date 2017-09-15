@@ -22,7 +22,7 @@
     "@jingli/dnode-api": "^1.1.8",
     "@jingli/language": "^1.0.2",
     "@jingli/logger": "^1.0.1",
-    "@jingli/restful": "0.0.7",
+    "@jingli/restful": "0.0.9",
     "@jingli/zone-setup": "^1.0.1",
     "@types/lodash": "^4.14.63",
     "@types/pg": "^6.1.39",
@@ -62,7 +62,12 @@
     "tslib": "^1.6.0",
     "typescript": "^2.4.2",
     "uuid": "^3.0.1",
+<<<<<<< HEAD
     "validator": "^8.1.0"
+=======
+    "node-fetch": "~1.3.3",
+    "superagent": "~1.4.0"
+>>>>>>> 7d1cd3f7b9a854be46038ad7b818d251bf92c5ad
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.2",
@@ -104,6 +109,11 @@
     "run-sequence": "^1.2.2",
     "supertest": "^3.0.0",
     "through2": "^2.0.3",
-    "yargs": "^7.0.2"
+    "yargs": "^7.0.2",
+    "babel-core": "^6.2.4",
+    "babel-preset-es2015": "^6.1.18",
+    "chai": "~3.4.1",
+    "mocha": "~2.3.4",
+    "mochawesome": "^1.2.2"
   }
 }

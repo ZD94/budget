@@ -95,4 +95,5 @@ export class CompanyController extends AbstractController{
         res.json(this.reply(0, company));
     }
 
+
 }

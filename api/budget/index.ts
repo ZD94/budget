@@ -344,8 +344,8 @@ class ApiTravelBudget {
         return staffBudgets;
     }
 
-    static async getSubsidyBudget(params: {subsidies: PolicyRegionSubsidy[], leaveDate: Date, goBackDate: Date, isHasBackSubsidy: boolean}): Promise<any> {
-        let { subsidies, leaveDate, goBackDate, isHasBackSubsidy } = params;
+    static async getSubsidyBudget(params: {subsidies: PolicyRegionSubsidy[], leaveDate: Date, goBackDate: Date, isHasBackSubsidy: boolean, preferedCurrency?: string}): Promise<any> {
+        let { subsidies, leaveDate, goBackDate, isHasBackSubsidy, preferedCurrency } = params;
         let budget: any = null
         if (subsidies && subsidies.length) {
             let goBackDay = goBackDate ? moment(goBackDate).format("YYYY-MM-DD") : null;
@@ -373,12 +373,24 @@ class ApiTravelBudget {
                 }
 
                 budget = {};
+                budget.unit = preferedCurrency && typeof(preferedCurrency) != 'undefined' ? preferedCurrency: defaultCurrencyUnit,
                 budget.fromDate = leaveDate;
                 budget.endDate = (goBackDate == leaveDay || isHasBackSubsidy) ? goBackDate: moment(goBackDate).add(-1, 'days').format('YYYY-MM-DD');
                 budget.price = totalMoney;
                 budget.duringDays = days;
                 budget.templates = templates;
                 budget.type = EBudgetType.SUBSIDY;
+                if(preferedCurrency == defaultCurrencyUnit){
+                    budget.rate = 1;
+                }else{
+                    let rates = await Models.currencyRate.find({where : {currencyTo: preferedCurrency}, order: [["postedAt", "desc"]]});
+                    if(rates && rates.length){
+                        budget.rate = rates[0].rate;
+                    }else{
+                        budget.rate = 1;
+                    }
+                }
+
             }
         }
         return budget;
@@ -427,6 +439,7 @@ class ApiTravelBudget {
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
         try {  //policies,
             let {  staffs, segments, fromCity, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, companyId,preferedCurrency, expiredBudget } = params;
+            preferedCurrency = preferedCurrency && typeof(preferedCurrency) != 'undefined' ? preferedCurrency :defaultCurrencyUnit;
             expiredBudget = await ApiTravelBudget.judgeExpriedBudget({companyId, expiredBudget});
             let budgets = [];
             let cities = [];
@@ -563,7 +576,8 @@ class ApiTravelBudget {
                             subsidies: subsidies,
                             leaveDate: seg.beginTime,
                             goBackDate: seg.endTime,
-                            isHasBackSubsidy: isHasBackSubsidy
+                            isHasBackSubsidy: isHasBackSubsidy,
+                            preferedCurrency: preferedCurrency
                         };
                         tasks.push(ApiTravelBudget.getSubsidyBudget(subsidyParams));
                     }else{

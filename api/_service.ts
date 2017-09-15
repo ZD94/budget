@@ -10,7 +10,6 @@ import {Supplier} from "_types/supplier"
 import {createServerService} from "../common/model/sequelize";
 import {ModelsInterface, Models} from "../_types/index";
 import {TravelPolicy, TravelPolicyRegion, SubsidyTemplate, CompanyRegion, RegionPlace, SubsidyType, PolicyRegionSubsidy} from "_types/policy";
-import {Prefer} from "_types/prefer";
 import {CurrencyRate, Currency} from "_types/currency";
 import {Company} from "_types/company";
 import {Account, AccountCompany} from "_types/account";
@@ -38,7 +37,6 @@ initModels({
     statistic: createServerService<Statistic>(Statistic),
     subsidyType: createServerService<SubsidyType>(SubsidyType),
     policyRegionSubsidy: createServerService<PolicyRegionSubsidy>(PolicyRegionSubsidy),
-    prefer: createServerService<Prefer>(Prefer),
     currencyRate: createServerService<CurrencyRate>(CurrencyRate),
     currency: createServerService<Currency>(Currency),
     supplier: createServerService<Supplier>(Supplier),

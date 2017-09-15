@@ -35,10 +35,12 @@ export async function getParentCity(cityCode: string) : Promise<any>{
     return await API.place.getCityInfo({cityCode : cityInfo.parentId});
 }
 
-export async function manage(companyRegions:string[], cityCode:string, checkFn:Function) : Promise<any>{
+export async function manage(companyRegions:string[], cityCode:string, checkOptions:{params,checkFn:Function}) : Promise<any>{
     let regionPlace, isOk = false;
+    let {checkFn, params} = checkOptions;
     do{
         regionPlace = await getRegionPlace(companyRegions, cityCode);
+
         if(!regionPlace){
             let parentCity = await getParentCity(cityCode);
             if(!parentCity){
@@ -49,7 +51,8 @@ export async function manage(companyRegions:string[], cityCode:string, checkFn:F
             continue;
         }
 
-        let result = await checkFn(regionPlace);
+        params.regionPlace = regionPlace;
+        let result = await checkFn(params);
         if(result){
             //验证通过
             isOk = true;
@@ -67,22 +70,45 @@ export async function manage(companyRegions:string[], cityCode:string, checkFn:F
 
 /* ============================= COMMON USING END =================================== */
 
-/* 差旅偏好 check函数 */
-async function checkPrefer(regionPlace: RegionPlace){
-    let prefer = await Models.prefer.find({
-        where : {
-            companyRegionId : regionPlace.companyRegion.id
-        }
-    });
+/* 差旅偏好 check函数, 返回最终prefer */
+async function checkPrefer(params:{
+    regionPlace: RegionPlace
+}){
+    let {regionPlace} = params;
+    let prefer = await Models.preferRegion.get(regionPlace.companyRegion.id);
 
-    if(prefer.length){
-        return prefer;
+    let targetPrefer;
+    targetPrefer = prefer && prefer[0].budgetConfig;
+
+    if(targetPrefer){
+        return targetPrefer;
     }
+
     return null;
 }
 
+
 /* 获取一个合适的偏好 */
-export async function getSuitablePrefer(companyId:string, placeId:string, travelPolicyId:string){
+export async function getSuitablePrefer(params:{companyId:string, placeId:string}){
+    let {companyId, placeId} = params;
     let companyRegions = await Models.companyRegion.all({where : { companyId }});
-    // let prefers = await manage(companyRegions, placeId, checkPrefer);
+    let companyRegionIds = [];
+    companyRegions.map((item)=>{
+        companyRegionIds.push(item.id);
+    });
+
+    let targetPrefer = await manage(companyRegionIds, placeId, {
+            params: {
+
+            },
+            checkFn : checkPrefer
+        }) || null;
+
+    if(!targetPrefer){
+        //placeId 找到顶层也没有与当前travelPolicyId 匹配的 prefer设置
+        targetPrefer = {};
+    }
+
+    return targetPrefer;
 }
+

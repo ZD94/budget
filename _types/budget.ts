@@ -101,14 +101,17 @@ export interface IQueryHotelBudgetParams {
     checkOutDate: Date;
     policies: IPolicySet;
     staffs: IStaff[];
-    preferSet: PreferSet;
+    companyId?: string;
+    travelPolicyId?: string;
     hotels?: IHotel[];
     combineRoom?: boolean;
     isRetMarkedData?: boolean;
+    expiredBudget : boolean;
     location?: {
         latitude: number,
         longitude: number,
-    }
+    },
+    preferedCurrency?: string
 }
 
 //仓位信息
@@ -154,6 +157,7 @@ export interface IFinalTicket {
     reasons?: string[];
     stops?: string[];
     segs?: any[];
+    bookUrl?: string;
 }
 
 export interface ICraft {
@@ -187,13 +191,16 @@ export interface IFlightSeg {
 export interface IQueryTrafficBudgetParams {
     fromCity: ICity | string;
     toCity: ICity | string;
-    preferSet: PreferSet;
+    companyId?: string;
+    travelPolicyId?: string;
     policies: IPolicySet;
     staffs: IStaff[];
     latestArrivalTime: Date;     //最晚到达时间
     tickets?: ITicket[];
     isRetMarkedData?: boolean;
     earliestDepartTime?: Date;   //最早出发时间
+    preferedCurrency?: string;
+    expiredBudget?: boolean;
 }
 
 export interface IQueryBudgetParams {
@@ -204,11 +211,13 @@ export interface IQueryBudgetParams {
     staffs: IStaff[];  //出差员工
     policies?: IPolicySet;     //可能用到的全部差旅标准
     travelPolicyId?: string;
+    companyId? : string;
+    expiredBudget? : boolean;  //过期是否可以生成预算
     combineRoom?: boolean;   //同性是否合并
-    preferSet?: PreferSet;
     tickets?: ITicket[];
     hotels?: IHotel[];
     isRetMarkedData?: boolean;
+    preferedCurrency?: string;
 }
 
 export interface PreferSet {
@@ -253,6 +262,8 @@ export interface IPolicy {
 
 export interface IBudgetItem {
     price: number;
+    unit?:string;
+    rate?: number;
     type: EBudgetType;
     link?: string;
     agent?: string;
@@ -286,6 +297,7 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     cabin?: EAirCabin | ETrainSeat | EShipCabin;     //仓位或者座位
     discount?: number;                  //大致折扣
     no?: string;
+    bookurl?: string;
 }
 
 export interface ITrafficBudgetResult extends Array<ITrafficBudgetItem> {
@@ -300,6 +312,8 @@ export interface IHotelBudgetItem extends IBudgetItem {
     name?: string;
     latitude?: number;
     longitude?: number;
+    bookurl?: string;
+
 }
 
 export interface ISubsidyItem extends IBudgetItem {
@@ -386,6 +400,31 @@ export class BudgetItem extends ModelObject {
     @Field({type: Types.INTEGER})
     get type() : Number { return 1}
     set type(type: Number) {}
+}
+
+@Table(Models.deeplink, "deeplink.")
+export class Deeplink extends ModelObject {
+
+    constructor(target: Object) {
+        super(target);
+    }
+
+    @Create()
+    static create(obj: any): Deeplink { return null }
+
+    @Field({ type: Types.UUID })
+    get id() { return uuid.v1() }
+    set id(id: string) {}
+
+    @Field({ type: Types.INTEGER })
+    get type(): Number { return 1 }
+    set type(type: Number) {}
+
+    @Field({ type: Types.TEXT })
+    get url(): string { return null }
+    set url(url: string) {}
+
+
 }
 
 export interface FinalBudgetResultInterface {

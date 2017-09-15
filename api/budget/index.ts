@@ -557,8 +557,8 @@ class ApiTravelBudget {
                 let subsidies = [];
                 if(tp){
                     let company = await Models.company.get(tp.companyId);
-                    if(company && company.isOpenSubsidyBudget){
-                        subsidies = await tp.getSubsidies({placeId: toCity.id});
+                    subsidies = await tp.getSubsidies({placeId: toCity.id});
+                    if(company && company.isOpenSubsidyBudget && subsidies && subsidies.length){
                         let subsidyParams = {
                             subsidies: subsidies,
                             leaveDate: seg.beginTime,

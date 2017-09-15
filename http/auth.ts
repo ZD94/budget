@@ -96,16 +96,16 @@ export async function authenticate(req, res, next) {
         return next();
     }
 
-    /*let session = await checkTicket(ticket);
+  /*   let session = await checkTicket(ticket);
     if(!session){
-        //ticket 过期
+        // ticket 过期
         return res.json({
             code : 500,
             msg  : ERR_TEXT[500]
         });
-    }*/
+    }
 
-    // req.session = session;
+    req.session = session;
 
     //如果存在companyId参数，验证companyId是否属于该accountId
     let {companyId} = req.params;
@@ -117,7 +117,7 @@ export async function authenticate(req, res, next) {
                 msg  : ERR_TEXT[403]
             })
         }
-    }
+    } */
 
     return next();
 }

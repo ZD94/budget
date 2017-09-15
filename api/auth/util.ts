@@ -1,6 +1,6 @@
 let cache = require("common/cache");
 let uuid = require("uuid");
-import * as md5 from "md5";
+let md5  = require("md5");
 import L from "@jingli/language";
 import { Models } from "_types";
 import {Account} from "_types/account";

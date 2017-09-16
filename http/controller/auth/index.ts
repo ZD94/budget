@@ -26,11 +26,11 @@ export class AuthController extends AbstractController{
     */
     @Router("/login", "post")
     async login(req, res, next){
-        await Login(req, res, next);
+        await Login.apply(this, [req, res, next]);
     }
 
-    @Router("/quite", "post")
-    async quite(req, res, next){
+    @Router("/quit", "post")
+    async quit(req, res, next){
         let ticket = req.headers['ticket'] || req.query.ticket;
         let result = await cache.remove(ticket);
 

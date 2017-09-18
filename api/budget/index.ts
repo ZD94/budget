@@ -32,6 +32,7 @@ import Logger from "@jingli/logger";
 import {ModelInterface} from "../../common/model/interface";
 import {Model} from "sequelize";
 var logger = new Logger("budget");
+import {PolicyRegionSubsidy} from "_types/policy/policyRegionSubsidy";
 
 import { getSuitablePrefer } from "../prefer"
 import { TravelPolicy } from "_types/policy";
@@ -238,7 +239,6 @@ class ApiTravelBudget {
         if (!expiredBudget && earliestDepartTime && earliestDepartTime < new Date()) {
             throw new L.ERROR_CODE_C(500, '出发日期已过');
         }
-
         if (typeof fromCity == 'string') {
             fromCity = await CityService.getCity(fromCity);
         }
@@ -344,6 +344,58 @@ class ApiTravelBudget {
         return staffBudgets;
     }
 
+    static async getSubsidyBudget(params: {subsidies: PolicyRegionSubsidy[], leaveDate: Date, goBackDate: Date, isHasBackSubsidy: boolean, preferedCurrency?: string}): Promise<any> {
+        let { subsidies, leaveDate, goBackDate, isHasBackSubsidy, preferedCurrency } = params;
+        let budget: any = null
+        if (subsidies && subsidies.length) {
+            let goBackDay = goBackDate ? moment(goBackDate).format("YYYY-MM-DD") : null;
+            let leaveDay = leaveDate ? moment(leaveDate).format("YYYY-MM-DD") : null;
+            let days = 0;
+            if(!leaveDay || !leaveDay){
+                days = 1;
+            }else{
+                days = moment(goBackDay).diff(leaveDay, 'days');
+            }
+            if (isHasBackSubsidy) { //解决如果只有住宿时最后一天补助无法加到返程目的地上
+                days += 1;
+            }
+
+            let totalMoney = 0;
+            if (days > 0) {
+                let templates = [];
+                for(let i = 0; i < subsidies.length; i++){
+                    let subsidyDay =  Math.floor(days/subsidies[i].subsidyType.period);
+                    totalMoney += subsidies[i].subsidyMoney * subsidyDay;
+                    let subsidy = {name: subsidies[i].subsidyType.name, period: subsidies[i].subsidyType.period,  money: subsidies[i].subsidyMoney, id: subsidies[i].id};
+                    if(subsidyDay){
+                        templates.push(subsidy);
+                    }
+                }
+
+                budget = {};
+                budget.unit = preferedCurrency && typeof(preferedCurrency) != 'undefined' ? preferedCurrency: defaultCurrencyUnit,
+                budget.fromDate = leaveDate;
+                budget.endDate = (goBackDate == leaveDay || isHasBackSubsidy) ? goBackDate: moment(goBackDate).add(-1, 'days').format('YYYY-MM-DD');
+                budget.price = totalMoney;
+                budget.duringDays = days;
+                budget.templates = templates;
+                budget.type = EBudgetType.SUBSIDY;
+                if(preferedCurrency == defaultCurrencyUnit){
+                    budget.rate = 1;
+                }else{
+                    let rates = await Models.currencyRate.find({where : {currencyTo: preferedCurrency}, order: [["postedAt", "desc"]]});
+                    if(rates && rates.length){
+                        budget.rate = rates[0].rate;
+                    }else{
+                        budget.rate = 1;
+                    }
+                }
+
+            }
+        }
+        return budget;
+    }
+
     static limitHotelBudgetByPrefer(min: number, max:number, hotelBudget: number){
         if(hotelBudget == -1) {
             if(max != NoCityPriceLimit) return max;
@@ -387,6 +439,7 @@ class ApiTravelBudget {
     static async createBudget(params: IQueryBudgetParams) :Promise<FinalBudgetResultInterface>{
         try {  //policies,
             let {  staffs, segments, fromCity, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, companyId,preferedCurrency, expiredBudget } = params;
+            preferedCurrency = preferedCurrency && typeof(preferedCurrency) != 'undefined' ? preferedCurrency :defaultCurrencyUnit;
             expiredBudget = await ApiTravelBudget.judgeExpriedBudget({companyId, expiredBudget});
             let budgets = [];
             let cities = [];
@@ -507,16 +560,44 @@ class ApiTravelBudget {
                 } else {
                     tasks.push(null);
                 }
+
+                //补助
+                let isHasBackSubsidy = false;
+                if (i == segments.length-1 && !backCity) {
+                    isHasBackSubsidy = true;
+                }
+
+                let subsidies = [];
+                if(tp){
+                    let company = await Models.company.get(tp.companyId);
+                    subsidies = await tp.getSubsidies({placeId: toCity.id});
+                    if(company && company.isOpenSubsidyBudget && subsidies && subsidies.length){
+                        let subsidyParams = {
+                            subsidies: subsidies,
+                            leaveDate: seg.beginTime,
+                            goBackDate: seg.endTime,
+                            isHasBackSubsidy: isHasBackSubsidy,
+                            preferedCurrency: preferedCurrency
+                        };
+                        tasks.push(ApiTravelBudget.getSubsidyBudget(subsidyParams));
+                    }else{
+                        tasks.push(null);
+                    }
+                }else{
+                    tasks.push(null);
+                }
+
                 fromCity = toCity;
                 //城市
                 cities.push(toCity.id);
             }
 
             let budgetResults = await Promise.all(tasks);
-            for(var i=0, ii=budgetResults.length; i<ii; i=i+2) {
+            for(var i=0, ii=budgetResults.length; i<ii; i=i+3) {
                 budgets.push({
                     traffic: budgetResults[i],
-                    hotel: budgetResults[i+1]
+                    hotel: budgetResults[i+1],
+                    subsidy: budgetResults[i+2]
                 })
             }
 

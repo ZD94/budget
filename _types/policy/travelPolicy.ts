@@ -223,6 +223,51 @@ export class TravelPolicy extends ModelObject{
         }
     }
 
+    @RemoteCall()
+    async getSubsidies(params: {placeId: string}):Promise<any> {
+        let {placeId} = params;
+        let self = this;
+        let tprs = await Models.policyRegionSubsidy.all({
+            where: {travelPolicyId: self.id}
+        });
+        if(tprs && tprs.length){
+            let crIds: string[] = [];
+            for(let i =0; i <tprs.length; i++){
+                if(crIds.indexOf(tprs[i]["companyRegionId"]) == -1){
+                    crIds.push(tprs[i]["companyRegionId"]);
+                }
+            }
+            do {
+                let cps = await self.getRegionPlaces({
+                    where: {companyRegionId: {$in: crIds}, placeId: placeId}});
+                if(cps && cps.length ){
+                    let expectedTpr = await Models.policyRegionSubsidy.all({where: {travelPolicyId: self.id,companyRegionId: cps[0]["companyRegionId"]}});
+                    if(expectedTpr && expectedTpr.length){
+                        return expectedTpr;
+                    }else{
+                        return null
+                    }
+                }
+                let cityInfo = await API.place.getCityInfo({cityCode: placeId});
+                if (!cityInfo) {
+                    return null;
+                }
+                if(cityInfo.parentId) {
+                    placeId = cityInfo.parentId;
+                    continue;
+                }
+
+                if(!cityInfo.isAbroad)
+                    placeId = DefaultRegionId.domestic;
+                if(cityInfo.isAbroad)
+                    placeId = DefaultRegionId.abroad;
+            } while(placeId);
+        }else{
+            return null;
+        }
+
+    }
+
 
     async getRegionPlaces(params): Promise<RegionPlace[]>{
         return Models.regionPlace.find(params);

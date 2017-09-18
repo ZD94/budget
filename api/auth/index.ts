@@ -41,16 +41,26 @@ export async function getAccount(username:string | number){
     return accounts[0];
 }
 
-export async function Login(req, res, next){
-    let {username, sign, timestamp} = req.body;
-
+export async function Login(params:{
+    username : string | number;
+    sign     : string;
+    timestamp: number;
+}){
+    let {username, sign, timestamp} = params;
+    let result = {
+        code : 0,
+        data : null,
+        msg  : ""
+    };
     if(!username || !sign || !timestamp){
-        return res.sendStatus(502);
+        result.code = 502;
+        return result;
     }
 
     let now = +new Date();
-    if(Math.abs(now - timestamp) > 5 * 1000){
-        return res.sendStatus(502);
+    if(Math.abs(now - timestamp) > 3 * 60 * 1000){
+        result.code = 501;
+        return result;
     }
 
     let account;
@@ -58,24 +68,21 @@ export async function Login(req, res, next){
         account = await getAccount(username);
     }catch(e){
         console.error(e);
-        return res.sendStatus(403);
+        result.code = 502;
+        return result;
     }
     
     if(!account){
-        return res.json({
-            code : 404,
-            msg  : "账户不存在"
-        });
+        result.code = 404;
+        return result;
     }
 
     let string = [username, account.pwd, timestamp].join("|");
     let sSign = md5(string);
 
     if(sSign != sign){
-        return res.json({
-            code : 404,
-            msg  : "账户名密码不匹配"
-        });
+        result.code = 404;
+        return result;
     }
 
     /* ===== 认证通过 ===== */
@@ -85,11 +92,7 @@ export async function Login(req, res, next){
         account
     });
 
-    res.json({
-        code : 0,
-        msg  : "登录成功",
-        data : {
-            ticket
-        }
-    });
+    result.code = 0;
+    result.data = { ticket };
+    return result;
 }

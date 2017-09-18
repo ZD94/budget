@@ -26,7 +26,14 @@ export class AuthController extends AbstractController{
     */
     @Router("/login", "post")
     async login(req, res, next){
-        await Login.apply(this, [req, res, next]);
+        let result;
+        try{
+            result = await Login(req.body);
+        }catch(e){
+            return res.json(this.reply(403, null));
+        }
+
+        res.json(this.reply(result.code, result.data));        
     }
 
     @Router("/quit", "post")

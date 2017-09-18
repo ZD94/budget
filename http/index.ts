@@ -43,5 +43,4 @@ export async function initHttp(app) {
         next();
     });
     app.use('/api/v1', authenticate, router);
-    // app.use('/api/v1', v1);
 }

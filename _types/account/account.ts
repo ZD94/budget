@@ -4,11 +4,6 @@ import {Table, TableIndex, Create, Field, ResolveRef, RemoteCall} from 'common/m
 import { ModelObject } from 'common/model/object';
 let uuid = require("uuid");
 
-export enum AccountType{
-    OWNER = 0,
-    MANAGER = 1
-}
-
 @Table(Models.account, "auth.")
 export class Account extends ModelObject{
     constructor(target: Object) {
@@ -32,28 +27,4 @@ export class Account extends ModelObject{
     @Field({type:Types.STRING})
     get pwd(): string { return null; }
     set pwd(pwd: string){}
-
-    //连续错误次数
-    @Field({type:Types.INTEGER})
-    get loginFailTimes(): number { return null; }
-    set loginFailTimes(loginFailTimes: number){}
-
-    //最近登录时间
-    @Field({type:Types.DATE})
-    get lastLoginAt(): Date { return null; }
-    set lastLoginAt(lastLoginAt: Date ){}
-
-    //最近登录Ip
-    @Field({type:Types.STRING})
-    get lastLoginIp(): string { return ''; }
-    set lastLoginIp(lastLoginIp: string){}
-
-    @Field({type:Types.INTEGER, defaultValue: AccountType.OWNER})
-    get role(): AccountType { return AccountType.OWNER; }
-    set role(type: AccountType){}
-
-    @Field({type:Types.BOOLEAN})
-    get isFirstLogin(): boolean { return true; }
-    set isFirstLogin(isFirstLogin: boolean){}
-
 }

@@ -19,7 +19,6 @@ export class PolicyRegionSubsidyController extends AbstractModelController {
 
     @Router('/getByCity', "GET")
     async getByCity(req, res, next){
-        console.info("come in ============");
         let {travelPolicyId, cityId} = req.query;
         console.info(travelPolicyId, cityId);
         let tp = await Models.travelPolicy.get(travelPolicyId);

@@ -28,8 +28,15 @@ export class SubsidyType extends ModelObject{
     get period(): number { return 1; }
     set period(val: number) {}
 
-    @Field({type: Types.BOOLEAN, defaultValue: false})
-    get isOpen(): boolean { return false; }
+    @Field({type: Types.BOOLEAN, defaultValue: true})
+    get isOpen(): boolean { return true; }
     set isOpen(val: boolean) {}
 
+    @Field({type: Types.BOOLEAN, defaultValue: true})
+    get isUploadInvoice(): boolean { return true; }
+    set isUploadInvoice(val: boolean) {}
+
+    @Field({type: Types.BOOLEAN, defaultValue: false})
+    get isDefault(): boolean { return false; }
+    set isDefault(val: boolean) {}
 }

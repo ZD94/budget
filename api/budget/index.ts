@@ -366,7 +366,8 @@ class ApiTravelBudget {
                 for(let i = 0; i < subsidies.length; i++){
                     let subsidyDay =  Math.floor(days/subsidies[i].subsidyType.period);
                     totalMoney += subsidies[i].subsidyMoney * subsidyDay;
-                    let subsidy = {name: subsidies[i].subsidyType.name, period: subsidies[i].subsidyType.period,  money: subsidies[i].subsidyMoney, id: subsidies[i].id};
+                    let subsidy = {name: subsidies[i].subsidyType.name, period: subsidies[i].subsidyType.period,
+                        money: subsidies[i].subsidyMoney, id: subsidies[i].id, subsidyType: subsidies[i].subsidyType};
                     if(subsidyDay){
                         templates.push(subsidy);
                     }

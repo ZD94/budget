@@ -10,9 +10,9 @@ export enum ECompanyRegionGroup {
     OVERSEAS = 1,
 }
 export enum ECompanyRegionUsedType {
-    TRAVEL_POLICY = 0,
-    SUBSIDY = 1,
-    CITY_PRICE_LIMIT = 2,
+    TRAVEL_POLICY = 1,
+    SUBSIDY = 2,
+    CITY_PRICE_LIMIT = 3,
 }
 
 @Table(Models.companyRegion, "travelPolicy.companyRegion")
@@ -41,8 +41,8 @@ export class CompanyRegion extends ModelObject{
     get group(): ECompanyRegionGroup { return ECompanyRegionGroup.CHINESE_MAINLAND; }
     set group(val: ECompanyRegionGroup) {}
 
-    @Field({type: Types.INTEGER, defaultValue: ECompanyRegionUsedType.TRAVEL_POLICY})
-    get type(): ECompanyRegionUsedType { return ECompanyRegionUsedType.TRAVEL_POLICY; }
-    set type(val: ECompanyRegionUsedType) {}
+    @Field({type: Types.JSONB})
+    get types(): any { return null; }
+    set types(val: any) {}
 
 }

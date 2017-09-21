@@ -6,7 +6,7 @@
 
 import {AbstractController, Restful, Router} from "@jingli/restful";
 import {Models} from "_types";
-import { Login } from "api/auth";
+import { Login, getCompany, updateSession } from "api/auth";
 let cache = require("common/cache");
 
 
@@ -29,6 +29,13 @@ export class AuthController extends AbstractController{
         let result;
         try{
             result = await Login(req.body);
+            let company = await getCompany(result.data.account.id);
+            result.data.company = company;
+            await updateSession(result.data.ticket, {
+                account: result.data.account,
+                company
+            });
+            result.data.company = company;
         }catch(e){
             return res.json(this.reply(403, null));
         }

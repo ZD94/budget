@@ -93,10 +93,11 @@ export async function authenticate(req, res, next) {
     }
 
     if(req.url == "/auth/login"){
+        //不检查ticket
         return next();
     }
 
-  /*   let session = await checkTicket(ticket);
+    let session = await checkTicket(ticket);
     if(!session){
         // ticket 过期
         return res.json({
@@ -108,16 +109,13 @@ export async function authenticate(req, res, next) {
     req.session = session;
 
     //如果存在companyId参数，验证companyId是否属于该accountId
-    let {companyId} = req.params;
-    if(companyId){
-        let result = await checkCompany(session.account.id, companyId);
-        if(!result){
-            return res.json({
-                code : 403,
-                msg  : ERR_TEXT[403]
-            })
-        }
-    } */
+    let companyCheck = await checkCompany(session, req.params.companyId);
+    if(!companyCheck){
+        return res.json({
+            code : 403,
+            msg  : ERR_TEXT[403]
+        });
+    }
 
     return next();
 }

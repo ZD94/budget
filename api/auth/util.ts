@@ -83,8 +83,27 @@ export async function getCompany( accountId : string, companyId? : string | unde
 }
 
 /* 检查公司是否属于 account */
-export async function checkCompany(accountId : string, companyId: string){
-    let accountCompanies = await Models.accountCompany.find({
+let supreUser = ["qmtrip@jingli365.com"];
+export async function checkCompany(session:{
+    account: Account,
+    company:Company
+}, companyId: string):Promise<boolean>{
+    if(!companyId){
+        return true;
+    }
+
+    let {account, company} = session;
+
+    for(let item of supreUser){
+        if(account.email == item || account.mobile == item){
+            return true;
+        }
+    }
+
+    return company.id == companyId;
+
+    //一般情况，session包含company
+    /* let accountCompanies = await Models.accountCompany.find({
         where : {
             accountId
         }
@@ -96,5 +115,5 @@ export async function checkCompany(accountId : string, companyId: string){
             result = true;
         }
     });
-    return result;
+    return result; */
 }

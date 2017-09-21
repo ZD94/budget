@@ -93,6 +93,6 @@ export async function Login(params:{
     });
 
     result.code = 0;
-    result.data = { ticket };
+    result.data = { ticket, account };
     return result;
 }

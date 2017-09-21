@@ -7,9 +7,9 @@ import {ModelInterface} from "../common/model/interface";
 import {ModelDelegate} from "../common/model/delegate";
 import {Budget, BudgetItem, Deeplink} from "_types/budget";
 import {Statistic, App} from "_types/openapi";
+import {TravelPolicy,SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionPlace, SubsidyType, PolicyRegionSubsidy} from "_types/policy";
 import {Supplier} from "./supplier";
 import {Company} from "_types/company";
-import {TravelPolicy,SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionPlace} from "_types/policy";
 import {CurrencyRate, Currency} from "_types/currency";
 import {Account, AccountCompany} from "_types/account";
 import {CompanyConfig} from "_types/company";
@@ -27,6 +27,8 @@ export interface ModelsInterface {
     companyRegion: ModelInterface<CompanyRegion>;
     regionPlace: ModelInterface<RegionPlace>;
     subsidyTemplate: ModelInterface<SubsidyTemplate>;
+    subsidyType: ModelInterface<SubsidyType>;
+    policyRegionSubsidy: ModelInterface<PolicyRegionSubsidy>;
     currencyRate: ModelInterface<CurrencyRate>;
     currency: ModelInterface<Currency>;
     company: ModelInterface<Company>;
@@ -50,6 +52,8 @@ export var Models: ModelsInterface = {
     subsidyTemplate: new ModelDelegate<SubsidyTemplate>(),
     app: new ModelDelegate<App>(),
     statistic: new ModelDelegate<Statistic>(),
+    subsidyType: new ModelDelegate<SubsidyType>(),
+    policyRegionSubsidy: new ModelDelegate<PolicyRegionSubsidy>(),
     currencyRate: new ModelDelegate<CurrencyRate>(),
     currency: new ModelDelegate<Currency>(),
     supplier: new ModelDelegate<Supplier>(),

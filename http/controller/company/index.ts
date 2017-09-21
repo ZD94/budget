@@ -2,17 +2,20 @@
  * Created by hxs on 2017/9/7.
  */
 
+
 'use strict';
 
-import {AbstractController, Restful} from "@jingli/restful";
+import {AbstractModelController, Restful} from "@jingli/restful";
 import {Models} from "_types";
+import {Company} from "_types/company";
 
+var companyCols = Company['$fieldnames'];
 
 @Restful()
-export class CompanyController extends AbstractController{
+export class CompanyController extends AbstractModelController{
 
     constructor() {
-        super();
+        super(Models.subsidyType, companyCols);
     }
 
     $isValidId(id: string) {

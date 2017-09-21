@@ -97,6 +97,7 @@ export class CompanyRegionController extends AbstractController {
         //请求参数中添加page, 表示请求页数
         let params = req.query;
         let {companyId} = req.params;
+        let type = 0;
         let query = {where:{companyId: companyId}};
         let limit = 20;
         for(let key in params){
@@ -109,8 +110,20 @@ export class CompanyRegionController extends AbstractController {
         if(!query['limit'] || query['limit'] == undefined)
             query["limit"] = limit;
 
+        if(query.where && query.where["types"]){
+            type = query.where["types"];
+            delete query.where["types"];
+        }
         let result = await Models.companyRegion.all(query);
+
         if(result == undefined) result = null;
+        if(type && result){
+            result = result.filter((item) => {
+                let types = item.types;
+                if(typeof types == 'string') types = JSON.parse(types);
+                return types && types.indexOf(type) >= 0;
+            })
+        }
         // console.log("companyRegion====>query: ", query, result[0], result[1]);
         res.json(this.reply(0, result));
     }

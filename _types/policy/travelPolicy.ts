@@ -230,6 +230,11 @@ export class TravelPolicy extends ModelObject{
         let tprs = await Models.policyRegionSubsidy.all({
             where: {travelPolicyId: self.id}
         });
+        let openedSupplierTypes = await Models.subsidyType.find({where: {companyId: self.companyId, isOpen: true}});
+        let openedSupplierTypeIds = openedSupplierTypes.map((st) => {
+            return st.id;
+        })
+
         if(tprs && tprs.length){
             let crIds: string[] = [];
             for(let i =0; i <tprs.length; i++){
@@ -241,7 +246,7 @@ export class TravelPolicy extends ModelObject{
                 let cps = await self.getRegionPlaces({
                     where: {companyRegionId: {$in: crIds}, placeId: placeId}});
                 if(cps && cps.length ){
-                    let expectedTpr = await Models.policyRegionSubsidy.all({where: {travelPolicyId: self.id,companyRegionId: cps[0]["companyRegionId"]}});
+                    let expectedTpr = await Models.policyRegionSubsidy.all({where: {travelPolicyId: self.id,companyRegionId: cps[0]["companyRegionId"], subsidyTypeId: openedSupplierTypeIds}});
                     if(expectedTpr && expectedTpr.length){
                         return expectedTpr;
                     }else{

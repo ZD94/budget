@@ -6,8 +6,8 @@ import {RegionPlace} from "./regionPlace"
 import {TravelPolicy} from "./travelPolicy";
 
 export enum ECompanyRegionGroup {
-    CHINESE_MAINLAND = 0,
-    OVERSEAS = 1,
+    CHINESE_MAINLAND = 1,
+    OVERSEAS = 2,
 }
 export enum ECompanyRegionUsedType {
     TRAVEL_POLICY = 1,

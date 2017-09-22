@@ -16,6 +16,34 @@ export class SubsidyTypeController extends AbstractModelController {
         super(Models.subsidyType, subsidyTypeCols);
     }
 
+    async find(req, res, next) {
+        let companyId = req.params ? req.params.companyId : "";
+        let params = req.query;
+        let {p, pz, order} = params;
+        pz = pz || 20;
+        p = p || 0;
+        let offset = p * pz;
+        let query = {where:{}, limit: pz, offset: offset, order: order};
+        for(let key in params){
+            if(subsidyTypeCols.indexOf(key) >= 0){
+                query.where[key] = params[key];
+            }
+        }
+
+        if (!order) {
+            query.order = [["createdAt", "desc"]];
+        }
+
+        let pager = await Models.subsidyType.find(query);
+        if(!(pager && pager.length)){
+            let obj = Models.subsidyType.create({name: "补助", isDefault: true, companyId: companyId});
+            obj = await obj.save();
+            pager = await Models.subsidyType.find(query);
+        }
+
+        res.json(this.reply(0, pager));
+    }
+
     /*async get(req, res, next) {
         let params = req.params;
         let id = params.id;

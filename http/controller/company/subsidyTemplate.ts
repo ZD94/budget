@@ -146,7 +146,7 @@ export class SubsidyTemplateController extends AbstractController {
         if(!id || typeof(id) == 'undefined') {
            return res.json(this.reply(0, null));
         }
-        let obj = await Models.travelPolicy.get(id);
+        let obj = await Models.subsidyTemplate.get(id);
         let isDeleted = await obj.destroy();
         res.json(this.reply(0, isDeleted));
     }

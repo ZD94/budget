@@ -2,9 +2,10 @@
  * Created by hxs on 2017/9/7.
  */
 
+
 'use strict';
 
-import {AbstractController, Restful, Router} from "@jingli/restful";
+import {AbstractModelController, Restful, Router} from "@jingli/restful";
 import {Models} from "_types";
 import {Company} from "_types/company";
 import {updateSession, getCompany} from "api/auth";
@@ -12,11 +13,14 @@ import {updateSession, getCompany} from "api/auth";
 /** 
  * company的权限由接口自己控制 
  */
+
+var companyCols = Company['$fieldnames'];
+
 @Restful()
-export class CompanyController extends AbstractController{
+export class CompanyController extends AbstractModelController{
 
     constructor() {
-        super();
+        super(Models.subsidyType, companyCols);
     }
 
     $isValidId(id: string) {
@@ -94,6 +98,4 @@ export class CompanyController extends AbstractController{
 
         res.json(this.reply(0, company));
     }
-
-
 }

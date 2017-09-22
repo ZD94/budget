@@ -153,9 +153,10 @@ export class TravelPolicyController extends AbstractController {
             return res.json(this.reply(0, null));
         }
         let isDeleted;
-        let tprs = await Models.travelPolicyRegion.find({travelPolicyId: id});
+        let tprs = await Models.travelPolicyRegion.find({where: {travelPolicyId: id}});
         try{
-            await Promise.all(tprs.map(async function(tpr){
+            await Promise.all(tprs.map(async function(item){
+                let tpr = await Models.travelPolicyRegion.get(item.id);
                 await tpr.destroy();
             }));
             let obj = await Models.travelPolicy.get(id);
@@ -164,7 +165,6 @@ export class TravelPolicyController extends AbstractController {
             console.log(err);
         }
         res.json(this.reply(0, isDeleted));
-        ;
     }
 
 

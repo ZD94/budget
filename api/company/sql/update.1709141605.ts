@@ -8,7 +8,7 @@ import config = require('@jingli/config');
 
 export = async function(db, transition) {
     // let db2 = new Sequelize(config.oldPostgres.url);
-    let db2 = new Sequelize('postgres://times:time0418@l.jingli365.com:15432/times');
+    let db2 = new Sequelize(config.oldPostgres.url);
 
     const sql2 = `select * from company.suppliers where deleted_at is null`;
     const sql3 = `select * from company.companies where deleted_at is null`;

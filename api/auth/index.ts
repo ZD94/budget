@@ -8,9 +8,9 @@ import {ERR_TEXT} from "@jingli/restful";
 import {Account} from "_types/account";
 import { Company } from "_types/company";
 import { createTicket } from "./util";
+import * as config from "@jingli/config";
 let validator = require('validator');
 let md5 = require("md5");
-
 
 /*
  * params : {
@@ -93,6 +93,6 @@ export async function Login(params:{
     });
 
     result.code = 0;
-    result.data = { ticket, account };
+    result.data = { ticket:{ ticket, expireTimes: config.sessionTime * 60 * 1000 } };
     return result;
 }

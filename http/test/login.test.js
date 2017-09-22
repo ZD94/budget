@@ -56,7 +56,7 @@ describe("1) 测试登录接口", function(){
             }catch(e){
                 result = body;
             }
-            // console.log(result);
+            console.log(result);
             expect(result.code).to.be.equal(0);
             ticket = result.data.ticket;
             done();          
@@ -67,10 +67,10 @@ describe("1) 测试登录接口", function(){
     it("发起退出请求", (done)=>{
         setTimeout(()=>{
             console.log("ticket ===>", ticket);
-            request.post("http://localhost:3001/api/v1/auth/loginout", {
+            request.post("http://localhost:3001/api/v1/auth/quit", {
                 headers : {
                     key : "jinglicloud2017",
-                    ticket
+                    ticket: ticket.ticket
                 },
             }, (err, httpResponse, body)=>{
                 if(err){
@@ -84,7 +84,7 @@ describe("1) 测试登录接口", function(){
                 }catch(e){
                     result = body;
                 }
-                // console.log(result);
+                console.log(result);
                 expect(result.code).to.be.equal(0);
                 done();
             })

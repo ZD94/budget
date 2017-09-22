@@ -81,8 +81,8 @@
 //     return cb();
 // }
 
-import {checkTicket, checkCompany} from "api/auth";
-import {ERR_TEXT} from "@jingli/restful";
+import {getTicket, checkCompany} from "api/auth";
+import {ERR_TEXT, reply} from "@jingli/restful";
 
 export async function authenticate(req, res, next) {
     let key = req.headers['key'] || req.query.key;
@@ -97,13 +97,10 @@ export async function authenticate(req, res, next) {
         return next();
     }
 
-    let session = await checkTicket(ticket);
+    let session = await getTicket(ticket);
     if(!session){
         // ticket 过期
-        return res.json({
-            code : 500,
-            msg  : ERR_TEXT[500]
-        });
+        return res.json(reply(500, null));
     }
 
     req.session = session;
@@ -111,10 +108,7 @@ export async function authenticate(req, res, next) {
     //如果存在companyId参数，验证companyId是否属于该accountId
     let companyCheck = await checkCompany(session, req.params.companyId);
     if(!companyCheck){
-        return res.json({
-            code : 403,
-            msg  : ERR_TEXT[403]
-        });
+        return res.json(reply(403, null));
     }
 
     return next();

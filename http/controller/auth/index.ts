@@ -29,13 +29,6 @@ export class AuthController extends AbstractController{
         let result;
         try{
             result = await Login(req.body);
-            let company = await getCompany(result.data.account.id);
-            result.data.company = company;
-            await updateSession(result.data.ticket, {
-                account: result.data.account,
-                company
-            });
-            result.data.company = company;
         }catch(e){
             return res.json(this.reply(403, null));
         }

@@ -81,10 +81,35 @@
 //     return cb();
 // }
 
-export function authenticate(req, res, next) {
+import {getTicket, checkCompany} from "api/auth";
+import {ERR_TEXT, Reply} from "@jingli/restful";
+
+export async function authenticate(req, res, next) {
     let key = req.headers['key'] || req.query.key;
-    if (key == 'jinglicloud2017') {
+    let ticket = req.headers['ticket'] || req.query.ticket;
+
+    if(key != 'jinglicloud2017'){
+        return res.sendStatus(403);
+    }
+
+    if(req.url == "/auth/login"){
+        //不检查ticket
         return next();
     }
-    res.sendStatus(403);
+
+    let session = await getTicket(ticket);
+    if(!session){
+        // ticket 过期
+        return res.json(Reply(500, null));
+    }
+
+    req.session = session;
+
+    //如果存在companyId参数，验证companyId是否属于该accountId
+    let companyCheck = await checkCompany(session, req.params.companyId);
+    if(!companyCheck){
+        return res.json(Reply(403, null));
+    }
+
+    return next();
 }

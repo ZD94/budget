@@ -6,7 +6,7 @@
 
 import http = require("http");
 
-import {scannerControllers, registerControllerToRouter} from "@jingli/restful";
+import {scannerDecoration, registerControllerToRouter} from "@jingli/restful";
 
 import path = require("path");
 import express = require("express");
@@ -14,7 +14,7 @@ import {authenticate} from "./auth";
 
 let router = express.Router();
 
-scannerControllers(path.join(__dirname, 'controller'));
+scannerDecoration(path.join(__dirname, 'controller'));
 registerControllerToRouter(router);
 
 let allowOrigin = [
@@ -43,5 +43,4 @@ export async function initHttp(app) {
         next();
     });
     app.use('/api/v1', authenticate, router);
-    // app.use('/api/v1', v1);
 }

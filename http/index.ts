@@ -18,11 +18,12 @@ scannerDecoration(path.join(__dirname, 'controller'));
 registerControllerToRouter(router);
 
 let allowOrigin = [
-    "localhost:4002",
+    "localhost",
     "jingli365"
 ];
 
 function checkOrigin( origin ){
+    console.log("checkOrigin===>", origin);
     for(let item of allowOrigin){
         if(origin.indexOf(item) > -1){
             return true;
@@ -33,9 +34,22 @@ function checkOrigin( origin ){
 }
 
 export async function initHttp(app) {
-    
+    app.get("/gg", (req, res, next)=>{
+        if(req.headers.origin && checkOrigin(req.headers.origin)){
+            console.log("show ok :  ", req.headers.origin);
+            res.header('Access-Control-Allow-Origin', req.headers.origin);
+        }
+        res.header('Access-Control-Allow-Methods', '*');
+        res.header('Access-Control-Allow-Headers', '*');
+
+        res.json({
+            code:0,
+            data:"good man"
+        })
+    });
     app.use('/api/v1', (req, res, next)=>{
         if(req.headers.origin && checkOrigin(req.headers.origin)){
+            console.log("show ok :  ", req.headers.origin);
             res.header('Access-Control-Allow-Origin', req.headers.origin);
         }
         res.header('Access-Control-Allow-Methods', '*');

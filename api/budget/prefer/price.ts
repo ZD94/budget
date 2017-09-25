@@ -60,14 +60,16 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
     }
 
     async markScoreProcess(data: (IFinalHotel|IFinalTicket)[]): Promise<(IFinalHotel|IFinalTicket)[]> {
+
         if (!data.length) return data;
+
         let self = this;
         let targetTickets = [];
         let midPrice = 0;
         let maxPrice = 0;
         let minPrice = 0;
-
         data.forEach( (v: (IFinalHotel|IFinalTicket)) => {
+
             if (v['type'] == ETrafficType.TRAIN) {
                 return;
             }
@@ -89,16 +91,20 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
             if (v['type'] == ETrafficType.TRAIN) {
                 return v;
             }
+
             if(!v.reasons) v.reasons = [];
             if(!v.score) v.score = 0;
             if (self.level.indexOf(parseInt(v['cabin'])) < 0 && self.level.indexOf(parseInt(v['star'])) < 0) {
                 return v;
             }
+
             let {scale, up} = price(v.price, this.type, minPrice, midPrice, maxPrice);
             let score = Math.floor(scale*this.score);
             v.score += score;
+
             if(scale != 1){
                 v.reasons.push(`价格偏好以${up?'上':'下'}价格 ${score}`);
+
             }else{
                 v.reasons.push(`价格偏好相等价格 ${score}`);
             }

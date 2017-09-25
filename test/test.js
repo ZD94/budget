@@ -17,6 +17,7 @@ process.on('unhandledRejection', (reason, p) => {
     throw reason;
 });
 
+
 // require('./mocha-zone')(global);
 
 var config = require("@jingli/config");

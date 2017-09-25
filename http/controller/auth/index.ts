@@ -32,8 +32,7 @@ export class AuthController extends AbstractController{
         }catch(e){
             return res.json(this.reply(403, null));
         }
-
-        res.json(this.reply(result.code, result.data));        
+        res.json(this.reply(result.code, result.data.ticket));
     }
 
     @Router("/quit", "post")

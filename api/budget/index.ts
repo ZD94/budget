@@ -40,7 +40,6 @@ import config = require("@jingli/config");
 
 export var NoCityPriceLimit = 0;
 var config = require("@jingli/config");
-import {HotelPriceLimitType} from "_types/company"
 
 class ApiTravelBudget {
 
@@ -518,7 +517,6 @@ class ApiTravelBudget {
 
                 //判断停留时间是否跨天
                 let timezone = toCity.timezone || 'Asia/Shanghai';
-
                 if (!seg.noHotel && countDays(seg.endTime, seg.beginTime, timezone) > 0) {
                     if(tp) {
                         if(toCity["isAbroad"]){
@@ -526,20 +524,20 @@ class ApiTravelBudget {
                                 abroad:{
                                     hotelStar: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
                                     hotelPrefer: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelPrefer"}),
+                                    maxPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "maxPriceLimit"}),
+                                    minPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "minPriceLimit"}),
                                 }
                             }
-                            policies['abroad'] = _.assign(policies['abroad'], await getHotelPriceLimit(toCity['id'], companyId, tp))
                         }
-
-
                         if(!toCity["isAbroad"]){
                             policies = {
                                 domestic:{
                                     hotelStar: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
-                                    hotelPrefer: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelPrefer"})
+                                    hotelPrefer: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelPrefer"}),
+                                    maxPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "maxPriceLimit"}),
+                                    minPriceLimit: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "minPriceLimit"}),
                                 }
                             }
-                            policies['abroad'] = _.assign(policies['abroad'], await getHotelPriceLimit(toCity['id'], companyId, tp))
                         }
                     }
                     let checkOutDate = moment(seg.endTime).tz(timezone).format("YYYY-MM-DD")
@@ -804,28 +802,4 @@ async function delay(ms: number) : Promise<any> {
             resolve(true);
         }, ms);
     });
-}
-
-async function getHotelPriceLimit(placeId: string, companyId:string, tp: TravelPolicy) {
-    let company = await Models.company.get(companyId);
-    let hotelPrice: any = {};
-    switch(company.priceLimitType) {
-        case HotelPriceLimitType.NO_SET:
-            hotelPrice.maxPriceLimit = null;
-            hotelPrice.minPriceLimit = null;
-            break;
-        case HotelPriceLimitType.Max_Price_Limit:
-            hotelPrice.maxPriceLimit = await tp.getBestTravelPolicy({placeId:placeId, type: "maxPriceLimit"});
-            hotelPrice.minPriceLimit = null;
-            break;
-        case HotelPriceLimitType.Min_Price_Limit:
-            hotelPrice.maxPriceLimit = await tp.getBestTravelPolicy({placeId:placeId, type: "maxPriceLimit"});
-            hotelPrice.minPriceLimit = null;
-            break;
-        case HotelPriceLimitType.Price_Limit_Both:
-            hotelPrice.maxPriceLimit = await tp.getBestTravelPolicy({placeId:placeId, type: "maxPriceLimit"});
-            hotelPrice.minPriceLimit = null;
-            break;
-    }
-    return hotelPrice;
 }

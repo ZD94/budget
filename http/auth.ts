@@ -88,11 +88,14 @@ export async function authenticate(req, res, next) {
     let key = req.headers['key'] || req.query.key;
     let ticket = req.headers['ticket'] || req.query.ticket;
 
+    console.log(key);
     if(key != 'jinglicloud2017'){
         return res.sendStatus(403);
     }
 
-    if(req.url == "/auth/login"){
+    console.log("req.url ===> ", req.url);
+    if(req.url.indexOf( "/auth/login" ) > -1){
+        console.log("next go");
         //不检查ticket
         return next();
     }

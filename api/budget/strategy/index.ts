@@ -148,13 +148,14 @@ export abstract class AbstractHotelStrategy {
             }
         }
 
+
         _hotels = await this.getMarkedScoreHotels(_hotels);
+
         _hotels.sort( (v1, v2) => {
             return v2.score - v1.score;
         });
         _hotels = await this.customMarkedScoreData(_hotels);
         let ret = _hotels[0];
-
         let rate = 1;
         if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
             rate = await getExpectedCurrencyRate(preferedCurrency);

@@ -20,7 +20,7 @@ var companyCols = Company['$fieldnames'];
 export class CompanyController extends AbstractModelController{
 
     constructor() {
-        super(Models.subsidyType, companyCols);
+        super(Models.company, companyCols);
     }
 
     $isValidId(id: string) {

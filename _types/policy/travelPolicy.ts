@@ -9,6 +9,7 @@ import {CompanyRegion} from "_types/policy/companyRegion";
 import {RegionPlace} from "_types/policy/regionPlace";
 var _ = require("lodash");
 const API = require("@jingli/dnode-api")
+import {ECompanyRegionUsedType} from "./companyRegion"
 
 export var  MTrainLevel  = {
     1: "商务座",
@@ -175,8 +176,8 @@ export class TravelPolicy extends ModelObject{
     }
 
     @RemoteCall()
-    async getBestTravelPolicy(params: {placeId: string, type:string}):Promise<any> {
-        let {placeId,type} = params;
+    async getBestTravelPolicy(params: {placeId: string, type:string, companyRegionType: ECompanyRegionUsedType}):Promise<any> {
+        let {placeId,type, companyRegionType} = params;
         let self = this;
         let placeid = placeId;
         let tprs = await Models.travelPolicyRegion.all({
@@ -184,8 +185,17 @@ export class TravelPolicy extends ModelObject{
         });
         let crIds: string[] = [];
         for(let i =0; i <tprs.length; i++){
-            crIds.push(tprs[i]["companyRegionId"]);
+            if(tprs[i]["companyRegionId"] && typeof(tprs[i]['companyRegionId']) != 'undefined'){
+                let crObj = await Models.companyRegion.get(tprs[i]['companyRegionId']);
+                if(crObj['types'] && _.isArray(crObj['types']) && crObj['types'].indexOf(companyRegionType) >= 0) {
+                    crIds.push(tprs[i]["companyRegionId"]);
+                }
+                if(!crObj['types']) {
+                    crIds.push(tprs[i]["companyRegionId"]);
+                }
+            }
         }
+        if(!crIds || crIds.length == 0) return getDefault(type);
         do {
             let cps = await self.getRegionPlaces({
                 where: {companyRegionId: {$in: crIds}, placeId: placeid}});

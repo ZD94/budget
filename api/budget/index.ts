@@ -40,7 +40,8 @@ import config = require("@jingli/config");
 
 export var NoCityPriceLimit = 0;
 var config = require("@jingli/config");
-import {HotelPriceLimitType} from "_types/company"
+import {HotelPriceLimitType} from "_types/company";
+import {ECompanyRegionUsedType} from "_types/policy/companyRegion"
 
 class ApiTravelBudget {
 
@@ -524,8 +525,16 @@ class ApiTravelBudget {
                         if(toCity["isAbroad"]){
                             policies = {
                                 abroad:{
-                                    hotelStar: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
-                                    hotelPrefer: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelPrefer"}),
+                                    hotelStar: await tp.getBestTravelPolicy({
+                                        placeId: toCity["id"],
+                                        type: "hotelLevels",
+                                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                                    }),
+                                    hotelPrefer: await tp.getBestTravelPolicy({
+                                        placeId: toCity["id"],
+                                        type: "hotelPrefer",
+                                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                                    }),
                                 }
                             }
                             policies['abroad'] = _.assign(policies['abroad'], await getHotelPriceLimit(toCity['id'], companyId, tp))
@@ -535,8 +544,16 @@ class ApiTravelBudget {
                         if(!toCity["isAbroad"]){
                             policies = {
                                 domestic:{
-                                    hotelStar: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelLevels"}),
-                                    hotelPrefer: await tp.getBestTravelPolicy({placeId: toCity["id"], type: "hotelPrefer"})
+                                    hotelStar: await tp.getBestTravelPolicy({
+                                        placeId: toCity["id"],
+                                        type: "hotelLevels",
+                                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                                    }),
+                                    hotelPrefer: await tp.getBestTravelPolicy({
+                                        placeId: toCity["id"],
+                                        type: "hotelPrefer",
+                                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                                    })
                                 }
                             }
                             policies['abroad'] = _.assign(policies['abroad'], await getHotelPriceLimit(toCity['id'], companyId, tp))
@@ -817,16 +834,32 @@ async function getHotelPriceLimit(placeId: string, companyId:string, tp: TravelP
     let company = await Models.company.get(companyId);
     switch(company.priceLimitType) {
         case HotelPriceLimitType.Max_Price_Limit:
-            hotelPrice.maxPriceLimit = await tp.getBestTravelPolicy({placeId:placeId, type: "maxPriceLimit"});
+            hotelPrice.maxPriceLimit = await tp.getBestTravelPolicy({
+                placeId:placeId,
+                type: "maxPriceLimit",
+                companyRegionType: ECompanyRegionUsedType.CITY_PRICE_LIMIT
+            });
             hotelPrice.minPriceLimit = null;
             break;
         case HotelPriceLimitType.Min_Price_Limit:
             hotelPrice.maxPriceLimit = null;
-            hotelPrice.minPriceLimit = await tp.getBestTravelPolicy({placeId:placeId, type: "minPriceLimit"});
+            hotelPrice.minPriceLimit = await tp.getBestTravelPolicy({
+                placeId:placeId,
+                type: "minPriceLimit",
+                companyRegionType: ECompanyRegionUsedType.CITY_PRICE_LIMIT
+            });
             break;
         case HotelPriceLimitType.Price_Limit_Both:
-            hotelPrice.maxPriceLimit = await tp.getBestTravelPolicy({placeId:placeId, type: "maxPriceLimit"});
-            hotelPrice.minPriceLimit = await tp.getBestTravelPolicy({placeId:placeId, type: "minPriceLimit"});
+            hotelPrice.maxPriceLimit = await tp.getBestTravelPolicy({
+                placeId:placeId,
+                type: "maxPriceLimit",
+                companyRegionType: ECompanyRegionUsedType.CITY_PRICE_LIMIT
+            });
+            hotelPrice.minPriceLimit = await tp.getBestTravelPolicy({
+                placeId:placeId,
+                type: "minPriceLimit",
+                companyRegionType: ECompanyRegionUsedType.CITY_PRICE_LIMIT
+            });
             break;
     }
     return hotelPrice;

@@ -18,7 +18,7 @@ scannerDecoration(path.join(__dirname, 'controller'));
 registerControllerToRouter(router);
 
 let allowOrigin = [
-    "localhost:4002",
+    "localhost",
     "jingli365"
 ];
 
@@ -33,7 +33,6 @@ function checkOrigin( origin ){
 }
 
 export async function initHttp(app) {
-    
     app.use('/api/v1', (req, res, next)=>{
         if(req.headers.origin && checkOrigin(req.headers.origin)){
             res.header('Access-Control-Allow-Origin', req.headers.origin);

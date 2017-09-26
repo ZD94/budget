@@ -483,17 +483,37 @@ class ApiTravelBudget {
                         if(!toCity.isAbroad){
                             policies = {
                                 domestic:{
-                                    cabin: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "planeLevels"}),
-                                    trainSeat: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trainLevels"}),
-                                    trafficPrefer: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trafficPrefer"}),
+                                    cabin: await tp.getBestTravelPolicy({
+                                            placeId: toCity["id"],
+                                            type: "planeLevels",
+                                            companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                                        }),
+                                    trainSeat: await tp.getBestTravelPolicy({
+                                        placeId:toCity["id"],
+                                        type: "trainLevels",
+                                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                                    }),
+                                    trafficPrefer: await tp.getBestTravelPolicy({
+                                        placeId:toCity["id"],
+                                        type: "trafficPrefer",
+                                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                                    }),
                                 }
                             }
                         }
                         if(toCity.isAbroad){
                             policies = {
                                 abroad:{
-                                    cabin: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "planeLevels"}),
-                                    trafficPrefer: await tp.getBestTravelPolicy({placeId:toCity["id"], type: "trafficPrefer"}),
+                                    cabin: await tp.getBestTravelPolicy({
+                                        placeId:toCity["id"],
+                                        type: "planeLevels",
+                                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                                    }),
+                                    trafficPrefer: await tp.getBestTravelPolicy({
+                                        placeId:toCity["id"],
+                                        type: "trafficPrefer",
+                                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                                    }),
                                 }
                             }
                         }

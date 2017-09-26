@@ -807,24 +807,26 @@ async function delay(ms: number) : Promise<any> {
 }
 
 async function getHotelPriceLimit(placeId: string, companyId:string, tp: TravelPolicy) {
+    let hotelPrice: any = {
+        maxPriceLimit: null,
+        minPriceLimit: null
+    };
+    if(!companyId || typeof(companyId) == 'undefined') {
+        return hotelPrice;
+    }
     let company = await Models.company.get(companyId);
-    let hotelPrice: any = {};
     switch(company.priceLimitType) {
-        case HotelPriceLimitType.NO_SET:
-            hotelPrice.maxPriceLimit = null;
-            hotelPrice.minPriceLimit = null;
-            break;
         case HotelPriceLimitType.Max_Price_Limit:
             hotelPrice.maxPriceLimit = await tp.getBestTravelPolicy({placeId:placeId, type: "maxPriceLimit"});
             hotelPrice.minPriceLimit = null;
             break;
         case HotelPriceLimitType.Min_Price_Limit:
-            hotelPrice.maxPriceLimit = await tp.getBestTravelPolicy({placeId:placeId, type: "maxPriceLimit"});
-            hotelPrice.minPriceLimit = null;
+            hotelPrice.maxPriceLimit = null;
+            hotelPrice.minPriceLimit = await tp.getBestTravelPolicy({placeId:placeId, type: "minPriceLimit"});
             break;
         case HotelPriceLimitType.Price_Limit_Both:
             hotelPrice.maxPriceLimit = await tp.getBestTravelPolicy({placeId:placeId, type: "maxPriceLimit"});
-            hotelPrice.minPriceLimit = null;
+            hotelPrice.minPriceLimit = await tp.getBestTravelPolicy({placeId:placeId, type: "minPriceLimit"});
             break;
     }
     return hotelPrice;

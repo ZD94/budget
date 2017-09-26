@@ -42,8 +42,8 @@ export class Company extends ModelObject{
     get appointedPubilcSuppliers(): any { return []};
     set appointedPubilcSuppliers(val: any) {}
 
-    @Field({type: Types.BOOLEAN, defaultValue: HotelPriceLimitType.Price_Limit_Both})
-    get priceLimitType(): any { return HotelPriceLimitType.Price_Limit_Both};
+    @Field({type: Types.INTEGER, defaultValue: HotelPriceLimitType.NO_SET})
+    get priceLimitType(): any { return HotelPriceLimitType.NO_SET};
     set priceLimitType(val: any) {}
 
 

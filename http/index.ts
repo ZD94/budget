@@ -39,7 +39,7 @@ export async function initHttp(app) {
             res.header('Access-Control-Allow-Origin', req.headers.origin);
         }
         res.header('Access-Control-Allow-Methods', '*');
-        res.header('Access-Control-Allow-Headers', '*');
+        res.header('Access-Control-Allow-Headers', req.headers['access-control-request-headers']);
         next();
     });
     

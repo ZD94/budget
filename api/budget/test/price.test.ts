@@ -17,7 +17,7 @@ import {ETrainLevel, EHotelLevel, EPlaneLevel} from "_types/policy/travelPolicy"
 import {EAirCabin} from "_types/budget"
 
 
-var hotelPrefer = {
+var hotelPrefer: any = {
     "domesticHotel": [
         {
             "name": "priceRange",
@@ -100,7 +100,7 @@ var hotelPrefer = {
     ]
 }
 
-var trafficPrefer = {
+var trafficPrefer:any = {
     "domesticTraffic": [
         {
             "name": "cheapSupplier",
@@ -465,7 +465,7 @@ describe('Price-Scoring', function(){
                     //添加舒适度价格打分
                     let allCabins = [EAirCabin.BUSINESS, EAirCabin.ECONOMY, EAirCabin.FIRST, EAirCabin.PREMIUM_ECONOMY];
                     allCabins.forEach((cabin) => {
-                        allCabins.push({
+                        allPrefers.push({
                             "name":"price",
                             "options":{
                                 "type":"square",
@@ -528,7 +528,7 @@ describe('Price-Scoring', function(){
                     //添加舒适度价格打分
                     let allCabins = [EAirCabin.BUSINESS, EAirCabin.ECONOMY, EAirCabin.FIRST, EAirCabin.PREMIUM_ECONOMY];
                     allCabins.forEach((cabin) => {
-                        allCabins.push({
+                        allPrefers.push({
                             "name":"price",
                             "options":{
                                 "type":"square",
@@ -563,7 +563,6 @@ describe('Price-Scoring', function(){
                     let recommendedResult = result && result.length > 0 ? result[0].name: result;
                     assert[hotelData[i].method](recommendedResult, expectedResult[hotelData[i].name]['name']);
 
-                    return new Promise()
                 })
             }
         })

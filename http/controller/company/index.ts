@@ -36,7 +36,7 @@ export class CompanyController extends AbstractModelController{
         }
 
         //查询公司权限
-        let accountId = req.session.account.id;
+        let {accountId} = req.session;
         let accountCompany = await Models.accountCompany.find({
             where : {
                 accountId,
@@ -54,7 +54,7 @@ export class CompanyController extends AbstractModelController{
     }
 
     async find(req, res, next) {
-        let accountId = req.session.account.id;
+        let {accountId} = req.session;
         let {order, p, pz} = req.query;
         pz = pz || 20;
         p  = p  || 0;
@@ -96,24 +96,24 @@ export class CompanyController extends AbstractModelController{
     /*
      * body { companyId }
     */
-    @Router("/bindcompany", "post")
-    async other(req, res, next){
-        let accountId = req.session.account.id;
-        let {companyId} = req.body;
-        let company = await getCompany(accountId, companyId);
+    // @Router("/bindcompany", "post")
+    // async other(req, res, next){
+    //     let {accountId} = req.session;
+    //     let {companyId} = req.body;
+    //     let company = await getCompany(accountId, companyId);
 
-        if(!company){
-            return res.json(this.reply(404, null));
-        }
+    //     if(!company){
+    //         return res.json(this.reply(404, null));
+    //     }
 
-        let session = req.session;
-        session.company = company;
-        let ticket = req.headers['ticket'] || req.query.ticket; 
-        let result = await updateSession(ticket, session);
-        if(!result){
-            return res.json(this.reply(500, null));
-        }
+    //     let session = req.session;
+    //     session.company = company;
+    //     let ticket = req.headers['ticket'] || req.query.ticket; 
+    //     let result = await updateSession(ticket, session);
+    //     if(!result){
+    //         return res.json(this.reply(500, null));
+    //     }
 
-        res.json(this.reply(0, company));
-    }
+    //     res.json(this.reply(0, company));
+    // }
 }

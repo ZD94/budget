@@ -75,6 +75,24 @@ export class CompanyController extends AbstractModelController{
         res.json(this.reply(0, companies));
     }
 
+
+    async update(req, res, next) {
+        let params = req.body;
+        let id = params.id;
+        if(!id || typeof(id) == 'undefined') {
+            return res.json(this.reply(0, null));
+        }
+        let obj = await Models.company.get(id);
+
+        for(let key in params){
+            if(companyCols.indexOf(key) >= 0){
+                obj[key] = params[key];
+            }
+        }
+        obj = await obj.save();
+        res.json(this.reply(0, obj));
+    }
+
     /*
      * body { companyId }
     */

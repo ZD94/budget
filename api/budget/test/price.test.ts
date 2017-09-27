@@ -8,6 +8,7 @@ var assert = require("assert");
 var moment = require("moment");
 var bluebird = require("bluebird")
 var _ = require("lodash");
+var fs = require("fs");
 import {
     TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory
 } from "../strategy/index";
@@ -236,11 +237,13 @@ var PricePrefer = require("../prefer/price");
 var hotelEmptyArray = require("./data/hotel-empty-array.json");
 var hotelPriceEqual = require("./data/hotel-price-equal.json");
 var hotelPriceNotEqual = require("./data/hotel-price-not-equal.json");
-var hotelPriceMax = require("./data/hotel-price-max.json");
-// var hotelPriceNAN = require("./data/hotel-price-NAN.json");
-// var hotelPriceUndefined = require("./data/hotel-price-undefined.json");
-var hotelPriceNull = require("./data/hotel-star-null.json");
-// var hotelStarUndefined = require("./data/hotel-star-undefined.json");
+var hotelPriceNegativeLowest = require("./data/hotel-negative-lowest-price.json");
+var hotelPriceNegativeHighest = require("./data/hotel-negative-highest-price.json");
+
+
+var trafficPriceEqual = require("./data/traffic-price-equal.json");
+var trafficPriceNotEqual = require("./data/traffic-price-equal.json");
+var trafficPriceEmpty = require("./data/traffic-empty-array.json");
 
 var hotel_levels = [2,3,4,5];
 
@@ -249,30 +252,29 @@ var traffic = {
     train: [1,2,3,4,5,6,7,8,9,10]
 }
 
+let hotelData = [
+    { name: 'hotelEmptyArray', data: hotelEmptyArray, method: 'notStrictEqual' },
+    { name: 'hotelPriceEqual', data: hotelPriceEqual, method: 'equal' },
+    { name: 'hotelPriceNotEqual', data: hotelPriceNotEqual, method: 'equal' },
+    { name: 'hotelPriceNegativeLowest', data: hotelPriceNegativeLowest, method: 'equal' },
+    { name: 'hotelPriceNegativeHighest', data: hotelPriceNegativeHighest, method: 'equal' }
+];
+
+let percentage = [-1, 0, 0.5, 1, 2]
 /*
  *  测试用例：
  *    1. 酒店价格打分
  *      1.1 原始数据打分（因为国内外打分分值不同：分国内、国外酒店）
- *          1.1.1 国内（国外）
+ *          1.1.1 偏好设置 percentage 取值 [-1, 0, 0.5, 1, 2]
  *              1.1.1.1 原始数据为空数组
- *              1.1.1.1 原始数据为超大数组（比如： 100）
  *              1.1.1.2 原始数据价格相同
  *              1.1.1.3 原始数据价格不相同
- *              1.1.1.4 原始数据价格超过变量允许范围
- *              1.1.1.5 原始数据价格为NAN
- *              1.1.1.6 原始数据价格为null
- *              1.1.1.7 原始数据价格为undefined
- *
- *              1.1.1.8 原始数据星级为null
- *              1.1.1.9 原始数据星级为undefined
- *
- *
  *
  *      1.2 针对不同的酒店舒适度进行打分（酒店舒适度参与价格打分）
- *         1.1.1 国内（国外）
- *              1.1.1.1 舒适度为0
- *              1.1.1.1 舒适度为 0～ 100中某值（比如60）
- *              1.1.1.1 舒适度为100
+ *         1.1.1 偏好设置 percentage 取值 [-1, 0, 0.5, 1, 2]
+ *              1.1.1.1 原始数据为空数组
+ *              1.1.1.2 原始数据价格相同
+ *              1.1.1.3 原始数据价格不相同
  *
  *
  *    2. 交通价格打分
@@ -282,26 +284,35 @@ var traffic = {
  */
 
 
-let hotelData = [
-    { name: 'hotelEmptyArray', data: hotelEmptyArray, method: 'notStrictEqual' },
-    { name: 'hotelPriceEqual', data: hotelPriceEqual, method: 'equal' },
-    // { name: 'hotelPriceUndefined', data: hotelPriceUndefined },
-    // { name: 'hotelPriceNAN', data: hotelPriceNAN },
-    // { name: 'hotelStarUndefined', data: hotelStarUndefined }
-];
 
-
-let expectedResult = {
-  hotelEmptyArray: [],
-  hotelPriceEqual: {name: '北京和平里宾馆'},
-  hotelPriceNotEqual: {name: '北京和平里宾馆'},
-  hotelPriceMax: {name: '北京和平里宾馆'},
-  hotelPriceNull: {name: '北京和平里宾馆'},
-}
 
 
 describe('Price-Scoring', function(){
     describe('Hotel-Price-Scoring', async function () {
+        for(let i =0; i < percentage.length; i++){
+            for (let ii = 0; ii < hotelData.length; ii++) {
+                let allPrefers = hotelPrefer.domesticHotel;
+                //添加舒适度价格打分
+                // let allStars = [EHotelLevel.FIVE_STAR, EHotelLevel.FOUR_STAR, EHotelLevel.THREE_STAR, EHotelLevel.TWO_STAR];
+                let allPrefers ={
+                        "name": "price",
+                        "options": {
+                            "type": "square",
+                            "score": 20000,
+                            "level": hotel_levels,
+                            "percent": percentage[i]
+                        }
+                    };
+                let result: any = hotelData[ii].data;
+
+                let pricePrefer = new PricePrefer(allPrefers.name, allPrefers.options);
+                result = await pricePrefer.markScoreProcess(result);
+                fs.writeFileSync(`./result/hotel-empty-array-${percentage}`, JSON.stringify(result), 'utf-8');
+            }
+        }
+
+
+
         //仅测试国内酒店价格打分（按照星级）
         describe('Domestic-Hotel-Price-Scoring', async function () {
             let checkInDate = '2017-09-27';
@@ -312,15 +323,15 @@ describe('Price-Scoring', function(){
             };
 
             for (let i = 0; i < hotelData.length; i++) {
-                let qs = {
-                    local: {
-                        checkInDate,
-                        checkOutDate,
-                        star: [EHotelLevel.FIVE_STAR,EHotelLevel.FOUR_STAR, EHotelLevel.THREE_STAR, EHotelLevel.TWO_STAR],
-                        latitude: location.latitude,
-                        longitude: location.longitude,
-                    }
-                };
+                // let qs = {
+                //     local: {
+                //         checkInDate,
+                //         checkOutDate,
+                //         star: [EHotelLevel.FIVE_STAR,EHotelLevel.FOUR_STAR, EHotelLevel.THREE_STAR, EHotelLevel.TWO_STAR],
+                //         latitude: location.latitude,
+                //         longitude: location.longitude,
+                //     }
+                // };
                 let hotelPrefers = [60];
                 it(`result when original data is ${hotelData[i].name}`, async function () {
                     let allPrefers = hotelPrefer.domesticHotel;
@@ -377,15 +388,15 @@ describe('Price-Scoring', function(){
             };
 
             for (let i = 0; i < hotelData.length; i++) {
-                let qs = {
-                    local: {
-                        checkInDate,
-                        checkOutDate,
-                        star: [EHotelLevel.FIVE_STAR,EHotelLevel.FOUR_STAR, EHotelLevel.THREE_STAR, EHotelLevel.TWO_STAR],
-                        latitude: location.latitude,
-                        longitude: location.longitude,
-                    }
-                };
+                // let qs = {
+                //     local: {
+                //         checkInDate,
+                //         checkOutDate,
+                //         star: [EHotelLevel.FIVE_STAR,EHotelLevel.FOUR_STAR, EHotelLevel.THREE_STAR, EHotelLevel.TWO_STAR],
+                //         latitude: location.latitude,
+                //         longitude: location.longitude,
+                //     }
+                // };
                 let hotelPrefers = [60];
                 it(`result when original data is ${hotelData[i].name}`, async function () {
                     let allPrefers = hotelPrefer.abroadHotel;
@@ -424,10 +435,15 @@ describe('Price-Scoring', function(){
                     });
 
                     assert.equal(result.length, hotelData[i].data.length, '输入数据和输出数据长度不一致');
+
                     let recommendedResult = result && result.length > 0 ? result[0].name: result;
                     assert[hotelData[i].method](recommendedResult, expectedResult[hotelData[i].name]['name']);
 
-                    // return new Promise()
+                    for(let j = 0; j < result.length; j++){
+
+                    }
+
+                    return new Promise()
                 })
             }
         })

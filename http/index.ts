@@ -12,7 +12,6 @@ import path = require("path");
 import express = require("express");
 import {authenticate} from "./auth";
 import {checkCompany} from "api/auth";
-import { SegmentBudgetItem } from 'tmp/tsreq/_types/budget';
 
 let router = express.Router();
 

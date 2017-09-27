@@ -478,6 +478,9 @@ class ApiTravelBudget {
                 if(travelPolicyId) {
                     tp = await Models.travelPolicy.get(travelPolicyId);
                 }
+                if(!tp || typeof(tp) == 'undefined') {
+                    throw L.ERR.TRAVEL_POLICY_NOT_EXIST();
+                }
                 if (fromCity && !seg.noTraffic) {
                     if(tp){
                         if(!toCity.isAbroad){
@@ -576,7 +579,7 @@ class ApiTravelBudget {
                                     })
                                 }
                             }
-                            policies['abroad'] = _.assign(policies['abroad'], await getHotelPriceLimit(toCity['id'], companyId, tp))
+                            policies['domestic'] = _.assign(policies['domestic'], await getHotelPriceLimit(toCity['id'], companyId, tp));
                         }
                     }
                     let checkOutDate = moment(seg.endTime).tz(timezone).format("YYYY-MM-DD")

@@ -1,0 +1,103 @@
+[
+  {
+    "name": "北京金融街亚朵S·吴酒店",
+    "star": undefined,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 967,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6589045.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.90342809172862,
+    "longitude": 116.357644465402,
+    "shortName": "亚朵",
+    "checkInDate": "2017-09-27",
+    "checkOutDate": "2017-09-28",
+    "commentScore": 9.6
+  },
+  {
+    "name": "北京中油宾馆",
+    "star": undefined,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 967,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/744581.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.95364988041521,
+    "longitude": 116.37952514335628,
+    "shortName": "中油宾馆",
+    "checkInDate": "2017-09-27",
+    "checkOutDate": "2017-09-28",
+    "commentScore": 8.2
+  },
+  {
+    "name": "北京建国门亚朵轻居",
+    "star": undefined,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 967,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6508621.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.905377739020004,
+    "longitude": 116.43668823363527,
+    "shortName": "轻居",
+    "checkInDate": "2017-09-27",
+    "checkOutDate": "2017-09-28",
+    "commentScore": 9.4
+  },
+  {
+    "name": "北京汉华国际饭店",
+    "star": undefined,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 967,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/431623.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.94876774574787,
+    "longitude": 116.3913325837285,
+    "shortName": "汉华国际",
+    "checkInDate": "2017-09-27",
+    "checkOutDate": "2017-09-28",
+    "commentScore": 9.2
+  },
+  {
+    "name": "北京VUE后海酒店",
+    "star": undefined,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 967,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1641390.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.93995228376373,
+    "longitude": 116.37670499093609,
+    "shortName": "VUE后海",
+    "checkInDate": "2017-09-27",
+    "checkOutDate": "2017-09-28",
+    "commentScore": 9.8
+  },
+  {
+    "name": "北京和平里宾馆",
+    "star": undefined,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 967,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/433114.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.95893097786859,
+    "longitude": 116.40841885232999,
+    "shortName": "和平里宾馆",
+    "checkInDate": "2017-09-27",
+    "checkOutDate": "2017-09-28",
+    "commentScore": 9.2
+  }]

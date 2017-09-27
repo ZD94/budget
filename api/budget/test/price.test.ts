@@ -6,52 +6,241 @@
 
 var assert = require("assert");
 var moment = require("moment");
-var API = require("@jingli/dnode-api");
-// import Logger from "@jingli/logger";
-// const logger = new Logger("mocha");
+var bluebird = require("bluebird")
+var _ = require("lodash");
 import {
     TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory
 } from "../strategy/index";
 import { DEFAULT_PREFER_CONFIG_TYPE} from "../prefer"
 import {loadPrefers} from "../prefer";
+import {ETrainLevel, EHotelLevel, EPlaneLevel} from "_types/policy/travelPolicy"
+import {EAirCabin} from "_types/budget"
 
-export enum EHotelLevel {
-    FIVE_STAR = 5,
-    FOUR_STAR = 4,
-    THREE_STAR = 3,
-    TWO_STAR = 2
+
+var hotelPrefer = {
+    "domesticHotel": [
+        {
+            "name": "priceRange",
+            "options": {
+                "score": -1000000,
+                "range": {
+                    "5": [450, 2300],
+                    "4": [280, 1000],
+                    "3": [180, 600],
+                    "2": [120, 380]
+                }
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "score": 20000,
+                "percent": 0.05,
+                "level": [2]
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "score": 20000,
+                "percent": 0.05,
+                "level": [3]
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "score": 20000,
+                "percent": 0.05,
+                "level": [4]
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "score": 20000,
+                "percent": 0.05,
+                "level": [5]
+            }
+        }
+    ],
+    "abroadHotel": [
+        {
+            "name": "price",
+            "options": {
+                "score": 20000,
+                "percent": 0,
+                "level": [2]
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "score": 20000,
+                "percent": 0,
+                "level": [3]
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "score": 20000,
+                "percent": 0,
+                "level": [4]
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "score": 20000,
+                "percent": 0,
+                "level": [5]
+            }
+        }
+    ]
 }
 
-export enum ETrainLevel {
-    // BUSINESS = 1,
-    // FIRST_CLASS = 2,
-    // SECOND_CLASS = 3,
-    BUSINESS_SEAT = 1,
-    FIRST_SEAT = 2,
-    SECOND_SEAT = 3,
-    PRINCIPAL_SEAT = 4,
-    SENIOR_SOFT_SLEEPER = 5,
-    SOFT_SLEEPER = 6,
-    HARD_SLEEPER = 7,
-    SOFT_SEAT = 8,
-    HARD_SEAT = 9,
-    NO_SEAT = 10,
+var trafficPrefer = {
+    "domesticTraffic": [
+        {
+            "name": "cheapSupplier",
+            "options": {
+                "score": -100000,
+                "cheapSuppliers": [
+                    "9C",
+                    "KN",
+                    "HO",
+                    "PN",
+                    "EU",
+                    "AQ",
+                    "JR"
+                ]
+            }
+        },
+        {
+            "name": "trainDurationPrefer",
+            "options": {
+                "score": 80000,
+                "trainDuration": 360
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "type": "square",
+                "score": 10000,
+                "level": [
+                    2
+                ],
+                "percent": 0.05
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "type": "square",
+                "score": 10000,
+                "level": [
+                    5
+                ],
+                "percent": 0.05
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "type": "square",
+                "score": 10000,
+                "level": [
+                    3
+                ],
+                "percent": 0.05
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "type": "square",
+                "score": 10000,
+                "level": [
+                    4
+                ],
+                "percent": 0.05
+            }
+        }
+    ],
+    "abroadTraffic": [
+        {
+            "name": "cheapSupplier",
+            "options": {
+                "score": -100000,
+                "cheapSuppliers": [
+                ]
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "type": "square",
+                "score": 10000,
+                "level": [
+                    2
+                ],
+                "percent": 0
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "type": "square",
+                "score": 10000,
+                "level": [
+                    5
+                ],
+                "percent": 0
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "type": "square",
+                "score": 10000,
+                "level": [
+                    3
+                ],
+                "percent": 0
+            }
+        },
+        {
+            "name": "price",
+            "options": {
+                "type": "square",
+                "score": 10000,
+                "level": [
+                    4
+                ],
+                "percent": 0
+            }
+        },
+        {
+            "name": "trainDurationPrefer",
+            "options": {
+                "score": 80000,
+                "trainDuration": 360
+            }
+        }
+    ]
 }
-
-export enum EPlaneLevel {
-    // BUSINESS_FIRST = 1,
-    ECONOMY = 2,
-    FIRST = 3,
-    BUSINESS = 4,
-    PREMIUM_ECONOMY = 5,    //高端经济仓
-}
-
-var defaultCompanyPrefer = require("../prefer/default-prefer/default-company-prefer.json");
-var sysPrefer = require("../prefer/default-prefer/sys-prefer.json");
 var PricePrefer = require("../prefer/price");
 
-var hotelDomestic = require("./data/hotel-domestic.json");
-var hotelAbroad = require("./data/hotel-abroad.json");
+var hotelEmptyArray = require("./data/hotel-empty-array.json");
+var hotelPriceEqual = require("./data/hotel-price-equal.json");
+var hotelPriceNotEqual = require("./data/hotel-price-not-equal.json");
+var hotelPriceMax = require("./data/hotel-price-max.json");
+// var hotelPriceNAN = require("./data/hotel-price-NAN.json");
+// var hotelPriceUndefined = require("./data/hotel-price-undefined.json");
+var hotelPriceNull = require("./data/hotel-star-null.json");
+// var hotelStarUndefined = require("./data/hotel-star-undefined.json");
 
 var hotel_levels = [2,3,4,5];
 
@@ -62,469 +251,325 @@ var traffic = {
 
 /*
  *  测试用例：
- *      1： 分国内、国外酒店和交通数据进行打分，
- *          1.1 酒店价格打分 (影响因素：用户差旅标准（包括酒店星级、酒店舒适度）、用户公司偏好、默认公司偏好打分）
- *              1.1.1 价格打分单项打分
- *                * 国内， 按照酒店星级（经济舱、头等舱、商务舱、高端商务舱）
- *                * 国外，  按照酒店星级（经济舱、头等舱、商务舱、高端商务舱）
- *              1.1.2 综合其他打分项进行价格打分
- *                * 国内， 按照酒店星级（经济舱、头等舱、商务舱、高端商务舱）
- *                * 国外，  按照酒店星级（经济舱、头等舱、商务舱、高端商务舱）
+ *    1. 酒店价格打分
+ *      1.1 原始数据打分（因为国内外打分分值不同：分国内、国外酒店）
+ *          1.1.1 国内（国外）
+ *              1.1.1.1 原始数据为空数组
+ *              1.1.1.1 原始数据为超大数组（比如： 100）
+ *              1.1.1.2 原始数据价格相同
+ *              1.1.1.3 原始数据价格不相同
+ *              1.1.1.4 原始数据价格超过变量允许范围
+ *              1.1.1.5 原始数据价格为NAN
+ *              1.1.1.6 原始数据价格为null
+ *              1.1.1.7 原始数据价格为undefined
  *
- *          1.2 交通价格打分 (影响因素：用户差旅标准（包括交通飞机仓位或火车座次、交通舒适度）、用户公司偏好、默认公司偏好打分）
- * *            1.2.1 价格打分单项打分
- *                * 国内， 按照交通飞机仓位或火车座次
- *                * 国外， 按照交通飞机仓位或火车座次
- *              1.2.2 综合其他打分项进行价格打分
- *                * 国内， 按照交通飞机仓位或火车座次
- *                * 国外， 按照交通飞机仓位或火车座次
+ *              1.1.1.8 原始数据星级为null
+ *              1.1.1.9 原始数据星级为undefined
+ *
+ *
+ *
+ *      1.2 针对不同的酒店舒适度进行打分（酒店舒适度参与价格打分）
+ *         1.1.1 国内（国外）
+ *              1.1.1.1 舒适度为0
+ *              1.1.1.1 舒适度为 0～ 100中某值（比如60）
+ *              1.1.1.1 舒适度为100
+ *
+ *
+ *    2. 交通价格打分
+ *       2.1 原始数据打分（因为国内外打分分值不同：分国内、国外酒店）
+ *
  *
  */
 
+
+let hotelData = [
+    { name: 'hotelEmptyArray', data: hotelEmptyArray, method: 'notStrictEqual' },
+    { name: 'hotelPriceEqual', data: hotelPriceEqual, method: 'equal' },
+    // { name: 'hotelPriceUndefined', data: hotelPriceUndefined },
+    // { name: 'hotelPriceNAN', data: hotelPriceNAN },
+    // { name: 'hotelStarUndefined', data: hotelStarUndefined }
+];
+
+
+let expectedResult = {
+  hotelEmptyArray: [],
+  hotelPriceEqual: {name: '北京和平里宾馆'},
+  hotelPriceNotEqual: {name: '北京和平里宾馆'},
+  hotelPriceMax: {name: '北京和平里宾馆'},
+  hotelPriceNull: {name: '北京和平里宾馆'},
+}
+
+
 describe('Price-Scoring', function(){
-    describe('Hotel-Price-Scoring', async function (){
+    describe('Hotel-Price-Scoring', async function () {
         //仅测试国内酒店价格打分（按照星级）
-        describe('Domestic-Hotel-Price',async function () {
+        describe('Domestic-Hotel-Price-Scoring', async function () {
             let checkInDate = '2017-09-27';
             let checkOutDate = '2017-09-28';
             let location = {
                 latitude: 39.929986,
                 longitude: 116.395645
-            }
-            for(let i = 0; i < hotel_levels.length; i++) {
-                let qs = {local: {
-                    checkInDate,
-                    checkOutDate,
-                    star: hotel_levels[i],
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                }};
-                it(`result when hotelStar equals ${hotel_levels[i]}`, async function(){
-                    let allPrefers = loadPrefers([], qs, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL);
+            };
 
-                    let pricePreferConfig:any = {};
-                    for(let j = 0; j < allPrefers.length; j++){
-                        if(allPrefers[j].name == 'price') {
-                            pricePreferConfig = allPrefers[j];
+            for (let i = 0; i < hotelData.length; i++) {
+                let qs = {
+                    local: {
+                        checkInDate,
+                        checkOutDate,
+                        star: [EHotelLevel.FIVE_STAR,EHotelLevel.FOUR_STAR, EHotelLevel.THREE_STAR, EHotelLevel.TWO_STAR],
+                        latitude: location.latitude,
+                        longitude: location.longitude,
+                    }
+                };
+                let hotelPrefers = [60];
+                it(`result when original data is ${hotelData[i].name}`, async function () {
+                    let allPrefers = hotelPrefer.domesticHotel;
+                    //添加舒适度价格打分
+                    let allStars = [EHotelLevel.FIVE_STAR, EHotelLevel.FOUR_STAR, EHotelLevel.THREE_STAR, EHotelLevel.TWO_STAR];
+                    allStars.forEach((star) => {
+                        allPrefers.push({
+                            "name": "price",
+                            "options": {
+                                "type": "square",
+                                "score": 50000,
+                                "level": [star],
+                                "percent": hotelPrefers[0] / 100
+                            }
+                        })
+                    })
+
+                    let pricePreferConfig:any = [];
+                    for (let j = 0; j < allPrefers.length; j++) {
+                        if (allPrefers[j].name == 'price') {
+                            pricePreferConfig.push(allPrefers[j]);
                         }
                     }
-                    if(typeof(pricePreferConfig) == 'string') {
-                        pricePreferConfig = JSON.parse(pricePreferConfig);
+                    let result: any = hotelData[i].data;
+                    for(let j=0; j < pricePreferConfig.length; j++){
+                        let pricePrefer = new PricePrefer(pricePreferConfig[j].name, pricePreferConfig[j].options);
+                        result = await pricePrefer.markScoreProcess(result);
                     }
-                    let pricePrefer = new PricePrefer(pricePreferConfig.name, pricePreferConfig.options);
 
-
-                    if(typeof(hotelDomestic) == 'string') hotelDomestic = JSON.parse(hotelDomestic)
-
-                    let result = await pricePrefer.markScoreProcess(hotelDomestic);
-                    result = result.sort(function(item1, item2){
-                        if(item1.score > item2.score){
+                    result = result.sort(function (item1, item2) {
+                        if (item1.score > item2.score) {
                             return -1;
-                        } else if(item1.score <= item2.score){
+                        } else if (item1.score <= item2.score) {
                             return 1;
                         }
                     });
-                    assert.equal(result[0].name, '北京乾元酒店');
+
+                    assert.equal(result.length, hotelData[i].data.length, '输入数据和输出数据长度不一致');
+                    let recommendedResult = result && result.length > 0 ? result[0].name: result;
+                    assert[hotelData[i].method](recommendedResult, expectedResult[hotelData[i].name]['name']);
+
+                    // return new Promise()
                 })
             }
+        })
 
-        });
-
-        //仅测试国外酒店价格打分（按照星级）
-        describe('Abroad-Hotel-Price', function () {
-            let checkInDate = '2017-09-28';
-            let checkOutDate = '2017-09-30';
-            let location = {
-                latitude: 40.7127837,
-                longitude: -74.0059413
-            }
-
-            for(let i = 0; i < hotel_levels.length; i++) {
-                let qs = {local: {
-                    checkInDate,
-                    checkOutDate,
-                    star: hotel_levels[i],
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                }};
-                it(`result when hotelStar equals ${hotel_levels[i]}`, async function(){
-                    let allPrefers = loadPrefers([], qs, DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL);
-                    let pricePreferConfig:any = {};
-                    for(let j = 0; j < allPrefers.length; j++){
-                        if(allPrefers[j].name == 'price') {
-                            pricePreferConfig = allPrefers[j];
-                        }
-                    }
-                    if(typeof(pricePreferConfig) == 'string') {
-                        pricePreferConfig = JSON.parse(pricePreferConfig);
-                    }
-                    let pricePrefer = new PricePrefer(pricePreferConfig.name, pricePreferConfig.options);
-
-
-                    if(typeof(hotelAbroad) == 'string') hotelAbroad = JSON.parse(hotelAbroad)
-
-                    let result = await pricePrefer.markScoreProcess(hotelAbroad);
-                    result = result.sort(function(item1, item2){
-                        if(item1.score > item2.score){
-                            return -1;
-                        } else if(item1.score <= item2.score){
-                            return 1;
-                        }
-                    });
-                    console.log("result: ", result[0])
-                    assert.equal(result[0].name, '纽约第五大道朗汉广场酒店(Langham Place, New York, Fifth Avenue)');
-                })
-            }
-        });
-
-        //结合其他打分算法进行测试国内酒店价格打分（按照星级）
-        describe('Domestic-Hotel-Price-As-Whole', function () {
-            let result = ['汉庭（北京王府井大街店）', '北京河北迎宾馆',
-                '北京古巷贰拾号艺术酒店', '北京VUE后海酒店']
-            let cityId = 'CT_131';  //北京
+        //仅测试国内酒店价格打分（按照星级）
+        describe('Abroad-Hotel-Price-Scoring', async function () {
             let checkInDate = '2017-09-27';
             let checkOutDate = '2017-09-28';
             let location = {
                 latitude: 39.929986,
                 longitude: 116.395645
-            }
-            for(let i =0; i < hotel_levels.length; i++) {
-                let qs = {local: {
-                    checkInDate,
-                    checkOutDate,
-                    star: hotel_levels[i],
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                }};
-                it(`when hotelStar equals ${hotel_levels[i]}`, async function(){
-                    let allPrefers = loadPrefers([], qs, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL);
-                    let strategy = await HotelBudgetStrategyFactory.getStrategy({
-                        star: hotel_levels[i],
+            };
+
+            for (let i = 0; i < hotelData.length; i++) {
+                let qs = {
+                    local: {
                         checkInDate,
                         checkOutDate,
-                        prefers: allPrefers,
-                        city: cityId,
-                        location,
-                    }, {isRecord: true});
+                        star: [EHotelLevel.FIVE_STAR,EHotelLevel.FOUR_STAR, EHotelLevel.THREE_STAR, EHotelLevel.TWO_STAR],
+                        latitude: location.latitude,
+                        longitude: location.longitude,
+                    }
+                };
+                let hotelPrefers = [60];
+                it(`result when original data is ${hotelData[i].name}`, async function () {
+                    let allPrefers = hotelPrefer.abroadHotel;
+                    //添加舒适度价格打分
+                    let allStars = [EHotelLevel.FIVE_STAR, EHotelLevel.FOUR_STAR, EHotelLevel.THREE_STAR, EHotelLevel.TWO_STAR];
+                    allStars.forEach((star) => {
+                        allPrefers.push({
+                            "name": "price",
+                            "options": {
+                                "type": "square",
+                                "score": 50000,
+                                "level": [star],
+                                "percent": hotelPrefers[0] / 100
+                            }
+                        })
+                    })
 
-                    let isRetMarkedData = false;
-                    let budget = await strategy.getResult(hotelDomestic, isRetMarkedData, 'CNY');
-                    assert.equal(budget.name, result[i], [`星级${hotel_levels[i]}, 打分后结果：${result[i]}`])
+                    let pricePreferConfig:any = [];
+                    for (let j = 0; j < allPrefers.length; j++) {
+                        if (allPrefers[j].name == 'price') {
+                            pricePreferConfig.push(allPrefers[j]);
+                        }
+                    }
+                    let result: any = hotelData[i].data;
+                    for(let j=0; j < pricePreferConfig.length; j++){
+                        let pricePrefer = new PricePrefer(pricePreferConfig[j].name, pricePreferConfig[j].options);
+                        result = await pricePrefer.markScoreProcess(result);
+                    }
+
+                    result = result.sort(function (item1, item2) {
+                        if (item1.score > item2.score) {
+                            return -1;
+                        } else if (item1.score <= item2.score) {
+                            return 1;
+                        }
+                    });
+
+                    assert.equal(result.length, hotelData[i].data.length, '输入数据和输出数据长度不一致');
+                    let recommendedResult = result && result.length > 0 ? result[0].name: result;
+                    assert[hotelData[i].method](recommendedResult, expectedResult[hotelData[i].name]['name']);
+
+                    // return new Promise()
                 })
             }
-            // describe('Domestic-Hotel-Price',async function () {
-            //     let checkInDate = '2017-09-27';
-            //     let checkOutDate = '2017-09-28';
-            //     let location = {
-            //         latitude: 39.929986,
-            //         longitude: 116.395645
-            //     }
-            //
-            //     for(let i = 0; i < hotel_levels.length; i++) {
-            //         let qs = {local: {
-            //             checkInDate,
-            //             checkOutDate,
-            //             star: hotel_levels[i],
-            //             latitude: location.latitude,
-            //             longitude: location.longitude,
-            //         }};
-            //         it(`result when hotelStar equals ${hotel_levels[i]}`, async function(){
-            //             let allPrefers = loadPrefers([], qs, DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL);
-            //             let pricePreferConfig:any = {};
-            //             for(let j = 0; j < allPrefers.length; j++){
-            //                 if(allPrefers[j].name == 'price') {
-            //                     pricePreferConfig = allPrefers[j];
-            //                 }
-            //             }
-            //             if(typeof(pricePreferConfig) == 'string') {
-            //                 pricePreferConfig = JSON.parse(pricePreferConfig);
-            //             }
-            //             let pricePrefer = new PricePrefer(pricePreferConfig.name, pricePreferConfig.options);
-            //
-            //
-            //             if(typeof(hotelDomestic) == 'string') hotelDomestic = JSON.parse(hotelDomestic)
-            //
-            //             let result = await pricePrefer.markScoreProcess(hotelDomestic);
-            //             result = result.sort(function(item1, item2){
-            //                 if(item1.score > item2.score){
-            //                     return -1;
-            //                 } else if(item1.score <= item2.score){
-            //                     return 1;
-            //                 }
-            //             });
-            //             assert.equal(result[0].name, '北京乾元酒店');
-            //             assert.ok(true)
-            //
-            //         })
-            //     }
-            //
-            // });
-        });
+        })
 
-        //结合其他打分算法进行测试国内酒店价格打分（按照星级）
-        describe('Abroad-Hotel-Price-As-Whole', function () {
-            let result = ['纽约永兴酒店(Windsor Hotel New York)', '纽约智选假日酒店 - 时代广场店(Holiday Inn Express - Times Square New York)',
-                '纽约曼哈顿金融区假日酒店(Holiday Inn Manhattan Financial District New York)', '纽约市布莱恩公园酒店(The Bryant Park Hotel New York City)']
-            let cityId = 'CTW_301';  //纽约
-            let checkInDate = '2017-09-28';
-            let checkOutDate = '2017-09-30';
-            let location = {
-                latitude: 40.7127837,
-                longitude: -74.0059413
-            }
-
-
-            for(let i =0; i < hotel_levels.length; i++) {
-
-                let qs = {local: {
-                    checkInDate,
-                    checkOutDate,
-                    star: hotel_levels[i],
-                    latitude: location.latitude,
-                    longitude: location.longitude,
-                }};
-                it(`when hotelStar equals ${hotel_levels[i]}`, async function(){
-                    let allPrefers = loadPrefers([], qs, DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL);
-                    let strategy = await HotelBudgetStrategyFactory.getStrategy({
-                        star: hotel_levels[i],
-                        checkInDate,
-                        checkOutDate,
-                        prefers: allPrefers,
-                        city: cityId,
-                        location,
-                    }, {isRecord: true});
-
-                    let isRetMarkedData = false;
-                    let budget = await strategy.getResult(hotelAbroad, isRetMarkedData, 'CNY');
-
-                    assert.equal(budget.name, result[i], [`星级${hotel_levels[i]}, 打分后结果：${result[i]}`])
-                    // it(`星级${hotel_levels[i]}, 打分后结果：${result[i]}`);
-                })
-            }
-        });
     })
 
-// 结合其他打分算法进行测试国内酒店价格打分（按照星级）
-//     describe('Traffic-Price-Scoring', async function (){
-//         describe('Domestic-Traffic-Price',async function () {
-//             let leaveDate = '2017-09-27';
-//             let originPlace = 'CT_131';
-//             let destination = 'CT_289';
-//
-//             for(let i = 0; i < traffic.plane.length; i++) {
-//                 for(let ii = 0; ii < traffic.train.length; i++) {
-//                     let qs = {
-//                         local: {
-//                             expectTrainCabins: traffic.train[ii],
-//                             expectFlightCabins: traffic.plane[i],
-//                             leaveDate: leaveDate,
-//                             earliestLeaveDateTime: new Date(moment(`${leaveDate} 08:00`)),
-//                             latestArrivalDateTime: null,
-//                         }
-//                     }
-//                     it(`result when plane_cabin equals ${traffic.plane[i]} and train_seat equals ${traffic.train[ii]}`, async function(){
-//                         let allPrefers = loadPrefers([], qs, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL);
-//
-//                         let pricePreferConfig:any = {};
-//                         for(let j = 0; j < allPrefers.length; j++){
-//                             if(allPrefers[j].name == 'price') {
-//                                 pricePreferConfig = allPrefers[j];
-//                             }
-//                         }
-//                         if(typeof(pricePreferConfig) == 'string') {
-//                             pricePreferConfig = JSON.parse(pricePreferConfig);
-//                         }
-//                         let pricePrefer = new PricePrefer(pricePreferConfig.name, pricePreferConfig.options);
-//
-//
-//                         if(typeof(hotelDomestic) == 'string') hotelDomestic = JSON.parse(hotelDomestic)
-//
-//                         let result = await pricePrefer.markScoreProcess(hotelDomestic);
-//                         result = result.sort(function(item1, item2){
-//                             if(item1.score > item2.score){
-//                                 return -1;
-//                             } else if(item1.score <= item2.score){
-//                                 return 1;
-//                             }
-//                         });
-//                         assert.equal(result[0].name, '北京乾元酒店');
-//                     })
-//                 }
-//
-//             }
-//
-//         });
-//
-//         describe('Abroad-Traffic-Price', function () {
-//             let checkInDate = '2017-09-28';
-//             let checkOutDate = '2017-09-30';
-//             let location = {
-//                 latitude: 39.929986,
-//                 longitude: 116.395645
-//             }
-//
-//             for(let i = 0; i < hotel_levels.length; i++) {
-//                 let qs = {local: {
-//                     checkInDate,
-//                     checkOutDate,
-//                     star: hotel_levels[i],
-//                     latitude: location.latitude,
-//                     longitude: location.longitude,
-//                 }};
-//                 it(`result when hotelStar equals ${hotel_levels[i]}`, async function(){
-//                     let allPrefers = loadPrefers([], qs, DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL);
-//                     let pricePreferConfig:any = {};
-//                     for(let j = 0; j < allPrefers.length; j++){
-//                         if(allPrefers[j].name == 'price') {
-//                             pricePreferConfig = allPrefers[j];
-//                         }
-//                     }
-//                     if(typeof(pricePreferConfig) == 'string') {
-//                         pricePreferConfig = JSON.parse(pricePreferConfig);
-//                     }
-//                     let pricePrefer = new PricePrefer(pricePreferConfig.name, pricePreferConfig.options);
-//
-//
-//                     if(typeof(hotelAbroad) == 'string') hotelAbroad = JSON.parse(hotelAbroad)
-//
-//                     let result = await pricePrefer.markScoreProcess(hotelAbroad);
-//                     result = result.sort(function(item1, item2){
-//                         if(item1.score > item2.score){
-//                             return -1;
-//                         } else if(item1.score <= item2.score){
-//                             return 1;
-//                         }
-//                     });
-//                     console.log("result: ", result[0])
-//                     assert.equal(result[0].name, '纽约第五大道朗汉广场酒店(Langham Place, New York, Fifth Avenue)');
-//                 })
-//             }
-//         });
-//
-//         describe('Domestic-Traffic-Price-As-Whole', function () {
-//             let result = ['汉庭（北京王府井大街店）', '北京河北迎宾馆',
-//                 '北京古巷贰拾号艺术酒店', '北京VUE后海酒店']
-//             let cityId = 'CT_131';  //北京
-//             let checkInDate = '2017-09-27';
-//             let checkOutDate = '2017-09-28';
-//             let location = {
-//                 latitude: 39.929986,
-//                 longitude: 116.395645
-//             }
-//             for(let i =0; i < hotel_levels.length; i++) {
-//                 let qs = {local: {
-//                     checkInDate,
-//                     checkOutDate,
-//                     star: hotel_levels[i],
-//                     latitude: location.latitude,
-//                     longitude: location.longitude,
-//                 }};
-//                 it(`when hotelStar equals ${hotel_levels[i]}`, async function(){
-//                     let allPrefers = loadPrefers([], qs, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL);
-//                     let strategy = await HotelBudgetStrategyFactory.getStrategy({
-//                         star: hotel_levels[i],
-//                         checkInDate,
-//                         checkOutDate,
-//                         prefers: allPrefers,
-//                         city: cityId,
-//                         location,
-//                     }, {isRecord: true});
-//
-//                     let isRetMarkedData = false;
-//                     let budget = await strategy.getResult(hotelDomestic, isRetMarkedData, 'CNY');
-//                     assert.equal(budget.name, result[i], [`星级${hotel_levels[i]}, 打分后结果：${result[i]}`])
-//                 })
-//             }
-//             // describe('Domestic-Hotel-Price',async function () {
-//             //     let checkInDate = '2017-09-27';
-//             //     let checkOutDate = '2017-09-28';
-//             //     let location = {
-//             //         latitude: 39.929986,
-//             //         longitude: 116.395645
-//             //     }
-//             //
-//             //     for(let i = 0; i < hotel_levels.length; i++) {
-//             //         let qs = {local: {
-//             //             checkInDate,
-//             //             checkOutDate,
-//             //             star: hotel_levels[i],
-//             //             latitude: location.latitude,
-//             //             longitude: location.longitude,
-//             //         }};
-//             //         it(`result when hotelStar equals ${hotel_levels[i]}`, async function(){
-//             //             let allPrefers = loadPrefers([], qs, DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL);
-//             //             let pricePreferConfig:any = {};
-//             //             for(let j = 0; j < allPrefers.length; j++){
-//             //                 if(allPrefers[j].name == 'price') {
-//             //                     pricePreferConfig = allPrefers[j];
-//             //                 }
-//             //             }
-//             //             if(typeof(pricePreferConfig) == 'string') {
-//             //                 pricePreferConfig = JSON.parse(pricePreferConfig);
-//             //             }
-//             //             let pricePrefer = new PricePrefer(pricePreferConfig.name, pricePreferConfig.options);
-//             //
-//             //
-//             //             if(typeof(hotelDomestic) == 'string') hotelDomestic = JSON.parse(hotelDomestic)
-//             //
-//             //             let result = await pricePrefer.markScoreProcess(hotelDomestic);
-//             //             result = result.sort(function(item1, item2){
-//             //                 if(item1.score > item2.score){
-//             //                     return -1;
-//             //                 } else if(item1.score <= item2.score){
-//             //                     return 1;
-//             //                 }
-//             //             });
-//             //             assert.equal(result[0].name, '北京乾元酒店');
-//             //             assert.ok(true)
-//             //
-//             //         })
-//             //     }
-//             //
-//             // });
-//         });
-//
-//         describe('Abroad-Traffic-Price-As-Whole', function () {
-//             let result = ['纽约永兴酒店(Windsor Hotel New York)', '纽约智选假日酒店 - 时代广场店(Holiday Inn Express - Times Square New York)',
-//                 '纽约曼哈顿金融区假日酒店(Holiday Inn Manhattan Financial District New York)', '纽约市布莱恩公园酒店(The Bryant Park Hotel New York City)']
-//             let cityId = 'CTW_301';  //纽约
-//             let checkInDate = '2017-09-28';
-//             let checkOutDate = '2017-09-30';
-//             let location = {
-//                 latitude: 40.7127837,
-//                 longitude: -74.0059413
-//             }
-//
-//
-//             for(let i =0; i < hotel_levels.length; i++) {
-//
-//                 let qs = {local: {
-//                     checkInDate,
-//                     checkOutDate,
-//                     star: hotel_levels[i],
-//                     latitude: location.latitude,
-//                     longitude: location.longitude,
-//                 }};
-//                 it(`when hotelStar equals ${hotel_levels[i]}`, async function(){
-//                     let allPrefers = loadPrefers([], qs, DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL);
-//                     let strategy = await HotelBudgetStrategyFactory.getStrategy({
-//                         star: hotel_levels[i],
-//                         checkInDate,
-//                         checkOutDate,
-//                         prefers: allPrefers,
-//                         city: cityId,
-//                         location,
-//                     }, {isRecord: true});
-//
-//                     let isRetMarkedData = false;
-//                     let budget = await strategy.getResult(hotelAbroad, isRetMarkedData, 'CNY');
-//
-//                     assert.equal(budget.name, result[i], [`星级${hotel_levels[i]}, 打分后结果：${result[i]}`])
-//                     // it(`星级${hotel_levels[i]}, 打分后结果：${result[i]}`);
-//                 })
-//             }
-//         });
-//     })
+
+
+
+
+    describe('Traffic-Price-Scoring', async function () {
+        //仅测试国内交通价格打分（按照星级）
+        describe('Domestic-Traffic-Price-Scoring', async function () {
+            let checkInDate = '2017-09-27';
+            let checkOutDate = '2017-09-28';
+            let location = {
+                latitude: 39.929986,
+                longitude: 116.395645
+            };
+
+            for (let i = 0; i < hotelData.length; i++) {
+                // let qs = {
+                //     local: {
+                //         expectTrainCabins: traffic.train[ii],
+                //         expectFlightCabins: traffic.plane[i],
+                //         leaveDate: leaveDate,
+                //         earliestLeaveDateTime: new Date(moment(`${leaveDate} 08:00`)),
+                //         latestArrivalDateTime: null,
+                //     }
+                // }
+
+                let trafficPreferValue = 60;
+                it(`result when original data is ${hotelData[i].name}`, async function () {
+                    let allPrefers = trafficPrefer.domesticTraffic;
+                    //添加舒适度价格打分
+                    let allCabins = [EAirCabin.BUSINESS, EAirCabin.ECONOMY, EAirCabin.FIRST, EAirCabin.PREMIUM_ECONOMY];
+                    allCabins.forEach((cabin) => {
+                        allCabins.push({
+                            "name":"price",
+                            "options":{
+                                "type":"square",
+                                "score":50000,
+                                "level":[cabin],
+                                "percent": trafficPreferValue / 100
+                            }
+                        })
+                    });
+
+
+                    let pricePreferConfig:any = [];
+                    for (let j = 0; j < allPrefers.length; j++) {
+                        if (allPrefers[j].name == 'price') {
+                            pricePreferConfig.push(allPrefers[j]);
+                        }
+                    }
+                    let result: any = hotelData[i].data;
+                    for(let j=0; j < pricePreferConfig.length; j++){
+                        let pricePrefer = new PricePrefer(pricePreferConfig[j].name, pricePreferConfig[j].options);
+                        result = await pricePrefer.markScoreProcess(result);
+                    }
+
+                    result = result.sort(function (item1, item2) {
+                        if (item1.score > item2.score) {
+                            return -1;
+                        } else if (item1.score <= item2.score) {
+                            return 1;
+                        }
+                    });
+
+                    assert.equal(result.length, hotelData[i].data.length, '输入数据和输出数据长度不一致');
+                    let recommendedResult = result && result.length > 0 ? result[0].name: result;
+                    assert[hotelData[i].method](recommendedResult, expectedResult[hotelData[i].name]['name']);
+
+                    // return new Promise()
+                })
+            }
+        })
+
+        //仅测试国外交通价格打分（按照星级）
+        describe('Abroad-Traffic-Price-Scoring', async function () {
+            let leaveDate = '2017-09-27';
+            let originPlace = 'CT_131';
+            let destination = 'CT_289';
+
+            for (let i = 0; i < hotelData.length; i++) {
+                // let qs = {
+                //     local: {
+                //         expectTrainCabins: traffic.train,
+                //         expectFlightCabins: traffic.plane,
+                //         leaveDate: leaveDate,
+                //         earliestLeaveDateTime: new Date(moment(`${leaveDate} 08:00`)),
+                //         latestArrivalDateTime: null,
+                //     }
+                // }
+                let trafficPreferValue = 60;
+                it(`result when original data is ${hotelData[i].name}`, async function () {
+                    let allPrefers = trafficPrefer.abroadTraffic;
+                    //添加舒适度价格打分
+                    let allCabins = [EAirCabin.BUSINESS, EAirCabin.ECONOMY, EAirCabin.FIRST, EAirCabin.PREMIUM_ECONOMY];
+                    allCabins.forEach((cabin) => {
+                        allCabins.push({
+                            "name":"price",
+                            "options":{
+                                "type":"square",
+                                "score":50000,
+                                "level":[cabin],
+                                "percent": trafficPreferValue/100
+                            }
+                        })
+                    });
+
+                    let pricePreferConfig:any = [];
+                    for (let j = 0; j < allPrefers.length; j++) {
+                        if (allPrefers[j].name == 'price') {
+                            pricePreferConfig.push(allPrefers[j]);
+                        }
+                    }
+                    let result: any = hotelData[i].data;
+                    for(let j=0; j < pricePreferConfig.length; j++){
+                        let pricePrefer = new PricePrefer(pricePreferConfig[j].name, pricePreferConfig[j].options);
+                        result = await pricePrefer.markScoreProcess(result);
+                    }
+
+                    result = result.sort(function (item1, item2) {
+                        if (item1.score > item2.score) {
+                            return -1;
+                        } else if (item1.score <= item2.score) {
+                            return 1;
+                        }
+                    });
+
+                    assert.equal(result.length, hotelData[i].data.length, '输入数据和输出数据长度不一致');
+                    let recommendedResult = result && result.length > 0 ? result[0].name: result;
+                    assert[hotelData[i].method](recommendedResult, expectedResult[hotelData[i].name]['name']);
+
+                    return new Promise()
+                })
+            }
+        })
+
+    })
+
 })
 
 

@@ -150,6 +150,7 @@ class ApiTravelBudget {
                 city: city,
                 location,
             }, {isRecord: true});
+            console.log("prefer: ", strategy.prefer)
             let budget = await strategy.getResult(hotels, isRetMarkedData, preferedCurrency);
 
             let deeplinkItem = Models.deeplink.create({

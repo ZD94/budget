@@ -365,6 +365,7 @@ export class HotelBudgetStrategyFactory {
             // p.options.policies = qs.policies;
 
             let prefer = PreferFactory.getPrefer(p.name, p.options, 'hotel');
+            console.log("=====> prefer: ", prefer)
             if (!prefer) continue;
             strategy.addPrefer(prefer);
         }

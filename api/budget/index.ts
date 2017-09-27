@@ -353,7 +353,7 @@ class ApiTravelBudget {
             let goBackDay = goBackDate ? moment(goBackDate).format("YYYY-MM-DD") : null;
             let leaveDay = leaveDate ? moment(leaveDate).format("YYYY-MM-DD") : null;
             let days = 0;
-            if(!leaveDay || !leaveDay){
+            if(!goBackDay || !leaveDay){
                 days = 1;
             }else{
                 days = moment(goBackDay).diff(leaveDay, 'days');
@@ -367,9 +367,10 @@ class ApiTravelBudget {
                 let templates = [];
                 for(let i = 0; i < subsidies.length; i++){
                     let subsidyDay =  Math.floor(days/subsidies[i].subsidyType.period);
-                    totalMoney += subsidies[i].subsidyMoney * subsidyDay;
+                    let price = subsidies[i].subsidyMoney * subsidyDay;
+                    totalMoney += price;
                     let subsidy = {name: subsidies[i].subsidyType.name, period: subsidies[i].subsidyType.period,
-                        money: subsidies[i].subsidyMoney, id: subsidies[i].id, subsidyType: subsidies[i].subsidyType};
+                        money: subsidies[i].subsidyMoney, price: price, id: subsidies[i].id, subsidyType: subsidies[i].subsidyType};
                     if(subsidyDay){
                         templates.push(subsidy);
                     }
@@ -648,7 +649,6 @@ class ApiTravelBudget {
                 cities: cities,
                 budgets: budgets
             }
-
             let m = Models.budget.create({query: params, result: result});
             m = await m.save();
             result.id = m.id;
@@ -780,7 +780,8 @@ export default  ApiTravelBudget;
 
 function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: boolean) :FinalBudgetResultInterface {
     let result;
-    let d = _.cloneDeep(data);
+    // let d = _.cloneDeep(data);
+    let d = data;
 
     if(!isRetMarkedData) {
         result = d.budgets.map( (v: SegmentBudgetItem) => {

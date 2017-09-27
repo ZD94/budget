@@ -12,6 +12,7 @@ import path = require("path");
 import express = require("express");
 import {authenticate} from "./auth";
 import {checkCompany} from "api/auth";
+import { SegmentBudgetItem } from 'tmp/tsreq/_types/budget';
 
 let router = express.Router();
 
@@ -34,12 +35,16 @@ function checkOrigin( origin ){
 }
 
 export async function initHttp(app) {
+    
     app.use('/api/v1', (req, res, next)=>{
         if(req.headers.origin && checkOrigin(req.headers.origin)){
             res.header('Access-Control-Allow-Origin', req.headers.origin);
         }
         res.header('Access-Control-Allow-Methods', '*');
         res.header('Access-Control-Allow-Headers', req.headers['access-control-request-headers']);
+        if (req.method == 'OPTIONS') {
+            return res.send("OK");
+        }
         next();
     });
     

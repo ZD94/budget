@@ -63,66 +63,66 @@ describe("1) 测试登录接口", function(){
     });
 });
 
- describe("2)公司测试接口", ()=>{
-    let companies;
-    it("#获取公司列表", (done)=>{
-        setTimeout(()=>{
-            console.log("go", ticket);
-            request.get("http://localhost:3001/api/v1/company", {
-                headers : {
-                    key : "jinglicloud2017",
-                    ticket
-                }
-            }, (err, httpResponse, body)=>{
-                if(err){
-                    console.log(err);
-                    return;
-                }
-                let result;
-                try{
-                    result = JSON.parse( body );
-                }catch(e){
-                    result = body;
-                }
+//  describe("2)公司测试接口", ()=>{
+//     let companies;
+//     it("#获取公司列表", (done)=>{
+//         setTimeout(()=>{
+//             console.log("go", ticket);
+//             request.get("http://localhost:3001/api/v1/company", {
+//                 headers : {
+//                     key : "jinglicloud2017",
+//                     ticket
+//                 }
+//             }, (err, httpResponse, body)=>{
+//                 if(err){
+//                     console.log(err);
+//                     return;
+//                 }
+//                 let result;
+//                 try{
+//                     result = JSON.parse( body );
+//                 }catch(e){
+//                     result = body;
+//                 }
 
-                console.log(333, result);
-                companies = result.data;
-                expect(result.code).to.be.equal(0);
-                done();  
-            });
-        }, 500);
-    });
+//                 console.log(333, result);
+//                 companies = result.data;
+//                 expect(result.code).to.be.equal(0);
+//                 done();  
+//             });
+//         }, 500);
+//     });
 
-    it("#绑定公司到后台", (done)=>{
-        setTimeout(()=>{
-            let company = companies[0];
-            console.log("公司名称: ", company.name);
-            request.post("http://localhost:3001/api/v1/company/ae46c3d0-6ff6-11e6-88a4-57d7e6203407/companyRegion", {
-                headers : {
-                    key : "jinglicloud2017",
-                    ticket
-                },
-                form:{
-                    // companyId : company.id
-                }
-            }, (err, httpResponse, body)=>{
-                if(err){
-                    console.log(err);
-                    return;
-                }
-                let result;
-                try{
-                    result = JSON.parse( body );
-                }catch(e){
-                    result = body;
-                }
-                // console.log(result);
-                company = result.data;
-                expect(result.code).to.be.equal(0);
-                done();  
-            });
-        }, 1000);
-    });
+//     it("#绑定公司到后台", (done)=>{
+//         setTimeout(()=>{
+//             let company = companies[0];
+//             console.log("公司名称: ", company.name);
+//             request.post("http://localhost:3001/api/v1/company/ae46c3d0-6ff6-11e6-88a4-57d7e6203407/companyRegion", {
+//                 headers : {
+//                     key : "jinglicloud2017",
+//                     ticket
+//                 },
+//                 form:{
+//                     // companyId : company.id
+//                 }
+//             }, (err, httpResponse, body)=>{
+//                 if(err){
+//                     console.log(err);
+//                     return;
+//                 }
+//                 let result;
+//                 try{
+//                     result = JSON.parse( body );
+//                 }catch(e){
+//                     result = body;
+//                 }
+//                 // console.log(result);
+//                 company = result.data;
+//                 expect(result.code).to.be.equal(0);
+//                 done();  
+//             });
+//         }, 1000);
+//     });
 
-});
+// });
     

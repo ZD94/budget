@@ -84,6 +84,8 @@ describe("1) 测试登录接口", function(){
                 }catch(e){
                     result = body;
                 }
+
+                console.log(333, result);
                 companies = result.data;
                 expect(result.code).to.be.equal(0);
                 done();  
@@ -95,13 +97,13 @@ describe("1) 测试登录接口", function(){
         setTimeout(()=>{
             let company = companies[0];
             console.log("公司名称: ", company.name);
-            request.post("http://localhost:3001/api/v1/company/bindcompany", {
+            request.post("http://localhost:3001/api/v1/company/ae46c3d0-6ff6-11e6-88a4-57d7e6203407/companyRegion", {
                 headers : {
                     key : "jinglicloud2017",
                     ticket
                 },
                 form:{
-                    companyId : company.id
+                    // companyId : company.id
                 }
             }, (err, httpResponse, body)=>{
                 if(err){

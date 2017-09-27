@@ -6,11 +6,12 @@
 
 import http = require("http");
 
-import {scannerDecoration, registerControllerToRouter} from "@jingli/restful";
+import {scannerDecoration, registerControllerToRouter, Reply} from "@jingli/restful";
 
 import path = require("path");
 import express = require("express");
 import {authenticate} from "./auth";
+import {checkCompany} from "api/auth";
 
 let router = express.Router();
 
@@ -41,5 +42,16 @@ export async function initHttp(app) {
         res.header('Access-Control-Allow-Headers', '*');
         next();
     });
+    
     app.use('/api/v1', authenticate, router);
+    router.param("companyId", async (req, res, next, value)=>{
+        let { accountId } = req["session"];
+        
+        //如果存在companyId参数，验证companyId是否属于该accountId
+        let companyCheck = await checkCompany(accountId , value);
+        if(!companyCheck){
+            return res.json(Reply(403, null));
+        }
+        next();
+    });
 }

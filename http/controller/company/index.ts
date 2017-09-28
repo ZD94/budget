@@ -36,17 +36,17 @@ export class CompanyController extends AbstractModelController{
         }
 
         //查询公司权限
-        let {accountId} = req.session;
-        let accountCompany = await Models.accountCompany.find({
-            where : {
-                accountId,
-                companyId
-            }
-        });
-
-        if(!accountCompany.length){
-            return res.json(this.reply(403, null));
-        }
+        // let {accountId} = req.session;
+        // let accountCompany = await Models.accountCompany.find({
+        //     where : {
+        //         accountId,
+        //         companyId
+        //     }
+        // });
+        //
+        // if(!accountCompany.length){
+        //     return res.json(this.reply(403, null));
+        // }
 
         let result = await Models.company.get(companyId);
         if(result == undefined) result = null;

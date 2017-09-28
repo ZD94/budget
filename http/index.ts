@@ -39,7 +39,9 @@ export async function initHttp(app) {
         if(req.headers.origin && checkOrigin(req.headers.origin)){
             res.header('Access-Control-Allow-Origin', req.headers.origin);
         }
-        res.header('Access-Control-Allow-Methods', '*');
+
+        console.log(111, req.method);
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         res.header('Access-Control-Allow-Headers', req.headers['access-control-request-headers']);
         if (req.method == 'OPTIONS') {
             return res.send("OK");

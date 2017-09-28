@@ -1,0 +1,155 @@
+[
+  {
+    "name": "北京金融街亚朵S·吴酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": -1200,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6589045.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.90342809172862,
+    "longitude": 116.357644465402,
+    "shortName": "亚朵",
+    "checkInDate": "2017-10-21",
+    "checkOutDate": "2017-10-22",
+    "commentScore": 9.6
+  },
+  {
+    "name": "北京金融街亚朵S·吴酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": -1300,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6589045.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.90342809172862,
+    "longitude": 116.357644465402,
+    "shortName": "亚朵",
+    "checkInDate": "2017-10-21",
+    "checkOutDate": "2017-10-22",
+    "commentScore": 9.6
+  },
+  {
+    "name": "北京金融街亚朵S·吴酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": -1400,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6589045.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.90342809172862,
+    "longitude": 116.357644465402,
+    "shortName": "亚朵",
+    "checkInDate": "2017-10-21",
+    "checkOutDate": "2017-10-22",
+    "commentScore": 9.6
+  },
+  {
+    "name": "北京金融街亚朵S·吴酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": -1500,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6589045.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.90342809172862,
+    "longitude": 116.357644465402,
+    "shortName": "亚朵",
+    "checkInDate": "2017-10-21",
+    "checkOutDate": "2017-10-22",
+    "commentScore": 9.6
+  },
+  {
+    "name": "北京金融街亚朵S·吴酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": -1600,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6589045.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.90342809172862,
+    "longitude": 116.357644465402,
+    "shortName": "亚朵",
+    "checkInDate": "2017-10-21",
+    "checkOutDate": "2017-10-22",
+    "commentScore": 9.6
+  },
+  {
+    "name": "北京金融街亚朵S・吴酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": -1700,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6589045.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.90342809172862,
+    "longitude": 116.357644465402,
+    "shortName": "亚朵",
+    "checkInDate": "2017-10-21",
+    "checkOutDate": "2017-10-22",
+    "commentScore": 9.6
+  },
+  {
+    "name": "北京金融街亚朵S・吴酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": -1800,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6589045.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.90342809172862,
+    "longitude": 116.357644465402,
+    "shortName": "亚朵",
+    "checkInDate": "2017-10-21",
+    "checkOutDate": "2017-10-22",
+    "commentScore": 9.6
+  },
+  {
+    "name": "北京金融街亚朵S・吴酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": -1900,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6589045.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.90342809172862,
+    "longitude": 116.357644465402,
+    "shortName": "亚朵",
+    "checkInDate": "2017-10-21",
+    "checkOutDate": "2017-10-22",
+    "commentScore": 9.6
+  },
+  {
+    "name": "北京金融街亚朵S・吴酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": -2000,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6589045.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList"
+      }
+    ],
+    "latitude": 39.90342809172862,
+    "longitude": 116.357644465402,
+    "shortName": "亚朵",
+    "checkInDate": "2017-10-21",
+    "checkOutDate": "2017-10-22",
+    "commentScore": 9.6
+  }
+]

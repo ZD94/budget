@@ -14,7 +14,7 @@ import _ = require("lodash");
 import {Models} from "_types/index";
 import {defaultCurrencyUnit} from "../index"
 
-function formatTicketData(tickets: ITicket[]) : IFinalTicket[] {
+export function formatTicketData(tickets: ITicket[]) : IFinalTicket[] {
     let _tickets : IFinalTicket[] = [];
     //把数据平铺
     for(var i=0, ii=tickets.length; i<ii; i++) {
@@ -48,7 +48,7 @@ function formatTicketData(tickets: ITicket[]) : IFinalTicket[] {
     return _tickets;
 }
 
-function formatHotel(hotels: IHotel[]) : IFinalHotel[] {
+export function formatHotel(hotels: IHotel[]) : IFinalHotel[] {
     let _hotels: IFinalHotel[] = [];
     for(let i=0, ii=hotels.length; i<ii; i++) {
         let hotel = hotels[i]

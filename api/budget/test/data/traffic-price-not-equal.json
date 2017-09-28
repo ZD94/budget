@@ -1,195 +1,121 @@
 [
   {
-    "No": "MF4061",
-    "segs": [
+    "No":  "MU3662",
+    "segs":  [
 
     ],
-    "type": 1,
-    "agents": [
+    "type":  1,
+    "agents":  [
       {
-        "name": "jingzhong",
-        "cabins": [
+        "name":  "jingzhong",
+        "cabins":  [
           {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1220,
-            "scabin": "Y",
-            "discount": 0.94,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1090,
-            "scabin": "Y",
-            "discount": 0.84,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1030,
-            "scabin": "Y",
-            "discount": 0.79,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 970,
-            "scabin": "Y",
-            "discount": 0.74,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 910,
-            "scabin": "Y",
-            "discount": 0.69,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 840,
-            "scabin": "Y",
-            "discount": 0.64,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 720,
-            "scabin": "Y",
-            "discount": 0.54,
-            "remainNum": 8
+            "name":  2,
+            "price":  1200,
+            "scabin":  "Y",
+            "discount":  1,
+            "remainNum":  9
           }
         ],
-        "bookUrl": ""
+        "bookUrl":  ""
       }
     ],
-    "duration": 135,
-    "destination": "CT_289",
-    "originPlace": "CT_131",
-    "originStation": "T2",
-    "departDateTime": "2017-09-27T22:25:00.000Z",
-    "arrivalDateTime": "2017-09-28T00:40:00.000Z",
-    "destinationStation": "T2"
-  },
+    "duration":  135,
+    "destination":  "CT_289",
+    "originPlace":  "CT_131",
+    "originStation":  "T2",
+    "departDateTime":  "2017-09-27T22:25:00.000Z",
+    "arrivalDateTime":  "2017-09-28T00:40:00.000Z",
+    "destinationStation":  "T2"
+  }  ,
+
   {
-    "No": "CZ6412",
-    "segs": [
+    "No":  "MU3662",
+    "segs":  [
 
     ],
-    "type": 1,
-    "agents": [
+    "type":  1,
+    "agents":  [
       {
-        "name": "jingzhong",
-        "cabins": [
+        "name":  "jingzhong",
+        "cabins":  [
           {
-            "name": 4,
-            "price": 3520,
-            "scabin": "C",
-            "discount": 2.8,
-            "remainNum": 2
-          },
-          {
-            "name": 4,
-            "price": 2900,
-            "scabin": "C",
-            "discount": 2.3,
-            "remainNum": 1
-          },
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1220,
-            "scabin": "Y",
-            "discount": 0.94,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1090,
-            "scabin": "Y",
-            "discount": 0.84,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1030,
-            "scabin": "Y",
-            "discount": 0.79,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 970,
-            "scabin": "Y",
-            "discount": 0.74,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 910,
-            "scabin": "Y",
-            "discount": 0.69,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 840,
-            "scabin": "Y",
-            "discount": 0.64,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 720,
-            "scabin": "Y",
-            "discount": 0.54,
-            "remainNum": 8
-          },
-          {
-            "name": 2,
-            "price": 660,
-            "scabin": "Y",
-            "discount": 0.49,
-            "remainNum": 1
-          },
-          {
-            "name": 2,
-            "price": 530,
-            "scabin": "Y",
-            "discount": 0.387096774193548,
-            "remainNum": 1
+            "name":  2,
+            "price":  1300,
+            "scabin":  "Y",
+            "discount":  1,
+            "remainNum":  9
           }
         ],
-        "bookUrl": ""
+        "bookUrl":  ""
       }
     ],
-    "duration": 135,
-    "destination": "CT_289",
-    "originPlace": "CT_131",
-    "originStation": "T2",
+    "duration":  135,
+    "destination":  "CT_289",
+    "originPlace":  "CT_131",
+    "originStation":  "T2",
+    "departDateTime":  "2017-09-27T22:25:00.000Z",
+    "arrivalDateTime":  "2017-09-28T00:40:00.000Z",
+    "destinationStation":  "T2"
+  }  ,
+  {
+    "No":  "MU3662",
+    "segs":  [
+
+    ],
+    "type":  1,
+    "agents":  [
+      {
+        "name":  "jingzhong",
+        "cabins":  [
+          {
+            "name":  2,
+            "price":  1400,
+            "scabin":  "Y",
+            "discount":  1,
+            "remainNum":  9
+          }
+        ],
+        "bookUrl":  ""
+      }
+    ],
+    "duration":  135,
+    "destination":  "CT_289",
+    "originPlace":  "CT_131",
+    "originStation":  "T2",
+    "departDateTime":  "2017-09-27T22:25:00.000Z",
+    "arrivalDateTime":  "2017-09-28T00:40:00.000Z",
+    "destinationStation":  "T2"
+  }  ,
+  {
+    "No":  "MU3662",
+    "segs":  [
+
+    ],
+    "type":  1,
+    "agents":  [
+      {
+        "name":  "jingzhong",
+        "cabins":  [
+          {
+            "name":  2,
+            "price":  1500,
+            "scabin":  "Y",
+            "discount":  1,
+            "remainNum":  9
+          }
+        ],
+        "bookUrl":  ""
+      }
+    ],
+    "duration":  135,
+    "destination":  "CT_289",
+    "originPlace":  "CT_131",
+    "or iginStation": "T2",
     "departDateTime": "2017-09-27T22:25:00.000Z",
     "arrivalDateTime": "2017-09-28T00:40:00.000Z",
     "destinationStation": "T2"
-  },
+  } ,
   {
     "No": "MU3662",
     "segs": [
@@ -202,45 +128,10 @@
         "cabins": [
           {
             "name": 2,
-            "price": 1290,
+            "price": 1600,
             "scabin": "Y",
             "discount": 1,
             "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1220,
-            "scabin": "Y",
-            "discount": 0.94,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1090,
-            "scabin": "Y",
-            "discount": 0.84,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1030,
-            "scabin": "Y",
-            "discount": 0.79,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 840,
-            "scabin": "Y",
-            "discount": 0.64,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 720,
-            "scabin": "Y",
-            "discount": 0.54,
-            "remainNum": 7
           }
         ],
         "bookUrl": ""
@@ -253,9 +144,9 @@
     "departDateTime": "2017-09-27T22:25:00.000Z",
     "arrivalDateTime": "2017-09-28T00:40:00.000Z",
     "destinationStation": "T2"
-  },
+  } ,
   {
-    "No": "HU7609",
+    "No": "MU3662",
     "segs": [
 
     ],
@@ -265,66 +156,10 @@
         "name": "jingzhong",
         "cabins": [
           {
-            "name": 4,
-            "price": 4760,
-            "scabin": "C",
-            "discount": 3.8,
-            "remainNum": 9
-          },
-          {
             "name": 2,
-            "price": 1290,
+            "price": 1700,
             "scabin": "Y",
             "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1190,
-            "scabin": "Y",
-            "discount": 0.92,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1090,
-            "scabin": "Y",
-            "discount": 0.84,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 990,
-            "scabin": "Y",
-            "discount": 0.76,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 890,
-            "scabin": "Y",
-            "discount": 0.68,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 790,
-            "scabin": "Y",
-            "discount": 0.6,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 720,
-            "scabin": "Y",
-            "discount": 0.54,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 650,
-            "scabin": "Y",
-            "discount": 0.48,
             "remainNum": 9
           }
         ],
@@ -334,13 +169,13 @@
     "duration": 135,
     "destination": "CT_289",
     "originPlace": "CT_131",
-    "originStation": "T1",
-    "departDateTime": "2017-09-27T22:40:00.000Z",
-    "arrivalDateTime": "2017-09-28T00:55:00.000Z",
+    "originStation": "T2",
+    "departDateTime": "2017-09-27T22:25:00.000Z",
+    "arrivalDateTime": "2017-09-28T00:40:00.000Z",
     "destinationStation": "T2"
-  },
+  } ,
   {
-    "No": "HO1252",
+    "No": "MU3662",
     "segs": [
 
     ],
@@ -350,80 +185,10 @@
         "name": "jingzhong",
         "cabins": [
           {
-            "name": 3,
-            "price": 3520,
-            "scabin": "F",
-            "discount": 2.8,
-            "remainNum": 3
-          },
-          {
-            "name": 3,
-            "price": 5010,
-            "scabin": "F",
-            "discount": 4,
-            "remainNum": 3
-          },
-          {
-            "name": 3,
-            "price": 1290,
-            "scabin": "F",
-            "discount": 1,
-            "remainNum": 3
-          },
-          {
             "name": 2,
-            "price": 1290,
+            "price": 1800,
             "scabin": "Y",
             "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1180,
-            "scabin": "Y",
-            "discount": 0.91,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1120,
-            "scabin": "Y",
-            "discount": 0.86,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1050,
-            "scabin": "Y",
-            "discount": 0.81,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 930,
-            "scabin": "Y",
-            "discount": 0.71,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 810,
-            "scabin": "Y",
-            "discount": 0.61,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 680,
-            "scabin": "Y",
-            "discount": 0.51,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 620,
-            "scabin": "Y",
-            "discount": 0.46,
             "remainNum": 9
           }
         ],
@@ -433,13 +198,13 @@
     "duration": 135,
     "destination": "CT_289",
     "originPlace": "CT_131",
-    "originStation": "T3",
-    "departDateTime": "2017-09-27T22:55:00.000Z",
-    "arrivalDateTime": "2017-09-28T01:10:00.000Z",
+    "originStation": "T2",
+    "departDateTime": "2017-09-27T22:25:00.000Z",
+    "arrivalDateTime": "2017-09-28T00:40:00.000Z",
     "destinationStation": "T2"
-  },
+  } ,
   {
-    "No": "CA3202",
+    "No": "MU3662",
     "segs": [
 
     ],
@@ -450,37 +215,9 @@
         "cabins": [
           {
             "name": 2,
-            "price": 1290,
+            "price": 1900,
             "scabin": "Y",
             "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1220,
-            "scabin": "Y",
-            "discount": 0.94,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1120,
-            "scabin": "Y",
-            "discount": 0.86,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 990,
-            "scabin": "Y",
-            "discount": 0.76,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 870,
-            "scabin": "Y",
-            "discount": 0.66,
             "remainNum": 9
           }
         ],
@@ -490,13 +227,13 @@
     "duration": 135,
     "destination": "CT_289",
     "originPlace": "CT_131",
-    "originStation": "T3",
-    "departDateTime": "2017-09-27T22:55:00.000Z",
-    "arrivalDateTime": "2017-09-28T01:10:00.000Z",
+    "originStation": "T2",
+    "departDateTime": "2017-09-27T22:25:00.000Z",
+    "arrivalDateTime": "2017-09-28T00:40:00.000Z",
     "destinationStation": "T2"
-  },
+  } ,
   {
-    "No": "MU3924",
+    "No": "MU3662",
     "segs": [
 
     ],
@@ -507,30 +244,9 @@
         "cabins": [
           {
             "name": 2,
-            "price": 1290,
+            "price": 2000,
             "scabin": "Y",
             "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1220,
-            "scabin": "Y",
-            "discount": 0.94,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1030,
-            "scabin": "Y",
-            "discount": 0.79,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 840,
-            "scabin": "Y",
-            "discount": 0.64,
             "remainNum": 9
           }
         ],
@@ -540,775 +256,8 @@
     "duration": 135,
     "destination": "CT_289",
     "originPlace": "CT_131",
-    "originStation": "T3",
-    "departDateTime": "2017-09-27T22:55:00.000Z",
-    "arrivalDateTime": "2017-09-28T01:10:00.000Z",
-    "destinationStation": "T2"
-  },
-  {
-    "No": "CZ9271",
-    "segs": [
-
-    ],
-    "type": 1,
-    "agents": [
-      {
-        "name": "jingzhong",
-        "cabins": [
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1220,
-            "scabin": "Y",
-            "discount": 0.94,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1030,
-            "scabin": "Y",
-            "discount": 0.79,
-            "remainNum": 9
-          }
-        ],
-        "bookUrl": ""
-      }
-    ],
-    "duration": 140,
-    "destination": "CT_289",
-    "originPlace": "CT_131",
     "originStation": "T2",
-    "departDateTime": "2017-09-27T23:00:00.000Z",
-    "arrivalDateTime": "2017-09-28T01:20:00.000Z",
+    "departDateTime": "2017-09-27T22:25:00.000Z",
+    "arrivalDateTime": "2017-09-28T00:40:00.000Z",
     "destinationStation": "T2"
-  },
-  {
-    "No": "MU5138",
-    "segs": [
-
-    ],
-    "type": 1,
-    "agents": [
-      {
-        "name": "jingzhong",
-        "cabins": [
-          {
-            "name": 3,
-            "price": 4760,
-            "scabin": "F",
-            "discount": 3.8,
-            "remainNum": 9
-          },
-          {
-            "name": 4,
-            "price": 4290,
-            "scabin": "C",
-            "discount": 3.42,
-            "remainNum": 9
-          },
-          {
-            "name": 4,
-            "price": 3150,
-            "scabin": "C",
-            "discount": 2.5,
-            "remainNum": 9
-          },
-          {
-            "name": 4,
-            "price": 2530,
-            "scabin": "C",
-            "discount": 2,
-            "remainNum": 9
-          },
-          {
-            "name": 4,
-            "price": 1910,
-            "scabin": "C",
-            "discount": 1.5,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1280,
-            "scabin": "Y",
-            "discount": 0.99,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1220,
-            "scabin": "Y",
-            "discount": 0.94,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1150,
-            "scabin": "Y",
-            "discount": 0.89,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1090,
-            "scabin": "Y",
-            "discount": 0.84,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1030,
-            "scabin": "Y",
-            "discount": 0.79,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 970,
-            "scabin": "Y",
-            "discount": 0.74,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 840,
-            "scabin": "Y",
-            "discount": 0.64,
-            "remainNum": 9
-          }
-        ],
-        "bookUrl": ""
-      }
-    ],
-    "duration": 140,
-    "destination": "CT_289",
-    "originPlace": "CT_131",
-    "originStation": "T2",
-    "departDateTime": "2017-09-27T23:00:00.000Z",
-    "arrivalDateTime": "2017-09-28T01:20:00.000Z",
-    "destinationStation": "T2"
-  },
-  {
-    "No": "CA1831",
-    "segs": [
-
-    ],
-    "type": 1,
-    "agents": [
-      {
-        "name": "jingzhong",
-        "cabins": [
-          {
-            "name": 3,
-            "price": 4760,
-            "scabin": "F",
-            "discount": 3.8,
-            "remainNum": 4
-          },
-          {
-            "name": 3,
-            "price": 3830,
-            "scabin": "F",
-            "discount": 3.05,
-            "remainNum": 4
-          },
-          {
-            "name": 4,
-            "price": 4640,
-            "scabin": "C",
-            "discount": 3.7,
-            "remainNum": 4
-          },
-          {
-            "name": 4,
-            "price": 3150,
-            "scabin": "C",
-            "discount": 2.5,
-            "remainNum": 1
-          },
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1220,
-            "scabin": "Y",
-            "discount": 0.94,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1200,
-            "scabin": "Y",
-            "discount": 0.93,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1120,
-            "scabin": "Y",
-            "discount": 0.86,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1180,
-            "scabin": "Y",
-            "discount": 0.91,
-            "remainNum": 9
-          }
-        ],
-        "bookUrl": ""
-      }
-    ],
-    "duration": 130,
-    "destination": "CT_289",
-    "originPlace": "CT_131",
-    "originStation": "T3",
-    "departDateTime": "2017-09-27T23:30:00.000Z",
-    "arrivalDateTime": "2017-09-28T01:40:00.000Z",
-    "destinationStation": "T2"
-  },
-  {
-    "No": "MF3036",
-    "segs": [
-
-    ],
-    "type": 1,
-    "agents": [
-      {
-        "name": "jingzhong",
-        "cabins": [
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          }
-        ],
-        "bookUrl": ""
-      }
-    ],
-    "duration": 130,
-    "destination": "CT_289",
-    "originPlace": "CT_131",
-    "originStation": "T2",
-    "departDateTime": "2017-09-27T23:40:00.000Z",
-    "arrivalDateTime": "2017-09-28T01:50:00.000Z",
-    "destinationStation": "T1"
-  },
-  {
-    "No": "CZ9669",
-    "segs": [
-
-    ],
-    "type": 1,
-    "agents": [
-      {
-        "name": "jingzhong",
-        "cabins": [
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 7
-          }
-        ],
-        "bookUrl": ""
-      }
-    ],
-    "duration": 130,
-    "destination": "CT_289",
-    "originPlace": "CT_131",
-    "originStation": "T2",
-    "departDateTime": "2017-09-27T23:40:00.000Z",
-    "arrivalDateTime": "2017-09-28T01:50:00.000Z",
-    "destinationStation": "T1"
-  },
-  {
-    "No": "MU5183",
-    "segs": [
-
-    ],
-    "type": 1,
-    "agents": [
-      {
-        "name": "jingzhong",
-        "cabins": [
-          {
-            "name": 3,
-            "price": 4760,
-            "scabin": "F",
-            "discount": 3.8,
-            "remainNum": 1
-          }
-        ],
-        "bookUrl": ""
-      }
-    ],
-    "duration": 130,
-    "destination": "CT_289",
-    "originPlace": "CT_131",
-    "originStation": "T2",
-    "departDateTime": "2017-09-27T23:40:00.000Z",
-    "arrivalDateTime": "2017-09-28T01:50:00.000Z",
-    "destinationStation": "T1"
-  },
-  {
-    "No": "HU7605",
-    "segs": [
-
-    ],
-    "type": 1,
-    "agents": [
-      {
-        "name": "jingzhong",
-        "cabins": [
-          {
-            "name": 4,
-            "price": 4760,
-            "scabin": "C",
-            "discount": 3.8,
-            "remainNum": 9
-          },
-          {
-            "name": 4,
-            "price": 3030,
-            "scabin": "C",
-            "discount": 2.40322580645161,
-            "remainNum": 9
-          },
-          {
-            "name": 3,
-            "price": 2040,
-            "scabin": "F",
-            "discount": 1.6048387096774201,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1190,
-            "scabin": "Y",
-            "discount": 0.92,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1090,
-            "scabin": "Y",
-            "discount": 0.84,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 990,
-            "scabin": "Y",
-            "discount": 0.76,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 890,
-            "scabin": "Y",
-            "discount": 0.68,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 790,
-            "scabin": "Y",
-            "discount": 0.6,
-            "remainNum": 9
-          }
-        ],
-        "bookUrl": ""
-      }
-    ],
-    "duration": 130,
-    "destination": "CT_289",
-    "originPlace": "CT_131",
-    "originStation": "T1",
-    "departDateTime": "2017-09-27T23:50:00.000Z",
-    "arrivalDateTime": "2017-09-28T02:00:00.000Z",
-    "destinationStation": "T2"
-  },
-  {
-    "No": "CA1835",
-    "segs": [
-
-    ],
-    "type": 1,
-    "agents": [
-      {
-        "name": "jingzhong",
-        "cabins": [
-          {
-            "name": 3,
-            "price": 4760,
-            "scabin": "F",
-            "discount": 3.8,
-            "remainNum": 4
-          },
-          {
-            "name": 3,
-            "price": 3830,
-            "scabin": "F",
-            "discount": 3.05,
-            "remainNum": 4
-          },
-          {
-            "name": 4,
-            "price": 4640,
-            "scabin": "C",
-            "discount": 3.7,
-            "remainNum": 5
-          },
-          {
-            "name": 4,
-            "price": 3150,
-            "scabin": "C",
-            "discount": 2.5,
-            "remainNum": 5
-          },
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1220,
-            "scabin": "Y",
-            "discount": 0.94,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1200,
-            "scabin": "Y",
-            "discount": 0.93,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1120,
-            "scabin": "Y",
-            "discount": 0.86,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1050,
-            "scabin": "Y",
-            "discount": 0.81,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 990,
-            "scabin": "Y",
-            "discount": 0.76,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1180,
-            "scabin": "Y",
-            "discount": 0.91,
-            "remainNum": 9
-          }
-        ],
-        "bookUrl": ""
-      }
-    ],
-    "duration": 135,
-    "destination": "CT_289",
-    "originPlace": "CT_131",
-    "originStation": "T3",
-    "departDateTime": "2017-09-28T00:00:00.000Z",
-    "arrivalDateTime": "2017-09-28T02:15:00.000Z",
-    "destinationStation": "T2"
-  },
-  {
-    "No": "MU5693",
-    "segs": [
-
-    ],
-    "type": 1,
-    "agents": [
-      {
-        "name": "jingzhong",
-        "cabins": [
-          {
-            "name": 3,
-            "price": 4760,
-            "scabin": "F",
-            "discount": 3.8,
-            "remainNum": 7
-          },
-          {
-            "name": 4,
-            "price": 4290,
-            "scabin": "C",
-            "discount": 3.42,
-            "remainNum": 4
-          },
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1280,
-            "scabin": "Y",
-            "discount": 0.99,
-            "remainNum": 9
-          }
-        ],
-        "bookUrl": ""
-      }
-    ],
-    "duration": 270,
-    "destination": "CT_289",
-    "originPlace": "CT_131",
-    "originStation": "T2",
-    "departDateTime": "2017-09-28T00:05:00.000Z",
-    "arrivalDateTime": "2017-09-28T04:35:00.000Z",
-    "destinationStation": "T2"
-  },
-  {
-    "No": "MF1701",
-    "segs": [
-
-    ],
-    "type": 1,
-    "agents": [
-      {
-        "name": "jingzhong",
-        "cabins": [
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1220,
-            "scabin": "Y",
-            "discount": 0.94,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1090,
-            "scabin": "Y",
-            "discount": 0.84,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1030,
-            "scabin": "Y",
-            "discount": 0.79,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 970,
-            "scabin": "Y",
-            "discount": 0.74,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 910,
-            "scabin": "Y",
-            "discount": 0.69,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 840,
-            "scabin": "Y",
-            "discount": 0.64,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 720,
-            "scabin": "Y",
-            "discount": 0.54,
-            "remainNum": 9
-          }
-        ],
-        "bookUrl": ""
-      }
-    ],
-    "duration": 130,
-    "destination": "CT_289",
-    "originPlace": "CT_131",
-    "originStation": "T2",
-    "departDateTime": "2017-09-28T00:20:00.000Z",
-    "arrivalDateTime": "2017-09-28T02:30:00.000Z",
-    "destinationStation": "T2"
-  },
-  {
-    "No": "CZ3907",
-    "segs": [
-
-    ],
-    "type": 1,
-    "agents": [
-      {
-        "name": "jingzhong",
-        "cabins": [
-          {
-            "name": 4,
-            "price": 3520,
-            "scabin": "C",
-            "discount": 2.8,
-            "remainNum": 3
-          },
-          {
-            "name": 4,
-            "price": 2900,
-            "scabin": "C",
-            "discount": 2.3,
-            "remainNum": 3
-          },
-          {
-            "name": 4,
-            "price": 1480,
-            "scabin": "C",
-            "discount": 1.1532258064516099,
-            "remainNum": 1
-          },
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1290,
-            "scabin": "Y",
-            "discount": 1,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1220,
-            "scabin": "Y",
-            "discount": 0.94,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1090,
-            "scabin": "Y",
-            "discount": 0.84,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 1030,
-            "scabin": "Y",
-            "discount": 0.79,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 970,
-            "scabin": "Y",
-            "discount": 0.74,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 910,
-            "scabin": "Y",
-            "discount": 0.69,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 840,
-            "scabin": "Y",
-            "discount": 0.64,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 720,
-            "scabin": "Y",
-            "discount": 0.54,
-            "remainNum": 9
-          },
-          {
-            "name": 2,
-            "price": 660,
-            "scabin": "Y",
-            "discount": 0.49,
-            "remainNum": 1
-          }
-        ],
-        "bookUrl": ""
-      }
-    ],
-    "duration": 130,
-    "destination": "CT_289",
-    "originPlace": "CT_131",
-    "originStation": "T2",
-    "departDateTime": "2017-09-28T00:20:00.000Z",
-    "arrivalDateTime": "2017-09-28T02:30:00.000Z",
-    "destinationStation": "T2"
-  }]
+}]

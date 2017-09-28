@@ -39,7 +39,8 @@ export async function initHttp(app) {
         if(req.headers.origin && checkOrigin(req.headers.origin)){
             res.header('Access-Control-Allow-Origin', req.headers.origin);
         }
-        res.header('Access-Control-Allow-Methods', '*');
+
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
         res.header('Access-Control-Allow-Headers', req.headers['access-control-request-headers']);
         if (req.method == 'OPTIONS') {
             return res.send("OK");
@@ -49,13 +50,13 @@ export async function initHttp(app) {
     
     app.use('/api/v1', authenticate, router);
     router.param("companyId", async (req, res, next, value)=>{
-        let { accountId } = req["session"];
+        /* let { accountId } = req["session"];
         
         //如果存在companyId参数，验证companyId是否属于该accountId
         let companyCheck = await checkCompany(accountId , value);
         if(!companyCheck){
             return res.json(Reply(403, null));
-        }
+        } */
         next();
     });
 }

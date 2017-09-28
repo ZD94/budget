@@ -15,7 +15,7 @@ export async function authenticate(req, res, next) {
         return res.sendStatus(403);
     }
 
-    if(req.url.indexOf( "/auth/login" ) > -1){
+    /* if(req.url.indexOf( "/auth/login" ) > -1){
         //不检查ticket
         return next();
     }
@@ -26,7 +26,7 @@ export async function authenticate(req, res, next) {
         return res.json(Reply(500, null));
     }else{
         req.session = session;
-    }
+    } */
 
     return next();
 }

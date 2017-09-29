@@ -68,7 +68,7 @@ let trafficData = [
     { name: 'trafficPriceEqual', remark:'交通数据价格都为2000', data: trafficPriceEqual, method: 'equal' ,expectedResult: []},
     { name: 'trafficPriceNotEqual',remark:'交通数据价格规律变动', data: trafficPriceNotEqual, method: 'equal', expectedResult: [] },
     { name: 'trafficNegativeLowestPrice', remark:'交通数据价格含最小负值', data: trafficNegativeLowestPrice, method: 'equal',expectedResult: [] },
-    { name: 'trafficNegativeHighestPrice', remark:'交通数据价格含最大负值', data: trafficNegativeHighestPrice, method: 'equal',expectedResult: [] }
+    { name: 'trafficNegativeHighestPrice', remark:'交通数据价格含最大负值', data: trafficNegativeHighestPrice, method: 'equal',expectedResult: [] },
     { name: 'trafficNegativePrice', remark:'交通数据价格全为负值', data: trafficNegativePrice, method: 'equal',expectedResult: [] }
 ];
 
@@ -76,6 +76,7 @@ let percentage = [-1, 0, 0.5, 1, 2];
 // let percentage = [ 0.5, 1, 2];
 
 describe('Price-Scoring', function(){
+    //偏好值为20000的酒店价格打分
     describe('Hotel-Price-Scoring', async function () {
         for(let i =0; i < percentage.length; i++){
         // for(let i =0; i < 1; i++){
@@ -111,12 +112,12 @@ describe('Price-Scoring', function(){
         }
     })
 
-
-    describe('Domestic-Traffic-Price-Scoring', async function () {
-        for (let i = 0; i < hotelData.length; i++) {
+    //偏好值为20000的交通价格打分
+    describe('Traffic-Price-Scoring', async function () {
+        // for (let i = 0; i < trafficData.length; i++) {
             for (let i = 0; i < percentage.length; i++) {
                 // for(let i =0; i < 1; i++){
-                for (let ii = 0; ii < hotelData.length; ii++) {
+                for (let ii = 0; ii < trafficData.length; ii++) {
                     // for (let ii = 0; ii < 1; ii++) {
                     let allPrefers = {
                         "name": "price",
@@ -128,7 +129,7 @@ describe('Price-Scoring', function(){
                         }
                     };
                     let result:any = trafficData[ii].data;
-                    result = formatHotel(result);
+                    result = formatTicketData(result);
 
                     let pricePrefer = new PricePrefer(allPrefers.name, allPrefers.options);
                     result = await pricePrefer.markScoreProcess(result);
@@ -141,11 +142,10 @@ describe('Price-Scoring', function(){
                             }
                         });
                     });
-                    // fs.writeFileSync(`./${hotelData[ii].name}-${percentage[i]}.json`, JSON.stringify(result), 'utf-8');
+                    // fs.writeFileSync(`./${trafficData[ii].name}-${percentage[i]}.json`, JSON.stringify(result), 'utf-8');
 
                 }
             }
-        }
     })
 
 })

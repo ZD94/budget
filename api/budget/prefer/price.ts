@@ -89,19 +89,29 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
             if (v['type'] == ETrafficType.TRAIN) {
                 return v;
             }
+
             if (!v.reasons) v.reasons = [];
             if (!v.score) v.score = 0;
             if (self.level.indexOf(parseInt(v['cabin'])) < 0 && self.level.indexOf(parseInt(v['star'])) < 0) {
                 return v;
             }
-            let {scale, up} = price(v.price, this.type, minPrice, midPrice, maxPrice);
-            let score = Math.floor(scale * this.score);
-            v.score += score;
-            if (scale != 1) {
-                v.reasons.push(`价格偏好以${up ? '上' : '下'}价格 ${score}`);
-            } else {
-                v.reasons.push(`价格偏好相等价格 ${score}`);
+
+
+            if(self.percent >= 0 && self.percent <= 1) {
+                let {scale, up} = price(v.price, this.type, minPrice, midPrice, maxPrice);
+                let score = Math.floor(scale * this.score);
+                v.score += score;
+                if (scale != 1) {
+                    v.reasons.push(`价格偏好以${up ? '上' : '下'}价格 ${score}`);
+                } else {
+                    v.reasons.push(`价格偏好相等价格 ${score}`);
+                }
             }
+            if(self.percent < 0 || self.percent > 1) {
+                v.reasons.push(`价格偏好取值错误，不加分`);
+
+            }
+
             return v;
         })
         return data;

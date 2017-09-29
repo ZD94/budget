@@ -40,7 +40,10 @@ var hotelEmptyArray = require("./data/hotel-empty-array.json");
 var hotelPriceEqual = require("./data/hotel-price-equal.json");
 var hotelPriceNotEqual = require("./data/hotel-price-not-equal.json");
 var hotelPriceNegativeLowest = require("./data/hotel-negative-lowest-price.json");
+var hotelNegativePrice= require("./data/hotel-negative-price.json");
 var hotelPriceNegativeHighest = require("./data/hotel-negative-highest-price.json");
+var hotelPriceNegativeHighestFilter = require("./data/hotel-negative-highest-price-filter.json");
+var hotelPriceNegativeLowestFilter = require("./data/hotel-negative-lowest-price-filter.json");
 
 
 var trafficPriceEqual = require("./data/traffic-price-equal.json");
@@ -55,12 +58,14 @@ var hotel_levels = [2,3,4,5];
 var traffic = [1,2,3,4,5,6,7,8,9,10];
 
 let hotelData = [
-    { name: 'hotelEmptyArray', remark:'酒店数据空数组', data: hotelEmptyArray, method: 'notStrictEqual', expectedResult: [] },
-    { name: 'hotelPriceEqual', remark:'酒店数据价格都为2000', data: hotelPriceEqual, method: 'equal' ,expectedResult: hotelPriceEqual},
-    { name: 'hotelPriceNotEqual',remark:'酒店数据价格规律变动', data: hotelPriceNotEqual, method: 'equal', expectedResult: [] },
-    { name: 'hotelPriceNegativeLowest', remark:'酒店数据价格含最小负值', data: hotelPriceNegativeLowest, method: 'equal',expectedResult: [] },
-    { name: 'hotelPriceNegativeHighest', remark:'酒店数据价格含最大负值', data: hotelPriceNegativeHighest, method: 'equal',expectedResult: [] },
-    { name: 'trafficNegativePrice', remark:'酒店数据价格全为负值', data: trafficNegativePrice, method: 'equal',expectedResult: [] }
+    // { name: 'hotelEmptyArray', remark:'酒店数据空数组', data: hotelEmptyArray, method: 'notStrictEqual', expectedResult: [] },
+    // { name: 'hotelPriceEqual', remark:'酒店数据价格都为2000', data: hotelPriceEqual, method: 'equal' ,expectedResult: hotelPriceEqual},
+    // { name: 'hotelPriceNotEqual',remark:'酒店数据价格规律变动', data: hotelPriceNotEqual, method: 'equal', expectedResult: [] },
+    // { name: 'hotelPriceNegativeLowest', remark:'酒店数据价格含最小负值', data: hotelPriceNegativeLowest, method: 'equal',expectedResult: [] },
+    // { name: 'hotelPriceNegativeHighest', remark:'酒店数据价格含最大负值', data: hotelPriceNegativeHighest, method: 'equal',expectedResult: [] },
+    // { name: 'hotelNegativePrice', remark:'酒店数据价格全为负值', data: hotelNegativePrice, method: 'equal',expectedResult: [] },
+    { name: 'hotelPriceNegativeHighestFilter', remark:'酒店数据价格全为负值', data: hotelPriceNegativeHighestFilter, method: 'equal',expectedResult: [] },
+    { name: 'hotelPriceNegativeLowestFilter', remark:'酒店数据价格全为负值', data: hotelPriceNegativeLowestFilter, method: 'equal',expectedResult: [] }
 ];
 
 let trafficData = [
@@ -101,7 +106,7 @@ describe('Price-Scoring', function(){
                     it(`数组长度比较：Actual: ${result.length}, Expect: ${hotelData[ii].expectedResult.length}`, async function(){
                         assert[hotelData[ii].method](result.length, hotelData[ii].data.length, '打分前后数组长度与期待不符');
                         if(result && result.length){
-                            // assert[hotelData[ii].method](result[0].name, hotelData[ii].expectedResult.name, '打分后结果与期待不符');
+                            assert[hotelData[ii].method](result[0].name, hotelData[ii].expectedResult.name, '打分后结果与期待不符');
                         }
                     });
                 });

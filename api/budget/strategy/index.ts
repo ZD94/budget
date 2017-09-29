@@ -41,7 +41,9 @@ export function formatTicketData(tickets: ITicket[]) : IFinalTicket[] {
                     stops: tickets[i].stops,
                     segs: tickets[i].segs,
                 } as IFinalTicket
-                _tickets.push(_ticket);
+                if(_ticket.price && _ticket.price >= 0) {
+                    _tickets.push(_ticket);
+                }
             }
         }
     }
@@ -57,19 +59,21 @@ export function formatHotel(hotels: IHotel[]) : IFinalHotel[] {
             continue;
         }
         for(var j=0, jj=agents.length; j< jj; j++) {
-            _hotels.push({
-                name: hotel.name,
-                latitude: hotel.latitude,
-                longitude: hotel.longitude,
-                star: hotel.star,
-                price: agents[j].price,
-                bookUrl: agents[j].bookUrl,
-                agent: agents[j].name,
-                checkInDate: hotel.checkInDate,
-                checkOutDate: hotel.checkOutDate,
-                outPriceRange: false,
-                commentScore: hotel.commentScore,
-            } as IFinalHotel)
+            if(agents[j].price && agents[j].price >= 0) {
+                _hotels.push({
+                    name: hotel.name,
+                    latitude: hotel.latitude,
+                    longitude: hotel.longitude,
+                    star: hotel.star,
+                    price: agents[j].price,
+                    bookUrl: agents[j].bookUrl,
+                    agent: agents[j].name,
+                    checkInDate: hotel.checkInDate,
+                    checkOutDate: hotel.checkOutDate,
+                    outPriceRange: false,
+                    commentScore: hotel.commentScore,
+                } as IFinalHotel)
+            }
         }
     }
     return _hotels;

@@ -58,35 +58,43 @@ var hotel_levels = [2,3,4,5];
 var traffic = [1,2,3,4,5,6,7,8,9,10];
 
 let hotelData = [
-    // { name: 'hotelEmptyArray', remark:'酒店数据空数组', data: hotelEmptyArray, method: 'notStrictEqual', expectedResult: [] },
-    // { name: 'hotelPriceEqual', remark:'酒店数据价格都为2000', data: hotelPriceEqual, method: 'equal' ,expectedResult: hotelPriceEqual},
-    // { name: 'hotelPriceNotEqual',remark:'酒店数据价格规律变动', data: hotelPriceNotEqual, method: 'equal', expectedResult: [] },
-    // { name: 'hotelPriceNegativeLowest', remark:'酒店数据价格含最小负值', data: hotelPriceNegativeLowest, method: 'equal',expectedResult: [] },
-    // { name: 'hotelPriceNegativeHighest', remark:'酒店数据价格含最大负值', data: hotelPriceNegativeHighest, method: 'equal',expectedResult: [] },
-    // { name: 'hotelNegativePrice', remark:'酒店数据价格全为负值', data: hotelNegativePrice, method: 'equal',expectedResult: [] },
+    { name: 'hotelEmptyArray', remark:'酒店数据空数组', data: hotelEmptyArray, method: 'notStrictEqual', expectedResult: [] },
+    { name: 'hotelPriceEqual', remark:'酒店数据价格都为2000', data: hotelPriceEqual, method: 'equal' ,expectedResult: hotelPriceEqual},
+    { name: 'hotelPriceNotEqual',remark:'酒店数据价格规律变动', data: hotelPriceNotEqual, method: 'equal', expectedResult: [], price: 1600, score: 20000 },
+    { name: 'hotelPriceNegativeLowest', remark:'酒店数据价格含最小负值', data: hotelPriceNegativeLowest, method: 'equal',expectedResult: [] },
+    { name: 'hotelPriceNegativeHighest', remark:'酒店数据价格含最大负值', data: hotelPriceNegativeHighest, method: 'equal',expectedResult: [] },
+    { name: 'hotelNegativePrice', remark:'酒店数据价格全为负值', data: hotelNegativePrice, method: 'equal',expectedResult: [] },
     { name: 'hotelPriceNegativeHighestFilter', remark:'酒店数据价格全为负值', data: hotelPriceNegativeHighestFilter, method: 'equal',expectedResult: [] },
     { name: 'hotelPriceNegativeLowestFilter', remark:'酒店数据价格全为负值', data: hotelPriceNegativeLowestFilter, method: 'equal',expectedResult: [] }
 ];
+let hotelResult:any = [
+    { name: 'hotelEmptyArray',  method: 'notStrictEqual', expectedResult: [] },
+    { name: 'hotelPriceEqual',  method: 'equal' ,expectedResult: hotelPriceEqual, price: 1200, score: 20000},
+    { name: 'hotelPriceNotEqual', method: 'equal', expectedResult: [], price: 1600, score: 20000},
+    { name: 'hotelPriceNegativeLowest', method: 'equal',expectedResult: [] },
+    { name: 'hotelPriceNegativeHighest',  method: 'equal',expectedResult: [] },
+    { name: 'hotelNegativePrice', remark:'酒店数据价格全为负值', data: hotelNegativePrice, method: 'equal',expectedResult: [] },
+    { name: 'hotelPriceNegativeHighestFilter', remark:'酒店数据价格全为负值', data: hotelPriceNegativeHighestFilter, method: 'equal',expectedResult: [] },
+    { name: 'hotelPriceNegativeLowestFilter', remark:'酒店数据价格全为负值', data: hotelPriceNegativeLowestFilter, method: 'equal',expectedResult: [] }
+]
 
 let trafficData = [
     { name: 'trafficEmptyArray', remark:'交通数据空数组', data: trafficEmptyArray, method: 'notStrictEqual', expectedResult: [] },
     { name: 'trafficPriceEqual', remark:'交通数据价格都为2000', data: trafficPriceEqual, method: 'equal' ,expectedResult: []},
-    { name: 'trafficPriceNotEqual',remark:'交通数据价格规律变动', data: trafficPriceNotEqual, method: 'equal', expectedResult: [] },
+    { name: 'trafficPriceNotEqual',remark:'交通数据价格规律变动', data: trafficPriceNotEqual, method: 'equal', expectedResult: [], price: 1600, score: 20000},
     { name: 'trafficNegativeLowestPrice', remark:'交通数据价格含最小负值', data: trafficNegativeLowestPrice, method: 'equal',expectedResult: [] },
     { name: 'trafficNegativeHighestPrice', remark:'交通数据价格含最大负值', data: trafficNegativeHighestPrice, method: 'equal',expectedResult: [] },
     { name: 'trafficNegativePrice', remark:'交通数据价格全为负值', data: trafficNegativePrice, method: 'equal',expectedResult: [] }
 ];
 
 let percentage = [-1, 0, 0.5, 1, 2];
-// let percentage = [ 0.5, 1, 2];
+// let percentage = [ 0.5];
 
 describe('Price-Scoring', function(){
     //偏好值为20000的酒店价格打分
     describe('Hotel-Price-Scoring', async function () {
         for(let i =0; i < percentage.length; i++){
-        // for(let i =0; i < 1; i++){
             for (let ii = 0; ii < hotelData.length; ii++) {
-            // for (let ii = 0; ii < 1; ii++) {
                 let allPrefers ={
                     "name": "price",
                     "options": {
@@ -106,24 +114,22 @@ describe('Price-Scoring', function(){
                     it(`数组长度比较：Actual: ${result.length}, Expect: ${hotelData[ii].expectedResult.length}`, async function(){
                         assert[hotelData[ii].method](result.length, hotelData[ii].data.length, '打分前后数组长度与期待不符');
                         if(result && result.length){
-                            assert[hotelData[ii].method](result[0].name, hotelData[ii].expectedResult.name, '打分后结果与期待不符');
+                            if(hotelData[ii].name == 'hotelPriceNotEqual'){
+                                assert[hotelData[ii].method](result[0].price, hotelResult[ii].price, `打分后价格${result[0].price}与预期结果${hotelResult[ii].price}不符`);
+                                assert[hotelData[ii].method](result[0].score, hotelResult[ii].score, `打分后分数${result[0].score}与预期结果${hotelResult[ii].score}不符`);
+                            }
                         }
                     });
                 });
-
                 // fs.writeFileSync(`./${hotelData[ii].name}-${percentage[i]}.json`, JSON.stringify(result), 'utf-8');
-
             }
         }
     })
 
     //偏好值为20000的交通价格打分
     describe('Traffic-Price-Scoring', async function () {
-        // for (let i = 0; i < trafficData.length; i++) {
             for (let i = 0; i < percentage.length; i++) {
-                // for(let i =0; i < 1; i++){
                 for (let ii = 0; ii < trafficData.length; ii++) {
-                    // for (let ii = 0; ii < 1; ii++) {
                     let allPrefers = {
                         "name": "price",
                         "options": {
@@ -148,7 +154,6 @@ describe('Price-Scoring', function(){
                         });
                     });
                     // fs.writeFileSync(`./${trafficData[ii].name}-${percentage[i]}.json`, JSON.stringify(result), 'utf-8');
-
                 }
             }
     })

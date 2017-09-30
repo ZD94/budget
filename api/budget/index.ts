@@ -438,7 +438,7 @@ class ApiTravelBudget {
                 if(travelPolicyId) {
                     tp = await Models.travelPolicy.get(travelPolicyId);
                 }
-                if (fromCity && !seg.noTraffic) {
+                if (ret && fromCity && !seg.noTraffic) {
                     if(tp){
                         if(!toCity.isAbroad){
                             policies = {
@@ -458,7 +458,7 @@ class ApiTravelBudget {
                             }
                         }
                     }
-                    if(i == (segments.length -1)){
+                    if(ret && fromCity && i == (segments.length -1)){
                         isRetMarkedData = true;
                     }
                     let trafficParams = {

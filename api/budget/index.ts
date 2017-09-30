@@ -438,7 +438,7 @@ class ApiTravelBudget {
                 if(travelPolicyId) {
                     tp = await Models.travelPolicy.get(travelPolicyId);
                 }
-                if (ret && fromCity && !seg.noTraffic) {
+                if (fromCity && !seg.noTraffic) {
                     if(tp){
                         if(!toCity.isAbroad){
                             policies = {

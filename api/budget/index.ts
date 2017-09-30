@@ -353,7 +353,7 @@ class ApiTravelBudget {
             let goBackDay = goBackDate ? moment(goBackDate).format("YYYY-MM-DD") : null;
             let leaveDay = leaveDate ? moment(leaveDate).format("YYYY-MM-DD") : null;
             let days = 0;
-            if(!goBackDay || !leaveDay){
+            if(!goBackDay || !leaveDay || goBackDay == leaveDay){
                 days = 1;
             }else{
                 days = moment(goBackDay).diff(leaveDay, 'days');
@@ -376,10 +376,11 @@ class ApiTravelBudget {
                     }
                 }
 
+
                 budget = {};
-                budget.unit = preferedCurrency && typeof(preferedCurrency) != 'undefined' ? preferedCurrency: defaultCurrencyUnit,
+                budget.unit = preferedCurrency && typeof(preferedCurrency) != 'undefined' ? preferedCurrency: defaultCurrencyUnit;
                 budget.fromDate = leaveDate;
-                budget.endDate = (goBackDate == leaveDay || isHasBackSubsidy) ? goBackDate: moment(goBackDate).add(-1, 'days').format('YYYY-MM-DD');
+                budget.endDate = (goBackDay == leaveDay || isHasBackSubsidy) ? goBackDate : moment(goBackDate).add(-1, 'days').format('YYYY-MM-DD');
                 budget.price = totalMoney;
                 budget.duringDays = days;
                 budget.templates = templates;
@@ -618,7 +619,7 @@ class ApiTravelBudget {
                     if(company && company.isOpenSubsidyBudget && subsidies && subsidies.length){
                         let subsidyParams = {
                             subsidies: subsidies,
-                            leaveDate: seg.beginTime,
+                            leaveDate: seg.beginTime || seg.endTime,
                             goBackDate: seg.endTime,
                             isHasBackSubsidy: isHasBackSubsidy,
                             preferedCurrency: preferedCurrency

@@ -9,11 +9,11 @@ var DefaultRegionId = {
     abroad:  'Global'
 };
 var subsidyRegions = [
-    {name:DefaultRegion.abroad, cityIds: [DefaultRegionId.abroad], group: 2, types: [1,2,3]},
-    {name:DefaultRegion.domestic, cityIds: [DefaultRegionId.domestic], group: 1, types: [1,2,3]},
-    {name:"中国一类地区", cityIds: ['CT_340','CT_257','CT_289','CT_131'], group: 1, types: [2,3]},
-    {name:"中国二类地区", cityIds: ['CT_194','CT_179','CT_158','CT_317','CT_233','CT_058','CT_236','CT_315','CT_218','CT_167','CT_300','CT_075','CT_332','CT_288','CT_132'], group: 1, types: [2,3]},
-    {name:"港澳台", cityIds: ['CT_2912','CT_9000','CT_2911'], group: 2, types: [1,2,3]}
+    {name:DefaultRegion.abroad, cityIds: [DefaultRegionId.abroad], group: 2, types: '[1,2,3]'},
+    {name:DefaultRegion.domestic, cityIds: [DefaultRegionId.domestic], group: 1, types: '[1,2,3]'},
+    {name:'中国一类地区', cityIds: ['CT_340','CT_257','CT_289','CT_131'], group: 1, types: '[2,3]'},
+    {name:'中国二类地区', cityIds: ['CT_194','CT_179','CT_158','CT_317','CT_233','CT_058','CT_236','CT_315','CT_218','CT_167','CT_300','CT_075','CT_332','CT_288','CT_132'], group: 1, types: '[2,3]'},
+    {name:'港澳台', cityIds: ['CT_2912','CT_9000','CT_2911'], group: 2, types: '[1,2,3]'}
 ];
 
 
@@ -27,24 +27,26 @@ module.exports =async function(DB, t) {
         subsidyRegions.forEach(async (regionGroup) => {
             let cityIds = regionGroup.cityIds;
             let name = regionGroup.name;
-            let group = regionGroup.name;
-            let types = regionGroup.name;
+            let group = regionGroup.group;
+            let types = regionGroup.types;
             let sql1 = `select * from travel_policy.company_regions where company_id = '${company.id}' and name = '${name}'`;
             let companyRegion = await DB.query(sql1);
             if(companyRegion){
                 companyRegion = companyRegion[0];
             }
-            if(!companyRegion){
+            if(!(companyRegion && companyRegion.length)){
                 let id = uuid.v1();
                 let sql3 = `INSERT INTO travel_policy.company_regions(
             id, name, company_id, created_at, updated_at, "group", types)
     VALUES ('${id}', '${name}', '${company.id}', now(), now(), ${group}, '${types}');`;
+                console.info( "sql3==", sql3);
                 await DB.query(sql3);
 
                 await Promise.all(cityIds.map(async (cityId) => {
                     let sql4 = `INSERT INTO travel_policy.region_places(
             id, place_id, company_region_id, created_at, updated_at)
     VALUES ('${uuid.v1()}', '${cityId}', '${id}', now(), now());`;
+                    console.info( "sql4==", sql4);
                     await DB.query(sql4);
                 }));
             }

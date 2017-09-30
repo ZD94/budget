@@ -11,6 +11,7 @@ import {
 const validate = require("common/validate");
 import L from '@jingli/language';
 const moment = require('moment');
+require("moment-timezone");
 const cache = require("common/cache");
 const utils = require("common/utils");
 import _ = require("lodash");
@@ -252,14 +253,29 @@ class ApiTravelBudget {
         });
 
         let leaveDate = moment(latestArrivalTime || earliestDepartTime).format('YYYY-MM-DD');
-        if (!tickets) {
-            tickets = await API.traffic.search_tickets({
+        let searchParams: {[index: string]: string} = {}
+        if(isRetMarkedData && typeof(isRetMarkedData) != 'undefined') {
+            let atimezone = fromCity && fromCity.timezone? fromCity.timezone: 'Asia/Shanghai';
+            leaveDate = moment(latestArrivalTime || earliestDepartTime).tz(atimezone).format('YYYY-MM-DD');
+            searchParams = {
                 leaveDate: leaveDate,
                 originPlace: fromCity.id,
                 destination: toCity.id
-            })
-        }
+            }
 
+        }
+        if(!isRetMarkedData || typeof(isRetMarkedData) == 'undefined') {
+            let dtimezone = toCity && toCity.timezone? toCity.timezone: 'Asia/Shanghai';
+            leaveDate = moment(latestArrivalTime || earliestDepartTime).tz(dtimezone).format('YYYY-MM-DD');
+            searchParams = {
+                leaveDate: leaveDate,
+                originPlace: fromCity.id,
+                destination: toCity.id
+            }
+        }
+        if (!tickets) {
+            tickets = await API.traffic.search_tickets(searchParams)
+        }
 
         let staffBudgets = await Promise.all( staffs.map( async (staff) => {
             let policyKey = staff.policy || 'default';
@@ -441,6 +457,9 @@ class ApiTravelBudget {
                                 }
                             }
                         }
+                    }
+                    if(i == (segments.length -1)){
+                        isRetMarkedData = true;
                     }
                     let trafficParams = {
                         policies: policies,

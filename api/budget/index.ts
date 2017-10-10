@@ -343,6 +343,7 @@ class ApiTravelBudget {
             return trafficBudget as ITrafficBudgetItem;
         }))
 
+
         return staffBudgets;
     }
 
@@ -381,7 +382,7 @@ class ApiTravelBudget {
                 budget = {};
                 budget.unit = preferedCurrency && typeof(preferedCurrency) != 'undefined' ? preferedCurrency: defaultCurrencyUnit;
                 budget.fromDate = leaveDate;
-                budget.endDate = (goBackDay == leaveDay || isHasBackSubsidy) ? goBackDate : moment(goBackDate).add(-1, 'days').toDate();
+                budget.endDate = (goBackDay == leaveDay || isHasBackSubsidy) ? goBackDate : moment(goBackDate).tz(timezone).add(-1, 'days').toDate();
                 budget.price = totalMoney;
                 budget.duringDays = days;
                 budget.templates = templates;

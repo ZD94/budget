@@ -11,6 +11,7 @@ import {
 const validate = require("common/validate");
 import L from '@jingli/language';
 const moment = require('moment');
+require("moment-timezone");
 const cache = require("common/cache");
 const utils = require("common/utils");
 import _ = require("lodash");
@@ -254,14 +255,29 @@ class ApiTravelBudget {
         });
 
         let leaveDate = moment(latestArrivalTime || earliestDepartTime).format('YYYY-MM-DD');
-        if (!tickets) {
-            tickets = await API.traffic.search_tickets({
+        let searchParams: {[index: string]: string} = {}
+        if(isRetMarkedData && typeof(isRetMarkedData) != 'undefined') {
+            let atimezone = fromCity && fromCity.timezone? fromCity.timezone: 'Asia/Shanghai';
+            leaveDate = moment(latestArrivalTime || earliestDepartTime).tz(atimezone).format('YYYY-MM-DD');
+            searchParams = {
                 leaveDate: leaveDate,
                 originPlace: fromCity.id,
                 destination: toCity.id
-            })
-        }
+            }
 
+        }
+        if(!isRetMarkedData || typeof(isRetMarkedData) == 'undefined') {
+            let dtimezone = toCity && toCity.timezone? toCity.timezone: 'Asia/Shanghai';
+            leaveDate = moment(latestArrivalTime || earliestDepartTime).tz(dtimezone).format('YYYY-MM-DD');
+            searchParams = {
+                leaveDate: leaveDate,
+                originPlace: fromCity.id,
+                destination: toCity.id
+            }
+        }
+        if (!tickets) {
+            tickets = await API.traffic.search_tickets(searchParams)
+        }
 
         let staffBudgets = await Promise.all( staffs.map( async (staff) => {
             let policyKey = staff.policy || 'default';
@@ -343,17 +359,19 @@ class ApiTravelBudget {
             return trafficBudget as ITrafficBudgetItem;
         }))
 
+
         return staffBudgets;
     }
 
-    static async getSubsidyBudget(params: {subsidies: PolicyRegionSubsidy[], leaveDate: Date, goBackDate: Date, isHasBackSubsidy: boolean, preferedCurrency?: string}): Promise<any> {
-        let { subsidies, leaveDate, goBackDate, isHasBackSubsidy, preferedCurrency } = params;
+    static async getSubsidyBudget(params: {subsidies: PolicyRegionSubsidy[], leaveDate: Date, goBackDate: Date, isHasBackSubsidy: boolean, preferedCurrency?: string, toCity: ICity}): Promise<any> {
+        let { subsidies, leaveDate, goBackDate, isHasBackSubsidy, preferedCurrency, toCity } = params;
         let budget: any = null
+        let timezone = toCity ? (toCity.timezone || 'Asia/Shanghai') : 'Asia/Shanghai';
         if (subsidies && subsidies.length) {
-            let goBackDay = goBackDate ? moment(goBackDate).format("YYYY-MM-DD") : null;
-            let leaveDay = leaveDate ? moment(leaveDate).format("YYYY-MM-DD") : null;
+            let goBackDay = goBackDate ? moment(goBackDate).tz(timezone).format("YYYY-MM-DD") : null;
+            let leaveDay = leaveDate ? moment(leaveDate).tz(timezone).format("YYYY-MM-DD") : null;
             let days = 0;
-            if(!goBackDay || !leaveDay){
+            if(!goBackDay || !leaveDay || goBackDay == leaveDay){
                 days = 1;
             }else{
                 days = moment(goBackDay).diff(leaveDay, 'days');
@@ -376,14 +394,16 @@ class ApiTravelBudget {
                     }
                 }
 
+
                 budget = {};
-                budget.unit = preferedCurrency && typeof(preferedCurrency) != 'undefined' ? preferedCurrency: defaultCurrencyUnit,
+                budget.unit = preferedCurrency && typeof(preferedCurrency) != 'undefined' ? preferedCurrency: defaultCurrencyUnit;
                 budget.fromDate = leaveDate;
-                budget.endDate = (goBackDate == leaveDay || isHasBackSubsidy) ? goBackDate: moment(goBackDate).add(-1, 'days').format('YYYY-MM-DD');
+                budget.endDate = (goBackDay == leaveDay || isHasBackSubsidy) ? goBackDate : moment(goBackDate).tz(timezone).add(-1, 'days').toDate();
                 budget.price = totalMoney;
                 budget.duringDays = days;
                 budget.templates = templates;
                 budget.type = EBudgetType.SUBSIDY;
+                budget.timezone = timezone;
                 if(preferedCurrency == defaultCurrencyUnit){
                     budget.rate = 1;
                 }else{
@@ -522,6 +542,9 @@ class ApiTravelBudget {
                             }
                         }
                     }
+                    if(ret && fromCity && i == (segments.length -1)){
+                        isRetMarkedData = true;
+                    }
                     let trafficParams = {
                         policies: policies,
                         staffs: seg.staffs && seg.staffs.length ? seg.staffs : staffs,
@@ -615,11 +638,13 @@ class ApiTravelBudget {
                     if(company && company.isOpenSubsidyBudget && subsidies && subsidies.length){
                         let subsidyParams = {
                             subsidies: subsidies,
-                            leaveDate: seg.beginTime,
+                            leaveDate: seg.beginTime || seg.endTime,
                             goBackDate: seg.endTime,
                             isHasBackSubsidy: isHasBackSubsidy,
-                            preferedCurrency: preferedCurrency
+                            preferedCurrency: preferedCurrency,
+                            toCity: toCity
                         };
+
                         tasks.push(ApiTravelBudget.getSubsidyBudget(subsidyParams));
                     }else{
                         tasks.push(null);

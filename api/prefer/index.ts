@@ -75,7 +75,7 @@ async function checkPrefer(params:{
     regionPlace: RegionPlace
 }){
     let {regionPlace} = params;
-    let prefer = await Models.preferRegion.get(regionPlace.companyRegion.id);
+    let prefer = await Models.preferRegion.get(regionPlace["companyRegion"]["id"]);
 
     let targetPrefer;
     targetPrefer = prefer && prefer.budgetConfig;

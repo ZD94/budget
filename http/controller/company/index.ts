@@ -27,7 +27,6 @@ export class CompanyController extends AbstractModelController{
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
-
     async get(req, res, next) {
 
         let companyId = req.params.id;
@@ -75,7 +74,6 @@ export class CompanyController extends AbstractModelController{
         res.json(this.reply(0, companies));
     }
 
-
     async update(req, res, next) {
         let params = req.body;
         let id = params.id;
@@ -92,6 +90,31 @@ export class CompanyController extends AbstractModelController{
         obj = await obj.save();
         res.json(this.reply(0, obj));
     }
+
+    async add(req, res, next){
+        let params = req.body;
+        let {id} = params;
+        if(!id || typeof(id) == 'undefined') {
+            return res.json(this.reply(502, null));
+        }
+        let checkCompany = await Models.company.get(id);
+        if(checkCompany){
+            return res.json(this.reply(403, null));
+        }
+
+        let company = Company.create({
+            id
+        });
+        for(let key in params){
+            if(companyCols.indexOf(key) >= 0){
+                company[key] = params[key];
+            }
+        }
+        company = await company.save();
+        res.json(this.reply(0, company));
+    }
+
+
 
     /*
      * body { companyId }

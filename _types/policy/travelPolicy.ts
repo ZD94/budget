@@ -187,10 +187,10 @@ export class TravelPolicy extends ModelObject{
         for(let i =0; i <tprs.length; i++){
             if(tprs[i]["companyRegionId"] && typeof(tprs[i]['companyRegionId']) != 'undefined'){
                 let crObj = await Models.companyRegion.get(tprs[i]['companyRegionId']);
-                if(crObj['types'] && _.isArray(crObj['types']) && crObj['types'].indexOf(companyRegionType) >= 0) {
+                if(crObj && crObj['types'] && _.isArray(crObj['types']) && crObj['types'].indexOf(companyRegionType) >= 0) {
                     crIds.push(tprs[i]["companyRegionId"]);
                 }
-                if(!crObj['types']) {
+                if(crObj && !crObj['types']) {
                     crIds.push(tprs[i]["companyRegionId"]);
                 }
             }

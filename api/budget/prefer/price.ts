@@ -66,8 +66,7 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
         let midPrice = 0;
         let maxPrice = 0;
         let minPrice = 0;
-
-        data.forEach( (v: (IFinalHotel|IFinalTicket)) => {
+        data.forEach((v:(IFinalHotel|IFinalTicket)) => {
             if (v['type'] == ETrafficType.TRAIN) {
                 return;
             }
@@ -76,37 +75,47 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
             }
         });
 
-        if (targetTickets.length){
-            targetTickets.sort( function(v1, v2) {
+        if (targetTickets.length) {
+            targetTickets.sort(function (v1, v2) {
                 return v1.price - v2.price;
             });
-            maxPrice = targetTickets[targetTickets.length-1].price;
+            maxPrice = targetTickets[targetTickets.length - 1].price;
             minPrice = targetTickets[0].price;
             midPrice = minPrice + (maxPrice - minPrice) * self.percent;
         }
 
-        data = data.map( (v: (IFinalHotel|IFinalTicket)) => {
+
+        data = data.map((v:(IFinalHotel|IFinalTicket)) => {
             if (v['type'] == ETrafficType.TRAIN) {
                 return v;
             }
-            if(!v.reasons) v.reasons = [];
-            if(!v.score) v.score = 0;
+
+            if (!v.reasons) v.reasons = [];
+            if (!v.score) v.score = 0;
             if (self.level.indexOf(parseInt(v['cabin'])) < 0 && self.level.indexOf(parseInt(v['star'])) < 0) {
                 return v;
             }
-            let {scale, up} = price(v.price, this.type, minPrice, midPrice, maxPrice);
-            let score = Math.floor(scale*this.score);
-            v.score += score;
-            if(scale != 1){
-                v.reasons.push(`价格偏好以${up?'上':'下'}价格 ${score}`);
-            }else{
-                v.reasons.push(`价格偏好相等价格 ${score}`);
+
+
+            if(self.percent >= 0 && self.percent <= 1) {
+                let {scale, up} = price(v.price, this.type, minPrice, midPrice, maxPrice);
+                let score = Math.floor(scale * this.score);
+                v.score += score;
+                if (scale != 1) {
+                    v.reasons.push(`价格偏好以${up ? '上' : '下'}价格 ${score}`);
+                } else {
+                    v.reasons.push(`价格偏好相等价格 ${score}`);
+                }
             }
+            if(self.percent < 0 || self.percent > 1) {
+                v.reasons.push(`价格偏好取值错误，不加分`);
+
+            }
+
             return v;
         })
         return data;
     }
-
 }
 
 export= PricePrefer;

@@ -62,7 +62,7 @@
         {
             "name": "directArrive",
             "options": {
-                "deductScorePerStop": 10000
+                "baseScore": 20000
             }
         },
         {

@@ -24,11 +24,11 @@ export async function authenticate(req, res, next) {
             }
             return next();
         }
-        // if (key && key == 'jinglicloud2017') {
+        if (key && key == 'jinglicloud2017') {
             req.session.accountId = 'e95df65c-6316-4517-9bfe-5605218d6908';
             return next();
-        // }
-        // return res.statusCode(403);
+        }
+        return res.statusCode(403);
     } catch (err) { 
         return next(err);
     }

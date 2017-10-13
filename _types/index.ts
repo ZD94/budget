@@ -14,6 +14,7 @@ import {CurrencyRate, Currency} from "_types/currency";
 import {Account, AccountCompany} from "_types/account";
 import {CompanyConfig} from "_types/company";
 import {PreferRegion} from "./preferRegion";
+import {CommonSupplier, SupplierAlternateName} from "_types/commonSupplier";
 
 export interface ModelsInterface {
     budget: ModelInterface<Budget>;
@@ -36,6 +37,8 @@ export interface ModelsInterface {
     accountCompany: ModelInterface<AccountCompany>;
     preferRegion: ModelInterface<PreferRegion>;
     companyConfig: ModelInterface<CompanyConfig>;
+    commonSupplier: ModelInterface<CommonSupplier>;
+    supplierAlternateName: ModelInterface<SupplierAlternateName>;
 }
 
 
@@ -61,6 +64,8 @@ export var Models: ModelsInterface = {
     account: new ModelDelegate<Account>(),
     accountCompany: new ModelDelegate<AccountCompany>(),
     preferRegion: new ModelDelegate<PreferRegion>(),
-    companyConfig: new ModelDelegate<CompanyConfig>()
+    companyConfig: new ModelDelegate<CompanyConfig>(),
+    commonSupplier: new ModelDelegate<CommonSupplier>(),
+    supplierAlternateName: new ModelDelegate<SupplierAlternateName>()
 };
 

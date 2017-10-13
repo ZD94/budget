@@ -15,6 +15,7 @@ import {Company} from "_types/company";
 import {Account, AccountCompany} from "_types/account";
 import {PreferRegion} from "_types/preferRegion";
 import {CompanyConfig} from "_types/company";
+import {CommonSupplier, SupplierAlternateName} from "_types/commonSupplier";
 
 
 export function initModels(models: ModelsInterface){
@@ -45,4 +46,6 @@ initModels({
     accountCompany: createServerService<AccountCompany>(AccountCompany),
     preferRegion: createServerService<PreferRegion>(PreferRegion),
     companyConfig: createServerService<CompanyConfig>(CompanyConfig),
+    commonSupplier: createServerService<CommonSupplier>(CommonSupplier),
+    supplierAlternateName: createServerService<SupplierAlternateName>(SupplierAlternateName)
 });

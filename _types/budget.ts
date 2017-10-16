@@ -138,6 +138,7 @@ export interface ITicket {
     type: ETrafficType,
     stops?: string[],   //中转城市
     segs?: ISegment[],
+    carry?: string
 }
 
 export interface IFinalTicket {
@@ -158,6 +159,7 @@ export interface IFinalTicket {
     stops?: string[];
     segs?: any[];
     bookUrl?: string;
+    carry?: string;
 }
 
 export interface ICraft {
@@ -298,6 +300,8 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     discount?: number;                  //大致折扣
     no?: string;
     bookurl?: string;
+    agent?: string;
+    carry?: string;
 }
 
 export interface ITrafficBudgetResult extends Array<ITrafficBudgetItem> {
@@ -313,6 +317,7 @@ export interface IHotelBudgetItem extends IBudgetItem {
     latitude?: number;
     longitude?: number;
     bookurl?: string;
+    commentScore?: number;
 
 }
 

@@ -40,10 +40,15 @@ export default async function update(DB: Sequelize, t: Transaction){
                                     where company_id = '${allCompanies[i].id}' and name = '${defaultRegions[j]}' and deleted_at is null;`;
                 let companyRegions = await DB.query(companyRegionSql, {type: SEQUELIZE.QueryTypes.SELECT});
                 if(companyRegions && companyRegions.length) {
-                    let createTprSql = `insert into travel_policy.travel_policy_regions(id, travel_policy_id, company_region_id, 
+                    let isExisted = await DB.query(`select * from travel_policy.travel_policy_regions 
+                                                    where travel_policy_id = '${allTps[jj]}' and company_regions_id = '${companyRegions[0].id}' and deleted_at is null;`,
+                        {type: SEQUELIZE.QueryTypes.SELECT});
+                    if(!isExisted || isExisted.length == 0) {
+                        let createTprSql = `insert into travel_policy.travel_policy_regions(id, travel_policy_id, company_region_id, 
                                          plane_levels, train_levels, hotel_levels, traffic_prefer, hotel_prefer, created_at, updated_at) 
                                     values('${uuid()}', '${allTps[jj].id}', '${companyRegions[0].id}', '', '', '', 50,50, now(), now())`;
-                    await DB.query(createTprSql);
+                        await DB.query(createTprSql);
+                    }
                 }
             }
         }

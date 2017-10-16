@@ -20,3 +20,11 @@ INSERT INTO travel_policy.travel_policy_regions (
     VALUES ('f1da07c0-5262-11e7-a802-a5c30e487da2', 'dc6f4e50-a9f2-11e5-a9a3-9ff0188d1c1a', '{2}', '{3,7}', '{2}',
             -1, -1, '9f3ea7a0-7526-11e7-8d7a-fb2cf68e71e9',now(), now());
 
+
+update travel_policy.travel_policy_regions set traffic_prefer = 50
+where traffic_prefer is null or hotel_prefer = -1;
+
+update travel_policy.travel_policy_regions set hotel_prefer = 50
+where hotel_prefer is null or hotel_prefer = -1;
+
+

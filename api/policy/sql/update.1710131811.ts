@@ -35,6 +35,7 @@ export default async function update(DB: Sequelize, t: Transaction){
         let allTpsSql = `select * from travel_policy.travel_policy where company_id = '${allCompanies[i].id}' and deleted_at is null;`;
         let allTps = await DB.query(allTpsSql, {type: SEQUELIZE.QueryTypes.SELECT});
         for(let jj=0; jj < allTps.length; jj++) {
+            let gangAoTai = [];
             for(let j = 0; j < defaultRegions.length; j++){
                 let companyRegionSql = `select * from travel_policy.company_regions 
                                     where company_id = '${allCompanies[i].id}' and name = '${defaultRegions[j]}' and deleted_at is null;`;
@@ -43,11 +44,23 @@ export default async function update(DB: Sequelize, t: Transaction){
                     let isExisted = await DB.query(`select * from travel_policy.travel_policy_regions 
                                                     where travel_policy_id = '${allTps[jj]}' and company_regions_id = '${companyRegions[0].id}' and deleted_at is null;`,
                         {type: SEQUELIZE.QueryTypes.SELECT});
+
+                    if(isExisted && isExisted.length && defaultRegions[j] == '国际') {
+                        gangAoTai.push( `${isExisted[0].plane_levels}`, `${isExisted[0].train_levels}`, `${isExisted[0].hotel_levels}`);
+                    }
+
                     if(!isExisted || isExisted.length == 0) {
-                        let createTprSql = `insert into travel_policy.travel_policy_regions(id, travel_policy_id, company_region_id, 
+                        if(gangAoTai && gangAoTai.length && defaultRegions[j] == '港澳台') {
+                            let createTprSql = `insert into travel_policy.travel_policy_regions(id, travel_policy_id, company_region_id, 
                                          plane_levels, train_levels, hotel_levels, traffic_prefer, hotel_prefer, created_at, updated_at) 
-                                    values('${uuid()}', '${allTps[jj].id}', '${companyRegions[0].id}', '', '', '', 50,50, now(), now())`;
-                        await DB.query(createTprSql);
+                                    values('${uuid()}', '${allTps[jj].id}', '${companyRegions[0].id}', '${gangAoTai[0]}', '${gangAoTai[0]}', '${gangAoTai[0]}', 50,50, now(), now())`;
+                            await DB.query(createTprSql);
+                        } else {
+                            let createTprSql = `insert into travel_policy.travel_policy_regions(id, travel_policy_id, company_region_id, 
+                                         plane_levels, train_levels, hotel_levels, traffic_prefer, hotel_prefer, created_at, updated_at) 
+                                    values('${uuid()}', '${allTps[jj].id}', '${companyRegions[0].id}', '{2}', '{3}', '{3}', 50,50, now(), now())`;
+                            await DB.query(createTprSql);
+                        }
                     }
                 }
             }

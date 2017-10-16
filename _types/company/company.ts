@@ -3,14 +3,12 @@ import { Types, Values } from 'common/model';
 import {Table, Create, Field, ResolveRef, RemoteCall} from 'common/model/common';
 import { ModelObject } from 'common/model/object';
 
-
 export enum HotelPriceLimitType  {
     NO_SET = 0,
     Min_Price_Limit = -1,
     Max_Price_Limit = 1,
     Price_Limit_Both = 2
 }
-
 
 @Table(Models.company, "company.company")
 export class Company extends ModelObject{
@@ -45,6 +43,5 @@ export class Company extends ModelObject{
     @Field({type: Types.INTEGER, defaultValue: HotelPriceLimitType.NO_SET})
     get priceLimitType(): any { return HotelPriceLimitType.NO_SET};
     set priceLimitType(val: any) {}
-
 
 }

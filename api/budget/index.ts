@@ -566,7 +566,6 @@ class ApiTravelBudget {
 
                 //判断停留时间是否跨天
                 let timezone = toCity.timezone || 'Asia/Shanghai';
-
                 if (!seg.noHotel && countDays(seg.endTime, seg.beginTime, timezone) > 0) {
                     if(tp) {
                         if(toCity["isAbroad"]){
@@ -586,8 +585,6 @@ class ApiTravelBudget {
                             }
                             policies['abroad'] = _.assign(policies['abroad'], await getHotelPriceLimit(toCity['id'], companyId, tp))
                         }
-
-
                         if(!toCity["isAbroad"]){
                             policies = {
                                 domestic:{
@@ -913,3 +910,4 @@ async function getHotelPriceLimit(placeId: string, companyId:string, tp: TravelP
     }
     return hotelPrice;
 }
+

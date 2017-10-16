@@ -14,7 +14,7 @@ import _ = require("lodash");
 import {Models} from "_types/index";
 import {defaultCurrencyUnit} from "../index"
 
-function formatTicketData(tickets: ITicket[]) : IFinalTicket[] {
+export function formatTicketData(tickets: ITicket[]) : IFinalTicket[] {
     let _tickets : IFinalTicket[] = [];
     //把数据平铺
     for(var i=0, ii=tickets.length; i<ii; i++) {
@@ -41,14 +41,16 @@ function formatTicketData(tickets: ITicket[]) : IFinalTicket[] {
                     stops: tickets[i].stops,
                     segs: tickets[i].segs,
                 } as IFinalTicket
-                _tickets.push(_ticket);
+                if(_ticket.price && _ticket.price >= 0) {
+                    _tickets.push(_ticket);
+                }
             }
         }
     }
     return _tickets;
 }
 
-function formatHotel(hotels: IHotel[]) : IFinalHotel[] {
+export function formatHotel(hotels: IHotel[]) : IFinalHotel[] {
     let _hotels: IFinalHotel[] = [];
     for(let i=0, ii=hotels.length; i<ii; i++) {
         let hotel = hotels[i]
@@ -57,19 +59,21 @@ function formatHotel(hotels: IHotel[]) : IFinalHotel[] {
             continue;
         }
         for(var j=0, jj=agents.length; j< jj; j++) {
-            _hotels.push({
-                name: hotel.name,
-                latitude: hotel.latitude,
-                longitude: hotel.longitude,
-                star: hotel.star,
-                price: agents[j].price,
-                bookUrl: agents[j].bookUrl,
-                agent: agents[j].name,
-                checkInDate: hotel.checkInDate,
-                checkOutDate: hotel.checkOutDate,
-                outPriceRange: false,
-                commentScore: hotel.commentScore,
-            } as IFinalHotel)
+            if(agents[j].price && agents[j].price >= 0) {
+                _hotels.push({
+                    name: hotel.name,
+                    latitude: hotel.latitude,
+                    longitude: hotel.longitude,
+                    star: hotel.star,
+                    price: agents[j].price,
+                    bookUrl: agents[j].bookUrl,
+                    agent: agents[j].name,
+                    checkInDate: hotel.checkInDate,
+                    checkOutDate: hotel.checkOutDate,
+                    outPriceRange: false,
+                    commentScore: hotel.commentScore,
+                } as IFinalHotel)
+            }
         }
     }
     return _hotels;
@@ -148,13 +152,14 @@ export abstract class AbstractHotelStrategy {
             }
         }
 
+
         _hotels = await this.getMarkedScoreHotels(_hotels);
+
         _hotels.sort( (v1, v2) => {
             return v2.score - v1.score;
         });
         _hotels = await this.customMarkedScoreData(_hotels);
         let ret = _hotels[0];
-
         let rate = 1;
         if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
             rate = await getExpectedCurrencyRate(preferedCurrency);

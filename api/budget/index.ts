@@ -285,10 +285,10 @@ class ApiTravelBudget {
             let trainSeat = staffPolicy.trainSeat;
             let cabin = staffPolicy.cabin;
 
-            let isAllow = cabin && cabin == ForbiddenPlane ? true: false;
+            let isForbiddenByPlane = cabin && _.isArray(cabin) && cabin.indexOf(ForbiddenPlane) >= 0 ? true: false;
             //若设置禁止飞机，那么会设置仓位最低的经济舱去进行打分
-            if(isAllow) {
-                cabin = EPlaneLevel.ECONOMY;
+            if(isForbiddenByPlane) {
+                cabin = [EAirCabin.ECONOMY];
             }
             // let shipCabin = staffPolicy.shipCabin;
             let qs = {
@@ -319,10 +319,9 @@ class ApiTravelBudget {
                 });
             }
             //追加是否允许乘坐飞机
-            if (isAllow) {
-                cabin
+            if (isForbiddenByPlane) {
                 allPrefers.push({
-                    "name":"forbiddenPlane",
+                    "name":"RefusedPlane",
                     "options":{"type":"square","score":50000,"percent": 0 }
                 })
             }

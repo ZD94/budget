@@ -204,7 +204,7 @@ export class TravelPolicy extends ModelObject{
             if(cps && cps.length ){
                 let expectedTpr = await Models.travelPolicyRegion.find({where: {travelPolicyId: self.id,companyRegionId: cps[0]["companyRegionId"]}});
                 if(type == ForbiddenType && expectedTpr && expectedTpr.length && expectedTpr[0]['allowPlane'] == false) {
-                    return ForbiddenPlane;
+                    return [ForbiddenPlane];
                 }
                 if(expectedTpr && expectedTpr.length && expectedTpr[0][type]){
                     return expectedTpr[0][type];

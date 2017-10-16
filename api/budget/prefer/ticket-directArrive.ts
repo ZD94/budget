@@ -27,7 +27,7 @@ class DirectArrivePrefer extends AbstractPrefer<IFinalTicket> {
             if (!v.reasons) {
                 v.reasons = [];
             }
-            
+
             if (v.segs && v.segs.length) {
                 let l = v.segs.length;
                 if (l > 1) {

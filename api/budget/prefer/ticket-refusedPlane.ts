@@ -20,7 +20,6 @@ class RefusedPlanePrefer extends AbstractPrefer<IFinalTicket> {
             if (v.type == ETrafficType.PLANE) {
                 v['score'] += self.score;
                 v.reasons.push(`不乘坐飞机 ${self.score}`);
-                return v;
             }
             return v;
         })

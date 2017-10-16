@@ -321,8 +321,8 @@ class ApiTravelBudget {
             //追加是否允许乘坐飞机
             if (isForbiddenByPlane) {
                 allPrefers.push({
-                    "name":"RefusedPlane",
-                    "options":{"type":"square","score":50000,"percent": 0 }
+                    "name":"refusedPlane",
+                    "options":{"type":"square","score": -5000000,"percent": 0 }
                 })
             }
 

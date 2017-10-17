@@ -5,7 +5,7 @@
 
 //可以直接require服务器根目录下的模块
 require('app-module-path').addPath(__dirname);
-require('common/node_ts').install();
+// require('common/node_ts').install();
 
 Error.stackTraceLimit = 40;
 var zone = require('@jingli/zone-setup');
@@ -23,7 +23,7 @@ if(config.debug) {
 
 var path = require('path');
 
-var Logger = require('@jingli/logger');
+var Logger = require('@jingli/logger').default;
 Logger.init(config.logger);
 var logger = new Logger('main');
 

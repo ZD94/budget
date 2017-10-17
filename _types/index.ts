@@ -11,7 +11,7 @@ import {TravelPolicy,SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionP
 import {Supplier} from "./supplier";
 import {Company} from "_types/company";
 import {CurrencyRate, Currency} from "_types/currency";
-import {Account, AccountCompany} from "_types/account";
+import {Account, AccountCompany, Warrant} from "_types/account";
 import {CompanyConfig} from "_types/company";
 import {PreferRegion} from "./preferRegion";
 
@@ -34,6 +34,7 @@ export interface ModelsInterface {
     company: ModelInterface<Company>;
     account: ModelInterface<Account>;
     accountCompany: ModelInterface<AccountCompany>;
+    warrant: ModelInterface<Warrant>;
     preferRegion: ModelInterface<PreferRegion>;
     companyConfig: ModelInterface<CompanyConfig>;
 }
@@ -60,6 +61,7 @@ export var Models: ModelsInterface = {
     company: new ModelDelegate<Company>(),
     account: new ModelDelegate<Account>(),
     accountCompany: new ModelDelegate<AccountCompany>(),
+    warrant: new ModelDelegate<Warrant>(),
     preferRegion: new ModelDelegate<PreferRegion>(),
     companyConfig: new ModelDelegate<CompanyConfig>()
 };

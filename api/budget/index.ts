@@ -42,10 +42,27 @@ import config = require("@jingli/config");
 export var NoCityPriceLimit = 0;
 var config = require("@jingli/config");
 import {HotelPriceLimitType} from "_types/company";
-import {ECompanyRegionUsedType} from "_types/policy/companyRegion"
+import {ECompanyRegionUsedType} from "_types/policy/companyRegion";
+let haversine = require("haversine");
 
-class ApiTravelBudget {
 
+export interface ISearchHotelParams {
+    checkInDate: string;
+    checkOutDate: string;
+    cityId: string;
+    location?: {
+        latitude: number,
+        longitude: number,
+    },
+}
+
+export interface ISearchTicketParams {
+    leaveDate: string;
+    originPlaceId: string;
+    destinationId: string;
+}
+
+class ApiTravelBudget{
     static __initHttpApp(app) {
         app.get("/deeplink", async (req, res, next)=>{
             console.log(req.query.id);
@@ -55,6 +72,48 @@ class ApiTravelBudget {
                 'bookurl': bookurl
             });
         });
+    }
+
+    static async getHotelsData(params: ISearchHotelParams){
+        let {checkInDate, checkOutDate, cityId, location} = params;
+        let city = await CityService.getCity(cityId);
+        location = location || {
+            latitude : city.latitude,
+            longitude: city.longitude
+        };
+    
+        let hotels = await API.hotels.search_hotels({
+            checkInDate,
+            checkOutDate,
+            city: city.id,
+            latitude: location.latitude,
+            longitude: location.longitude
+        });
+
+        //computer the distance
+        hotels.map((item)=>{
+            item.distance = haversine(location, {
+                latitude : item.latitude,
+                longitude: item.longitude
+            }, { unit: "meter" });
+            item.distance = Math.round( item.distance );
+        });
+
+        return hotels;
+    }
+
+    static async getTrafficsData(params: ISearchTicketParams){
+        let {leaveDate, originPlaceId, destinationId} = params;
+        let originPlace = await CityService.getCity(originPlaceId);
+        let destination = await CityService.getCity(destinationId);
+       
+        let tickets = await API.traffic.search_tickets({
+            leaveDate: leaveDate,
+            originPlace: originPlaceId,
+            destination: destinationId
+        });
+
+        return tickets;
     }
 
     static async getHotelBudget(params: IQueryHotelBudgetParams): Promise<IHotelBudgetResult> {

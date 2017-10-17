@@ -323,7 +323,7 @@ class ApiTravelBudget {
             if (isForbiddenByPlane) {
                 allPrefers.push({
                     "name":"refusedPlane",
-                    "options":{"type":"square","score": -5000000,"percent": 0 }
+                    "options":{"type":"square","score": -1000000,"percent": 0 }
                 })
             }
 

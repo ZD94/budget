@@ -343,12 +343,12 @@ export class TravelPolicyRegion extends ModelObject{
 
     //设置交通偏好
     @Field({type: Types.INTEGER, defaultValue: 50})
-    get trafficPrefer(): number { return -1 }
+    get trafficPrefer(): number { return 50 }
     set trafficPrefer(trafficPrefer: number){}
 
     //设置住宿偏好
     @Field({type: Types.INTEGER, defaultValue: 50})
-    get hotelPrefer(): number { return -1 }
+    get hotelPrefer(): number { return 50 }
     set hotelPrefer(hotelPrefer: number){}
 
     @Field({type: Types.INTEGER})

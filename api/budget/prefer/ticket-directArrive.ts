@@ -27,11 +27,12 @@ class DirectArrivePrefer extends AbstractPrefer<IFinalTicket> {
             if (!v.reasons) {
                 v.reasons = [];
             }
+            
             if (v.segs && v.segs.length) {
                 let l = v.segs.length;
                 if (l > 1) {
                     let score = self.baseScore * ( 1- (l - 1) * self.rate);
-                    v.score += Math.round(score);
+                    v.score += score;
                     v.reasons.push(`需经过${l-1}次中转: ${score}`);
                 }
             }

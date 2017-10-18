@@ -117,5 +117,6 @@ export var ticketPrefers = {
     directArrive: require('./ticket-directArrive'),
     transitWaitDuration: require('./ticket-transitWaitDurationPrefer'),
     transitCityInChina: require("./ticket-transitCityInChinaPrefer"),
-    compareTrainPlanPrice : require("./ticket-compareTrainPlanPrice")
+    compareTrainPlanPrice : require("./ticket-compareTrainPlanPrice"),
+    refusedPlane: require("./ticket-refusedPlane")
 }

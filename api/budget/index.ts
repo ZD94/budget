@@ -36,7 +36,7 @@ var logger = new Logger("budget");
 import {PolicyRegionSubsidy} from "_types/policy/policyRegionSubsidy";
 
 import { getSuitablePrefer } from "../prefer"
-import { TravelPolicy } from "_types/policy";
+import { TravelPolicy,ForbiddenPlane,EPlaneLevel} from "_types/policy";
 import config = require("@jingli/config");
 
 export var NoCityPriceLimit = 0;
@@ -284,6 +284,13 @@ class ApiTravelBudget {
             let staffPolicy = policies[policyKey] || {};
             let trainSeat = staffPolicy.trainSeat;
             let cabin = staffPolicy.cabin;
+
+            //若获取的飞机仓位为-1，则表示该地区禁止乘坐飞机
+            let isForbiddenByPlane = cabin && _.isArray(cabin) && cabin.indexOf(ForbiddenPlane) >= 0 ? true: false;
+            //若设置禁止飞机，那么会设置仓位最低的经济舱去进行打分
+            if(isForbiddenByPlane) {
+                cabin = [EAirCabin.ECONOMY];
+            }
             // let shipCabin = staffPolicy.shipCabin;
             let qs = {
                 local: {
@@ -312,6 +319,14 @@ class ApiTravelBudget {
                     })
                 });
             }
+            //追加是否允许乘坐飞机
+            if (isForbiddenByPlane) {
+                allPrefers.push({
+                    "name":"refusedPlane",
+                    "options":{"type":"square","score": -1000000,"percent": 0 }
+                })
+            }
+
             let strategy = await TrafficBudgetStrategyFactory.getStrategy({
                 fromCity,
                 toCity,

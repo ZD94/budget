@@ -183,6 +183,7 @@ class ApiTravelBudget {
 
             let hotelBudget: IHotelBudgetItem = {
                 id: budget.id,
+                commentScore: budget.commentScore,
                 checkInDate: params.checkInDate,
                 checkOutDate: params.checkOutDate,
                 city: (<ICity>city).id,
@@ -353,9 +354,11 @@ class ApiTravelBudget {
             })
             deeplinkItem = await deeplinkItem.save();
 
-            var jingliLinkT = `t.jingli365.com/bookurl/${deeplinkItem.id}`;
             let trafficBudget: ITrafficBudgetItem = {
                 id: budget.id,
+                no: budget.no,
+                agent: budget.agent,
+                carry: budget.carry,
                 departTime: budget.departTime,
                 arrivalTime: budget.arrivalTime,
                 trafficType: budget.trafficType,
@@ -369,8 +372,9 @@ class ApiTravelBudget {
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: jingliLinkT
+                bookurl: deeplinkItem.url
             }
+
             return trafficBudget as ITrafficBudgetItem;
         }))
 

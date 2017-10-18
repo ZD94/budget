@@ -339,7 +339,6 @@ class ApiTravelBudget {
             })
             deeplinkItem = await deeplinkItem.save();
 
-            var jingliLinkT = `t.jingli365.com/bookurl/${deeplinkItem.id}`;
             let trafficBudget: ITrafficBudgetItem = {
                 id: budget.id,
                 no: budget.no,
@@ -358,7 +357,7 @@ class ApiTravelBudget {
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: jingliLinkT
+                bookurl: deeplinkItem.url
             }
 
             return trafficBudget as ITrafficBudgetItem;

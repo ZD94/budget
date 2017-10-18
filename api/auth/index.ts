@@ -101,6 +101,9 @@ export async function getToken(proxy: string, company?: string) {
   let where = company ? { proxy, company } : { proxy }
   const warrants = await Models.warrant.find({ where });
 
+  if (warrants.length < 0)
+    return { code: 401, data: null, msg: '无权访问' }
+
   const { app_id, app_secret } = await Models.company.get(warrants[0].company);
   return genToken(app_id, app_secret);
 }

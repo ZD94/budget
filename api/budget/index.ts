@@ -50,18 +50,16 @@ export interface ISearchHotelParams {
     checkInDate: string;
     checkOutDate: string;
     cityId: string;
-    travelPolicyId: string;
     location?: {
         latitude: number,
         longitude: number,
-    },
+    }
 }
 
 export interface ISearchTicketParams {
     leaveDate: string;
     originPlaceId: string;
     destinationId: string;
-    travelPolicyId: string;
 }
 
 class ApiTravelBudget{
@@ -108,14 +106,12 @@ class ApiTravelBudget{
     }
 
     static async getHotelsData(params: ISearchHotelParams){
-        let {checkInDate, checkOutDate, cityId, location, travelPolicyId} = params;
+        let {checkInDate, checkOutDate, cityId, location} = params;
         let city = await CityService.getCity(cityId);
         location = location || {
             latitude : city.latitude,
             longitude: city.longitude
         };
-
-        let travelPolicy = await ApiTravelBudget.getTravelPolicy(travelPolicyId, cityId);
     
         let hotels = await API.hotels.search_hotels({
             checkInDate,
@@ -134,12 +130,11 @@ class ApiTravelBudget{
             item.distance = Math.round( item.distance );
         });
 
-        return { rows : hotels, travelPolicy};
+        return hotels;
     }
 
     static async getTrafficsData(params: ISearchTicketParams){
-        let {leaveDate, originPlaceId, destinationId, travelPolicyId} = params;
-        let travelPolicy = await ApiTravelBudget.getTravelPolicy(travelPolicyId, destinationId);
+        let {leaveDate, originPlaceId, destinationId} = params;
 
         let tickets = await API.traffic.search_tickets({
             leaveDate: leaveDate,
@@ -147,7 +142,7 @@ class ApiTravelBudget{
             destination: destinationId
         });
 
-        return { rows: tickets, travelPolicy};
+        return tickets;
     }
 
     static async getHotelBudget(params: IQueryHotelBudgetParams): Promise<IHotelBudgetResult> {

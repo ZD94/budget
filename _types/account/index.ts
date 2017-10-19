@@ -1,3 +1,3 @@
 export * from "./account";
 export * from "./accountCompany";
-export * from "./warrant";
+export * from "./authorization";

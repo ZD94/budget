@@ -44,4 +44,12 @@ export class Company extends ModelObject{
     get priceLimitType(): any { return HotelPriceLimitType.NO_SET};
     set priceLimitType(val: any) {}
 
+    @Field({ type: Types.STRING })
+    get appId(): string { return null }
+    set appId(appId: string) { }
+
+    @Field({ type: Types.STRING })
+    get appSecret(): string { return null }
+    set appSecret(appSecret: string) { }
+
 }

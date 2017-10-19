@@ -1,25 +1,25 @@
-import { v1 } from 'uuid'
 import { Models } from '_types';
 import { Types, Values } from 'common/model';
 import { Table, Create, Field, ResolveRef, RemoteCall } from 'common/model/common';
 import { ModelObject } from 'common/model/object';
+let uuid = require("uuid");
 
-@Table(Models.warrant, "auth.warrant")
-export class Warrant extends ModelObject {
+@Table(Models.authorization, "auth.authorization")
+export class Authorization extends ModelObject {
   constructor(target: Object) {
     super(target);
   }
 
   @Create()
-  static create(obj?: Object): Warrant { return null }
+  static create(obj?: Object): Authorization { return null }
 
   @Field({ type: Types.UUID })
-  get id() { return v1() }
+  get id() { return uuid.v1() }
   set id(id) { }
 
   @Field({ type: Types.UUID })
-  get proxy() { return null }
-  set proxy(proxy: string) { }
+  get agent() { return null }
+  set agent(agent: string) { }
 
   @Field({ type: Types.UUID })
   get company() { return null }
@@ -29,7 +29,5 @@ export class Warrant extends ModelObject {
   get status() { return null }
   set status(status: number) { }
 
-  @Field({ type: Types.DATE })
-  get createdAt(): Date { return null }
-  set createdAt(createdAt: Date) { }
+
 }

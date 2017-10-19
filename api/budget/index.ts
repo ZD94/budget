@@ -36,16 +36,33 @@ var logger = new Logger("budget");
 import {PolicyRegionSubsidy} from "_types/policy/policyRegionSubsidy";
 
 import { getSuitablePrefer } from "../prefer"
-import { TravelPolicy } from "_types/policy";
+import { TravelPolicy,ForbiddenPlane,EPlaneLevel} from "_types/policy";
 import config = require("@jingli/config");
 
 export var NoCityPriceLimit = 0;
 var config = require("@jingli/config");
 import {HotelPriceLimitType} from "_types/company";
-import {ECompanyRegionUsedType} from "_types/policy/companyRegion"
+import {ECompanyRegionUsedType} from "_types/policy/companyRegion";
+let haversine = require("haversine");
 
-class ApiTravelBudget {
 
+export interface ISearchHotelParams {
+    checkInDate: string;
+    checkOutDate: string;
+    cityId: string;
+    location?: {
+        latitude: number,
+        longitude: number,
+    }
+}
+
+export interface ISearchTicketParams {
+    leaveDate: string;
+    originPlaceId: string;
+    destinationId: string;
+}
+
+class ApiTravelBudget{
     static __initHttpApp(app) {
         app.get("/deeplink", async (req, res, next)=>{
             console.log(req.query.id);
@@ -55,6 +72,77 @@ class ApiTravelBudget {
                 'bookurl': bookurl
             });
         });
+    }
+
+    static async getTravelPolicy(travelPolicyId:string, destinationId:string){
+        let tp = await Models.travelPolicy.get(travelPolicyId);
+        return {
+            cabin: await tp.getBestTravelPolicy({
+                placeId: destinationId,
+                type: "planeLevels",
+                companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+            }),
+            trainSeat: await tp.getBestTravelPolicy({
+                placeId:destinationId,
+                type: "trainLevels",
+                companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+            }),
+            trafficPrefer: await tp.getBestTravelPolicy({
+                placeId:destinationId,
+                type: "trafficPrefer",
+                companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+            }),
+            hotelStar: await tp.getBestTravelPolicy({
+                placeId: destinationId,
+                type: "hotelLevels",
+                companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+            }),
+            hotelPrefer: await tp.getBestTravelPolicy({
+                placeId: destinationId,
+                type: "hotelPrefer",
+                companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+            })
+        }
+    }
+
+    static async getHotelsData(params: ISearchHotelParams){
+        let {checkInDate, checkOutDate, cityId, location} = params;
+        let city = await CityService.getCity(cityId);
+        location = location || {
+            latitude : city.latitude,
+            longitude: city.longitude
+        };
+    
+        let hotels = await API.hotels.search_hotels({
+            checkInDate,
+            checkOutDate,
+            city: city.id,
+            latitude: location.latitude,
+            longitude: location.longitude
+        });
+
+        //computer the distance
+        hotels.map((item)=>{
+            item.distance = haversine(location, {
+                latitude : item.latitude,
+                longitude: item.longitude
+            }, { unit: "meter" });
+            item.distance = Math.round( item.distance );
+        });
+
+        return hotels;
+    }
+
+    static async getTrafficsData(params: ISearchTicketParams){
+        let {leaveDate, originPlaceId, destinationId} = params;
+
+        let tickets = await API.traffic.search_tickets({
+            leaveDate: leaveDate,
+            originPlace: originPlaceId,
+            destination: destinationId
+        });
+
+        return tickets;
     }
 
     static async getHotelBudget(params: IQueryHotelBudgetParams): Promise<IHotelBudgetResult> {
@@ -183,6 +271,7 @@ class ApiTravelBudget {
 
             let hotelBudget: IHotelBudgetItem = {
                 id: budget.id,
+                commentScore: budget.commentScore,
                 checkInDate: params.checkInDate,
                 checkOutDate: params.checkOutDate,
                 city: (<ICity>city).id,
@@ -284,6 +373,13 @@ class ApiTravelBudget {
             let staffPolicy = policies[policyKey] || {};
             let trainSeat = staffPolicy.trainSeat;
             let cabin = staffPolicy.cabin;
+
+            //若获取的飞机仓位为-1，则表示该地区禁止乘坐飞机
+            let isForbiddenByPlane = cabin && _.isArray(cabin) && cabin.indexOf(ForbiddenPlane) >= 0 ? true: false;
+            //若设置禁止飞机，那么会设置仓位最低的经济舱去进行打分
+            if(isForbiddenByPlane) {
+                cabin = [EAirCabin.ECONOMY];
+            }
             // let shipCabin = staffPolicy.shipCabin;
             let qs = {
                 local: {
@@ -312,6 +408,14 @@ class ApiTravelBudget {
                     })
                 });
             }
+            //追加是否允许乘坐飞机
+            if (isForbiddenByPlane) {
+                allPrefers.push({
+                    "name":"refusedPlane",
+                    "options":{"type":"square","score": -1000000,"percent": 0 }
+                })
+            }
+
             let strategy = await TrafficBudgetStrategyFactory.getStrategy({
                 fromCity,
                 toCity,
@@ -338,9 +442,11 @@ class ApiTravelBudget {
             })
             deeplinkItem = await deeplinkItem.save();
 
-            var jingliLinkT = `t.jingli365.com/bookurl/${deeplinkItem.id}`;
             let trafficBudget: ITrafficBudgetItem = {
                 id: budget.id,
+                no: budget.no,
+                agent: budget.agent,
+                carry: budget.carry,
                 departTime: budget.departTime,
                 arrivalTime: budget.arrivalTime,
                 trafficType: budget.trafficType,
@@ -354,8 +460,9 @@ class ApiTravelBudget {
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: jingliLinkT
+                bookurl: deeplinkItem.url
             }
+
             return trafficBudget as ITrafficBudgetItem;
         }))
 

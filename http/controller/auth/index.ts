@@ -4,9 +4,9 @@
 
 'use strict';
 
-import { AbstractController, Restful, Router } from "@jingli/restful";
-import { Models } from "_types";
-import { Login, signIn, getCompany, updateSession } from "api/auth";
+import {AbstractController, Restful, Router} from "@jingli/restful";
+import {Models} from "_types";
+import {Login, signIn, getCompany, updateSession} from "api/auth";
 
 let cache = require("common/cache");
 
@@ -35,13 +35,14 @@ export class AuthController extends AbstractController {
             console.error(e)
             return res.json(this.reply(403, null));
         }
+        // console.log(result)
         return res.json(this.reply(result.code, result.data));
     }
 
     @Router("/quit", "post")
     async quit(req, res, next) {
-        let ticket = req.headers['ticket'] || req.query.ticket;
-        let result = await cache.remove(ticket);
+        let token = req.headers['token'] || req.query.token;
+        let result = await cache.remove(token);
 
         return res.json(this.reply(0, null));
     }

@@ -5,8 +5,8 @@
 
 'use strict';
 
-import { verifyToken } from 'api/auth/jwt';
-import { ERR_TEXT, Reply } from "@jingli/restful";
+import {verifyToken} from 'api/auth/jwt';
+import {ERR_TEXT, Reply} from "@jingli/restful";
 
 const cache = require('common/cache')
 
@@ -22,7 +22,11 @@ export async function authenticate(req, res, next) {
         if (token) {
             const result = await cache.read(token);
             if (result) {
-                session = await verifyToken(token, result.appSecret);
+                try {
+                    session = await verifyToken(token, result.appSecret);
+                } catch (e) {
+                    return res.json(Reply(498, null));
+                }
                 if (!session) {
                     return res.json(Reply(500, null));
                 }

@@ -40,6 +40,7 @@ export function formatTicketData(tickets: ITicket[]) : IFinalTicket[] {
                     type: tickets[i].type,
                     stops: tickets[i].stops,
                     segs: tickets[i].segs,
+                    carry: tickets[i].carry
                 } as IFinalTicket
                 if(_ticket.price && _ticket.price >= 0) {
                     _tickets.push(_ticket);
@@ -177,7 +178,8 @@ export abstract class AbstractHotelStrategy {
             star: ret.star,
             latitude: ret.latitude,
             longitude: ret.longitude,
-            bookurl: ret.bookUrl
+            bookurl: ret.bookUrl,
+            commentScore: ret.commentScore
         }
 
         if (self.isRecord) {
@@ -303,7 +305,8 @@ export abstract class AbstractTicketStrategy {
             departTime: new Date(ret.departDateTime),
             arrivalTime: new Date(ret.arrivalDateTime),
             trafficType: ret.type,
-            bookurl: ret.bookUrl
+            bookurl: ret.bookUrl,
+            carry: ret.carry
         }
 
         if (self.isRecord) {

@@ -10,11 +10,13 @@ import { Account } from "_types/account";
 import { Company } from "_types/company";
 import { createTicket } from "./util";
 import * as config from "@jingli/config";
-import { EXPIRES, generateToken, verifyToken } from "./jwt";
+import { generateToken, verifyToken } from "./jwt";
 
 const cache = require('common/cache')
 let validator = require('validator');
 let md5 = require("md5");
+
+const EXPIRES = 20 * 60;
 
 export enum AuthStatus {
     UNACTIVED = 0,
@@ -187,7 +189,7 @@ export async function getTokenByAgent(agentToken: string, companyId: string) {
     try {
         payload = await verifyToken(agentToken, session.appSecret);
     } catch (e) {
-        res.code = 400;
+        res.code = 498;
         return res;
     }
 

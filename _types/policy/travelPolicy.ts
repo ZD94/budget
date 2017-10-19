@@ -111,6 +111,8 @@ export var TravelPolicyType = {
     trafficPrefer: 'trafficPrefer'
 }
 
+export var ForbiddenPlane = -1;
+export var ForbiddenType = 'planeLevels';
 
 export function enumPlaneLevelToStr(planeLevels: EPlaneLevel[]) :string {
     if (!planeLevels) return '';
@@ -201,6 +203,9 @@ export class TravelPolicy extends ModelObject{
                 where: {companyRegionId: {$in: crIds}, placeId: placeid}});
             if(cps && cps.length ){
                 let expectedTpr = await Models.travelPolicyRegion.find({where: {travelPolicyId: self.id,companyRegionId: cps[0]["companyRegionId"]}});
+                if(type == ForbiddenType && expectedTpr && expectedTpr.length && expectedTpr[0]['allowPlane'] == false) {
+                    return [ForbiddenPlane];
+                }
                 if(expectedTpr && expectedTpr.length && expectedTpr[0][type]){
                     return expectedTpr[0][type];
                 }
@@ -342,13 +347,13 @@ export class TravelPolicyRegion extends ModelObject{
     // set planeDiscount(planeDiscount: number){}
 
     //设置交通偏好
-    @Field({type: Types.INTEGER})
-    get trafficPrefer(): number { return -1 }
+    @Field({type: Types.INTEGER, defaultValue: 50})
+    get trafficPrefer(): number { return 50 }
     set trafficPrefer(trafficPrefer: number){}
 
     //设置住宿偏好
-    @Field({type: Types.INTEGER})
-    get hotelPrefer(): number { return -1 }
+    @Field({type: Types.INTEGER, defaultValue: 50})
+    get hotelPrefer(): number { return 50 }
     set hotelPrefer(hotelPrefer: number){}
 
     @Field({type: Types.INTEGER})
@@ -358,6 +363,10 @@ export class TravelPolicyRegion extends ModelObject{
     @Field({type: Types.INTEGER})
     get maxPriceLimit():number {return null;}
     set maxPriceLimit(val: number) {}
+
+    @Field({type: Types.BOOLEAN})
+    get allowPlane():boolean {return null;}
+    set allowPlane(val: boolean) {}
 
 }
 

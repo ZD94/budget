@@ -5,7 +5,7 @@
 
 //可以直接require服务器根目录下的模块
 require('app-module-path').addPath(__dirname);
-// require('common/node_ts').install();
+require('common/node_ts').install();
 
 Error.stackTraceLimit = 40;
 var zone = require('@jingli/zone-setup');
@@ -17,22 +17,22 @@ Promise.promisifyAll(require("fs"));
 var config = require("@jingli/config");
 
 Promise.config({ warnings: false });
-if(config.debug) {
+if (config.debug) {
     Promise.config({ longStackTraces: false });
 }
 
 var path = require('path');
 
-var Logger = require('@jingli/logger').default;
+var Logger = require('@jingli/logger');
 Logger.init(config.logger);
 var logger = new Logger('main');
 
-// var cache = require("common/cache").default;
-// cache.init({redis_conf: config.redis.url, prefix: 'jlbudget:cache'});
+var cache = require("common/cache");
+cache.init({ redis_conf: config.redis.url, prefix: 'jlbudget:cache' });
 
 var db = require('@jingli/database');
 db.init(config.postgres.url);
-db.DB.sync({force: false});
+db.DB.sync({ force: false });
 
 var API = require('@jingli/dnode-api');
 
@@ -43,7 +43,7 @@ server.cluster = config.cluster;
 
 server.http_logtype = config.logger.httptype;
 server.http_port = config.port;
-if(config.socket_file){
+if (config.socket_file) {
     server.http_port = config.socket_file;
 }
 server.http_root = path.join(__dirname, 'www');
@@ -55,23 +55,23 @@ server.api_port = config.apiPort;
 server.api_config = config.api;
 
 //
-server.on('init.api', function(API){
+server.on('init.api', function (API) {
     console.log("init.api")
-//     API.registerAuthWeb(API.auth.authentication);
+    //     API.registerAuthWeb(API.auth.authentication);
 });
 
-server.on('init.http', function(httpserver){
+server.on('init.http', function (httpserver) {
     console.log("init.http")
 });
 
 
 var httpModule = require('./http');
-server.on('init.http_handler', function(app) {
+server.on('init.http_handler', function (app) {
     httpModule.initHttp(app);
 })
 
 
-zone.forkStackTrace().run(function(){
+zone.forkStackTrace().run(function () {
     require("common/model/index")
     server.start();
 });

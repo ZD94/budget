@@ -4,21 +4,21 @@
 
 
 export * from "./util";
-import {Models} from "_types";
-import {ERR_TEXT} from "@jingli/restful";
-import {Account} from "_types/account";
-import {Company} from "_types/company";
-import {createTicket} from "./util";
+import { Models } from "_types";
+import { ERR_TEXT } from "@jingli/restful";
+import { Account } from "_types/account";
+import { Company } from "_types/company";
+import { createTicket } from "./util";
 import * as config from "@jingli/config";
-import {EXPIRES, generateToken} from "./jwt";
+import { EXPIRES, generateToken, verifyToken } from "./jwt";
 
 const cache = require('common/cache')
 let validator = require('validator');
 let md5 = require("md5");
 
 export enum AuthStatus {
-    cancled = 0,
-    actived = 1
+    UNACTIVED = 0,
+    ACTIVED = 1
 }
 
 /*
@@ -54,7 +54,7 @@ export async function Login(params: {
     sign: string;
     timestamp: number;
 }) {
-    let {username, sign, timestamp} = params;
+    let { username, sign, timestamp } = params;
     let result = {
         code: 0,
         data: null,
@@ -101,14 +101,18 @@ export async function Login(params: {
     });
 
     result.code = 0;
-    result.data = {ticket: {ticket, expireTimes: config.sessionTime * 60 * 1000}};
+    result.data = { ticket: { ticket, expireTimes: config.sessionTime * 60 * 1000 } };
     return result;
 }
 
-export async function SignIn(params: { username: string | number, pwd: string }) {
-    let {username, pwd} = params;
-    let result = {code: 0, data: null, msg: ""};
-    if (!username || !pwd) {
+export async function signIn(params: {
+    username: string | number;
+    sign: string;
+    timestamp: number;
+}) {
+    let { username, sign, timestamp } = params;
+    let result = { code: 0, data: null, msg: "" };
+    if (!username || !sign || !timestamp) {
         result.code = 502;
         return result;
     }
@@ -128,6 +132,14 @@ export async function SignIn(params: { username: string | number, pwd: string })
         return result;
     }
 
+    let string = [username, account.pwd, timestamp].join("|");
+    let sSign = md5(string);
+
+    if (sSign != sign) {
+        result.code = 404;
+        return result;
+    }
+
     try {
         result = await getToken(account.id);
     } catch (e) {
@@ -143,26 +155,62 @@ export async function SignIn(params: { username: string | number, pwd: string })
  * @param {string} company 企业编号
  * @returns {Promise<{code: number; data: any; msg: string}>}
  */
-export async function getToken(agent: string, company?: string) {
-    let res = {code: 0, data: null, msg: ''},
-        condition = company ? {agent, company} : {agent};
+export async function getToken(agent: string) {
+    let res = { code: 0, data: null, msg: '' }
 
     // Whether authorized to the agent
-    const authorizations = await Models.authorization.find({where: {...condition, status: AuthStatus.actived}});
+    const authorizations = await Models.authorization.find({
+        where: { agent, status: AuthStatus.ACTIVED }
+    });
     if (authorizations.length < 0) {
         res.code = 401;
         return res;
     }
 
-    const companyId = authorizations[0].company;
+    const companyId = authorizations[0].companyId;
     const enterprise = await Models.company.get(companyId);
     if (!enterprise) {
         res.code = 401;
         return res;
     }
 
-    const token = await generateToken({accountId: agent, companyId}, enterprise.appId, enterprise.appSecret);
-    await cache.write(token, {appSecret: enterprise.appSecret}, EXPIRES)
-    res.data = {token, expires: EXPIRES};
+    const token = await generateToken({ accountId: agent, companyId }, enterprise.appId, enterprise.appSecret);
+    await cache.write(token, { appSecret: enterprise.appSecret }, EXPIRES);
+    res.data = { token, expires: EXPIRES };
+    return res;
+}
+
+export async function getTokenByAgent(agentToken: string, companyId: string) {
+    let res = { code: 0, data: null, msg: '' }
+    const session = await cache.read(agentToken);
+    let payload;
+    try {
+        payload = await verifyToken(agentToken, session.appSecret);
+    } catch (e) {
+        res.code = 400;
+        return res;
+    }
+
+    // Whether authorized to the agent
+    const authorizations = await Models.authorization.find({
+        where: { agent: payload.accountId, companyId, status: AuthStatus.ACTIVED }
+    });
+    if (authorizations.length < 0) {
+        res.code = 401;
+        return res;
+    }
+
+    const enterprise = await Models.company.get(companyId);
+    if (!enterprise) {
+        res.code = 401;
+        return res;
+    }
+
+    const token = await generateToken({
+        accountId: payload.accountId,
+        companyId
+    }, enterprise.appId, enterprise.appSecret);
+    await cache.write(token, { appSecret: enterprise.appSecret }, EXPIRES);
+    res.data = { token, expires: EXPIRES };
     return res;
 }

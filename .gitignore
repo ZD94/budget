@@ -7,3 +7,5 @@ dist/
 *.tar.gz
 package-lock.json
 mytest/
+.vscode/
+.DS_Store

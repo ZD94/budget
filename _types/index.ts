@@ -16,53 +16,53 @@ import { CompanyConfig } from "_types/company";
 import { PreferRegion } from "./preferRegion";
 
 export interface ModelsInterface {
-  budget: ModelInterface<Budget>;
-  budgetItem: ModelInterface<BudgetItem>;
-  deeplink: ModelInterface<Deeplink>;
-  app: ModelInterface<App>,
-  statistic: ModelInterface<Statistic>,
-  supplier: ModelInterface<Supplier>
-  travelPolicy: ModelInterface<TravelPolicy>;
-  travelPolicyRegion: ModelInterface<TravelPolicyRegion>;
-  companyRegion: ModelInterface<CompanyRegion>;
-  regionPlace: ModelInterface<RegionPlace>;
-  subsidyTemplate: ModelInterface<SubsidyTemplate>;
-  subsidyType: ModelInterface<SubsidyType>;
-  policyRegionSubsidy: ModelInterface<PolicyRegionSubsidy>;
-  currencyRate: ModelInterface<CurrencyRate>;
-  currency: ModelInterface<Currency>;
-  company: ModelInterface<Company>;
-  account: ModelInterface<Account>;
-  accountCompany: ModelInterface<AccountCompany>;
-  authorization: ModelInterface<Authorization>;
-  preferRegion: ModelInterface<PreferRegion>;
-  companyConfig: ModelInterface<CompanyConfig>;
+    budget: ModelInterface<Budget>;
+    budgetItem: ModelInterface<BudgetItem>;
+    deeplink: ModelInterface<Deeplink>;
+    app: ModelInterface<App>,
+    statistic: ModelInterface<Statistic>,
+    supplier: ModelInterface<Supplier>
+    travelPolicy: ModelInterface<TravelPolicy>;
+    travelPolicyRegion: ModelInterface<TravelPolicyRegion>;
+    companyRegion: ModelInterface<CompanyRegion>;
+    regionPlace: ModelInterface<RegionPlace>;
+    subsidyTemplate: ModelInterface<SubsidyTemplate>;
+    subsidyType: ModelInterface<SubsidyType>;
+    policyRegionSubsidy: ModelInterface<PolicyRegionSubsidy>;
+    currencyRate: ModelInterface<CurrencyRate>;
+    currency: ModelInterface<Currency>;
+    company: ModelInterface<Company>;
+    account: ModelInterface<Account>;
+    accountCompany: ModelInterface<AccountCompany>;
+    authorization: ModelInterface<Authorization>;
+    preferRegion: ModelInterface<PreferRegion>;
+    companyConfig: ModelInterface<CompanyConfig>;
 }
 
 
 
 
 export var Models: ModelsInterface = {
-  budget: new ModelDelegate<Budget>(),
-  budgetItem: new ModelDelegate<BudgetItem>(),
-  deeplink: new ModelDelegate<Deeplink>(),
-  travelPolicy: new ModelDelegate<TravelPolicy>(),
-  travelPolicyRegion: new ModelDelegate<TravelPolicyRegion>(),
-  companyRegion: new ModelDelegate<CompanyRegion>(),
-  regionPlace: new ModelDelegate<RegionPlace>(),
-  subsidyTemplate: new ModelDelegate<SubsidyTemplate>(),
-  app: new ModelDelegate<App>(),
-  statistic: new ModelDelegate<Statistic>(),
-  subsidyType: new ModelDelegate<SubsidyType>(),
-  policyRegionSubsidy: new ModelDelegate<PolicyRegionSubsidy>(),
-  currencyRate: new ModelDelegate<CurrencyRate>(),
-  currency: new ModelDelegate<Currency>(),
-  supplier: new ModelDelegate<Supplier>(),
-  company: new ModelDelegate<Company>(),
-  account: new ModelDelegate<Account>(),
-  accountCompany: new ModelDelegate<AccountCompany>(),
-  authorization: new ModelDelegate<Authorization>(),
-  preferRegion: new ModelDelegate<PreferRegion>(),
-  companyConfig: new ModelDelegate<CompanyConfig>()
+    budget: new ModelDelegate<Budget>(),
+    budgetItem: new ModelDelegate<BudgetItem>(),
+    deeplink: new ModelDelegate<Deeplink>(),
+    travelPolicy: new ModelDelegate<TravelPolicy>(),
+    travelPolicyRegion: new ModelDelegate<TravelPolicyRegion>(),
+    companyRegion: new ModelDelegate<CompanyRegion>(),
+    regionPlace: new ModelDelegate<RegionPlace>(),
+    subsidyTemplate: new ModelDelegate<SubsidyTemplate>(),
+    app: new ModelDelegate<App>(),
+    statistic: new ModelDelegate<Statistic>(),
+    subsidyType: new ModelDelegate<SubsidyType>(),
+    policyRegionSubsidy: new ModelDelegate<PolicyRegionSubsidy>(),
+    currencyRate: new ModelDelegate<CurrencyRate>(),
+    currency: new ModelDelegate<Currency>(),
+    supplier: new ModelDelegate<Supplier>(),
+    company: new ModelDelegate<Company>(),
+    account: new ModelDelegate<Account>(),
+    accountCompany: new ModelDelegate<AccountCompany>(),
+    authorization: new ModelDelegate<Authorization>(),
+    preferRegion: new ModelDelegate<PreferRegion>(),
+    companyConfig: new ModelDelegate<CompanyConfig>()
 };
 

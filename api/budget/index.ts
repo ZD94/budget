@@ -135,11 +135,28 @@ class ApiTravelBudget{
 
     static async getTrafficsData(params: ISearchTicketParams){
         let {leaveDate, originPlaceId, destinationId} = params;
-
         let tickets = await API.traffic.search_tickets({
             leaveDate: leaveDate,
             originPlace: originPlaceId,
             destination: destinationId
+        });
+
+        /* compute the discount */
+        let fullPrice = await API.place.getFlightFullPrice({originPlace: originPlaceId, destination: destinationId});
+      
+        tickets.map((item)=>{
+            if(item.type == ETrafficType.PLANE){
+                for(let agent of item.agents){
+                    for(let cabin of agent.cabins){
+                        let price = fullPrice ? ( cabin.name == EAirCabin.ECONOMY ? fullPrice.EPrice : fullPrice.FPrice ) : 0;
+                        if(price){
+                            let discount = Math.round( cabin.price / price * 100 ) / 100;
+                            discount = discount < 1 ? discount : 1;
+                            cabin.discount = discount;
+                        }
+                    }
+                }
+            }
         });
 
         return tickets;

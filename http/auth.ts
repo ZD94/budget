@@ -29,6 +29,7 @@ export async function authenticate(req, res, next) {
         try {
             session = await verifyToken(token, result.appSecret);
         } catch (e) {
+            console.log('err:', e)
             return res.json(Reply(498, null));
         }
         if (!session) {
@@ -48,9 +49,7 @@ export async function authenticate(req, res, next) {
             if (!dayStatistic) {
                 dayStatistic = Models.statistic.create({appId, day: today, num: 0, url});
             }
-            if (!dayStatistic) {
-                dayStatistic.num = 0;
-            }
+
             dayStatistic.num = parseInt(dayStatistic.num) + 1;
             await dayStatistic.save();
         } catch (e) {

@@ -9,7 +9,7 @@ import {Company} from "_types/company";
 /*
  * redis 记录 account, company
 */
-const SESSIONTIME = config.sessionTime * 60 * 1000;
+const SESSIONTIME = config.sessionTime * 60;
 
 export async function createTicket (params:{
     "timestamp" : number,

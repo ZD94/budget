@@ -26,10 +26,6 @@ export class Authorization extends ModelObject {
     set companyId(company: string) { }
 
     @Field({ type: Types.INTEGER })
-    get type(): number { return null }
-    set type(type: number) { }
-
-    @Field({ type: Types.INTEGER })
     get status(): number { return null }
     set status(status: number) { }
 

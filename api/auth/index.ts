@@ -185,6 +185,10 @@ export async function getToken(agent: string) {
 export async function getTokenByAgent(agentToken: string, companyId: string) {
     let res = { code: 0, data: null, msg: '' }
     const session = await cache.read(agentToken);
+    if(!session) {
+        res.code = 498;
+        return res;
+    }
     let payload;
     try {
         payload = await verifyToken(agentToken, session.appSecret);

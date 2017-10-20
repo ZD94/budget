@@ -16,7 +16,7 @@ let target = 'http://localhost:4004';
 
 describe("router.js", function() {
 
-    let timestamp = Date.now()
+    let timestamp = Date.now().toString();
     let secret = TEST_ACCOUNT[1];
 
     it(`GET ${prefixUrl}/city should be ok with keyword `, function(done) {

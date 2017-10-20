@@ -24,10 +24,10 @@ export class Statistic extends ModelObject {
     get id() : string { return uuid.v1()}
     set id(id: string) {}
 
-    //appid
+    //appId
     @Field({type: Types.UUID, index: true})
-    get appid(): string { return null}
-    set appid(appid: string) {}
+    get appId(): string { return null}
+    set appId(appId: string) {}
 
     //根据日期统计
     @Field({type: Types.STRING(10), index: true})

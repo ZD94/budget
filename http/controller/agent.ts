@@ -4,18 +4,19 @@
 
 "use strict";
 
-import {AbstractController, Restful, Router} from "@jingli/restful";
+import { AbstractController, Restful, Router } from "@jingli/restful";
 import API from '@jingli/dnode-api';
 
-@Restful()
+@Restful('/agent')
 export class AgentController extends AbstractController {
     $isValidId(id: string): boolean {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
-    async get(req, res, next) {
-        const {id} = req.params;
-        const {token} = req.headers;
+    @Router('/company/:id/token', 'get')
+    async getAgentToken(req, res, next) {
+        const { id } = req.params;
+        const { token } = req.headers;
 
         const result = await API['auth'].getTokenByAgent(token, id);
         if (result.code == 0) {

@@ -31,7 +31,7 @@ export class CityController extends AbstractController {
         } else {
             cities = await API['place'].queryCity({keyword: keyword});
         }
-        cities = cities.map( (city) => {
+        cities = cities.map((city) => {
             return this.transform(city);
         });
         res.json(this.reply(0, cities));

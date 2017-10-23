@@ -141,10 +141,15 @@ class ApiTravelBudget{
             destination: destinationId
         });
 
+        let destination = await CityService.getCity(destinationId);
+        let timezone = destination.timezone ||  "Asia/Shanghai";
+
         /* compute the discount */
         let fullPrice = await API.place.getFlightFullPrice({originPlace: originPlaceId, destination: destinationId});
       
         tickets.map((item)=>{
+
+            //处理机票折扣信息
             if(item.type == ETrafficType.PLANE){
                 for(let agent of item.agents){
                     for(let cabin of agent.cabins){
@@ -157,6 +162,10 @@ class ApiTravelBudget{
                     }
                 }
             }
+
+            //处理时区信息
+            item.arrivalDateTime = moment.tz(item.arrivalDateTime, timezone);
+            item.departDateTime = moment.tz(item.departDateTime, timezone);
         });
 
         return tickets;

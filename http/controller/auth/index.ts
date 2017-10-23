@@ -6,7 +6,7 @@
 
 import {AbstractController, Restful, Router} from "@jingli/restful";
 import {Models} from "_types";
-import {Login, signIn, getCompany, updateSession} from "api/auth";
+import {signIn, getCompany, updateSession} from "api/auth";
 
 let cache = require("common/cache");
 

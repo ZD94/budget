@@ -361,7 +361,7 @@ class ApiTravelBudget{
         });
 
         let leaveDate = moment(latestArrivalTime || earliestDepartTime).format('YYYY-MM-DD');
-        let searchParams: {[index: string]: string} = {}
+        let searchParams: {[index: string]: string} = {};
         if(isRetMarkedData && typeof(isRetMarkedData) != 'undefined') {
             let atimezone = fromCity && fromCity.timezone? fromCity.timezone: 'Asia/Shanghai';
             leaveDate = moment(latestArrivalTime || earliestDepartTime).tz(atimezone).format('YYYY-MM-DD');
@@ -370,7 +370,6 @@ class ApiTravelBudget{
                 originPlace: fromCity.id,
                 destination: toCity.id
             }
-
         }
         if(!isRetMarkedData || typeof(isRetMarkedData) == 'undefined') {
             let dtimezone = toCity && toCity.timezone? toCity.timezone: 'Asia/Shanghai';
@@ -489,7 +488,7 @@ class ApiTravelBudget{
 
     static async getSubsidyBudget(params: {subsidies: PolicyRegionSubsidy[], leaveDate: Date, goBackDate: Date, isHasBackSubsidy: boolean, preferedCurrency?: string, toCity: ICity}): Promise<any> {
         let { subsidies, leaveDate, goBackDate, isHasBackSubsidy, preferedCurrency, toCity } = params;
-        let budget: any = null
+        let budget: any = null;
         let timezone = toCity ? (toCity.timezone || 'Asia/Shanghai') : 'Asia/Shanghai';
         if (subsidies && subsidies.length) {
             let goBackDay = goBackDate ? moment(goBackDate).tz(timezone).format("YYYY-MM-DD") : null;
@@ -732,7 +731,7 @@ class ApiTravelBudget{
                     let days = moment(checkOutDate).diff(checkInDate, 'days');
                     let hotelParams = {
                         policies: policies,
-                        staffs,
+                        staffs:seg.staffs && seg.staffs.length ? seg.staffs : staffs,
                         city: toCity,
                         checkInDate: checkInDate,
                         checkOutDate: checkOutDate,

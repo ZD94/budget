@@ -89,7 +89,7 @@
     "@types/orchestrator": "^0.3.0",
     "@types/redis": "^2.6.0",
     "@types/request": "0.0.45",
-    "@types/request-promise": "^4.1.35",
+    "@types/request-promise": "=4.1.34",
     "@types/sequelize": "^4.0.49",
     "@types/serve-static": "^1.7.31",
     "@types/sockjs-node": "^0.3.28",

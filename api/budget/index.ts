@@ -164,8 +164,8 @@ class ApiTravelBudget{
             }
 
             //处理时区信息
-            item.arrivalDateTime = moment.tz(item.arrivalDateTime, timezone).format("YYYY-MM-DD hh:mm:ss");
-            item.departDateTime = moment.tz(item.departDateTime, timezone).format("YYYY-MM-DD hh:mm:ss");
+            item.arrivalDateTime = moment.tz(item.arrivalDateTime, timezone).format();
+            item.departDateTime = moment.tz(item.departDateTime, timezone).format();
         });
 
         return tickets;

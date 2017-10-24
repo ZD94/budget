@@ -51,7 +51,7 @@ class PriceRangePrefer extends AbstractPrefer<IFinalHotel> {
                 v.reasons.push(`价格区间以内 0`);
             }
             return v;
-        })
+        });
 
         return hotels;
     }

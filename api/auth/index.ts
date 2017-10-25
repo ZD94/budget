@@ -13,8 +13,8 @@ import * as config from "@jingli/config";
 import {generateToken, verifyToken} from "./jwt";
 
 const cache = require('common/cache')
-let validator = require('validator');
-let md5 = require("md5");
+const validator = require('validator');
+const md5 = require("md5");
 
 const EXPIRES = config.sessionTime * 60;
 
@@ -29,21 +29,16 @@ export enum CompanyType {
     SYSTEM = 3
 }
 
-/*
- * params : {
-    username,
-    sigin      // 使用username, md5(password), timestamp
-    timestamp
- }
-*/
-
+/**
+ * Find account by username
+ * @param {string | number} username
+ * @returns {Promise<Account>}
+ */
 export async function getAccount(username: string | number): Promise<Account> {
-    let key;
-    if (validator.isMobilePhone(username.toString(), 'zh-CN')) {
-        key = 'mobile';
-    } else {
-        key = 'email';
-    }
+    let key = validator.isMobilePhone(username.toString(), 'zh-CN')
+        ? 'mobile'
+        : 'email';
+
     let accounts = await Models.account.find({
         where: {
             [key]: username
@@ -73,7 +68,6 @@ export async function signIn(params: {
         result.code = 502;
         return result;
     }
-    // Verify username and password
 
     let account;
     try {
@@ -89,10 +83,9 @@ export async function signIn(params: {
         return result;
     }
 
-    let string = [username, account.pwd, timestamp].join("|");
-    let sSign = md5(string);
+    let tmp = md5([username, account.pwd, timestamp].join("|"));
 
-    if (sSign != sign) {
+    if (tmp != sign) {
         result.code = 404;
         return result;
     }
@@ -112,18 +105,21 @@ export async function signIn(params: {
  * @param {string} companyId 企业
  * @returns {Promise<{code: number; data: any; msg: string}>}
  */
-export async function authorizeProxyTo(agentId: string, companyId: string) {
-    let res = {code: 0, data: null, msg: ''}
-    if (!agentId || agentId == '' || !companyId || companyId == '') {
+export async function authorizeTo(agentId: string, companyId: string) {
+    let res = {code: 0, data: null, msg: ''};
+    const validate = agentId  == undefinde || validator.isEmpty(agentId) && validator.isEmpty(companyId);
+    if (validate) {
         res.code = 400;
         return res;
     }
+
     const entity = Models.authorization.create({
         agent: agentId,
         companyId,
         status: AuthStatus.ACTIVED
     });
     await entity.save();
+
     return res;
 }
 
@@ -152,7 +148,11 @@ export async function getToken(agent: string) {
         return res;
     }
 
-    const token = await generateToken({accountId: agent, companyId}, enterprise.appId, enterprise.appSecret);
+    const token = await generateToken({
+        companyId,
+        accountId: agent
+    }, enterprise.appId, enterprise.appSecret);
+
     await cache.write(token, {appSecret: enterprise.appSecret}, EXPIRES);
     res.data = {token, expires: EXPIRES};
     return res;
@@ -165,7 +165,7 @@ export async function getToken(agent: string) {
  * @returns {Promise<{code: number; data: any; msg: string}>}
  */
 export async function getTokenByAgent(agentToken: string, companyId: string) {
-    let res = {code: 0, data: null, msg: ''}
+    let res = {code: 0, data: null, msg: ''};
     const session = await cache.read(agentToken);
     if (!session) {
         res.code = 498;
@@ -181,8 +181,6 @@ export async function getTokenByAgent(agentToken: string, companyId: string) {
 
     let enterprise = await Models.company.get(companyId);
 
-    console.log('enterprise:', enterprise.type);
-
     if (!enterprise) {
         res.code = 401;
         return res;
@@ -190,16 +188,22 @@ export async function getTokenByAgent(agentToken: string, companyId: string) {
 
     // Whether authorized to the agent
     const authorizations = await Models.authorization.find({
-        where: {agent: payload.companyId, companyId, status: AuthStatus.ACTIVED}
+        where: {
+            companyId,
+            agent: payload.companyId,
+            status: AuthStatus.ACTIVED
+        }
     });
 
     const hasPermission = authorizations.length > 0;
 
+    // Highest authority
     if (enterprise.type == CompanyType.SYSTEM) {
+        // If authorization table doesn't have the record, insert it.
         if (!hasPermission) {
             const entity = Models.authorization.create({
-                agent: payload.companyId,
                 companyId,
+                agent: payload.companyId,
                 status: AuthStatus.ACTIVED
             });
             await entity.save();
@@ -211,11 +215,11 @@ export async function getTokenByAgent(agentToken: string, companyId: string) {
         }
     }
 
-
     const token = await generateToken({
-        accountId: payload.accountId,
-        companyId
+        companyId,
+        accountId: payload.accountId
     }, enterprise.appId, enterprise.appSecret);
+
     await cache.write(token, {appSecret: enterprise.appSecret}, EXPIRES);
     res.data = {token, expires: EXPIRES};
     return res;

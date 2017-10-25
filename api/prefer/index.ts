@@ -10,7 +10,7 @@ const API = require("@jingli/dnode-api");
 
 /* ============================= COMMON USING =================================== */
 export async function getRegionPlace(companyRegions:string[], placeId:string) : Promise<any>{
-    let regionPlaces = await Models.regionPlace.find({
+    let regionPlaces = await Models.regionPlace.all({
         where : {
             companyRegionId: {
                 $in : companyRegions

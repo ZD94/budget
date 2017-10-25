@@ -274,8 +274,6 @@ class ApiTravelBudget{
             })
             deeplinkItem = await deeplinkItem.save();
 
-            var jingliLinkH = config.website + `/bookurl/${deeplinkItem.id}` ;
-
             let maxPriceLimit = 0;
             let minPriceLimit = 0;
             let days: number = 0;
@@ -311,7 +309,7 @@ class ApiTravelBudget{
                 link: budget.link,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: jingliLinkH
+                bookurl: budget.bookurl
             }
             return hotelBudget;
         }));

@@ -302,7 +302,10 @@ class ApiTravelBudget{
                 link: budget.link,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: budget.bookurl
+                bookurl: budget.bookurl,
+                latitude: budget.latitude,
+                longitude: budget.longitude,
+                landmark: budget.landmark
             }
             return hotelBudget;
         }));

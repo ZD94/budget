@@ -141,9 +141,6 @@ class ApiTravelBudget{
             destination: destinationId
         });
 
-        let destination = await CityService.getCity(destinationId);
-        let timezone = destination.timezone ||  "Asia/Shanghai";
-
         /* compute the discount */
         let fullPrice = await API.place.getFlightFullPrice({originPlace: originPlaceId, destination: destinationId});
       
@@ -162,10 +159,6 @@ class ApiTravelBudget{
                     }
                 }
             }
-
-            //处理时区信息
-            item.arrivalDateTime = moment.tz(item.arrivalDateTime, timezone).format();
-            item.departDateTime = moment.tz(item.departDateTime, timezone).format();
         });
 
         return tickets;
@@ -274,8 +267,6 @@ class ApiTravelBudget{
             })
             deeplinkItem = await deeplinkItem.save();
 
-            var jingliLinkH = config.website + `/bookurl/${deeplinkItem.id}` ;
-
             let maxPriceLimit = 0;
             let minPriceLimit = 0;
             let days: number = 0;
@@ -311,7 +302,7 @@ class ApiTravelBudget{
                 link: budget.link,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: jingliLinkH,
+                bookurl: budget.bookurl,
                 latitude: budget.latitude,
                 longitude: budget.longitude,
                 landmark: budget.landmark

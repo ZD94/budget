@@ -311,7 +311,10 @@ class ApiTravelBudget{
                 link: budget.link,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: jingliLinkH
+                bookurl: jingliLinkH,
+                latitude: budget.latitude,
+                longitude: budget.longitude,
+                landmark: budget.landmark
             }
             return hotelBudget;
         }));

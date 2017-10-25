@@ -318,6 +318,7 @@ export interface IHotelBudgetItem extends IBudgetItem {
     longitude?: number;
     bookurl?: string;
     commentScore?: number;
+    landmark?: any;
 
 }
 

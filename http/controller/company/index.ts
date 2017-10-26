@@ -8,7 +8,7 @@
 import {AbstractModelController, Restful, Router} from "@jingli/restful";
 import {Models} from "_types";
 import {Company} from "_types/company";
-import {updateSession, getCompany} from "api/auth";
+const md5 = require('md5');
 
 /** 
  * company的权限由接口自己控制 
@@ -110,6 +110,8 @@ export class CompanyController extends AbstractModelController{
                 company[key] = params[key];
             }
         }
+        company.appId = id;
+        company.appSecret = md5(id+`${Date.now()}`.slice(-4));
         company = await company.save();
         res.json(this.reply(0, company));
     }

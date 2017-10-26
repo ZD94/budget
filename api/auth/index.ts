@@ -107,15 +107,20 @@ export async function signIn(params: {
  */
 export async function authorizeTo(agentId: string, companyId: string) {
     let res = {code: 0, data: null, msg: ''};
-    const validate = agentId  == undefinde || validator.isEmpty(agentId) && validator.isEmpty(companyId);
-    if (validate) {
+
+    const unValid = agentId  == void 0
+        || validator.isEmpty(agentId)
+        || companyId == void 0
+        || validator.isEmpty(companyId);
+
+    if (unValid) {
         res.code = 400;
         return res;
     }
 
     const entity = Models.authorization.create({
-        agent: agentId,
         companyId,
+        agent: agentId,
         status: AuthStatus.ACTIVED
     });
     await entity.save();

@@ -479,7 +479,9 @@ class ApiTravelBudget{
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: deeplinkItem.url
+                bookurl: deeplinkItem.url,
+                destinationStation: budget.destinationStation,
+                originStation: budget.originStation
             }
 
             return trafficBudget as ITrafficBudgetItem;

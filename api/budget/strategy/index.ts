@@ -306,7 +306,9 @@ export abstract class AbstractTicketStrategy {
             arrivalTime: new Date(ret.arrivalDateTime),
             trafficType: ret.type,
             bookurl: ret.bookUrl,
-            carry: ret.carry
+            carry: ret.carry,
+            destinationStation: ret.destinationStation,
+            originStation: ret.originStation
         }
 
         if (self.isRecord) {

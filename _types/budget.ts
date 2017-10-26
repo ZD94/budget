@@ -302,6 +302,8 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     bookurl?: string;
     agent?: string;
     carry?: string;
+    originStation?: any;
+    destinationStation?: any;
 }
 
 export interface ITrafficBudgetResult extends Array<ITrafficBudgetItem> {

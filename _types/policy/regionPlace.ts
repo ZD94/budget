@@ -26,7 +26,7 @@ export class RegionPlace extends ModelObject{
     set placeId(val: string) {}
 
     @ResolveRef({type: Types.UUID}, Models.companyRegion)
-    get companyRegion(): CompanyRegion { return null; }
+    get companyRegion(): CompanyRegion { return Values.UUIDV1(); }
     set companyRegion(val: CompanyRegion) {}
 
 }

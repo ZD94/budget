@@ -13,7 +13,7 @@
             "name": "trainPricePrefer",
             "options": {
                 "type": "square",
-                "score": 10000,
+                "score": 50000,
                 "expectTrainCabins": "<%=local.expectTrainCabins%>"
             }
         },
@@ -92,7 +92,7 @@
         {
             "name": "trainPricePrefer",
             "options": {
-                "score": 10000,
+                "score": 50000,
                 "expectTrainCabins": "<%=local.expectTrainCabins%>",
                 "type": "square"
             }

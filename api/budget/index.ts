@@ -135,11 +135,30 @@ class ApiTravelBudget{
 
     static async getTrafficsData(params: ISearchTicketParams){
         let {leaveDate, originPlaceId, destinationId} = params;
-
         let tickets = await API.traffic.search_tickets({
             leaveDate: leaveDate,
             originPlace: originPlaceId,
             destination: destinationId
+        });
+
+        /* compute the discount */
+        let fullPrice = await API.place.getFlightFullPrice({originPlace: originPlaceId, destination: destinationId});
+      
+        tickets.map((item)=>{
+
+            //处理机票折扣信息
+            if(item.type == ETrafficType.PLANE){
+                for(let agent of item.agents){
+                    for(let cabin of agent.cabins){
+                        let price = fullPrice ? ( cabin.name == EAirCabin.ECONOMY ? fullPrice.EPrice : fullPrice.FPrice ) : 0;
+                        if(price){
+                            let discount = Math.round( cabin.price / price * 100 ) / 100;
+                            discount = discount < 1 ? discount : 1;
+                            cabin.discount = discount;
+                        }
+                    }
+                }
+            }
         });
 
         return tickets;
@@ -248,8 +267,6 @@ class ApiTravelBudget{
             })
             deeplinkItem = await deeplinkItem.save();
 
-            var jingliLinkH = config.website + `/bookurl/${deeplinkItem.id}` ;
-
             let maxPriceLimit = 0;
             let minPriceLimit = 0;
             let days: number = 0;
@@ -285,7 +302,10 @@ class ApiTravelBudget{
                 link: budget.link,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: jingliLinkH
+                bookurl: budget.bookurl,
+                latitude: budget.latitude,
+                longitude: budget.longitude,
+                landmark: budget.landmark
             }
             return hotelBudget;
         }));
@@ -344,7 +364,7 @@ class ApiTravelBudget{
         });
 
         let leaveDate = moment(latestArrivalTime || earliestDepartTime).format('YYYY-MM-DD');
-        let searchParams: {[index: string]: string} = {}
+        let searchParams: {[index: string]: string} = {};
         if(isRetMarkedData && typeof(isRetMarkedData) != 'undefined') {
             let atimezone = fromCity && fromCity.timezone? fromCity.timezone: 'Asia/Shanghai';
             leaveDate = moment(latestArrivalTime || earliestDepartTime).tz(atimezone).format('YYYY-MM-DD');
@@ -353,7 +373,6 @@ class ApiTravelBudget{
                 originPlace: fromCity.id,
                 destination: toCity.id
             }
-
         }
         if(!isRetMarkedData || typeof(isRetMarkedData) == 'undefined') {
             let dtimezone = toCity && toCity.timezone? toCity.timezone: 'Asia/Shanghai';
@@ -460,7 +479,9 @@ class ApiTravelBudget{
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: deeplinkItem.url
+                bookurl: deeplinkItem.url,
+                destinationStation: budget.destinationStation,
+                originStation: budget.originStation
             }
 
             return trafficBudget as ITrafficBudgetItem;
@@ -472,7 +493,7 @@ class ApiTravelBudget{
 
     static async getSubsidyBudget(params: {subsidies: PolicyRegionSubsidy[], leaveDate: Date, goBackDate: Date, isHasBackSubsidy: boolean, preferedCurrency?: string, toCity: ICity}): Promise<any> {
         let { subsidies, leaveDate, goBackDate, isHasBackSubsidy, preferedCurrency, toCity } = params;
-        let budget: any = null
+        let budget: any = null;
         let timezone = toCity ? (toCity.timezone || 'Asia/Shanghai') : 'Asia/Shanghai';
         if (subsidies && subsidies.length) {
             let goBackDay = goBackDate ? moment(goBackDate).tz(timezone).format("YYYY-MM-DD") : null;
@@ -715,7 +736,7 @@ class ApiTravelBudget{
                     let days = moment(checkOutDate).diff(checkInDate, 'days');
                     let hotelParams = {
                         policies: policies,
-                        staffs,
+                        staffs:seg.staffs && seg.staffs.length ? seg.staffs : staffs,
                         city: toCity,
                         checkInDate: checkInDate,
                         checkOutDate: checkOutDate,

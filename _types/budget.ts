@@ -302,6 +302,8 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     bookurl?: string;
     agent?: string;
     carry?: string;
+    originStation?: any;
+    destinationStation?: any;
 }
 
 export interface ITrafficBudgetResult extends Array<ITrafficBudgetItem> {
@@ -318,6 +320,7 @@ export interface IHotelBudgetItem extends IBudgetItem {
     longitude?: number;
     bookurl?: string;
     commentScore?: number;
+    landmark?: any;
 
 }
 

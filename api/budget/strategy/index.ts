@@ -306,13 +306,16 @@ export abstract class AbstractTicketStrategy {
             arrivalTime: new Date(ret.arrivalDateTime),
             trafficType: ret.type,
             bookurl: ret.bookUrl,
-            carry: ret.carry
+            carry: ret.carry,
+            destinationStation: ret.destinationStation,
+            originStation: ret.originStation
         }
 
         if (self.isRecord) {
             //保存调试记录
+            let date = self.qs.earliestDepartTime ? self.qs.earliestDepartTime : self.qs.latestArrivalTime
             let budgetItem = Models.budgetItem.create({
-                title: `${self.qs.fromCity.name}-${self.qs.toCity.name}(${moment(self.qs.departDateTime).format('YYYY/MM/DD')})`,
+                title: `${self.qs.fromCity.name}-${self.qs.toCity.name}(${moment(`${date}`).format('YYYY/MM/DD')})`,
                 query: _.cloneDeep(self.qs),
                 type: EBudgetType.TRAFFIC,
                 originData: tickets,

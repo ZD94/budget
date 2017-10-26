@@ -10,7 +10,7 @@ const API = require("@jingli/dnode-api");
 
 /* ============================= COMMON USING =================================== */
 export async function getRegionPlace(companyRegions:string[], placeId:string) : Promise<any>{
-    let regionPlaces = await Models.regionPlace.find({
+    let regionPlaces = await Models.regionPlace.all({
         where : {
             companyRegionId: {
                 $in : companyRegions
@@ -75,7 +75,8 @@ async function checkPrefer(params:{
     regionPlace: RegionPlace
 }){
     let {regionPlace} = params;
-    let prefer = await Models.preferRegion.get(regionPlace["companyRegion"]["id"]);
+    let companyRegionId = regionPlace["companyRegionId"] ? regionPlace['companyRegionId']: regionPlace.companyRegion["id"];
+    let prefer = await Models.preferRegion.get(companyRegionId);
 
     let targetPrefer;
     targetPrefer = prefer && prefer.budgetConfig;

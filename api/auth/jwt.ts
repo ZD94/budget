@@ -1,6 +1,7 @@
 import {sign, verify} from 'jsonwebtoken';
+import * as config from '@jingli/config';
 
-export const EXPIRES = Math.floor(Date.now() / 1000) + 20 * 60;
+const EXPIRES = Date.now()  + config.sessionTime * 60 * 1000;
 
 export const generateToken = async (data, appId, appSecret) => {
     return new Promise((resolve, reject) => {

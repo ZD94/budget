@@ -27,60 +27,38 @@ export class CompanyController extends AbstractModelController{
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
-    async get(req, res, next) {
-
-        let companyId = req.params.id;
-        if(!companyId || typeof companyId == 'undefined') {
-            return res.json(this.reply(502, null));
-        }
-
-        //查询公司权限
-        // let {accountId} = req.session;
-        // let accountCompany = await Models.accountCompany.find({
-        //     where : {
-        //         accountId,
-        //         companyId
-        //     }
-        // });
-        //
-        // if(!accountCompany.length){
-        //     return res.json(this.reply(403, null));
-        // }
-
+    @Router('/', 'get')
+    async getById(req, res, next) {
+        let {companyId} = req.session;
         let result = await Models.company.get(companyId);
-        if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.json(this.reply(0, result || null));
     }
 
+    @Router('/byAccount', 'get')
     async find(req, res, next) {
         let {accountId} = req.session;
-        let {order, p, pz} = req.query;
-        pz = pz || 20;
-        p  = p  || 0;
-        order = order || [["createdAt", "desc"]];
+        let {order = [["createdAt", "desc"]], p = 0, pz = 20} = req.query;
 
-        let accountCompanies = await Models.accountCompany.find({
-            where : {
-                accountId
+        let authorizations = await Models.authorization.find({
+            where:{
+                agent:accountId
             },
-            limit : pz,
+            limit: pz,
             offset: pz * p,
             order
         });
 
-        let companies = await Promise.all(accountCompanies.map(async (item)=>{
+        let companies = await Promise.all(authorizations.map(async (item)=>{
             return await Models.company.get(item.companyId);
-        }));        
+        }));
         res.json(this.reply(0, companies));
     }
 
     async update(req, res, next) {
-        let params = req.body;
-        let id = params.id;
-        if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
-        }
-        let obj = await Models.company.get(id);
+        let {companyId} = req.session,
+            params = req.body;
+
+        let obj = await Models.company.get(companyId);
 
         for(let key in params){
             if(companyCols.indexOf(key) >= 0){
@@ -91,6 +69,7 @@ export class CompanyController extends AbstractModelController{
         res.json(this.reply(0, obj));
     }
 
+    // TODO:
     async add(req, res, next){
         let params = req.body;
         let {id} = params;

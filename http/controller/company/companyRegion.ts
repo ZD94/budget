@@ -2,8 +2,9 @@
  * Created by wlh on 2017/8/29.
  */
 
+
 'use strict';
-import {AbstractController, Restful} from "@jingli/restful";
+import {AbstractController, Restful, Router} from "@jingli/restful";
 import {CompanyRegion} from "_types/policy";
 import {Models} from "_types";
 var companyRegionCols = CompanyRegion['$fieldnames'];
@@ -66,37 +67,30 @@ function transformStaffStrArgsToEnum(staffs) {
 }
 
 
-@Restful('/company/:companyId/companyRegion')
+@Restful('/company/region')
 export class CompanyRegionController extends AbstractController {
 
     constructor() {
         super();
     }
 
-    // async $before(req, res, next) {
-    //     let {companyId} = req.params;
-    //     return next();
-    // }
-
     $isValidId(id: string) {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
-    async get(req, res, next) {
-        let params = req.params;
-        let id = params.id;
-        if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
-        }
-        let result = await Models.companyRegion.get(id);
-        if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+    @Router('/','get')
+    async getById(req, res, next) {
+        let {companyId} = req.session;
+        let result = await Models.companyRegion.get(companyId);
+        res.json(this.reply(0, result || null));
     }
 
+    @Router('/find','get')
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
         let params = req.query;
-        let {companyId} = req.params;
+        let {companyId} = req.session;
+        // let {order = [["createdAt", "desc"]], p = 0, pz = 20} = req.query;
         let type = 0;
         let query = {where:{companyId: companyId}};
         let limit = 20;

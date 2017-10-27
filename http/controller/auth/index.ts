@@ -29,13 +29,11 @@ export class AuthController extends AbstractController {
     async login(req, res, next) {
         let result;
         try {
-            // result = await Login(req.body);
             result = await signIn(req.body);
         } catch (e) {
             console.error(e)
             return res.json(this.reply(403, null));
         }
-        // console.log(result)
         return res.json(this.reply(result.code, result.data));
     }
 

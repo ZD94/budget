@@ -37,6 +37,25 @@ export class CityController extends AbstractController {
         res.json(this.reply(0, cities));
     }
 
+    @Router('/nearby/:latitude/:longitude', 'get')
+    async findNearCity(req, res, next) {
+        let {latitude,longitude} = req.query;
+        const isValid = latitude === void 0
+            || validator.isEmpty(latitude)
+            || longitude === void 0
+            || validator.isEmpty(longitude);
+        if(!isValid){
+            return
+        }
+    }
+
+    @Router('/:id/children', 'get')
+    async getChildren(req, res, next) {
+        let {id} = req.params,
+            cities = await API['place'].queryCity({parentId:id});
+        res.json(this.reply(0,cities.map(this.transform)));
+    }
+
     private transform(city) {
         return {
             id: city.id,

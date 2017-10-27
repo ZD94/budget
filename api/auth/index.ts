@@ -100,35 +100,6 @@ export async function signIn(params: {
 }
 
 /**
- * 授权代理商
- * @param {string} agentId 代理商
- * @param {string} companyId 企业
- * @returns {Promise<{code: number; data: any; msg: string}>}
- */
-export async function authorizeTo(agentId: string, companyId: string) {
-    let res = {code: 0, data: null, msg: ''};
-
-    const unValid = agentId  == void 0
-        || validator.isEmpty(agentId)
-        || companyId == void 0
-        || validator.isEmpty(companyId);
-
-    if (unValid) {
-        res.code = 400;
-        return res;
-    }
-
-    const entity = Models.authorization.create({
-        companyId,
-        agent: agentId,
-        status: AuthStatus.ACTIVED
-    });
-    await entity.save();
-
-    return res;
-}
-
-/**
  * Generate token
  * @param {string} agent 员工编号或企业编号
  * @param {string} company 企业编号
@@ -227,5 +198,34 @@ export async function getTokenByAgent(agentToken: string, companyId: string) {
 
     await cache.write(token, {appSecret: enterprise.appSecret}, EXPIRES);
     res.data = {token, expires: EXPIRES};
+    return res;
+}
+
+/**
+ * 授权代理商
+ * @param {string} agentId 代理商
+ * @param {string} companyId 企业
+ * @returns {Promise<{code: number; data: any; msg: string}>}
+ */
+export async function authorizeTo(agentId: string, companyId: string) {
+    let res = {code: 0, data: null, msg: ''};
+
+    const unValid = agentId  == void 0
+        || validator.isEmpty(agentId)
+        || companyId == void 0
+        || validator.isEmpty(companyId);
+
+    if (unValid) {
+        res.code = 400;
+        return res;
+    }
+
+    const entity = Models.authorization.create({
+        companyId,
+        agent: agentId,
+        status: AuthStatus.ACTIVED
+    });
+    await entity.save();
+
     return res;
 }

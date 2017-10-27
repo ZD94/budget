@@ -292,7 +292,7 @@ class ApiTravelBudget{
                 checkInDate: params.checkInDate,
                 checkOutDate: params.checkOutDate,
                 city: (<ICity>city).id,
-                star: EHotelStar.FIVE,
+                star: budget.star,
                 price: budget.price,
                 unit: budget.unit,
                 rate: budget.rate,

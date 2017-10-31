@@ -8,7 +8,7 @@ import { restfulAPIUtil } from 'api/restful';
 import * as validator from 'validator';
 
 @Restful()
-export class CityController extends AbstractController {
+export class PlaceController extends AbstractController {
     constructor() {
         super();
     }
@@ -25,20 +25,19 @@ export class CityController extends AbstractController {
         })
 
         if(resp.code === 0) {
-            return res.send(this.reply(0, this.transform2(resp.data)))
+            return res.send(this.reply(0, this.transform(resp.data)))
         }
         return res.send(resp.code, null);
     }
 
+    @Router('/search/:keyword', 'get')
     async find(req, res, next) {
-        let {keyword} = req.query;
+        let {keyword} = req.params;
         const resp: any = keyword
-            ? await restfulAPIUtil.proxyHttp({url: `/city/search/`, method: 'GET'})
+            ? await restfulAPIUtil.proxyHttp({url: `/city/search`, method: 'GET', qs: {keyword}})
             : await restfulAPIUtil.proxyHttp({url: `/city`, method: 'GET'})
-        const result = resp.code === 0
-            ? this.reply(0, resp.data.map(this.transform2))
-            : this.reply(resp.code, null);
-        return res.send(result);
+
+        return res.send(this.processResp(resp));
     }
 
     @Router('/nearby/:longitude/:latitude', 'get')
@@ -71,20 +70,8 @@ export class CityController extends AbstractController {
 
     private processResp(resp) {
         return resp.code === 0
-            ? this.reply(0, resp.data.map(this.transform2))
+            ? this.reply(0, resp.data.map(this.transform))
             : this.reply(resp.code, null);
-    }
-
-    private transform2(city) {
-        return {
-            id: city.id,
-            name: city.name,
-            pinyin: city.pinyin,
-            letter: city.letter,
-            latitude: city.lat,
-            longitude: city.lng,
-            parentId: city.parentId,
-        }
     }
 
     private transform(city) {
@@ -93,8 +80,8 @@ export class CityController extends AbstractController {
             name: city.name,
             pinyin: city.pinyin,
             letter: city.letter,
-            latitude: city.latitude,
-            longitude: city.longitude,
+            latitude: city.lat,
+            longitude: city.lng,
             parentId: city.parentId,
         }
     }

@@ -4,26 +4,19 @@
 
 'use strict';
 
-import { ModelInterface } from "../common/model/interface";
-import { ModelDelegate } from "../common/model/delegate";
-import { Budget, BudgetItem, Deeplink } from "_types/budget";
-import { Statistic, App } from "_types/openapi";
-import {
-    TravelPolicy,
-    SubsidyTemplate,
-    TravelPolicyRegion,
-    CompanyRegion,
-    RegionPlace,
-    SubsidyType,
-    PolicyRegionSubsidy
-} from "_types/policy";
-import { Supplier } from "./supplier";
-import { Company } from "_types/company";
-import { CurrencyRate, Currency } from "_types/currency";
-import { Account, AccountCompany, Authorization } from "_types/account";
-import { CompanyConfig } from "_types/company";
-import { PreferRegion } from "./preferRegion";
-import { CommonSupplier, SupplierAlternateName } from "_types/commonSupplier";
+import {ModelInterface} from "../common/model/interface";
+import {ModelDelegate} from "../common/model/delegate";
+import {Budget, BudgetItem, Deeplink} from "_types/budget";
+import {Statistic, App} from "_types/openapi";
+import {TravelPolicy, SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionPlace, SubsidyType,
+    PolicyRegionSubsidy} from "_types/policy";
+import {Supplier} from "./supplier";
+import {Company} from "_types/company";
+import {CurrencyRate, Currency} from "_types/currency";
+import {Account, AccountCompany, Authorization} from "_types/account";
+import {CompanyConfig} from "_types/company";
+import {PreferRegion} from "./preferRegion";
+import {CommonSupplier, SupplierAlternateName} from "_types/commonSupplier";
 
 export interface ModelsInterface {
     budget: ModelInterface<Budget>;

@@ -5,18 +5,19 @@
 
 'use strict';
 
-import { Budget, BudgetItem, Deeplink } from "_types/budget";
-import { App, Statistic } from "_types/openapi";
-import { Supplier } from "_types/supplier"
-import { createServerService } from "../common/model/sequelize";
-import { ModelsInterface, Models } from "../_types/index";
-import { TravelPolicy, TravelPolicyRegion, SubsidyTemplate, CompanyRegion, RegionPlace, SubsidyType, PolicyRegionSubsidy } from "_types/policy";
-import { CurrencyRate, Currency } from "_types/currency";
-import { Company } from "_types/company";
-import { Account, AccountCompany } from "_types/account";
-import { PreferRegion } from "_types/preferRegion";
-import { CompanyConfig } from "_types/company";
-import { Authorization } from "../_types/account/authorization";
+import {Budget, BudgetItem, Deeplink} from "_types/budget";
+import {App, Statistic} from "_types/openapi";
+import {Supplier} from "_types/supplier"
+import {createServerService} from "../common/model/sequelize";
+import {ModelsInterface, Models} from "../_types/index";
+import {TravelPolicy, TravelPolicyRegion, SubsidyTemplate, CompanyRegion, RegionPlace, SubsidyType,
+    PolicyRegionSubsidy} from "_types/policy";
+import {CurrencyRate, Currency} from "_types/currency";
+import {Company} from "_types/company";
+import {Account, AccountCompany} from "_types/account";
+import {PreferRegion} from "_types/preferRegion";
+import {CompanyConfig} from "_types/company";
+import {Authorization} from "../_types/account/authorization";
 import {CommonSupplier, SupplierAlternateName} from "_types/commonSupplier";
 
 

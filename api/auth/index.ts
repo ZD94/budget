@@ -210,7 +210,7 @@ export async function getTokenByAgent(agentToken: string, companyId: string) {
 export async function authorizeTo(agentId: string, companyId: string) {
     let res = {code: 0, data: null, msg: ''};
 
-    const unValid = agentId  == void 0
+    const unValid = agentId == void 0
         || validator.isEmpty(agentId)
         || companyId == void 0
         || validator.isEmpty(companyId);

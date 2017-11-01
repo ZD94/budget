@@ -79,8 +79,8 @@ export class CompanyRegionController extends AbstractController {
     }
 
     async get(req, res, next) {
-        let {companyId} = req.session;
-        let result = await Models.companyRegion.get(companyId);
+        let {id} = req.params;
+        let result = await Models.companyRegion.get(id);
         res.json(this.reply(0, result || null));
     }
 
@@ -90,7 +90,7 @@ export class CompanyRegionController extends AbstractController {
         let {companyId} = req.session;
         // let {order = [["createdAt", "desc"]], p = 0, pz = 20} = req.query;
         let type = 0;
-        let query = {where:{companyId: companyId}};
+        let query = {where: {companyId}};
         let limit = 20;
         for(let key in params){
             if(companyRegionCols.indexOf(key) >= 0){
@@ -116,18 +116,12 @@ export class CompanyRegionController extends AbstractController {
                 return types && types.indexOf(type) >= 0;
             })
         }
-        // console.log("companyRegion====>query: ", query, result[0], result[1]);
         res.json(this.reply(0, result));
     }
 
-
     async update(req, res, next) {
         let params = req.body;
-        let id = params.id;
-        if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
-        }
-        let obj = await Models.companyRegion.get(id);
+        let obj = await Models.companyRegion.get(req.params.id);
 
         for(let key in params){
             if(companyRegionCols.indexOf(key) >= 0){
@@ -141,7 +135,8 @@ export class CompanyRegionController extends AbstractController {
 
     async add(req, res, next) {
         let params = req.body;
-        let properties = {};
+        let {companyId} = req.session;
+        let properties = {companyId};
         for(let key in params){
             if(companyRegionCols.indexOf(key) >= 0){
                 properties[key] = params[key];
@@ -153,11 +148,7 @@ export class CompanyRegionController extends AbstractController {
     }
 
     async delete(req, res, next) {
-        let params = req.params;
-        let id = params.id;
-        if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
-        }
+        let {id} = req.params;
         let obj = await Models.companyRegion.get(id);
         let isDeleted = await obj.destroy();
         res.json(this.reply(0, isDeleted));

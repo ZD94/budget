@@ -10,8 +10,6 @@ const TEST_ACCOUNT = ['00000000-0000-0000-0000-000000000001', 'jinglisecret']
 var prefixUrl = '/api/v1'
 const util = require("../util");
 
-console.log("test...")
-// let target = app;
 
 let target = 'http://localhost:4004';
 

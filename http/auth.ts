@@ -17,7 +17,6 @@ export async function authenticate(req, res, next) {
         url = req.url,
         session;
 
-    // Login
     if (url.indexOf("/auth/login") > -1) {
         return next();
     }

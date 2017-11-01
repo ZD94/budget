@@ -37,6 +37,28 @@ var API = require('@jingli/dnode-api');
 
 var db = require('@jingli/database');
 db.init(config.postgres.url_test);
+//
+// var Server = require('common/server');
+// var server = new Server(config.appName, config.pid_file);
+//
+// server.cluster = config.cluster;
+//
+// server.http_logtype = config.logger.httptype;
+// server.http_port = config.port;
+// if (config.socket_file) {
+//     server.http_port = config.socket_file;
+// }
+// server.http_root = path.join(__dirname, 'www');
+// // server.http_favicon = path.join(server.http_root, 'favicon.ico');
+// //server.on('init.http_handler', require('./app'));
+//
+// server.api_path = path.join(__dirname, '../api');
+// server.api_port = config.apiPort;
+// server.api_config = config.api;
+// var httpModule = require('../http');
+// server.on('init.http_handler', function (app) {
+//     httpModule.initHttp(app);
+// })
 
 zone.forkStackTrace()
     .fork({name: 'test', properties: {session: {}}})
@@ -53,9 +75,11 @@ zone.forkStackTrace()
             })
             .then(function() {
                 loadTest(path.join(__dirname, '../http'));
-                // require('../http/test/company.test')
             })
             .then(API.loadTests.bind(API))
+            // .then(function() {
+            //     server.start();
+            // })
             .then(run)
             .catch(function(e){
                 logger.error(e.stack?e.stack:e);
@@ -79,7 +103,6 @@ function loadTest(dir) {
         }
         var p = path.relative(CURRENT_PATH, fullPath);
         p = p.replace(/\.(ts|js)$/, "");
-        console.log(p)
         require(p);
     }
 }

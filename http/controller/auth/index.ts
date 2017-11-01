@@ -14,10 +14,6 @@ let cache = require("common/cache");
 @Restful()
 export class AuthController extends AbstractController {
 
-    constructor() {
-        super();
-    }
-
     $isValidId(id: string) {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }

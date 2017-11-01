@@ -12,7 +12,7 @@ import {scannerDecoration, registerControllerToRouter, batchRegisterErrorCode, E
 import path = require("path");
 import express = require("express");
 import {authenticate} from "./auth";
-import {checkCompany} from "api/auth";
+
 
 let router = express.Router();
 
@@ -22,7 +22,6 @@ registerControllerToRouter(router, {isShowUrls: true});
 let allowOrigin = [
     "localhost",
     "jingli365",
-    "sosoapi"
 ];
 
 function checkOrigin( origin ){

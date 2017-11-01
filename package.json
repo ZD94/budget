@@ -73,6 +73,7 @@
     "@types/bluebird": "^3.5.2",
     "@types/bluebird-global": "^3.5.1",
     "@types/callsite": "^1.0.30",
+    "@types/chai": "^4.0.4",
     "@types/colors": "^1.1.1",
     "@types/cordova": "0.0.34",
     "@types/core-decorators": "^0.10.32",

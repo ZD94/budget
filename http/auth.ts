@@ -24,7 +24,7 @@ export async function authenticate(req, res, next) {
     if (token) {
         const result = await cache.read(token);
         if (!result) {
-            return res.json(Reply(498, null))
+            return res.json(Reply(498, null));
         }
         try {
             session = await verifyToken(token, result.appSecret);
@@ -53,9 +53,9 @@ export async function authenticate(req, res, next) {
             dayStatistic.num = parseInt(dayStatistic.num) + 1;
             await dayStatistic.save();
         } catch (e) {
-            return next()
+            return next();
         }
-        return next()
+        return next();
     }
 
     return res.sendStatus(403);

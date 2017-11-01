@@ -20,7 +20,8 @@ registerControllerToRouter(router);
 
 let allowOrigin = [
     "localhost",
-    "jingli365"
+    "jingli365",
+    "sosoapi"
 ];
 
 function checkOrigin( origin ){

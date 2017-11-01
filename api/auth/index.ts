@@ -112,7 +112,7 @@ export async function getToken(agent: string) {
     const authorizations = await Models.authorization.find({
         where: {agent, status: AuthStatus.ACTIVED}
     });
-    if (authorizations.length < 0) {
+    if (authorizations.length <= 0) {
         res.code = 401;
         return res;
     }

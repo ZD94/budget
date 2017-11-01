@@ -4,9 +4,6 @@
 
 
 let path = require("path");
-require("ts-node").register({});
-require('app-module-path').addPath(path.join(__dirname, "../../"));
-
 let supertest = require("supertest");
 // let app = require("../../server");
 

@@ -3,6 +3,7 @@
  */
 "use strict";
 var path = require('path');
+var fs = require("fs");
 process.env.NODE_PATH = '.:'+process.env.NODE_PATH;
 
 require('app-module-path').addPath(path.normalize(path.join(__dirname, '..')));
@@ -50,6 +51,10 @@ zone.forkStackTrace()
             .then(function(ret){
                 return API.init(path.join(__dirname, '../api'), config.api)
             })
+            .then(function() {
+                loadTest(path.join(__dirname, '../http'));
+                // require('../http/test/company.test')
+            })
             .then(API.loadTests.bind(API))
             .then(run)
             .catch(function(e){
@@ -58,3 +63,23 @@ zone.forkStackTrace()
                 process.exit();
             })
     });
+
+const CURRENT_PATH = __dirname;
+
+function loadTest(dir) {
+    var files = fs.readdirSync(dir)
+    for(var f of files) {
+        let fullPath = path.join(dir, f)
+        var stat = fs.statSync(fullPath)
+        if (stat.isDirectory()) {
+            loadTest(fullPath);
+        }
+        if (!/\.test\.(js|ts)$/.test(fullPath)) {
+            continue;
+        }
+        var p = path.relative(CURRENT_PATH, fullPath);
+        p = p.replace(/\.(ts|js)$/, "");
+        console.log(p)
+        require(p);
+    }
+}

@@ -9,7 +9,7 @@ var assert = require('assert');
 var prefixUrl = '/api/v2';
 var moment = require('moment');
 
-let id = '278ad260-819c-11e7-b7a9-eb3cc7a71746';
+// let id = '278ad260-819c-11e7-b7a9-eb3cc7a71746';
 let testname = 'ctrip';
 let tar = 'localhost:8080';
 

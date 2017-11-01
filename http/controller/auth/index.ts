@@ -36,8 +36,7 @@ export class AuthController extends AbstractController {
     @Router("/quit", "post")
     async quit(req, res, next) {
         let token = req.headers['token'] || req.query.token;
-        let result = await cache.remove(token);
-
+        await cache.remove(token);
         return res.json(this.reply(0, null));
     }
 }

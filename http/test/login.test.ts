@@ -27,7 +27,7 @@ describe("/auth", function(){
 
     //account 都是创建人
     let account = {
-        username : '15210593322',
+        username : 'qmtrip@jingli365.com',
         password : '123456'
     }
 
@@ -37,7 +37,7 @@ describe("/auth", function(){
     let string = [account.username, account.password, timestamp].join("|");
     let sign = md5(string);
 
-    let ticket;
+    let token;
     it("POST /auth/login", (done)=>{
         request.post(getFullPath("/auth/login"), {
             form : {
@@ -57,7 +57,7 @@ describe("/auth", function(){
                 result = body;
             }
             expect(result.code).to.be.equal(0);
-            ticket = result.data.ticket;
+            token = result.data.token;
             done();          
         });
     });
@@ -66,7 +66,7 @@ describe("/auth", function(){
     it("POST /auth/quit", (done)=>{
         request.post(getFullPath("/auth/quit"), {
             headers : {
-                ticket: ticket
+                token: token
             },
         }, (err, httpResponse, body)=>{
             if(err){

@@ -7,8 +7,9 @@
 import * as moment from 'moment';
 import {Models} from '_types';
 import {verifyToken} from 'api/auth/jwt';
-import {Reply} from "@jingli/restful";
-
+import {reply} from "@jingli/restful";
+import Logger from "@jingli/logger";
+const logger = new Logger("http");
 const cache = require('common/cache');
 
 export async function authenticate(req, res, next) {
@@ -24,16 +25,16 @@ export async function authenticate(req, res, next) {
     if (token) {
         const result = await cache.read(token);
         if (!result) {
-            return res.json(Reply(498, null))
+            return res.json(reply(498, null))
         }
         try {
             session = await verifyToken(token, result.appSecret);
         } catch (e) {
-            console.log('err:', e)
-            return res.json(Reply(498, null));
+            logger.log('err:', e)
+            return res.json(reply(498, null));
         }
         if (!session) {
-            return res.json(Reply(500, null));
+            return res.json(reply(500, null));
         }
         req.session = session;
         // Statistics url request count
@@ -53,9 +54,10 @@ export async function authenticate(req, res, next) {
             dayStatistic.num = parseInt(dayStatistic.num) + 1;
             await dayStatistic.save();
         } catch (e) {
+            logger.error(e);
+        } finally {
             return next()
         }
-        return next()
     }
 
     return res.sendStatus(403);

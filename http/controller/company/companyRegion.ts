@@ -67,7 +67,7 @@ function transformStaffStrArgsToEnum(staffs) {
 }
 
 
-@Restful('/company/region')
+@Restful()
 export class CompanyRegionController extends AbstractController {
 
     constructor() {
@@ -78,14 +78,12 @@ export class CompanyRegionController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
-    @Router('/','get')
-    async getById(req, res, next) {
+    async get(req, res, next) {
         let {companyId} = req.session;
         let result = await Models.companyRegion.get(companyId);
         res.json(this.reply(0, result || null));
     }
 
-    @Router('/find','get')
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
         let params = req.query;

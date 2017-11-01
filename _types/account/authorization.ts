@@ -28,6 +28,4 @@ export class Authorization extends ModelObject {
     @Field({ type: Types.INTEGER })
     get status(): number { return null }
     set status(status: number) { }
-
-
 }

@@ -8,8 +8,13 @@ import * as moment from 'moment';
 import {Models} from '_types';
 import {verifyToken} from 'api/auth/jwt';
 import {Reply} from "@jingli/restful";
+import * as _ from 'lodash';
 
 const cache = require('common/cache');
+const pass_urls = [
+    '/auth/login',
+    '/agent/gettoken'
+]
 
 export async function authenticate(req, res, next) {
     let token = req.headers['token'] || req.query.token,
@@ -17,8 +22,8 @@ export async function authenticate(req, res, next) {
         session;
 
     // Login
-    if (url.indexOf("/auth/login") > -1) {
-        return next();
+    for(let v of pass_urls) {
+        if(v == url) return next()
     }
 
     if (token) {

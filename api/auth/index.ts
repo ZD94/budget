@@ -91,7 +91,7 @@ export async function signIn(params: {
     }
 
     try {
-        result = await getToken(account.id);
+        result = await getToken(account);
     } catch (e) {
         result.code = 500;
         return result;
@@ -100,24 +100,12 @@ export async function signIn(params: {
 }
 
 /**
- * Generate token
- * @param {string} agent 员工编号或企业编号
- * @param {string} company 企业编号
- * @returns {Promise<{code: number; data: any; msg: string}>}
+ * Generate access token
+ * @param param0 Employee entity
  */
-export async function getToken(agent: string) {
+export async function getToken({ companyId, id }: Account) {
     let res = {code: 0, data: null, msg: ''}
 
-    // Whether authorized to the agent
-    const authorizations = await Models.authorization.find({
-        where: {agent, status: AuthStatus.ACTIVED}
-    });
-    if (authorizations.length <= 0) {
-        res.code = 401;
-        return res;
-    }
-
-    const companyId = authorizations[0].companyId;
     const enterprise = await Models.company.get(companyId);
     if (!enterprise) {
         res.code = 401;
@@ -126,10 +114,10 @@ export async function getToken(agent: string) {
 
     const token = await generateToken({
         companyId,
-        accountId: agent
+        accountId: id
     }, enterprise.appId, enterprise.appSecret);
 
-    await cache.write(token, {appSecret: enterprise.appSecret}, EXPIRES);
+    await cache.write(token, {appSecret: enterprise.appSecret, appId: enterprise.appId}, EXPIRES);
     res.data = {token, expires: EXPIRES};
     return res;
 }
@@ -155,12 +143,14 @@ export async function getTokenByAgent(agentToken: string, companyId: string) {
         return res;
     }
 
-    let enterprise = await Models.company.get(companyId);
+    const enterprise = await Models.company.get(companyId);
 
-    if (!enterprise) {
-        res.code = 401;
+    if(!enterprise) {
+        res.code = 400;
         return res;
     }
+
+    const agentCompany = await Models.company.get(payload.companyId);
 
     // Whether authorized to the agent
     const authorizations = await Models.authorization.find({
@@ -174,7 +164,7 @@ export async function getTokenByAgent(agentToken: string, companyId: string) {
     const hasPermission = authorizations.length > 0;
 
     // Highest authority
-    if (enterprise.type == CompanyType.SYSTEM) {
+    if (agentCompany && agentCompany.type == CompanyType.SYSTEM) {
         // If authorization table doesn't have the record, insert it.
         if (!hasPermission) {
             const entity = Models.authorization.create({
@@ -186,7 +176,7 @@ export async function getTokenByAgent(agentToken: string, companyId: string) {
         }
     } else {
         if (!hasPermission) {
-            res.code = 401;
+            res.code = 403;
             return res;
         }
     }
@@ -196,7 +186,7 @@ export async function getTokenByAgent(agentToken: string, companyId: string) {
         accountId: payload.accountId
     }, enterprise.appId, enterprise.appSecret);
 
-    await cache.write(token, {appSecret: enterprise.appSecret}, EXPIRES);
+    await cache.write(token, {appSecret: enterprise.appSecret, appId: enterprise.appId}, EXPIRES);
     res.data = {token, expires: EXPIRES};
     return res;
 }
@@ -227,5 +217,55 @@ export async function authorizeTo(agentId: string, companyId: string) {
     });
     await entity.save();
 
+    return res;
+}
+
+/**
+ * Use appId and appSecret for access token
+ * @param appId 
+ * @param sign 签名规则：md5(appSecret|timestamp)
+ * @param timestamp 
+ */
+export async function getCompanyToken(appId: string, sign: string, timestamp: number) {
+    const res = {code: 0, msg: '', data: null};
+    const enterprises = await Models.company.find({
+        where:{
+            appId
+        }
+    });
+    if(enterprises.length <= 0) {
+        res.code = 400;
+        return res;
+    }
+
+    const enterprise = enterprises[0];
+    const temp = md5([enterprise.appSecret, timestamp].join('|'));
+    if(temp != sign) {
+        res.code = 500;
+        return res;
+    }
+
+    const token = await generateToken({
+        companyId: enterprise.id,
+    }, enterprise.appId, enterprise.appSecret);
+
+    await cache.write(token, {appSecret: enterprise.appSecret, appId}, EXPIRES);
+    res.data = {token, expires: EXPIRES};
+    return res;
+}
+
+export async function refreshToken(token: string) {
+    const res = {code: 0, msg: '', data: null};
+    const session = await cache.read(token);
+    let payload;
+    try {
+        payload = await verifyToken(token, session.appSecret);
+    } catch (e) {
+        res.code = 498;
+        return res;
+    }
+
+    const newToken = await generateToken({...payload}, session.appId, session.appSecret);
+    res.data = {token: newToken, expires: EXPIRES};
     return res;
 }

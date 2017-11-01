@@ -67,7 +67,7 @@ function transformStaffStrArgsToEnum(staffs) {
 }
 
 
-@Restful('/company/region')
+@Restful()
 export class CompanyRegionController extends AbstractController {
 
     constructor() {
@@ -84,7 +84,6 @@ export class CompanyRegionController extends AbstractController {
         res.json(this.reply(0, result || null));
     }
 
-    @Router('/find','get')
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
         let params = req.query;
@@ -120,8 +119,7 @@ export class CompanyRegionController extends AbstractController {
         res.json(this.reply(0, result));
     }
 
-    @Router('/:id', 'put')
-    async updateById(req, res, next) {
+    async update(req, res, next) {
         let params = req.body;
         let obj = await Models.companyRegion.get(req.params.id);
 
@@ -149,8 +147,7 @@ export class CompanyRegionController extends AbstractController {
         res.json(this.reply(0, obj));
     }
 
-    @Router('/:id', 'delete')
-    async deleteById(req, res, next) {
+    async delete(req, res, next) {
         let {id} = req.params;
         let obj = await Models.companyRegion.get(id);
         let isDeleted = await obj.destroy();

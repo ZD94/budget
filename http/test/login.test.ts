@@ -15,13 +15,7 @@ import uuid = require("uuid");
 var expect = require("chai").expect;
 import md5 = require("md5");
 
-var host = 'http://localhost:4003';
-var prefix = '/api/v1'
-
-function getFullPath(url) {
-    let fullUrl =  host + prefix + url;
-    return fullUrl;
-}
+import {getFullPath, getToken, setToken} from './helper';
 
 describe("/auth", function(){
 
@@ -56,34 +50,35 @@ describe("/auth", function(){
             }catch(e){
                 result = body;
             }
+            console.log(body)
             expect(result.code).to.be.equal(0);
-            token = result.data.token;
+            setToken(result.data.token);
             done();          
         });
     });
 
 
-    it("POST /auth/quit", (done)=>{
-        request.post(getFullPath("/auth/quit"), {
-            headers : {
-                token: token
-            },
-        }, (err, httpResponse, body)=>{
-            if(err){
-                console.log(err);
-                return;
-            }
-
-            let result;
-            try{
-                result = JSON.parse( body );
-            }catch(e){
-                result = body;
-            }
-            console.log(result);
-            expect(result.code).to.be.equal(0);
-            done();
-        })
-    })
+    // it("POST /auth/quit", (done)=>{
+    //     request.post(getFullPath("/auth/quit"), {
+    //         headers : {
+    //             token: getToken(),
+    //         },
+    //     }, (err, httpResponse, body)=>{
+    //         if(err){
+    //             console.log(err);
+    //             return;
+    //         }
+    //
+    //         let result;
+    //         try{
+    //             result = JSON.parse( body );
+    //         }catch(e){
+    //             result = body;
+    //         }
+    //         console.log(result);
+    //         expect(result.code).to.be.equal(0);
+    //         done();
+    //     })
+    // })
 });
 

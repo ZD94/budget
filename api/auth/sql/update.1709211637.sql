@@ -1,1 +1,1 @@
-insert into auth.accounts (id, email, pwd, created_at, updated_at) values ('e95df65c-6316-4517-9bfe-5605218d6908', 'qmtrip@jingli365.com', 'e10adc3949ba59abbe56e057f20f883e', now(), now());
+insert into auth.accounts (id, email, pwd, created_at, updated_at, company_id) values ('e95df65c-6316-4517-9bfe-5605218d6908', 'qmtrip@jingli365.com', 'e10adc3949ba59abbe56e057f20f883e', now(), now(), '1b5dc6fc-ea3d-411d-b747-3a301abb40ab');

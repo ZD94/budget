@@ -27,4 +27,9 @@ export class Account extends ModelObject {
     @Field({ type: Types.STRING })
     get pwd(): string { return null; }
     set pwd(pwd: string) { }
+
+    @Field({ type: Types.UUID })
+    get companyId(): string { return null; }
+    set companyId(id: string) { }
+    
 }

@@ -10,7 +10,7 @@ import {Supplier} from '_types/supplier';
 var supplierCols = Supplier['$fieldnames'];
 
 //
-@Restful('/company/:companyId/supplier')
+@Restful()
 export class SupplierController extends AbstractController {
 
     constructor() {
@@ -119,13 +119,11 @@ export class SupplierController extends AbstractController {
      */
     async find(req, res, next) {
         let params = req.query;
+        const {companyId} = req.session;
         console.info('findparams', params);
 
-        if(params.companyId == 'null' || params.companyId == ''){
-            params.companyId = null;
-        }
 
-        let query = {where: {}};
+        let query = {where: {companyId}};
         let limit = 20;
         for (let key in params) {
             if (supplierCols.indexOf(key) >= 0) {

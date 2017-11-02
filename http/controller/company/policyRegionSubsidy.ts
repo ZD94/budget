@@ -10,7 +10,7 @@ import {PolicyRegionSubsidy} from "_types/policy";
 import {Models} from "_types";
 var policyRegionSubsidyCols = PolicyRegionSubsidy['$fieldnames'];
 
-@Restful('/company/:companyId/policyRegionSubsidy')
+@Restful()
 export class PolicyRegionSubsidyController extends AbstractModelController {
 
     constructor() {

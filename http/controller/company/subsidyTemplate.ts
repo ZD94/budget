@@ -66,7 +66,7 @@ function transformStaffStrArgsToEnum(staffs) {
 }
 
 
-@Restful('/company/:companyId/subsidyTemplate')
+@Restful()
 export class SubsidyTemplateController extends AbstractController {
 
     constructor() {

@@ -9,7 +9,7 @@ import {SubsidyType} from "_types/policy";
 import {Models} from "_types";
 var subsidyTypeCols = SubsidyType['$fieldnames'];
 
-@Restful('/company/:companyId/subsidyType')
+@Restful()
 export class SubsidyTypeController extends AbstractModelController {
 
     constructor() {
@@ -17,7 +17,7 @@ export class SubsidyTypeController extends AbstractModelController {
     }
 
     async find(req, res, next) {
-        let companyId = req.params ? req.params.companyId : "";
+        const {companyId} = req.session;
         let params = req.query;
         let {p, pz, order} = params;
         pz = pz || 20;

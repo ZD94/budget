@@ -2,8 +2,9 @@
  * Created by wlh on 2017/8/29.
  */
 
+
 'use strict';
-import {AbstractController, Restful} from "@jingli/restful";
+import {AbstractController, Restful, Router} from "@jingli/restful";
 import {CompanyRegion} from "_types/policy";
 import {Models} from "_types";
 var companyRegionCols = CompanyRegion['$fieldnames'];
@@ -66,39 +67,30 @@ function transformStaffStrArgsToEnum(staffs) {
 }
 
 
-@Restful('/company/:companyId/companyRegion')
+@Restful()
 export class CompanyRegionController extends AbstractController {
 
     constructor() {
         super();
     }
 
-    // async $before(req, res, next) {
-    //     let {companyId} = req.params;
-    //     return next();
-    // }
-
     $isValidId(id: string) {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
     async get(req, res, next) {
-        let params = req.params;
-        let id = params.id;
-        if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
-        }
+        let {id} = req.params;
         let result = await Models.companyRegion.get(id);
-        if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.json(this.reply(0, result || null));
     }
 
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
         let params = req.query;
-        let {companyId} = req.params;
+        let {companyId} = req.session;
+        // let {order = [["createdAt", "desc"]], p = 0, pz = 20} = req.query;
         let type = 0;
-        let query = {where:{companyId: companyId}};
+        let query = {where: {companyId}};
         let limit = 20;
         for(let key in params){
             if(companyRegionCols.indexOf(key) >= 0){
@@ -124,18 +116,12 @@ export class CompanyRegionController extends AbstractController {
                 return types && types.indexOf(type) >= 0;
             })
         }
-        // console.log("companyRegion====>query: ", query, result[0], result[1]);
         res.json(this.reply(0, result));
     }
 
-
     async update(req, res, next) {
         let params = req.body;
-        let id = params.id;
-        if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
-        }
-        let obj = await Models.companyRegion.get(id);
+        let obj = await Models.companyRegion.get(req.params.id);
 
         for(let key in params){
             if(companyRegionCols.indexOf(key) >= 0){
@@ -149,7 +135,8 @@ export class CompanyRegionController extends AbstractController {
 
     async add(req, res, next) {
         let params = req.body;
-        let properties = {};
+        let {companyId} = req.session;
+        let properties = {companyId};
         for(let key in params){
             if(companyRegionCols.indexOf(key) >= 0){
                 properties[key] = params[key];
@@ -161,11 +148,7 @@ export class CompanyRegionController extends AbstractController {
     }
 
     async delete(req, res, next) {
-        let params = req.params;
-        let id = params.id;
-        if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
-        }
+        let {id} = req.params;
         let obj = await Models.companyRegion.get(id);
         let isDeleted = await obj.destroy();
         res.json(this.reply(0, isDeleted));

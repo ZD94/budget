@@ -9,7 +9,7 @@ import API from '@jingli/dnode-api';
 import {Models} from "_types/index";
 import {PreferRegion} from "_types/preferRegion";
 
-@Restful('/company/:companyId/prefer')
+@Restful()
 export class PreferController extends AbstractModelController {
     constructor() {
         super(Models.preferRegion, PreferRegion["$fieldnames"]);
@@ -17,7 +17,8 @@ export class PreferController extends AbstractModelController {
 
     //companyId验证在更上一层
     async $before(req, res, next){
-        let {id, companyId} = req.params;
+        const {companyId} = req.session;
+        let {id} = req.params;
         if(!id){
             return next();
         }

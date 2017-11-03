@@ -3,15 +3,17 @@
  */
 
 'use strict';
+
 import {ModelInterface} from "../common/model/interface";
 import {ModelDelegate} from "../common/model/delegate";
 import {Budget, BudgetItem, Deeplink} from "_types/budget";
 import {Statistic, App} from "_types/openapi";
-import {TravelPolicy,SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionPlace, SubsidyType, PolicyRegionSubsidy} from "_types/policy";
+import {TravelPolicy, SubsidyTemplate, TravelPolicyRegion, CompanyRegion, RegionPlace, SubsidyType,
+    PolicyRegionSubsidy} from "_types/policy";
 import {Supplier} from "./supplier";
 import {Company} from "_types/company";
 import {CurrencyRate, Currency} from "_types/currency";
-import {Account, AccountCompany} from "_types/account";
+import {Account, AccountCompany, Authorization} from "_types/account";
 import {CompanyConfig} from "_types/company";
 import {PreferRegion} from "./preferRegion";
 import {CommonSupplier, SupplierAlternateName} from "_types/commonSupplier";
@@ -35,13 +37,12 @@ export interface ModelsInterface {
     company: ModelInterface<Company>;
     account: ModelInterface<Account>;
     accountCompany: ModelInterface<AccountCompany>;
+    authorization: ModelInterface<Authorization>;
     preferRegion: ModelInterface<PreferRegion>;
     companyConfig: ModelInterface<CompanyConfig>;
     commonSupplier: ModelInterface<CommonSupplier>;
     supplierAlternateName: ModelInterface<SupplierAlternateName>;
 }
-
-
 
 
 export var Models: ModelsInterface = {
@@ -63,6 +64,7 @@ export var Models: ModelsInterface = {
     company: new ModelDelegate<Company>(),
     account: new ModelDelegate<Account>(),
     accountCompany: new ModelDelegate<AccountCompany>(),
+    authorization: new ModelDelegate<Authorization>(),
     preferRegion: new ModelDelegate<PreferRegion>(),
     companyConfig: new ModelDelegate<CompanyConfig>(),
     commonSupplier: new ModelDelegate<CommonSupplier>(),

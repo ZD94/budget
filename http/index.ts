@@ -2,25 +2,26 @@
  * Created by wlh on 2017/8/25.
  */
 
+
 'use strict';
 
 import http = require("http");
 
-import {scannerDecoration, registerControllerToRouter, Reply} from "@jingli/restful";
+import {scannerDecoration, registerControllerToRouter, batchRegisterErrorCode, ERR_TEXT, reply} from "@jingli/restful";
 
 import path = require("path");
 import express = require("express");
 import {authenticate} from "./auth";
-import {checkCompany} from "api/auth";
+
 
 let router = express.Router();
 
 scannerDecoration(path.join(__dirname, 'controller'));
-registerControllerToRouter(router);
+registerControllerToRouter(router, {isShowUrls: true});
 
 let allowOrigin = [
     "localhost",
-    "jingli365"
+    "jingli365",
 ];
 
 function checkOrigin( origin ){
@@ -60,8 +61,16 @@ function validCompanyId(req, res, next, companyId) {
         next();
 }
 
+batchRegisterErrorCode({
+    498: 'token不存在',
+    500: 'token已失效或者不存在',
+});
+
 export async function initHttp(app) {
     router.param("companyId", validCompanyId);
     app.use('/api/v1', allowCrossDomain);
+    app.use('/api/v1/errorCodes', function(req, res, next) {
+        res.json(reply(0, ERR_TEXT));
+    })
     app.use('/api/v1', authenticate, router);
 }

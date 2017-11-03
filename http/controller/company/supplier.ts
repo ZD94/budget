@@ -3,11 +3,14 @@
  */
 
 'use strict'
-import {AbstractController, Restful} from '@jingli/restful';
+import {AbstractController, Restful, Router} from '@jingli/restful';
 import API from '@jingli/dnode-api';
 import {Models} from '_types';
 import {Supplier} from '_types/supplier';
+var BookLink = require ('api/supplier/index');
 var supplierCols = Supplier['$fieldnames'];
+
+
 
 //
 @Restful('/company/:companyId/supplier')
@@ -149,5 +152,16 @@ export class SupplierController extends AbstractController {
         res.json(this.reply(0, obj));
     }
 
-
+    @Router("/getBookLink", 'POST')
+    async other(req, res, next){
+        let params = req.body;
+        console.log('params', params);
+        let obj = await BookLink.getBookLink(params);
+        console.log('params', params);
+        console.log('obj', obj);
+        if (obj == undefined) {
+            obj = null;
+        }
+        res.json(this.reply(0, obj));
+    }
 }

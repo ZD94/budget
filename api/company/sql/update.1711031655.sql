@@ -1,0 +1,1 @@
+update company.companies set app_id=md5(id::text), app_secret=substr(md5(id::text), 25) where app_id is null

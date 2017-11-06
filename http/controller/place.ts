@@ -20,7 +20,7 @@ export class PlaceController extends AbstractController {
     async get(req, res, next) {
         let { id } = req.params;
         const resp: any = await restfulAPIUtil.proxyHttp({
-            url: `/city/${id}`,
+            uri: `/city/${id}`,
             method: 'GET'
         })
 
@@ -34,8 +34,8 @@ export class PlaceController extends AbstractController {
     async find(req, res, next) {
         let { keyword } = req.params;
         const resp: any = keyword
-            ? await restfulAPIUtil.proxyHttp({ url: `/city/search`, method: 'GET', qs: { keyword } })
-            : await restfulAPIUtil.proxyHttp({ url: `/city`, method: 'GET' })
+            ? await restfulAPIUtil.proxyHttp({ uri: `/city/search`, method: 'GET', qs: { keyword } })
+            : await restfulAPIUtil.proxyHttp({ uri: `/city`, method: 'GET' })
 
         return res.send(this.processResp(resp));
     }
@@ -50,7 +50,7 @@ export class PlaceController extends AbstractController {
             return res.send(this.reply(400, null));
         }
         const resp: any = await restfulAPIUtil.proxyHttp({
-            url: `/city/nearby/${longitude},${latitude}`,
+            uri: `/city/nearby/${longitude},${latitude}`,
             method: 'GET'
         });
 
@@ -61,7 +61,7 @@ export class PlaceController extends AbstractController {
     async getChildren(req, res, next) {
         let { id } = req.params;
         const resp: any = await restfulAPIUtil.proxyHttp({
-            url: `/city/${id}/children`,
+            uri: `/city/${id}/children`,
             method: 'GET'
         });
 

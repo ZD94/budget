@@ -56,6 +56,35 @@ export class CityController extends AbstractController {
         res.json(this.reply(0,cities.map(this.transform)));
     }
 
+    @Router('/getCitiesByLetter', 'GET')
+    async getCitiesByLetter(req, res, next){
+        let {isAbroad = false, letter = 'A', limit = 20, page = 0, type} = req.params;
+        let cities = await API['place'].getCitiesByLetter({
+            isAbroad,
+            letter,
+            limit,
+            page,
+            type
+         });
+        res.json(this.reply(0,cities.map(this.transform)));
+    }
+
+    @Router('/getCitiesByLetter', 'GET')
+    async getCityInfoByName(req, res, next){
+        let {name} = req.params;
+        let city = await API['place'].getCityInfoByName(name);
+        res.json(this.reply(0, this.transform(city)));
+    }
+
+    @Router('/getAirPortsByCity', 'GET')  
+    async getAirPortsByCity(req, res, next){
+        let {cityCode} = req.params;
+        let city = await API['place'].getAirPortsByCity({
+            cityCode
+        });
+        res.json(this.reply(0, this.transform(city)));
+    }
+
     private transform(city) {
         return {
             id: city.id,
@@ -65,6 +94,7 @@ export class CityController extends AbstractController {
             latitude: city.latitude,
             longitude: city.longitude,
             parentId: city.parentId,
+            timezone: city.timezone
         }
     }
 }

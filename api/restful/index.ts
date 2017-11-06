@@ -1,4 +1,5 @@
 /**
+<<<<<<< HEAD
  * Created by mr_squirrel on 01/09/2017.
  */
 
@@ -58,6 +59,16 @@ export class RestfulAPIUtil {
         })
     }
 
+=======
+ * Created by lsw on 31/10/2017.
+ */
+
+var request = require("request");
+var Config = require("@jingli/config");
+
+export class RestfulAPIUtil {
+
+>>>>>>> 38f268ffa1859945eaf1f04a0cd2a82c7f9847cc
     async proxyHttp(params:{
         url:string;
         body?:object;
@@ -67,11 +78,22 @@ export class RestfulAPIUtil {
         let {url, body={}, method="get", qs={}} = params;
         return new Promise((resolve, reject) => {
             request({
+<<<<<<< HEAD
                 uri: config.placeAPI + url,
                 body,
                 json: true,
                 method,
                 qs
+=======
+                uri: Config.cloudAPI + url,
+                body,
+                json: true,
+                method,
+                qs,
+                headers: {
+                    key: Config.cloudKey
+                }
+>>>>>>> 38f268ffa1859945eaf1f04a0cd2a82c7f9847cc
             }, (err, resp, result) => {
                 if (err) {
                     return reject(err);

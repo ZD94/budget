@@ -89,8 +89,9 @@ export class CompanyController extends AbstractModelController{
                 company[key] = params[key];
             }
         }
-        company.appId = id;
-        company.appSecret = md5(id+`${Date.now()}`.slice(-4));
+        const appId = md5(id);
+        company.appId = appId;
+        company.appSecret = appId.slice(-8);
         company = await company.save();
         res.json(this.reply(0, company));
     }

@@ -90,6 +90,7 @@ export class CompanyController extends AbstractModelController{
             }
         }
         const appId = md5(id);
+        company.type = 1;
         company.appId = appId;
         company.appSecret = appId.slice(-8);
         company = await company.save();

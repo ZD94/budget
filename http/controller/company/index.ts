@@ -8,6 +8,7 @@
 import {AbstractModelController, Restful, Router} from "@jingli/restful";
 import {Models} from "_types";
 import {Company} from "_types/company";
+import { CompanyType } from 'api/auth'
 const md5 = require('md5');
 
 /** 
@@ -90,6 +91,7 @@ export class CompanyController extends AbstractModelController{
             }
         }
         const appId = md5(id);
+        company.type = CompanyType.GENERAL;
         company.appId = appId;
         company.appSecret = appId.slice(-8);
         company = await company.save();

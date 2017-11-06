@@ -7,21 +7,9 @@ var Config = require("@jingli/config");
 
 export class RestfulAPIUtil {
 
-    async proxyHttp(params:{
-        url:string;
-        body?:object;
-        method:string;
-        qs?:object;
-    }){
-        let {url, body={}, method="get", qs={}} = params;
+    async proxyHttp(params = { uri: '', body: {}, method: "get", qs: {} }) {
         return new Promise((resolve, reject) => {
-            request({
-                uri: Config.placeAPI + url,
-                body,
-                json: true,
-                method,
-                qs
-            }, (err, resp, result) => {
+            request({ ...params, uri: Config.placeAPI + params.uri }, (err, resp, result) => {
                 if (err) {
                     return reject(err);
                 }

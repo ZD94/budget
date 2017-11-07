@@ -233,17 +233,21 @@ class ApiTravelBudget{
             let policyKey = staff.policy || 'default';
             let staffPolicy = policies[policyKey] || {};
             let star = staffPolicy.hotelStar;
-            // let allPrefers = loadPrefers(companyPrefers, {local: {
-            //     checkInDate,
-            //     checkOutDate,
-            //     star,
-            //     latitude: location.latitude,
-            //     longitude: location.longitude,
-            // }}, key);
-            let allPrefers = [];
+            let allPrefers = loadPrefers(companyPrefers, {local: {
+                checkInDate,
+                checkOutDate,
+                star,
+                latitude: location.latitude,
+                longitude: location.longitude,
+            }}, key);
 
             //追加员工设置的标准
             if (typeof staffPolicy.hotelPrefer == 'number' && staffPolicy.hotelPrefer >= 0 ) {
+                for (let i = 0; i < allPrefers.length; i++) { //删除企业中的价格偏好
+                    if (allPrefers[i]['name'] == 'price') {
+                        allPrefers.splice(i, 1);
+                    }
+                }
                 [EHotelStar.FIVE, EHotelStar.FOUR, EHotelStar.THREE, EHotelStar.TOW].forEach( (star) => {
                     allPrefers.push({
                         "name":"price",
@@ -411,16 +415,21 @@ class ApiTravelBudget{
                 }
             }
 
-            let allPrefers = [];
-            // if ((<ICity>fromCity).isAbroad || (<ICity>toCity).isAbroad) {
-            //     let key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_TRAFFIC;
-            //     allPrefers = loadPrefers(preferSet["traffic"] || [], qs, key)
-            // } else {
-            //     let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET;
-            //     allPrefers = loadPrefers(preferSet["traffic"] || [], qs, key)
-            // }
+            let allPrefers;
+            if ((<ICity>fromCity).isAbroad || (<ICity>toCity).isAbroad) {
+                let key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_TRAFFIC;
+                allPrefers = loadPrefers(preferSet["traffic"] || [], qs, key)
+            } else {
+                let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET;
+                allPrefers = loadPrefers(preferSet["traffic"] || [], qs, key)
+            }
             //追加员工特殊偏好
             if (typeof staffPolicy.trafficPrefer == 'number' && staffPolicy.trafficPrefer >= 0) {
+                for (let i = 0; i < allPrefers.length; i++) { //删除企业中的价格偏好
+                    if (allPrefers[i]['name'] == 'price') {
+                        allPrefers.splice(i, 1);
+                    }
+                }
                 [EAirCabin.BUSINESS, EAirCabin.ECONOMY, EAirCabin.FIRST, EAirCabin.PREMIUM_ECONOMY].forEach( (cabin) => {
                     allPrefers.push({
                         "name":"price",

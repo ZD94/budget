@@ -233,13 +233,14 @@ class ApiTravelBudget{
             let policyKey = staff.policy || 'default';
             let staffPolicy = policies[policyKey] || {};
             let star = staffPolicy.hotelStar;
-            let allPrefers = loadPrefers(companyPrefers, {local: {
-                checkInDate,
-                checkOutDate,
-                star,
-                latitude: location.latitude,
-                longitude: location.longitude,
-            }}, key);
+            // let allPrefers = loadPrefers(companyPrefers, {local: {
+            //     checkInDate,
+            //     checkOutDate,
+            //     star,
+            //     latitude: location.latitude,
+            //     longitude: location.longitude,
+            // }}, key);
+            let allPrefers = [];
 
             //追加员工设置的标准
             if (typeof staffPolicy.hotelPrefer == 'number' && staffPolicy.hotelPrefer >= 0 ) {
@@ -410,14 +411,14 @@ class ApiTravelBudget{
                 }
             }
 
-            let allPrefers;
-            if ((<ICity>fromCity).isAbroad || (<ICity>toCity).isAbroad) {
-                let key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_TRAFFIC;
-                allPrefers = loadPrefers(preferSet["traffic"] || [], qs, key)
-            } else {
-                let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET;
-                allPrefers = loadPrefers(preferSet["traffic"] || [], qs, key)
-            }
+            let allPrefers = [];
+            // if ((<ICity>fromCity).isAbroad || (<ICity>toCity).isAbroad) {
+            //     let key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_TRAFFIC;
+            //     allPrefers = loadPrefers(preferSet["traffic"] || [], qs, key)
+            // } else {
+            //     let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET;
+            //     allPrefers = loadPrefers(preferSet["traffic"] || [], qs, key)
+            // }
             //追加员工特殊偏好
             if (typeof staffPolicy.trafficPrefer == 'number' && staffPolicy.trafficPrefer >= 0) {
                 [EAirCabin.BUSINESS, EAirCabin.ECONOMY, EAirCabin.FIRST, EAirCabin.PREMIUM_ECONOMY].forEach( (cabin) => {

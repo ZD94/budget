@@ -5,14 +5,13 @@
 
 'use strict';
 
-import http = require("http");
-
 import {scannerDecoration, registerControllerToRouter, batchRegisterErrorCode, ERR_TEXT, reply} from "@jingli/restful";
 
 import path = require("path");
 import express = require("express");
 import {authenticate} from "./auth";
-
+import Logger from "@jingli/logger";
+const logger = new Logger("http");
 
 let router = express.Router();
 
@@ -34,8 +33,14 @@ function checkOrigin( origin ){
     return false;
 }
 
-function allowCrossDomain(req, res, next) { 
-    console.log(`${req.method}  ${req.url}   ${req.headers['token']}`)
+function recordLogger(req, res, next) {
+    logger.log(`${req.method}  ${req.url}   ${req.headers['token']}`)
+    logger.debug("req.query====>", req.query);
+    logger.debug("req.body====>", req.body);
+    return next();
+}
+
+function allowCrossDomain(req, res, next) {
     if (req.headers.origin && checkOrigin(req.headers.origin)) {
         res.header('Access-Control-Allow-Origin', req.headers.origin);
     }
@@ -47,20 +52,6 @@ function allowCrossDomain(req, res, next) {
     next();
 }
 
-function validCompanyId(req, res, next, companyId) { 
-        if (!companyId) {
-            return next();
-        }
-
-        /* let { accountId } = req["session"];
-        
-        //如果存在companyId参数，验证companyId是否属于该accountId
-        let companyCheck = await checkCompany(accountId , value);
-        if(!companyCheck){
-            return res.json(Reply(403, null));
-        } */
-        next();
-}
 
 batchRegisterErrorCode({
     498: 'token不存在',
@@ -68,7 +59,7 @@ batchRegisterErrorCode({
 });
 
 export async function initHttp(app) {
-    router.param("companyId", validCompanyId);
+    app.use('/api/v1', recordLogger);
     app.use('/api/v1', allowCrossDomain);
     app.use('/api/v1/errorCodes', function(req, res, next) {
         res.json(reply(0, ERR_TEXT));

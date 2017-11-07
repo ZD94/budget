@@ -243,16 +243,16 @@ class ApiTravelBudget{
 
             //追加员工设置的标准
             if (typeof staffPolicy.hotelPrefer == 'number' && staffPolicy.hotelPrefer >= 0 ) {
-                for (let i = 0; i < allPrefers.length; i++) { //删除企业中的价格偏好
-                    if (allPrefers[i]['name'] == 'price') {
-                        allPrefers.splice(i, 1);
-                    }
-                }
                 [EHotelStar.FIVE, EHotelStar.FOUR, EHotelStar.THREE, EHotelStar.TOW].forEach( (star) => {
-                    allPrefers.push({
+                    let pref ={
                         "name":"price",
                         "options":{"type":"square","score":50000,"level":[star],"percent": staffPolicy.hotelPrefer / 100 }
-                    })
+                    };
+                    for (let i = 0; i < allPrefers.length; i++) {
+                        if (allPrefers[i]['name'] == pref['name'] && allPrefers[i]['options']['level'] == pref['options']['level']) {
+                            allPrefers.splice(i, 1, pref);
+                        }
+                    }
                 })
             }
 
@@ -425,16 +425,16 @@ class ApiTravelBudget{
             }
             //追加员工特殊偏好
             if (typeof staffPolicy.trafficPrefer == 'number' && staffPolicy.trafficPrefer >= 0) {
-                for (let i = 0; i < allPrefers.length; i++) { //删除企业中的价格偏好
-                    if (allPrefers[i]['name'] == 'price') {
-                        allPrefers.splice(i, 1);
-                    }
-                }
                 [EAirCabin.BUSINESS, EAirCabin.ECONOMY, EAirCabin.FIRST, EAirCabin.PREMIUM_ECONOMY].forEach( (cabin) => {
-                    allPrefers.push({
+                    let pref = {
                         "name":"price",
                         "options":{"type":"square","score":50000,"level":[cabin],"percent": staffPolicy.trafficPrefer / 100 }
-                    })
+                    }; 
+                    for (let i = 0; i < allPrefers.length; i++) {
+                        if (allPrefers[i]['name'] == pref['name'] && allPrefers[i]['options']['level'] == pref['options']['level']) {
+                            allPrefers.splice(i, 1, pref);
+                        }
+                    }
                 });
             }
             //追加是否允许乘坐飞机

@@ -35,6 +35,7 @@ function checkOrigin( origin ){
 
 function recordLogger(req, res, next) {
     logger.log(`${req.method}  ${req.url}   ${req.headers['token']}`)
+    logger.debug("header====>", req.headers);
     logger.debug("req.query====>", req.query);
     logger.debug("req.body====>", req.body);
     return next();

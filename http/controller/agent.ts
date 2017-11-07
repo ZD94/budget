@@ -6,6 +6,8 @@
 
 import { AbstractController, Restful, Router } from "@jingli/restful";
 import API from '@jingli/dnode-api';
+import Logger from '@jingli/logger';
+const logger = new Logger('agent');
 
 @Restful()
 export class AgentController extends AbstractController {
@@ -19,6 +21,7 @@ export class AgentController extends AbstractController {
         const { token } = req.headers;
 
         const result = await API['auth'].getTokenByAgent(token, id);
+        logger.debug(result);
         if (result.code == 0) {
             return res.json(this.reply(0, result.data));
         }

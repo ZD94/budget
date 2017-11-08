@@ -17,9 +17,11 @@ export = async function (db, transition) {
         where a.deleted_at is null and a.mobile is not null`;
     const usrs = await db2.query(sql2);
 
-    for (let u of usrs) {
-        let sql = `insert into auth.accounts(id,mobile,pwd,created_at,updated_at,company_id) 
+    for (let u of usrs[0]) {
+        if (u && u.mobile && u.pwd && u.company_id) { 
+            let sql = `insert into auth.accounts(id,mobile,pwd,created_at,updated_at,company_id) 
             values(${uuid.v1()},${u.mobile},${u.pwd},now(),now(),${u.company_id})`
-        await db.query(sql)
+            await db.query(sql)
+        }
     }
 }

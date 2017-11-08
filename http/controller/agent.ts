@@ -56,4 +56,12 @@ export class AgentController extends AbstractController {
         return resp.send(this.reply(resp.code, null));
     }
 
+    @Router('/company/create', 'POST')
+    async createCompany(req, res, next) {
+        let params = req.body;
+        let company = await API['company'].create(params);
+        //TODO://授权给agent
+        return res.send(this.reply(0, company));
+    }
+
 }

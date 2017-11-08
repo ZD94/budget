@@ -312,7 +312,8 @@ export abstract class AbstractTicketStrategy {
             deeplinkData: ret.deeplinkData,
             carry: ret.carry,
             destinationStation: ret.destinationStation,
-            originStation: ret.originStation
+            originStation: ret.originStation,
+            segs: ret.segs
         }
 
         if (self.isRecord) {

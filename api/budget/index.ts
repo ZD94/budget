@@ -249,7 +249,7 @@ class ApiTravelBudget{
                         "options":{"type":"square","score":50000,"level":[star],"percent": staffPolicy.hotelPrefer / 100 }
                     };
                     for (let i = 0; i < allPrefers.length; i++) {
-                        if (allPrefers[i]['name'] == pref['name'] && allPrefers[i]['options']['level'] == pref['options']['level']) {
+                        if (allPrefers[i].name == pref.name && allPrefers[i].options.level[0] == pref.options.level[0]) {
                             allPrefers.splice(i, 1, pref);
                         }
                     }
@@ -431,7 +431,7 @@ class ApiTravelBudget{
                         "options":{"type":"square","score":50000,"level":[cabin],"percent": staffPolicy.trafficPrefer / 100 }
                     }; 
                     for (let i = 0; i < allPrefers.length; i++) {
-                        if (allPrefers[i]['name'] == pref['name'] && allPrefers[i]['options']['level'] == pref['options']['level']) {
+                        if (allPrefers[i].name == pref.name && allPrefers[i].options.level[0] == pref.options.level[0]) {
                             allPrefers.splice(i, 1, pref);
                         }
                     }
@@ -444,7 +444,6 @@ class ApiTravelBudget{
                     "options":{"type":"square","score": -1000000,"percent": 0 }
                 })
             }
-
             let strategy = await TrafficBudgetStrategyFactory.getStrategy({
                 fromCity,
                 toCity,
@@ -491,7 +490,8 @@ class ApiTravelBudget{
                 prefers: allPrefers,
                 bookurl: deeplinkItem.url,
                 destinationStation: budget.destinationStation,
-                originStation: budget.originStation
+                originStation: budget.originStation,
+                segs: budget.segs
             }
 
             return trafficBudget as ITrafficBudgetItem;
@@ -773,7 +773,17 @@ class ApiTravelBudget{
                 if(tp){
                     let company = await Models.company.get(tp.companyId);
                     subsidies = await tp.getSubsidies({placeId: toCity.id});
-                    if(company && company.isOpenSubsidyBudget && subsidies && subsidies.length){
+                    /*
+                    ** 当天去当天回 补助只给一天
+                    */
+                    let segLast, beginTimeLastSeg, endT, days = 1;
+                    if ((i == segments.length - 1 && i > 0) || seg.noTraffic) {
+                        segLast = segments[i-1];
+                        beginTimeLastSeg = moment(segLast.beginTime).format('YYYY-MM-DD');
+                        endT   = moment(seg.endTime).format('YYYY-MM-DD');
+                        days = moment(endT).diff(beginTimeLastSeg, 'days');
+                    }
+                    if(company && company.isOpenSubsidyBudget && subsidies && subsidies.length && days > 0){
                         let subsidyParams = {
                             subsidies: subsidies,
                             leaveDate: seg.beginTime || seg.endTime,

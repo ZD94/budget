@@ -270,6 +270,7 @@ export async function refreshToken(token: string) {
     }
 
     const newToken = await generateToken({...payload}, session.appId, session.appSecret);
+    await cache.write(newToken, { appSecret: session.appSecret, appId: session.appId }, EXPIRES);
     res.data = {token: newToken, expires: EXPIRES};
     return res;
 }

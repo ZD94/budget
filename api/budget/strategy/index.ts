@@ -36,12 +36,13 @@ export function formatTicketData(tickets: ITicket[]) : IFinalTicket[] {
                     price: cabin.price,
                     remainNum: cabin.remainNum,
                     bookUrl: agents[j].bookUrl,
+                    deeplinkData: agents[j].deeplinkData,
                     duration: tickets[i].duration || ((new Date(tickets[i].arrivalDateTime).valueOf() - new Date(tickets[i].departDateTime).valueOf())/(60*1000)),
                     type: tickets[i].type,
                     stops: tickets[i].stops,
                     segs: tickets[i].segs,
                     carry: tickets[i].carry
-                } as IFinalTicket
+                } as IFinalTicket;
                 if(_ticket.price && _ticket.price >= 0) {
                     _tickets.push(_ticket);
                 }
@@ -68,6 +69,7 @@ export function formatHotel(hotels: IHotel[]) : IFinalHotel[] {
                     star: hotel.star,
                     price: agents[j].price,
                     bookUrl: agents[j].bookUrl,
+                    deeplinkData: agents[j].deeplinkData,
                     agent: agents[j].name,
                     checkInDate: hotel.checkInDate,
                     checkOutDate: hotel.checkOutDate,
@@ -179,6 +181,7 @@ export abstract class AbstractHotelStrategy {
             latitude: ret.latitude,
             longitude: ret.longitude,
             bookurl: ret.bookUrl,
+            deeplinkData: ret.deeplinkData,
             commentScore: ret.commentScore
         }
 
@@ -306,6 +309,7 @@ export abstract class AbstractTicketStrategy {
             arrivalTime: new Date(ret.arrivalDateTime),
             trafficType: ret.type,
             bookurl: ret.bookUrl,
+            deeplinkData: ret.deeplinkData,
             carry: ret.carry,
             destinationStation: ret.destinationStation,
             originStation: ret.originStation

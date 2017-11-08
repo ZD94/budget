@@ -216,7 +216,6 @@ export class TravelPolicy extends ModelObject{
         }
         if(!crIds || crIds.length == 0) return getDefault(type);
         do {
-
             let cps = await self.getRegionPlaces({
                 where: {companyRegionId: {$in: crIds}, placeId: placeid}});
             if(cps && cps.length ){
@@ -232,9 +231,7 @@ export class TravelPolicy extends ModelObject{
                 }
 
             }
-
             let cityInfo = await API.place.getCityInfo({cityCode: placeid});
-
             if (!cityInfo) {
                 return getDefault(type);
             }

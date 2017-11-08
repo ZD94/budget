@@ -308,7 +308,8 @@ export abstract class AbstractTicketStrategy {
             bookurl: ret.bookUrl,
             carry: ret.carry,
             destinationStation: ret.destinationStation,
-            originStation: ret.originStation
+            originStation: ret.originStation,
+            segs: ret.segs
         }
 
         if (self.isRecord) {

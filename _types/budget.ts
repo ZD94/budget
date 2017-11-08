@@ -304,6 +304,7 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     carry?: string;
     originStation?: any;
     destinationStation?: any;
+    segs?: any[];
 }
 
 export interface ITrafficBudgetResult extends Array<ITrafficBudgetItem> {

@@ -29,7 +29,6 @@ export = async function (db, transition) {
             return;
         }
         let isExist = await accountExsit(mobile, u.company_id);
-        console.log(`Exsit: ${mobile}, Exist: ${isExist}`);
         if (!isExist) { 
             await insertAccount(uuid.v1(), u.mobile, u.pwd, u.company_id);
         }
@@ -38,7 +37,9 @@ export = async function (db, transition) {
     async function accountExsit(mobile, companyId) { 
         let sql = `SELECT count(1) as total FROM auth.accounts WHERE mobile='${mobile}' AND company_id = '${companyId}';`;
         let result = await db.query(sql);
-        return !!result[0][0]['total'];
+        let isExist = result[0][0]['total'] > 0;
+        console.log(`Exsit: ${mobile}, companyId: ${companyId}, Exist: ${isExist}, Total: ${result[0][0]['total']}`);
+        return isExist;
     }
 
     async function insertAccount(id, mobile, pwd, companyId) { 

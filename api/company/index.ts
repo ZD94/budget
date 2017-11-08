@@ -63,7 +63,7 @@ const getUniqAccount = async (mobile: string) => {
         }
     });
     if (usrs[0]) {
-        return this.getUniqAccount(mobile += '0');
+        return getUniqAccount(mobile += '0');
     }
     return mobile;
 }

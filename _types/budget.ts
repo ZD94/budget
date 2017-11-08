@@ -61,6 +61,7 @@ export interface IAgent {
     name: string;
     bookUrl?: string;    //预订链接
     price: number;
+    deeplinkData?: object  //bookUrl需要的数据
 }
 
 //酒店代理商
@@ -87,6 +88,7 @@ export interface IFinalHotel {
     agent: string;
     price: number;
     bookUrl?: string;
+    deeplinkData?: object;
     score?: number;
     reasons?: string[];
     checkInDate: string;
@@ -159,6 +161,7 @@ export interface IFinalTicket {
     stops?: string[];
     segs?: any[];
     bookUrl?: string;
+    deeplinkData?: object;
     carry?: string;
 }
 
@@ -300,6 +303,7 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     discount?: number;                  //大致折扣
     no?: string;
     bookurl?: string;
+    deeplinkData?: object;
     agent?: string;
     carry?: string;
     originStation?: any;
@@ -319,6 +323,7 @@ export interface IHotelBudgetItem extends IBudgetItem {
     latitude?: number;
     longitude?: number;
     bookurl?: string;
+    deeplinkData?: object;
     commentScore?: number;
     landmark?: any;
 

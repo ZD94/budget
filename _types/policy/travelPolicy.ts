@@ -177,6 +177,23 @@ export class TravelPolicy extends ModelObject{
         return Models.travelPolicyRegion.find({where: {travelPolicyId: travelPolicyId}});
     }
 
+    /*
+     * 级联查询最优的差旅标准设置。
+     * @param params
+     * @param params.placeId 出差地
+     * @param params.type 期望获取的差旅标准类型，如planeLevels, hotelLevels, trainLevels, trafficPrefer, maxPriceLimit等
+     * @param params.companyRegionType 期望的地区类型，如差旅标准、补助、限价
+     * return array|number|null
+     *
+     * 注意:
+     *  舒适度：
+     *       -1、null: 表示不设
+     *       0-100：正常返回，无需往上找
+     *  限价：
+     *       null: 表示不设
+     *       0-100：正常返回
+     *
+     */
     @RemoteCall()
     async getBestTravelPolicy(params: {placeId: string, type:string, companyRegionType: ECompanyRegionUsedType}):Promise<any> {
         let {placeId,type, companyRegionType} = params;
@@ -206,7 +223,10 @@ export class TravelPolicy extends ModelObject{
                 if(type == ForbiddenType && expectedTpr && expectedTpr.length && expectedTpr[0]['allowPlane'] == false) {
                     return [ForbiddenPlane];
                 }
-                if(expectedTpr && expectedTpr.length && expectedTpr[0][type]){
+                if(expectedTpr && expectedTpr.length && typeof(expectedTpr[0][type]) == 'number' && expectedTpr[0][type] >= 0){
+                    return expectedTpr[0][type];
+                }
+                if(expectedTpr && expectedTpr.length && _.isArray(expectedTpr[0][type]) && expectedTpr[0][type] ){
                     return expectedTpr[0][type];
                 }
 

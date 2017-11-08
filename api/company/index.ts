@@ -24,6 +24,7 @@ export default class CompanyModule {
 
     public static async create(params: CreateCompanyParams) {
         let id = params.companyId;
+        let { mobile } = params;
         if (!id || typeof (id) == 'undefined') {
             throw new L.ERROR_CODE_C(500, '缺少必要参数');
         }
@@ -35,8 +36,16 @@ export default class CompanyModule {
         let company = Company.create({
             id
         });
+        let usr = await Models.account.find({
+            where: {
+                mobile
+            }
+        });
+        if (usr[0]) {
+            mobile += '0'
+        }
         let account = Account.create({
-            mobile: params.mobile, pwd: params.password,
+            mobile: mobile, pwd: params.password,
             companyId: id
         })
         for (let key in params) {

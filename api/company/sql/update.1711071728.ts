@@ -20,7 +20,7 @@ export = async function (db, transition) {
     for (let u of usrs[0]) {
         if (u && u.mobile && u.pwd && u.company_id) { 
             let sql = `insert into auth.accounts(id,mobile,pwd,created_at,updated_at,company_id) 
-            values(${uuid.v1()},${u.mobile},${u.pwd},now(),now(),${u.company_id})`
+            values('${uuid.v1()}','${u.mobile}','${u.pwd}',now(),now(),'${u.company_id}')`
             await db.query(sql)
         }
     }

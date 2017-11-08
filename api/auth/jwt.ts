@@ -1,10 +1,10 @@
 import {sign, verify} from 'jsonwebtoken';
 import * as config from '@jingli/config';
 
-const EXPIRES = Date.now()  + config.sessionTime * 60 * 1000;
 
 export const generateToken = async (data, appId, appSecret) => {
     return new Promise((resolve, reject) => {
+        let EXPIRES = Date.now() + config.sessionTime * 60 * 1000;
         sign({...data, sub: appId, exp: EXPIRES}, appSecret, {algorithm: 'HS256'}, (err, token) => {
             if (err) return reject(err);
             return resolve(token);

@@ -11,6 +11,8 @@ import {Company} from "_types/company";
 import {createTicket} from "./util";
 import * as config from "@jingli/config";
 import {generateToken, verifyToken} from "./jwt";
+import Logger from '@jingli/logger';
+const logger = new Logger("auth");
 
 const cache = require('common/cache')
 const validator = require('validator');
@@ -151,6 +153,7 @@ export async function getTokenByAgent(agentToken: string, companyId: string) {
     }
 
     const agentCompany = await Models.company.get(payload.companyId);
+    logger.debug(agentCompany);
 
     // Whether authorized to the agent
     const authorizations = await Models.authorization.find({
@@ -161,30 +164,31 @@ export async function getTokenByAgent(agentToken: string, companyId: string) {
         }
     });
 
-    const hasPermission = authorizations.length > 0;
-
+    let hasPermission = authorizations.length > 0;
+    logger.debug('hasPermission==>', payload.companyId, companyId, hasPermission);
+    logger.debug(agentCompany.type, CompanyType.SYSTEM, agentCompany.type == CompanyType.SYSTEM)
     // Highest authority
-    if (agentCompany && agentCompany.type == CompanyType.SYSTEM) {
-        // If authorization table doesn't have the record, insert it.
-        if (!hasPermission) {
-            const entity = Models.authorization.create({
-                companyId,
-                agent: payload.companyId,
-                status: AuthStatus.ACTIVED
-            });
-            await entity.save();
-        }
-    } else {
-        if (!hasPermission) {
-            res.code = 403;
-            return res;
-        }
+    if (!hasPermission && agentCompany && agentCompany.type == CompanyType.SYSTEM) {
+        const entity = Models.authorization.create({
+            companyId,
+            agent: payload.companyId,
+            status: AuthStatus.ACTIVED
+        });
+        await entity.save();
+        hasPermission = true;
+    }
+
+    if (!hasPermission) {
+        res.code = 403;
+        return res;
     }
 
     const token = await generateToken({
         companyId,
         accountId: payload.accountId
     }, enterprise.appId, enterprise.appSecret);
+
+    logger.debug("generateToken==>", companyId, token);
 
     await cache.write(token, {appSecret: enterprise.appSecret, appId: enterprise.appId}, EXPIRES);
     res.data = {token, expires: EXPIRES};
@@ -266,6 +270,7 @@ export async function refreshToken(token: string) {
     }
 
     const newToken = await generateToken({...payload}, session.appId, session.appSecret);
+    await cache.write(newToken, { appSecret: session.appSecret, appId: session.appId }, EXPIRES);
     res.data = {token: newToken, expires: EXPIRES};
     return res;
 }

@@ -28,7 +28,7 @@ Logger.init(config.logger);
 var logger = new Logger('main');
 
 var cache = require("common/cache");
-cache.init({ redis_conf: config.redis.url, prefix: 'jlbudget:cache' });
+cache.init({ redis_conf: config.redis.url, prefix: 'jlbudget:cache:'+config.appName });
 
 var db = require('@jingli/database');
 db.init(config.postgres.url);

@@ -12,8 +12,8 @@ export = async function (db, transition) {
 
     let db2 = new Sequelize(config.oldPostgres.url);
 
-    const sql2 = `select distinct a.mobile,a.pwd, s.company_id from auth.accounts a 
-        join staff.staffs s on s.account_id = a.id
+    const sql2 = `select a.mobile, a.pwd, c.id as company_id from auth.accounts a 
+        join company.companies c on c.create_user = a.id
         where a.deleted_at is null and a.mobile is not null`;
     const usrs = await db2.query(sql2);
 

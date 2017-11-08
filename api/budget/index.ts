@@ -490,7 +490,8 @@ class ApiTravelBudget{
                 prefers: allPrefers,
                 bookurl: deeplinkItem.url,
                 destinationStation: budget.destinationStation,
-                originStation: budget.originStation
+                originStation: budget.originStation,
+                segs: budget.segs
             }
 
             return trafficBudget as ITrafficBudgetItem;

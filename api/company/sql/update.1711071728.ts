@@ -18,10 +18,35 @@ export = async function (db, transition) {
     const usrs = await db2.query(sql2);
 
     for (let u of usrs[0]) {
-        if (u && u.mobile && u.pwd && u.company_id) { 
-            let sql = `insert into auth.accounts(id,mobile,pwd,created_at,updated_at,company_id) 
-            values('${uuid.v1()}','${u.mobile}','${u.pwd}',now(),now(),'${u.company_id}')`
-            await db.query(sql)
+        let mobile = u.mobile
+        if (!u || !u.mobile || !u.pwd || !u.company_id) { 
+            return;
         }
+        let isExist = await accountExsit(mobile, u.company_id);
+        if (!isExist) { 
+            await insertAccount(uuid.v1(), u.mobile, u.pwd, u.company_id);
+        }
+    }
+
+    async function accountExsit(mobile, companyId) { 
+        let sql = `SELECT count(1) as total FROM auth.accounts WHERE mobile='${mobile}' AND company_id = '${companyId}';`;
+        let result = await db.query(sql);
+        return !!result[0][0]['total'];
+    }
+
+    async function insertAccount(id, mobile, pwd, companyId) { 
+        //查询是否已经存在
+        let sql = `SELECT count(1) as total FROM auth.accounts WHERE mobile = '${mobile}'`;
+        let result = await db.query(sql);
+        let rows = result[0]
+        if (rows && rows[0] && rows[0]['total'] > 0) {
+            mobile = mobile + '0';
+            console.warn(`Repeat mobile : ${mobile}`);
+            return insertAccount(id, mobile, pwd, companyId);
+        }
+
+        sql = `insert into auth.accounts(id,mobile,pwd,created_at,updated_at,company_id) 
+            values('${id}','${mobile}','${pwd}',now(),now(),'${companyId}')`
+        return db.query(sql)
     }
 }

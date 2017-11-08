@@ -777,7 +777,7 @@ class ApiTravelBudget{
                     ** 当天去当天回 补助只给一天
                     */
                     let segLast, beginTimeLastSeg, endT, days = 1;
-                    if (i == segments.length - 1) {
+                    if (i == segments.length - 1 && i > 0) {
                         segLast = segments[i-1];
                         beginTimeLastSeg = moment(segLast.beginTime).format('YYYY-MM-DD');
                         endT   = moment(seg.endTime).format('YYYY-MM-DD');

@@ -36,14 +36,7 @@ export default class CompanyModule {
         let company = Company.create({
             id
         });
-        let usr = await Models.account.find({
-            where: {
-                mobile
-            }
-        });
-        if (usr[0]) {
-            mobile += '0'
-        }
+        mobile = await getUniqAccount(mobile);
         let account = Account.create({
             mobile: mobile, pwd: params.password,
             companyId: id
@@ -61,4 +54,16 @@ export default class CompanyModule {
         company = await company.save();
         return company;
     }
+}
+
+const getUniqAccount = async (mobile: string) => {
+    let usrs = await Models.account.find({
+        where: {
+            mobile
+        }
+    });
+    if (usrs[0]) {
+        return this.getUniqAccount(mobile += '0');
+    }
+    return mobile;
 }

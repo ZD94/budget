@@ -72,7 +72,7 @@ export class SupplierController extends AbstractController {
             res.json(this.reply(0, obj));
         }
         if (obj.companyId == null) { //更新公共供应商
-            let objCom = await Models.company.get(req.params.companyId);
+            let objCom = await Models.company.get(req.session.companyId);
             let objAppArr = [];
             // console.log(req.params.companyId);
             console.log('objCom', objCom);

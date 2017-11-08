@@ -1,7 +1,7 @@
 
 import { WebRobot } from '../web_robot/index';
-import { SupplierOrder, ReserveLink } from './interface';
-export { SupplierOrder, ReserveLink } from './interface';
+import { ReserveLink } from './interface';
+export { ReserveLink } from './interface';
 
 export abstract class SupplierWebRobot extends WebRobot{
     constructor(origin: string){
@@ -9,7 +9,7 @@ export abstract class SupplierWebRobot extends WebRobot{
     }
 
     abstract login(authData: any): Promise<any>;
-    abstract getOrderList(): Promise<SupplierOrder[]>;
+    abstract getOrderList(): Promise<any[]>;
     
     getBookLink(options): Promise<ReserveLink>{
         return Promise.resolve(null);

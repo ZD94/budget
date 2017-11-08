@@ -5,7 +5,7 @@
 
 import _ = require('lodash');
 import moment = require("moment");
-import { SupplierWebRobot, SupplierOrder, ReserveLink } from '../index';
+import { SupplierWebRobot, ReserveLink } from '../index';
 import L from '@jingli/language';
 
 var iconv = require('iconv-lite');
@@ -19,7 +19,7 @@ export default class SupplierCtripCT extends SupplierWebRobot{
         throw L.ERR.NOT_IMPLEMENTED();
     }
 
-    async getOrderList(): Promise<SupplierOrder[]>{
+    async getOrderList(): Promise<any[]>{
         throw L.ERR.NOT_IMPLEMENTED();
     }
 

@@ -10,16 +10,16 @@ describe('/companyRegion', () => {
     const regions = [];
     const url = getFullPath('/companyRegion');
 
-    async function getData() {
-        const resp = await request(url)
-            .get('/')
-            .set('token', getToken())
-        regions.push(...resp.body.data)
-    }
+    // async function getData() {
+    //     const resp = await request(url)
+    //         .get('/')
+    //         .set('token', getToken())
+    //     regions.push(...resp.body.data)
+    // }
 
-    before(done => {
-        getData().then(done)
-    })
+    // before(done => {
+    //     getData().then(done)
+    // })
 
     it('GET /', done => {
         request(url)

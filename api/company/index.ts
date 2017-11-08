@@ -36,7 +36,8 @@ export default class CompanyModule {
             id
         });
         let account = Account.create({
-            id, mobile: params.mobile, pwd: params.password
+            mobile: params.mobile, pwd: params.password,
+            companyId: id
         })
         for (let key in params) {
             if (companyCols.indexOf(key) >= 0) {

@@ -774,9 +774,17 @@ class ApiTravelBudget{
                     let company = await Models.company.get(tp.companyId);
                     subsidies = await tp.getSubsidies({placeId: toCity.id});
                     /*
-                    ** subsidy changed
+                    ** 当天去当天回 补助只给一天
                     */
-                    if(company && company.isOpenSubsidyBudget && subsidies && subsidies.length){
+                    let segLast, beginTimeLastSeg, endT, days = 1;
+                    if (i == segments.length - 1) {
+                        segLast = segments[i-1];
+                        beginTimeLastSeg = moment(segLast.beginTime).format('YYYY-MM-DD');
+                        endT   = moment(seg.endTime).format('YYYY-MM-DD');
+                        days = moment(endT).diff(beginTimeLastSeg, 'days');
+                    
+                    }
+                    if(company && company.isOpenSubsidyBudget && subsidies && subsidies.length && days > 0){
                         let subsidyParams = {
                             subsidies: subsidies,
                             leaveDate: seg.beginTime || seg.endTime,

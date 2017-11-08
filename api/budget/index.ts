@@ -249,7 +249,7 @@ class ApiTravelBudget{
                         "options":{"type":"square","score":50000,"level":[star],"percent": staffPolicy.hotelPrefer / 100 }
                     };
                     for (let i = 0; i < allPrefers.length; i++) {
-                        if (allPrefers[i]['name'] == pref['name'] && allPrefers[i]['options']['level'] == pref['options']['level']) {
+                        if (allPrefers[i].name == pref.name && allPrefers[i].options.level[0] == pref.options.level[0]) {
                             allPrefers.splice(i, 1, pref);
                         }
                     }
@@ -431,7 +431,7 @@ class ApiTravelBudget{
                         "options":{"type":"square","score":50000,"level":[cabin],"percent": staffPolicy.trafficPrefer / 100 }
                     }; 
                     for (let i = 0; i < allPrefers.length; i++) {
-                        if (allPrefers[i]['name'] == pref['name'] && allPrefers[i]['options']['level'] == pref['options']['level']) {
+                        if (allPrefers[i].name == pref.name && allPrefers[i].options.level[0] == pref.options.level[0]) {
                             allPrefers.splice(i, 1, pref);
                         }
                     }
@@ -444,7 +444,6 @@ class ApiTravelBudget{
                     "options":{"type":"square","score": -1000000,"percent": 0 }
                 })
             }
-
             let strategy = await TrafficBudgetStrategyFactory.getStrategy({
                 fromCity,
                 toCity,

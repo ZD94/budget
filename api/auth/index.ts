@@ -166,7 +166,7 @@ export async function getTokenByAgent(agentToken: string, companyId: string) {
 
     let hasPermission = authorizations.length > 0;
     logger.debug('hasPermission==>', payload.companyId, companyId, hasPermission);
-
+    logger.debug(agentCompany.type, CompanyType.SYSTEM, agentCompany.type == CompanyType.SYSTEM)
     // Highest authority
     if (!hasPermission && agentCompany && agentCompany.type == CompanyType.SYSTEM) {
         const entity = Models.authorization.create({

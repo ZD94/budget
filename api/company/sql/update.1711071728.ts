@@ -20,14 +20,16 @@ export = async function (db, transition) {
         LEFT JOIN auth.accounts AS A
         ON A.id = S.account_id
         WHERE A.mobile is not null;`;
-    const usrs = await db2.query(sql2);
+    const users = await db2.query(sql2);
 
-    for (let u of usrs[0]) {
+    for (let u of users[0]) {
         let mobile = u.mobile
         if (!u || !u.mobile || !u.pwd || !u.company_id) { 
+            console.log(`Ignore:${u.mobile}, ${u.pwd}, ${u.company_id}`);
             return;
         }
         let isExist = await accountExsit(mobile, u.company_id);
+        console.log(`Exsit: ${mobile}, Exist: ${isExist}`);
         if (!isExist) { 
             await insertAccount(uuid.v1(), u.mobile, u.pwd, u.company_id);
         }

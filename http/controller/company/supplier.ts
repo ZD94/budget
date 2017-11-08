@@ -119,6 +119,10 @@ export class SupplierController extends AbstractController {
      */
     async find(req, res, next) {
         let params = req.query;
+
+        if (params.companyId == 'null' || params.companyId == '') {
+            params.companyId = null;
+        }
         const {companyId} = req.session;
         console.info('findparams', params);
 

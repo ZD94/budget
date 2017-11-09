@@ -11,12 +11,12 @@ import md5 = require("md5");
 import request = require("request");
 
 let storage = {
-    filename: 'token.txt',
+    filename: `${__dirname}/token.txt`,
     write: function (data: Object) { 
         //写入文件
         fs.writeFileSync(this.filename, JSON.stringify(data));
     },
-    read: function (): Object { 
+    read() { 
         try {
             var bfs = fs.readFileSync(this.filename)
             return JSON.parse(bfs.toString());
@@ -26,14 +26,14 @@ let storage = {
     }
 };
 
-export interface TokenStruct { 
+export interface TokenStructure { 
     token: string;
     expireDateTime: Date| string;
 }
 
 export async function getToken() { 
     //缓存有，直接通过
-    let obj = storage.read() as TokenStruct;
+    let obj = storage.read() as TokenStructure;
     if (obj) { 
         if (typeof obj.expireDateTime == 'string') { 
             obj.expireDateTime = new Date(obj.expireDateTime);
@@ -54,7 +54,7 @@ export async function getToken() {
     let string = [account.username, account.password, timestamp].join("|");
     let sign = md5(string);
 
-    return new Promise<TokenStruct>((resolve, reject) => { 
+    return new Promise<TokenStructure>((resolve, reject) => { 
         request.post(getFullPath("/auth/login"), {
             form: {
                 sign,
@@ -76,13 +76,13 @@ export async function getToken() {
                 e['code'] = result.data.code;
                 return reject(e);
             }
-            let ret: TokenStruct = {
+            let ret: TokenStructure = {
                 token: result.data.token,
                 expireDateTime: null,
             }
             ret.expireDateTime = new Date((result.data.expires - 30) * 60 + Date.now());
             storage.write(ret);
-            return resolve(ret as TokenStruct);
+            return resolve(ret);
         });
     })
 }

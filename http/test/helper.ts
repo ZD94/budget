@@ -54,7 +54,7 @@ export async function getToken() {
     let string = [account.username, account.password, timestamp].join("|");
     let sign = md5(string);
 
-    return new Promise<TokenStructure>((resolve, reject) => { 
+    return new Promise<string>((resolve, reject) => { 
         request.post(getFullPath("/auth/login"), {
             form: {
                 sign,
@@ -82,7 +82,7 @@ export async function getToken() {
             }
             ret.expireDateTime = new Date((result.data.expires - 30) * 60 + Date.now());
             storage.write(ret);
-            return resolve(ret);
+            return resolve(ret.token);
         });
     })
 }

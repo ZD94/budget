@@ -26,7 +26,7 @@ describe("/auth", function () {
     });
 
 
-    it.skip("POST /auth/quit", async () => {
+    it("POST /auth/quit", async () => {
         const token = await getToken();
         request.post(getFullPath("/auth/quit"), {
             headers: {

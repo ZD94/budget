@@ -114,7 +114,7 @@ export default class SupplierCtripCT extends SupplierWebRobot{
         };
         param.value.to.name = param.value.to.cityName = options.toCity;
         param.value.from.name = param.value.from.cityName = options.fromCity;
-        param.value.date = options.leaveDate.getTime();
+        param.value.date = moment(options.leaveDate).format('YYYY-MM-DD');
         param.savedate = moment().format("YYYY/MM/DD HH:mm:ss");
         param.timeout = moment().add(1, 'month').format("YYYY/MM/DD HH:mm:ss");
 

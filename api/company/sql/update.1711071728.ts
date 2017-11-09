@@ -26,7 +26,7 @@ export = async function (db, transition) {
         let mobile = u.mobile
         if (!u || !u.mobile || !u.pwd || !u.company_id) { 
             console.log(`Ignore:${u.mobile}, ${u.pwd}, ${u.company_id}`);
-            return;
+            continue;
         }
         let isExist = await accountExsit(mobile, u.company_id);
         if (!isExist) { 

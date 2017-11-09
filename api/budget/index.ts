@@ -307,6 +307,7 @@ class ApiTravelBudget{
                 link: budget.link,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
+                deeplinkData: budget.deeplinkData,
                 bookurl: budget.bookurl,
                 latitude: budget.latitude,
                 longitude: budget.longitude,
@@ -488,7 +489,8 @@ class ApiTravelBudget{
                 discount: discount,
                 markedScoreData: budget.markedScoreData,
                 prefers: allPrefers,
-                bookurl: deeplinkItem.url,
+                bookurl: budget.bookurl,
+                deeplinkData: budget.deeplinkData,
                 destinationStation: budget.destinationStation,
                 originStation: budget.originStation,
                 segs: budget.segs

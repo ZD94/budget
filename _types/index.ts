@@ -17,6 +17,7 @@ import {Account, AccountCompany, Authorization} from "_types/account";
 import {CompanyConfig} from "_types/company";
 import {PreferRegion} from "./preferRegion";
 import {CommonSupplier, SupplierAlternateName} from "_types/commonSupplier";
+import { AirCompany } from '_types/static/aircompany';
 
 export interface ModelsInterface {
     budget: ModelInterface<Budget>;
@@ -42,6 +43,7 @@ export interface ModelsInterface {
     companyConfig: ModelInterface<CompanyConfig>;
     commonSupplier: ModelInterface<CommonSupplier>;
     supplierAlternateName: ModelInterface<SupplierAlternateName>;
+    aircompany: ModelInterface<AirCompany>;
 }
 
 
@@ -68,6 +70,7 @@ export var Models: ModelsInterface = {
     preferRegion: new ModelDelegate<PreferRegion>(),
     companyConfig: new ModelDelegate<CompanyConfig>(),
     commonSupplier: new ModelDelegate<CommonSupplier>(),
-    supplierAlternateName: new ModelDelegate<SupplierAlternateName>()
+    supplierAlternateName: new ModelDelegate<SupplierAlternateName>(),
+    aircompany: new ModelDelegate<AirCompany>(),
 };
 

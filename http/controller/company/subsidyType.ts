@@ -10,7 +10,7 @@ import {Models} from "_types";
 var subsidyTypeCols = SubsidyType['$fieldnames'];
 
 @Restful()
-export class SubsidyTypeController extends AbstractModelController {
+export class SubsidyTypeController extends AbstractModelController<SubsidyType> {
 
     constructor() {
         super(Models.subsidyType, subsidyTypeCols);

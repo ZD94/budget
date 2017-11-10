@@ -22,7 +22,7 @@
     "@jingli/dnode-api": "^1.1.8",
     "@jingli/language": "^1.0.2",
     "@jingli/logger": "^1.0.1",
-    "@jingli/restful": "^1.0.1",
+    "@jingli/restful": "^1.0.2",
     "@jingli/zone-setup": "^1.0.1",
     "@types/lodash": "^4.14.63",
     "@types/pg": "^6.1.39",
@@ -56,6 +56,7 @@
     "reconnect-core": "^1.3.0",
     "redis": "^2.7.1",
     "request": "^2.81.0",
+    "request-promise": "^4.2.2",
     "sequelize": "^3.30.2",
     "serve-favicon": "^2.4.1",
     "shoe": "0.0.15",
@@ -67,9 +68,7 @@
     "tslib": "^1.6.0",
     "typescript": "2.4.2",
     "uuid": "^3.0.1",
-    "validator": "^8.1.0",
-    "@jingli/restful": "^1.0.1",
-    "request-promise": "^4.2.2"
+    "validator": "^8.1.0"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.2",

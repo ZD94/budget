@@ -9,7 +9,7 @@ import {Models} from "_types";
 var supplierAlternateNameCols = SupplierAlternateName['$fieldnames'];
 
 @Restful()
-export class SupplierAlternateNameController extends AbstractModelController {
+export class SupplierAlternateNameController extends AbstractModelController<SupplierAlternateName> {
 
     constructor() {
         super(Models.supplierAlternateName, supplierAlternateNameCols);

@@ -13,4 +13,16 @@ export default class AirCompanyController extends AbstractModelController<AirCom
     $isValidId(id: string) {
         return /^\w{2}$/.test(id);
     }
+
+    async delete(req, res, next) { 
+        res.send(404);
+    }
+
+    async add(req, res, next) { 
+        res.send(404);
+    }
+
+    async update(req, res, next) { 
+        res.send(404);
+    }
 }

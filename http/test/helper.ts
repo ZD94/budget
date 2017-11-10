@@ -95,3 +95,21 @@ export function getFullPath(url: string) {
 export function setTokenExpire() { 
     return storage.write({})
 }
+
+export const validate = (target: Array<string>, source: Array<string>) => {
+    const missingFields = [],
+        extraFields = []
+
+    source.forEach(v => {
+        if (target.indexOf(v) < 0) {
+            missingFields.push(v)
+        }
+    })
+
+    target.forEach(v => {
+        if (source.indexOf(v) < 0) {
+            extraFields.push(v)
+        }
+    })
+    return [missingFields.length < 1, missingFields, extraFields]
+}

@@ -104,7 +104,7 @@ export class TravelPolicyRegionController extends AbstractController {
         if(!query['limit'] || query['limit'] == undefined)
             query["limit"] = limit;
 
-        let result = await Models.travelPolicyRegion.all(query);
+        let result = await Models.travelPolicyRegion.find(query);
         if(result == undefined) result = null;
         res.json(this.reply(0, result));
     }

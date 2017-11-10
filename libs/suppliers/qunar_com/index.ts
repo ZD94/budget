@@ -58,7 +58,7 @@ export default class SupplierCtripCT extends SupplierWebRobot{
         let deeplinkData = data.deeplinkData;
         let deeplink, jsCode;
 
-        deeplink = `http://touch.qunar.com/trainList_Card.html?startCity=${deeplinkData.startCity}&startStation=${deeplinkData.startStation}&endCity=${deeplinkData.endCity}&endStation=${deeplinkData.endStation}&date=${deeplinkData.date}&trainNum=${deeplinkData.trainNumber}&searchType=stasta&sort=&seatType=${deeplinkData.seatType}&searchArr=${deeplinkData.searchArr}&searchDep=${deeplinkData.searchDep}&needRecommondLess=1&bd_source=3w`
+        deeplink = `http://touch.train.qunar.com/trainList_Card.html?startCity=${deeplinkData.startCity}&startStation=${deeplinkData.startStation}&endCity=${deeplinkData.endCity}&endStation=${deeplinkData.endStation}&date=${deeplinkData.date}&trainNum=${deeplinkData.trainNum}&searchType=stasta&sort=&seatType=${deeplinkData.seatType}&searchArr=${deeplinkData.searchArr}&searchDep=${deeplinkData.searchDep}&needRecommondLess=1&bd_source=3w`
         jsCode = '';
 
         return {url:deeplink, jsCode: jsCode};

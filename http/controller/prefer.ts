@@ -10,7 +10,7 @@ import {Models} from "_types/index";
 import {PreferRegion} from "_types/preferRegion";
 
 @Restful()
-export class PreferController extends AbstractModelController {
+export class PreferController extends AbstractModelController<PreferRegion> {
     constructor() {
         super(Models.preferRegion, PreferRegion["$fieldnames"]);
     }

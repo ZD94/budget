@@ -18,7 +18,7 @@ const md5 = require('md5');
 var companyCols = Company['$fieldnames'];
 
 @Restful()
-export class CompanyController extends AbstractModelController{
+export class CompanyController extends AbstractModelController<Company>{
 
     constructor() {
         super(Models.company, companyCols);

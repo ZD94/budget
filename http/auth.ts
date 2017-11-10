@@ -13,10 +13,12 @@ const logger = new Logger("http");
 import * as _ from 'lodash';
 
 const cache = require('common/cache');
-const pass_urls: Array<RegExp> = [
-    /\/auth\/login/,
-    /\/place\/\s*/,
-    /\/agent\/gettoken/
+
+const pass_urls: (string|RegExp)[] = [
+    '/auth/login',
+    '/agent/gettoken',
+    /\/place/i,
+    // /\/aircompany/i,
 ]
 
 export async function authenticate(req, res, next) {
@@ -25,8 +27,13 @@ export async function authenticate(req, res, next) {
         session: {[key: string]: any};
 
     // Login
-    for(let r of pass_urls) {
-        if(r.test(url)) return next()
+    for (let v of pass_urls) {
+        if (typeof v == 'string' && v == url) { 
+            return next();
+        }
+        if (v instanceof RegExp && v.test(url)) { 
+            return next();
+        }
     }
 
     if (token) {

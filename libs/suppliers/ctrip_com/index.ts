@@ -41,6 +41,7 @@ export default class SupplierCtripCT extends SupplierWebRobot{
         let data = options.data;
         let deeplinkData = data.deeplinkData;
         let deeplink, jsCode;
+        let No = data['No'];
         if (deeplinkData.type == 'domestic') {
             deeplink = `http://m.ctrip.com/html5/flight/swift/domestic/cabinlist?fromlist=true&triptype=1&dcode=${deeplinkData.originPlace}&acode=${deeplinkData.destination}&ddate=${deeplinkData.datetime}&dfltno=${deeplinkData.flgno}`;
             jsCode = '';
@@ -48,20 +49,26 @@ export default class SupplierCtripCT extends SupplierWebRobot{
         }
         if (deeplinkData.type == 'international') {
             deeplink = `http://m.ctrip.com/html5/flight/swift/international/${deeplinkData.originPlace}/${deeplinkData.destination}/${deeplinkData.datetime}/1-0-0`;
-            jsCode = `
-            var timer = setTimeout(function() {
-                var list = document.getElementsByClassName('flight-plane');
-                for (let i = 0; i < list.length; i++) {
-                    var noStr = list[i].children[0].innerText;
-                    var reg = /([\da-zA-Z]+)$/;
-                    if (reg.test(noStr)) {
-                        var no = RegExp.$1;
-                    if (no == "${data['No']}") {
-                        var btn = list[i];
-                        btn.click();
-                    }
-                }
-        }, 0.5 * 1000);`;
+            jsCode = 
+            "var canGo = sessionStorage.getItem('canGo');"+
+            "if(canGo){"+
+            "var timer = setTimeout(function() {" +
+                "var list = document.getElementsByClassName('flight-plane');"+
+                "for (var i = 0; i < list.length; i++) {"+
+                    "var noStr = list[i].children[0].innerText;"+
+                    "var reg = /([0-9a-zA-Z]+)/;"+
+                    "if (reg.test(noStr.trim())) {"+
+                        "var no = RegExp.$1;"+
+                    "if (no == '"+No+"') {"+
+                        "var btn = list[i];"+
+                        "btn.click()"+
+                    "}"+
+                "}"+
+            "}}, 3 * 1000);"+
+            "}"+
+            "else{"+
+            "sessionStorage.setItem('canGo', true);"+
+            "location.reload();}";
             return {url: deeplink, jsCode: jsCode};
         }
     }
@@ -114,46 +121,41 @@ export default class SupplierCtripCT extends SupplierWebRobot{
         };
         param.value.to.name = param.value.to.cityName = options.toCity;
         param.value.from.name = param.value.from.cityName = options.fromCity;
-        param.value.date = options.leaveDate.getTime();
+        param.value.date = moment(options.leaveDate).format('YYYY-MM-DD');
         param.savedate = moment().format("YYYY/MM/DD HH:mm:ss");
         param.timeout = moment().add(1, 'month').format("YYYY/MM/DD HH:mm:ss");
 
         var param_str = JSON.stringify(param);
-        var linkJS = "localStorage.setItem('TRAIN_SEARCH_STORE_LIGHT', \'"+param_str+"\');console.log('train_search_param');";
 
-        let date = moment(options.leaveDate).format("YYYY-MM-DD");
-        let jsCode = `
-            var canGo = sessionStorage.getItem("canGo");
-            if(canGo){
+        let date = moment(options.leaveDate).format("YYYY-MM-DD")
+        let jsCode = 
+            "var canGo = sessionStorage.getItem('canGo');"+
+            "if(canGo){"+
+            "var timer1 = setTimeout(function() {var btn = document.getElementsByClassName('g_btn_s');btn[0].click();}, 0.3 * 1000);"+
+            "var timer2 = setTimeout(function() {var list = document.getElementsByClassName('sel-checi');"+
+            "for (var i = 0; i < list.length; i++) {"+
+            "if (list[i].children[0].innerText == '"+options.data['No']+"') {"+
+            "var btn = list[i].children[0];}}btn.click();}, 2 * 1000);}"+
+            "else{sessionStorage.setItem('canGo', true);"+
+            "var Info = localStorage.getItem('TRAIN_SEARCH_STORE_LIGHT');"+
+            // "alert(Info);"
+            "Info = JSON.parse(Info);"+
+            "Info.value.date = '"+date+"';"+
+            "Info.value.from.cityName =  '"+options.fromCity+"';"+
+            "Info.value.from.name = '"+options.fromCity+"';"+
+            "Info.value.to.cityName = '"+options.toCity+"';"+
+            // "Info.value.to.cityName = '杭州';"+
+            "Info.value.to.name  = '"+options.toCity+"';"+
+            // "Info.value.to.name  = '杭州';"+
+            "Info = JSON.stringify(Info);"+
+            // "alert('nook');"+
+            "setTimeout(function(){localStorage.setItem('TRAIN_SEARCH_STORE_LIGHT' , Info);location.reload();}, 0.7 * 1000);}";
+            // "console.log('sdf');}"+
+            
+        
+        // let str = 'var canGo = sessionStorage.getItem("canGo");';
 
-            }else{
-                sessionStorage.setItem("canGo" , true);
-                var Info = localStorage.getItem('TRAIN_SEARCH_STORE_LIGHT');
-                Info = JSON.parse(Info);
-                Info.value.date = "${date}";
-                Info.value.from.cityName = Info.value.from.name = "${options.fromCity}";
-                Info.value.to.cityName   = Info.value.to.name   = "${options.toCity}";
-                Info = JSON.stringify(Info);
-                localStorage.setItem('TRAIN_SEARCH_STORE_LIGHT' , Info);
-                location.reload();
-                
-                var timer1 = setTimeout(function() {
-                    var btn = document.getElementsByClassName('g_btn_s');
-                    btn[0].click();
-                }, 0.2 * 1000);
-                
-                var timer2 = setTimeout(function() {
-                    var list = document.getElementsByClassName('sel-checi');
-                    for (let i = 0; i < list.length; i++) {
-                        if (list[i].children[0].innerText == "${options.data['No']}") {
-                            var btn = list[i].children[0];
-                            btn.click();
-                        }
-                    }
-                }, 0.5 * 1000);
-            }
-        `;
-
+        
         return {url:trafficBookLink, indexUrl:indexBookLink, jsCode: jsCode};
     }
 

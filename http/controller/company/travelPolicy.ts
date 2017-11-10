@@ -6,7 +6,7 @@
 import {AbstractController, Restful} from "@jingli/restful";
 import {TravelPolicy} from "_types/policy";
 import {Models} from "_types";
-var travalPolicyRegionCols = TravelPolicy['$fieldnames'];
+var travelPolicyRegionCols = TravelPolicy['$fieldnames'];
 
 const HOTEL_START = {
     FIVE: 5,
@@ -101,7 +101,7 @@ export class TravelPolicyController extends AbstractController {
             offset: pz * (p-1)
         };
         for(let key in params){
-            if(travalPolicyRegionCols.indexOf(key) >= 0){
+            if(travelPolicyRegionCols.indexOf(key) >= 0){
                 query.where[key] = params[key];
             }
         }
@@ -124,7 +124,7 @@ export class TravelPolicyController extends AbstractController {
         let obj = await Models.travelPolicy.get(id);
 
         for(let key in params){
-            if(travalPolicyRegionCols.indexOf(key) >= 0){
+            if(travelPolicyRegionCols.indexOf(key) >= 0){
                 obj[key] = params[key];
             }
         }
@@ -137,7 +137,7 @@ export class TravelPolicyController extends AbstractController {
         let params = req.body;
         let properties = {};
         for(let key in params){
-            if(travalPolicyRegionCols.indexOf(key) >= 0){
+            if(travelPolicyRegionCols.indexOf(key) >= 0){
                 properties[key] = params[key];
             }
         }
@@ -175,7 +175,7 @@ function transform(policies) {
     let result:any = [];
     policies.map(function(policy){
         let tp :any = {};
-         travalPolicyRegionCols.forEach(function(key){
+         travelPolicyRegionCols.forEach(function(key){
              tp[key] = policy[key];
          })
         result.push(tp)

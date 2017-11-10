@@ -13,16 +13,18 @@ const logger = new Logger("http");
 import * as _ from 'lodash';
 
 const cache = require('common/cache');
+
 const pass_urls: (string|RegExp)[] = [
     '/auth/login',
     '/agent/gettoken',
+    /\/place/i,
     // /\/aircompany/i,
 ]
 
 export async function authenticate(req, res, next) {
-    let token = req.headers['token'] || req.query.token,
-        url = req.url,
-        session;
+    let token: string = req.headers['token'] || req.query.token,
+        url: string = req.url,
+        session: {[key: string]: any};
 
     // Login
     for (let v of pass_urls) {

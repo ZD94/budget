@@ -15,38 +15,38 @@ import uuid = require("uuid");
 var expect = require("chai").expect;
 import md5 = require("md5");
 
-import { getFullPath, getToken, setTokenExpire} from './helper';
+import { getFullPath, getToken, setTokenExpire } from './helper';
 
-describe("/auth", function(){
+describe("/auth", function () {
 
-    it("POST /auth/login", async ()=>{
+    it("POST /auth/login", async () => {
         let token = await getToken();
         console.log(token)
         return token;
     });
 
 
-    it("POST /auth/quit", (done)=>{
+    it("POST /auth/quit", async () => {
+        const token = await getToken();
         request.post(getFullPath("/auth/quit"), {
-            headers : {
-                token: getToken(),
+            headers: {
+                token
             },
-        }, (err, httpResponse, body)=>{
-            if(err){
+        }, (err, httpResponse, body) => {
+            if (err) {
                 console.log(err);
                 return;
             }
-    
+
             let result;
-            try{
-                result = JSON.parse( body );
-            }catch(e){
+            try {
+                result = JSON.parse(body);
+            } catch (e) {
                 result = body;
             }
-            console.log(result);
             setTokenExpire();
             expect(result.code).to.be.equal(0);
-            done();
+            return Promise.resolve(true);
         })
     })
 });

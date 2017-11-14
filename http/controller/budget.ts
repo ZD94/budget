@@ -8,6 +8,7 @@ import {AbstractController, Restful} from "@jingli/restful";
 import {Models} from "_types";
 
 import API from '@jingli/dnode-api';
+import { autoSignReply } from 'http/reply';
 
 const HOTEL_START = {
     FIVE: 5,
@@ -78,6 +79,7 @@ export class BudgetController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
+    @autoSignReply()
     async get(req, res, next) {
         let {id} = req.params;
         let segmentBudgets = await API['budget'].getBudgetCache({id: id});
@@ -87,6 +89,7 @@ export class BudgetController extends AbstractController {
         res.json(this.reply(0, segmentBudgets));
     }
 
+    @autoSignReply()
     async add(req, res, next) {
         req.clearTimeout();
         // let {staffs, policies, fromCity, segments, ret} = req.json;

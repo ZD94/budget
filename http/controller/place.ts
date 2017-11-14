@@ -6,6 +6,8 @@
 import { AbstractController, Restful, Router } from "@jingli/restful";
 import { restfulAPIUtil } from 'api/restful';
 import * as validator from 'validator';
+import { autoSignReply } from 'http/reply';
+import * as _ from 'lodash/fp';
 
 @Restful()
 export class PlaceController extends AbstractController {
@@ -17,6 +19,7 @@ export class PlaceController extends AbstractController {
         return /^\d+$/.test(id);
     }
 
+    @autoSignReply()
     async get(req, res, next) {
         let { id } = req.params;
         const resp: any = await restfulAPIUtil.proxyHttp({
@@ -29,18 +32,19 @@ export class PlaceController extends AbstractController {
         }
         return res.send(resp.code, null);
     }
-
     @Router('/search/:keyword', 'get')
+    @autoSignReply()
     async find(req, res, next) {
         let { keyword } = req.params;
         const resp: any = keyword
             ? await restfulAPIUtil.proxyHttp({ uri: `/city/search`, method: 'GET', qs: { keyword } })
             : await restfulAPIUtil.proxyHttp({ uri: `/city`, method: 'GET' })
 
-        return res.send(this.processResp(resp));
+        return res.send(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
     }
 
     @Router('/nearby/:longitude/:latitude', 'get')
+    @autoSignReply()
     async findNearCity(req, res, next) {
         let { latitude, longitude } = req.params,
             pattern = /^\d+\.?\d+$/;
@@ -54,10 +58,11 @@ export class PlaceController extends AbstractController {
             method: 'GET'
         });
 
-        return res.send(this.processResp(resp));
+        return res.send(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
     }
 
     @Router('/:id/children', 'get')
+    @autoSignReply()
     async getChildren(req, res, next) {
         let { id } = req.params;
         const resp: any = await restfulAPIUtil.proxyHttp({
@@ -65,13 +70,7 @@ export class PlaceController extends AbstractController {
             method: 'GET'
         });
 
-        return res.send(this.processResp(resp));
-    }
-
-    private processResp(resp) {
-        return resp.code === 0
-            ? this.reply(0, resp.data.map(this.transform))
-            : this.reply(resp.code, null);
+        return res.send(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
     }
 
     private transform(city) {

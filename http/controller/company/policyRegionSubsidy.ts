@@ -8,6 +8,7 @@ import {AbstractController, AbstractModelController, Restful, Router} from "@jin
 import API from '@jingli/dnode-api';
 import {PolicyRegionSubsidy} from "_types/policy";
 import {Models} from "_types";
+import { autoSignReply } from 'http/reply';
 var policyRegionSubsidyCols = PolicyRegionSubsidy['$fieldnames'];
 
 @Restful()
@@ -18,6 +19,7 @@ export class PolicyRegionSubsidyController extends AbstractModelController<Polic
     }
 
     @Router('/getByCity', "GET")
+    @autoSignReply()
     async getByCity(req, res, next){
         let {travelPolicyId, cityId} = req.query;
         console.info(travelPolicyId, cityId);

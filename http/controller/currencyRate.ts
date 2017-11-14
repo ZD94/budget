@@ -3,6 +3,7 @@
  */
 import {AbstractController, Restful} from "@jingli/restful";
 import {Models} from "_types";
+import { autoSignReply } from 'http/reply';
 var _ = require("lodash");
 var defaultCurrency = 'CNY';
 @Restful()
@@ -15,6 +16,7 @@ export class CurrencyRateController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
+    @autoSignReply()
     async find(req, res, next) {
         let {currencyTo} = req.query;
         if(!currencyTo || typeof(currencyTo) == 'undefined') {

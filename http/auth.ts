@@ -19,7 +19,7 @@ const cache = require('common/cache');
 const pass_urls: (string | RegExp)[] = [
     /^\/auth\/login*/,
     '/agent/gettoken',
-    /\/place/i,
+    // /\/place/i,
     // /\/aircompany/i,
 ]
 

@@ -7,6 +7,7 @@ import {AbstractController, Restful, Router} from '@jingli/restful';
 import API from '@jingli/dnode-api';
 import {Models} from '_types';
 import {Supplier} from '_types/supplier';
+import { autoSignReply } from 'http/reply';
 var BookLink = require ('api/supplier/index');
 var supplierCols = Supplier['$fieldnames'];
 
@@ -27,6 +28,7 @@ export class SupplierController extends AbstractController {
     /*
      * 创建供应商
      */
+    @autoSignReply()
     async add(req, res, next) {
         let params = req.body;
         let properties = {};
@@ -43,6 +45,7 @@ export class SupplierController extends AbstractController {
     /*
      * 删除供应商
      */
+    @autoSignReply()
     async delete(req, res, next) {
         let params = req.params;
         let id = params.id;
@@ -57,6 +60,7 @@ export class SupplierController extends AbstractController {
     /*
      * 更新供应商
      */
+    @autoSignReply()
     async update(req, res, next) {
         let params = req.body;
         let id = params.id;
@@ -96,12 +100,12 @@ export class SupplierController extends AbstractController {
             objCom = await objCom.save();
             res.json(this.reply(0, objCom));
         }
-
     }
 
     /*
      * 根据id查询供应商
      */
+    @autoSignReply()
     async get(req, res, next) {
         let params = req.params;
         console.info('getparams', params);
@@ -120,6 +124,7 @@ export class SupplierController extends AbstractController {
     /*
      * 根据属性名等查询供应商
      */
+    @autoSignReply()
     async find(req, res, next) {
         let params = req.query;
 
@@ -155,6 +160,7 @@ export class SupplierController extends AbstractController {
     }
 
     @Router("/getBookLink", 'POST')
+    @autoSignReply()
     async other(req, res, next){
         let params = req.body;
         console.log('params', params);

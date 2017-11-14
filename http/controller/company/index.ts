@@ -9,6 +9,7 @@ import {AbstractModelController, Restful, Router} from "@jingli/restful";
 import {Models} from "_types";
 import {Company} from "_types/company";
 import { CompanyType } from 'api/auth'
+import { autoSignReply } from 'http/reply';
 const md5 = require('md5');
 
 /** 
@@ -29,6 +30,7 @@ export class CompanyController extends AbstractModelController<Company>{
     }
 
     @Router('/', 'get')
+    @autoSignReply()    
     async getById(req, res, next) {
         let {companyId} = req.session;
         let result = await Models.company.get(companyId);
@@ -36,6 +38,7 @@ export class CompanyController extends AbstractModelController<Company>{
     }
 
     @Router('/byAccount', 'get')
+    @autoSignReply()
     async find(req, res, next) {
         let {accountId} = req.session;
         let {order = [["createdAt", "desc"]], p = 0, pz = 20} = req.query;
@@ -55,6 +58,7 @@ export class CompanyController extends AbstractModelController<Company>{
         res.json(this.reply(0, companies));
     }
 
+    @autoSignReply()
     async update(req, res, next) {
         let {companyId} = req.session,
             params = req.body;
@@ -71,6 +75,7 @@ export class CompanyController extends AbstractModelController<Company>{
     }
 
     // TODO:
+    @autoSignReply()
     async add(req, res, next){
         let params = req.body;
         let {id} = params;

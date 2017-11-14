@@ -44,7 +44,12 @@ export default class SupplierCtripCT extends SupplierWebRobot{
         let No = data['No'];
         if (deeplinkData.type == 'domestic') {
             deeplink = `http://m.ctrip.com/html5/flight/swift/domestic/cabinlist?fromlist=true&triptype=1&dcode=${deeplinkData.originPlace}&acode=${deeplinkData.destination}&ddate=${deeplinkData.datetime}&dfltno=${deeplinkData.flgno}`;
-            jsCode = '';
+            jsCode = 
+            "var canGo = sessionStorage.getItem('canGo')"+
+            "if(canGo){"+
+            "}"+
+            "else{"+
+            "location.reload();}"; 
             return {url: deeplink, jsCode: jsCode};
         }
         if (deeplinkData.type == 'international') {

@@ -91,11 +91,11 @@ function getParams(req: Request) {
     }
 }
 
-function verifySign(data, signature, appSecret) {
+function verifySign(data: object, signature: string, appSecret: string): boolean {
     return sign(data, appSecret) == signature;
 }
 
-async function statistic(appId, url) {
+async function statistic(appId: string, url: string) {
     let today = moment().format('YYYYMMDD');
     let pager = await Models.statistic.find({ where: { appId, day: today, url } });
     let dayStatistic;

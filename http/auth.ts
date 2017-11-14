@@ -57,6 +57,9 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
     }
 
     const { appid, sign, timestamp } = req.headers
+    if (!appid || !sign || !timestamp) {
+        return res.sendStatus(403);
+    }
     const companies = await Models.company.find({
         where: { appId: appid }
     });

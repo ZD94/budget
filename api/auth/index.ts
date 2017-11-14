@@ -3,7 +3,6 @@
 */
 
 
-export * from "./util";
 import {Models} from "_types";
 import {ERR_TEXT} from "@jingli/restful";
 import {Account} from "_types/account";

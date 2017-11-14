@@ -1,106 +1,64 @@
-let cache = require("common/cache");
-let uuid = require("uuid");
-let md5  = require("md5");
-import L from "@jingli/language";
-import * as config from "@jingli/config";
-import { Models } from "_types";
-import {Account} from "_types/account";
-import {Company} from "_types/company";
-/*
- * redis 记录 account, company
-*/
-const SESSIONTIME = config.sessionTime * 60;
+import * as _ from 'lodash/fp';
+const md5 = require('md5');
 
-export async function createTicket (params:{
-    "timestamp" : number,
-    "sign": string,
-    "account" : Account,
-    "company" ? : Company
-}){
-    let {sign, timestamp, account} = params;
+// getSortedStr :: Object -> String
+const getSortedStr = _.compose(_.replace(/\s+/g, ''), JSON.stringify, sortData);
 
-    let key = md5(JSON.stringify({
-        timestamp,
-        sign
-    }));
-    await cache.write(key, {
-        accountId: account.id
-    }, SESSIONTIME);
-
-    return key;
+export function genSign(params: object, appSecret: string) {
+    const temp = getSortedStr(params);
+    const time = Math.floor(Date.now() / 1000);
+    const hex = time.toString(16).toUpperCase();
+    return md5(temp + hex + appSecret) + hex;
 }
 
-export async function getTicket(key: string){
-    let result = await cache.read(key);
-
-    if(!result){
-        return null;
+/**
+ * 校验签名
+ * @param params 
+ * @param sign 
+ * @param appSecret 
+ */
+export function verifySign(params: object, sign: string, appSecret: string) {
+    if (sign.length != 40) {
+        return false;
     }
-
-    //续期
-    await cache.write(key, result, SESSIONTIME);
-    return result;
-}
-
-export async function updateSession(key, session){
-    let result = await cache.read(key);
-
-    if(!result){
-        return null;
-    }
-
-    result = session;
     
-    await cache.write(key, result, SESSIONTIME);
-    return result;
+    // Verify the expires
+    const hex = sign.substr(-8);
+    const time = parseInt(hex.toLowerCase());
+    if (Date.now() / 1000 - time > 5 * 60) {
+        return false;
+    }
+
+    // Compare signature
+    const temp = getSortedStr(params);
+    const signature = md5(temp + hex + appSecret) + hex;
+    return sign == signature;
 }
 
-
-/* 返回一个默认公司 */
-export async function getCompany( accountId : string, companyId? : string | undefined ) : Promise<Company>{
-    let accountCompanies = await Models.accountCompany.find({
-        where : {
-            accountId
+function sortData(data) {
+    if (!isObject(data)) {
+        return data
+    }
+    let sortedKeys = [];
+    let sortedObject = {};
+    for (let key in data) {
+        sortedKeys.push(key);
+        sortedKeys.sort();
+        //排序value
+        let val = data[key]
+        if (isObject(val)) {
+            val = sortData(val);
         }
+        data[key] = val;
+    }
+
+    //将排序好的重新赋值
+    sortedKeys.forEach((key) => {
+        sortedObject[key] = data[key];
     });
-
-    let targetCompanyId;
-    if(companyId){
-        accountCompanies.map((item)=>{
-            if(item.companyId == companyId){
-                targetCompanyId = companyId;
-            }
-        });
-    }else{
-        if(accountCompanies.length){
-            targetCompanyId = accountCompanies[0].companyId;
-        }
-    }
-
-    if(!targetCompanyId){
-        return null;
-    }
-
-    return await Models.company.get(targetCompanyId);
+    return sortedObject;
 }
 
-/* 检查公司是否属于 account */
-let superUser = config.superUser;
-export async function checkCompany(accountId: string, companyId?:string):Promise<boolean>{
-    if(!companyId){
-        return true;
-    }
-
-    //一般情况，session包含company
-    let accountCompany = await Models.accountCompany.find({
-        where : {
-            accountId,
-            companyId
-        }
-    });
-
-    if(accountCompany.length > 1){
-        console.error(`accountCompany, accountId: ${accountId}, companyId : ${companyId} 查出多条记录`);
-    }
-    return accountCompany.length > 0;
+function isObject(obj) {
+    return Object.prototype.toString.bind(obj).call() == '[object Object]'
 }

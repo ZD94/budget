@@ -19,6 +19,7 @@ export class PlaceController extends AbstractController {
         return /^\d+$/.test(id);
     }
 
+    @Router('/:id', 'POST')
     @autoSignReply()
     async get(req, res, next) {
         let { id } = req.params;

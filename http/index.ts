@@ -5,16 +5,20 @@
 
 'use strict';
 
-import { scannerDecoration, registerControllerToRouter, batchRegisterErrorCode, ERR_TEXT, reply } from "@jingli/restful";
+import { scannerDecoration, registerControllerToRouter, batchRegisterErrorCode, ERR_TEXT, reply, setConfig } from "@jingli/restful";
 
 import path = require("path");
 import express = require("express");
 import { authenticate } from "./auth";
 import Logger from "@jingli/logger";
 const logger = new Logger("http");
+import { sign } from 'http/auth'
 
 let router = express.Router();
 
+setConfig({
+    sign
+})
 scannerDecoration(path.join(__dirname, 'controller'));
 registerControllerToRouter(router, { isShowUrls: true });
 

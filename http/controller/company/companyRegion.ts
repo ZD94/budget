@@ -83,7 +83,7 @@ export class CompanyRegionController extends AbstractController {
     async get(req, res, next) {
         let {id} = req.params;
         let result = await Models.companyRegion.get(id);
-        res.json(this.reply(0, result || null));
+        res.json(this.reply(0, result.toJSON() || null));
     }
 
     @autoSignReply()

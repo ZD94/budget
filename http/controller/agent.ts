@@ -30,8 +30,8 @@ export class AgentController extends AbstractController {
         return res.json(this.reply(result.code, null));
     }
 
-    @autoSignReply()
     @Router('/gettoken', 'post')
+    @autoSignReply()
     async tokenByCompany(req, res, next) {
         const { appId, sign, timestamp } = req.body;
         if(!sign || !timestamp) {

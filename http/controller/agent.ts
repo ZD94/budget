@@ -34,12 +34,13 @@ export class AgentController extends AbstractController {
     @autoSignReply()
     async tokenByCompany(req, res, next) {
         const { appId, sign, timestamp } = req.body;
-        if(!sign || !timestamp) {
+        if (!sign || !timestamp) {
             return res.send(this.reply(401, null));
         }
 
-        const resp = await API['auth'].getCompanyToken(appId, sign, timestamp);
-        if(resp.code === 0) {
+        const [resp, companyId, appSecret] = await API['auth'].getCompanyToken(appId, sign, timestamp);
+        if (resp.code === 0) {
+            req.session = { companyId, appSecret }
             return res.send(this.reply(0, resp.data));
         }
         return res.send(this.reply(400, null));
@@ -49,11 +50,11 @@ export class AgentController extends AbstractController {
     @autoSignReply()
     async refreshToken(req, res, next) {
         const { token } = req.headers;
-        if(!token) return res.sendStatus(403);
-        
+        if (!token) return res.sendStatus(403);
+
         const resp = await API['auth'].refreshToken(token);
 
-        if(resp.code == 0) {
+        if (resp.code == 0) {
             return res.send(this.reply(0, resp.data));
         }
         return resp.send(this.reply(resp.code, null));

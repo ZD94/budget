@@ -253,7 +253,7 @@ export async function getCompanyToken(appId: string, sign: string, timestamp: nu
 
     await cache.write(token, {appSecret: enterprise.appSecret, appId}, EXPIRES);
     res.data = {token, expires: EXPIRES};
-    return res;
+    return [res, enterprise.id, enterprise.appSecret];
 }
 
 export async function refreshToken(token: string) {

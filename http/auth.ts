@@ -10,8 +10,9 @@ import { verifyToken } from 'api/auth/jwt';
 import { reply } from "@jingli/restful";
 import Logger from "@jingli/logger";
 const logger = new Logger("http");
-import sign from '@jingli/restful/core/sign';
+import * as _ from 'lodash/fp';
 import { Request, Response, NextFunction } from 'express-serve-static-core';
+const md5 = require('md5');
 
 const cache = require('common/cache');
 
@@ -67,8 +68,7 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
     }
     const { appSecret, id } = companies[0]
 
-    const data = { ...getParams(req), timestamp };
-    if (verifySign(data, sign, appSecret)) {
+    if (verifySign(getParams(req), sign, appSecret)) {
         req['session'] = { companyId: id, appSecret };
         return next();
     }
@@ -82,16 +82,11 @@ function getParams(req: Request) {
         case 'GET':
             return req.query;
         case 'POST':
-            return req.body;
         case 'PUT':
             return req.body;
         case 'DELETE':
             return Object.create(null);
     }
-}
-
-function verifySign(data: object, signature: string, key: string): boolean {
-    return sign(data, key) == signature;
 }
 
 async function statistic(appId: string, url: string) {
@@ -107,4 +102,57 @@ async function statistic(appId: string, url: string) {
 
     dayStatistic.num = parseInt(dayStatistic.num) + 1;
     await dayStatistic.save();
+}
+
+// getSortedStr :: Object -> String
+const getSortedStr = _.compose(JSON.stringify, sortData);
+
+export function genSign(params: object, timestamp: number, appSecret: string) {
+    const temp = getSortedStr(params);
+    const hex = timestamp.toString(16).toUpperCase();
+    return md5(Buffer.from(temp + hex + appSecret, "utf8")).toUpperCase() + hex;
+}
+
+/**
+ * 校验签名
+ * @param params 
+ * @param sign 
+ * @param appSecret 
+ */
+export function verifySign(params: object, sign: string, appSecret: string) {
+    if (sign.length != 40) {
+        return false;
+    }
+
+    // Verify the expires
+    const hex = sign.substr(-8);
+    const time = parseInt(hex, 16);
+    if (Date.now() / 1000 - time > 500 * 60) {
+        return false;
+    }
+
+    // Compare signature
+    const signature = genSign(params, time, appSecret)
+    return sign == signature;
+}
+
+function sortData(data: object): object {
+    if (!isObject(data)) {
+        return data
+    }
+    const keys = Object.keys(data)
+    const result = Object.create(null)
+    keys.sort()
+    keys.forEach(k => {
+        let val = data[k]
+        if(isObject(val)){
+            val = sortData(val)
+        }
+        result[k] = val
+    })
+    return result;
+}
+
+function isObject(obj) {
+    return Object.prototype.toString.bind(obj).call() == '[object Object]'
 }

@@ -10,7 +10,6 @@ import { verifyToken } from 'api/auth/jwt';
 import { reply } from "@jingli/restful";
 import Logger from "@jingli/logger";
 const logger = new Logger("http");
-import * as _ from 'lodash';
 import sign from '@jingli/restful/core/sign';
 import { Request, Response, NextFunction } from 'express-serve-static-core';
 
@@ -91,8 +90,8 @@ function getParams(req: Request) {
     }
 }
 
-function verifySign(data: object, signature: string, appSecret: string): boolean {
-    return sign(data, appSecret) == signature;
+function verifySign(data: object, signature: string, key: string): boolean {
+    return sign(data, key) == signature;
 }
 
 async function statistic(appId: string, url: string) {

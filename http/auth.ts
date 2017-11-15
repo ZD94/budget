@@ -11,7 +11,6 @@ import { reply } from "@jingli/restful";
 import Logger from "@jingli/logger";
 const logger = new Logger("http");
 import * as _ from 'lodash/fp';
-import sign from '@jingli/restful/core/sign';
 import { Request, Response, NextFunction } from 'express-serve-static-core';
 const md5 = require('md5');
 
@@ -89,10 +88,6 @@ function getParams(req: Request) {
             return Object.create(null);
     }
 }
-
-// function verifySign(data: object, signature: string, appSecret: string): boolean {
-//     return sign(data, appSecret) == signature;
-// }
 
 async function statistic(appId: string, url: string) {
     let today = moment().format('YYYYMMDD');

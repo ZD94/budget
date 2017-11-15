@@ -7,6 +7,7 @@
 import { AbstractController, Restful, Router } from "@jingli/restful";
 import API from '@jingli/dnode-api';
 import Logger from '@jingli/logger';
+import { autoSignReply } from 'http/reply';
 const logger = new Logger('agent');
 
 @Restful()
@@ -16,6 +17,7 @@ export class AgentController extends AbstractController {
     }
 
     @Router('/company/:id/token', 'get')
+    @autoSignReply()
     async getAgentToken(req, res, next) {
         const { id } = req.params;
         const { token } = req.headers;
@@ -28,7 +30,7 @@ export class AgentController extends AbstractController {
         return res.json(this.reply(result.code, null));
     }
 
-
+    @autoSignReply()
     @Router('/gettoken', 'post')
     async tokenByCompany(req, res, next) {
         const { appId, sign, timestamp } = req.body;
@@ -44,6 +46,7 @@ export class AgentController extends AbstractController {
     }
 
     @Router('/refresh', 'get')
+    @autoSignReply()
     async refreshToken(req, res, next) {
         const { token } = req.headers;
         if(!token) return res.sendStatus(403);
@@ -57,6 +60,7 @@ export class AgentController extends AbstractController {
     }
 
     @Router('/company/create', 'POST')
+    @autoSignReply()
     async createCompany(req, res, next) {
         let params = req.body;
         let company = await API['company'].create(params);

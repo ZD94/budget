@@ -6,6 +6,7 @@
 import {AbstractController, Restful} from "@jingli/restful";
 import {RegionPlace} from "_types/policy";
 import {Models} from "_types";
+import { autoSignReply } from 'http/reply';
 var regionPlaceCols = RegionPlace['$fieldnames'];
 
 const HOTEL_START = {
@@ -77,6 +78,7 @@ export class RegionPlaceController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
+    @autoSignReply()
     async get(req, res, next) {
         let params = req.params;
         let id = params.id;
@@ -88,6 +90,7 @@ export class RegionPlaceController extends AbstractController {
         res.json(this.reply(0, result));
     }
 
+    @autoSignReply()
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
         let params = req.query;
@@ -108,7 +111,7 @@ export class RegionPlaceController extends AbstractController {
         res.json(this.reply(0, result));
     }
 
-
+    @autoSignReply()
     async update(req, res, next) {
         let params = req.body;
         let id = params.id;
@@ -126,7 +129,7 @@ export class RegionPlaceController extends AbstractController {
         res.json(this.reply(0, obj));
     }
 
-
+    @autoSignReply()
     async add(req, res, next) {
         let params = req.body;
         let properties = {};
@@ -140,6 +143,7 @@ export class RegionPlaceController extends AbstractController {
         res.json(this.reply(0, obj));
     }
 
+    @autoSignReply()
     async delete(req, res, next) {
         let params = req.params;
         let id = params.id;

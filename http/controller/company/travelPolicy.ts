@@ -6,6 +6,7 @@
 import {AbstractController, Restful} from "@jingli/restful";
 import {TravelPolicy} from "_types/policy";
 import {Models} from "_types";
+import { autoSignReply } from 'http/reply';
 var travelPolicyRegionCols = TravelPolicy['$fieldnames'];
 
 const HOTEL_START = {
@@ -77,6 +78,7 @@ export class TravelPolicyController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
+    @autoSignReply()
     async get(req, res, next) {
         let params = req.params;
         let id = params.id;
@@ -88,6 +90,7 @@ export class TravelPolicyController extends AbstractController {
         res.json(this.reply(0, result));
     }
 
+    @autoSignReply()
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
         let {p, pz, order} = req.query;
@@ -114,7 +117,7 @@ export class TravelPolicyController extends AbstractController {
         res.json(this.reply(0, result));
     }
 
-
+    @autoSignReply()
     async update(req, res, next) {
         let params = req.body;
         let id = req.params.id;
@@ -132,7 +135,7 @@ export class TravelPolicyController extends AbstractController {
         res.json(this.reply(0, obj));
     }
 
-
+    @autoSignReply()
     async add(req, res, next) {
         let params = req.body;
         let properties = {};
@@ -146,6 +149,7 @@ export class TravelPolicyController extends AbstractController {
         res.json(this.reply(0, obj));
     }
 
+    @autoSignReply()
     async delete(req, res, next) {
         let params = req.params;
         let id = params.id;

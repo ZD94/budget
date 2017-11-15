@@ -7,6 +7,7 @@
 import {AbstractController, Restful, Router} from "@jingli/restful";
 import {CompanyRegion} from "_types/policy";
 import {Models} from "_types";
+import { autoSignReply } from 'http/reply';
 var companyRegionCols = CompanyRegion['$fieldnames'];
 
 const HOTEL_START = {
@@ -78,12 +79,14 @@ export class CompanyRegionController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
+    @autoSignReply()
     async get(req, res, next) {
         let {id} = req.params;
         let result = await Models.companyRegion.get(id);
         res.json(this.reply(0, result || null));
     }
 
+    @autoSignReply()
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
         let params = req.query;
@@ -119,6 +122,7 @@ export class CompanyRegionController extends AbstractController {
         res.json(this.reply(0, result));
     }
 
+    @autoSignReply()
     async update(req, res, next) {
         let params = req.body;
         let obj = await Models.companyRegion.get(req.params.id);
@@ -132,7 +136,7 @@ export class CompanyRegionController extends AbstractController {
         res.json(this.reply(0, obj));
     }
 
-
+    @autoSignReply()
     async add(req, res, next) {
         let params = req.body;
         let {companyId} = req.session;

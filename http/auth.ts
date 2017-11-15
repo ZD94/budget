@@ -5,33 +5,34 @@
 'use strict';
 
 import * as moment from 'moment';
-import {Models} from '_types';
-import {verifyToken} from 'api/auth/jwt';
-import {reply} from "@jingli/restful";
+import { Models } from '_types';
+import { verifyToken } from 'api/auth/jwt';
+import { reply } from "@jingli/restful";
 import Logger from "@jingli/logger";
 const logger = new Logger("http");
-import * as _ from 'lodash';
+import sign from '@jingli/restful/core/sign';
+import { Request, Response, NextFunction } from 'express-serve-static-core';
 
 const cache = require('common/cache');
 
-const pass_urls: (string|RegExp)[] = [
-    '/auth/login',
+const pass_urls: (string | RegExp)[] = [
+    /^\/auth\/login*/,
     '/agent/gettoken',
-    /\/place/i,
+    // /\/place/i,
     // /\/aircompany/i,
 ]
 
-export async function authenticate(req, res, next) {
+export async function authenticate(req: Request, res: Response, next: NextFunction) {
     let token: string = req.headers['token'] || req.query.token,
         url: string = req.url,
-        session: {[key: string]: any};
+        session: { [key: string]: any };
 
     // Login
     for (let v of pass_urls) {
-        if (typeof v == 'string' && v == url) { 
+        if (typeof v == 'string' && v == url) {
             return next();
         }
-        if (v instanceof RegExp && v.test(url)) { 
+        if (v instanceof RegExp && v.test(url)) {
             return next();
         }
     }
@@ -50,29 +51,60 @@ export async function authenticate(req, res, next) {
         if (!session) {
             return res.json(reply(500, null));
         }
-        req.session = session;
-        // Statistics url request count
-        let appId = session.sub;
-
-        let today = moment().format('YYYYMMDD');
-        try {
-            let pager = await Models.statistic.find({where: {appId, day: today, url}});
-            let dayStatistic;
-            if (pager.length > 0) {
-                dayStatistic = pager[0];
-            }
-            if (!dayStatistic) {
-                dayStatistic = Models.statistic.create({appId, day: today, num: 0, url});
-            }
-
-            dayStatistic.num = parseInt(dayStatistic.num) + 1;
-            await dayStatistic.save();
-        } catch (e) {
-            logger.error(e);
-        } finally {
-            return next()
-        }
+        req['session'] = { ...session, appSecret: result.appSecret };
+        return next()
     }
 
+    const { appid, sign, timestamp } = req.headers
+    if (!appid || !sign || !timestamp) {
+        return res.sendStatus(403);
+    }
+    const companies = await Models.company.find({
+        where: { appId: appid }
+    });
+    if (companies.length < 1) {
+        return res.sendStatus(403);
+    }
+    const { appSecret, id } = companies[0]
+
+    const data = { ...getParams(req), timestamp };
+    if (verifySign(data, sign, appSecret)) {
+        req['session'] = { companyId: id, appSecret };
+        return next();
+    }
     return res.sendStatus(403);
+}
+
+function getParams(req: Request) {
+    const { method } = req
+
+    switch (method.toUpperCase()) {
+        case 'GET':
+            return req.query;
+        case 'POST':
+            return req.body;
+        case 'PUT':
+            return req.body;
+        case 'DELETE':
+            return Object.create(null);
+    }
+}
+
+function verifySign(data: object, signature: string, key: string): boolean {
+    return sign(data, key) == signature;
+}
+
+async function statistic(appId: string, url: string) {
+    let today = moment().format('YYYYMMDD');
+    let pager = await Models.statistic.find({ where: { appId, day: today, url } });
+    let dayStatistic;
+    if (pager.length > 0) {
+        dayStatistic = pager[0];
+    }
+    if (!dayStatistic) {
+        dayStatistic = Models.statistic.create({ appId, day: today, num: 0, url });
+    }
+
+    dayStatistic.num = parseInt(dayStatistic.num) + 1;
+    await dayStatistic.save();
 }

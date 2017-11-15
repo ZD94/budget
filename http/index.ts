@@ -5,27 +5,27 @@
 
 'use strict';
 
-import {scannerDecoration, registerControllerToRouter, batchRegisterErrorCode, ERR_TEXT, reply} from "@jingli/restful";
+import { scannerDecoration, registerControllerToRouter, batchRegisterErrorCode, ERR_TEXT, reply } from "@jingli/restful";
 
 import path = require("path");
 import express = require("express");
-import {authenticate} from "./auth";
+import { authenticate } from "./auth";
 import Logger from "@jingli/logger";
 const logger = new Logger("http");
 
 let router = express.Router();
 
 scannerDecoration(path.join(__dirname, 'controller'));
-registerControllerToRouter(router, {isShowUrls: true});
+registerControllerToRouter(router, { isShowUrls: true });
 
 let allowOrigin = [
     "localhost",
     "jingli365",
 ];
 
-function checkOrigin( origin ){
-    for(let item of allowOrigin){
-        if(origin.indexOf(item) > -1){
+function checkOrigin(origin) {
+    for (let item of allowOrigin) {
+        if (origin.indexOf(item) > -1) {
             return true;
         }
     }
@@ -62,8 +62,12 @@ batchRegisterErrorCode({
 export async function initHttp(app) {
     app.use('/api/v1', recordLogger);
     app.use('/api/v1', allowCrossDomain);
-    app.use('/api/v1/errorCodes', function(req, res, next) {
+    app.use('/api/v1/errorCodes', function (req, res, next) {
         res.json(reply(0, ERR_TEXT));
     })
     app.use('/api/v1', authenticate, router);
+}
+
+export interface ResponseBodyFunc {
+    (req: any, res: any, next?: any): Promise<any>;
 }

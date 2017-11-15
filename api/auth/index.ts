@@ -3,12 +3,10 @@
 */
 
 
-export * from "./util";
 import {Models} from "_types";
 import {ERR_TEXT} from "@jingli/restful";
 import {Account} from "_types/account";
 import {Company} from "_types/company";
-import {createTicket} from "./util";
 import * as config from "@jingli/config";
 import {generateToken, verifyToken} from "./jwt";
 import Logger from '@jingli/logger';

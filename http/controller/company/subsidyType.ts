@@ -7,6 +7,7 @@ import {AbstractController, AbstractModelController, Restful} from "@jingli/rest
 import API from '@jingli/dnode-api';
 import {SubsidyType} from "_types/policy";
 import {Models} from "_types";
+import { autoSignReply } from 'http/reply';
 var subsidyTypeCols = SubsidyType['$fieldnames'];
 
 @Restful()
@@ -16,6 +17,7 @@ export class SubsidyTypeController extends AbstractModelController<SubsidyType> 
         super(Models.subsidyType, subsidyTypeCols);
     }
 
+    @autoSignReply()
     async find(req, res, next) {
         const {companyId} = req.session;
         let params = req.query;

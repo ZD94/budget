@@ -1,6 +1,7 @@
 import request = require('supertest');
 import assert = require('assert');
-import { getFullPath, getToken } from "./helper";
+import { getFullPath, getToken, APP_SECRET } from "./helper";
+import { verifySign } from "http/auth";
 
 describe('/budget', () => {
     const url = getFullPath('/budget');
@@ -27,18 +28,18 @@ describe('/budget', () => {
             .send({
                 fromCity: 'CT_131',
                 ret: 1,
-                backCity:'CT_289',
+                backCity: 'CT_289',
                 beginDate: new Date(),
                 travelPolicyId: '1a83e0e0-c48e-11e7-8bfd-9faba0c3ba2e',
                 segments: [{
-                    beginTime: '2017-11-11',
+                    beginTime: new Date().setDate(new Date().getDate() + 1),
                     destinationPlace: 'CT_332',
                     leaveDate: new Date(),
                     goBackDate: new Date(),
                     noTraffic: false,
                     noHotel: false,
                     city: 'CT_131',
-                    endTime: '2017-11-13',
+                    endTime: new Date().setDate(new Date().getDate() + 3)
                 }],
                 staffs: [{
                     sex: 1,
@@ -49,8 +50,11 @@ describe('/budget', () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
-                console.log(res.body.data)
+                const result = res.body
                 assert.equal(res.body.code, 0)
+                const sign = result.sign
+                delete result.sign
+                assert.equal(verifySign(result, sign, APP_SECRET), true)
                 done()
             })
     })
@@ -62,8 +66,11 @@ describe('/budget', () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
-                console.log(res.body.data)
+                const result = res.body
                 assert.equal(res.body.code, 0)
+                const sign = result.sign
+                delete result.sign
+                assert.equal(verifySign(result, sign, APP_SECRET), true)
                 done()
             })
     })

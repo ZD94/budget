@@ -3,7 +3,7 @@
  */
 
 'use strict';
-import {AbstractController, Restful} from "@jingli/restful";
+import {AbstractController, Restful, Router} from "@jingli/restful";
 import {TravelPolicy} from "_types/policy";
 import {Models} from "_types";
 import { autoSignReply } from 'http/reply';

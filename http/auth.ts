@@ -113,6 +113,13 @@ export function genSign(params: object, timestamp: number, appSecret: string) {
     return md5(Buffer.from(temp + hex + appSecret, "utf8")).toUpperCase() + hex;
 }
 
+export function sign(data: any, appSecret: string) {
+    const timestamp = Math.floor(Date.now() / 1000);
+    const temp = getSortedStr(data);
+    const hex = timestamp.toString(16).toUpperCase();
+    return md5(Buffer.from(temp + hex + appSecret, "utf8")).toUpperCase() + hex;
+}
+
 /**
  * 校验签名
  * @param params 
@@ -136,16 +143,19 @@ export function verifySign(params: object, sign: string, appSecret: string) {
     return sign == signature;
 }
 
-function sortData(data: object): object {
+function sortData(data: any): object {
     if (!isObject(data)) {
         return data
+    }
+    if (data.toJSON && typeof data.toJSON == 'function') {
+        data = data.toJSON()
     }
     const keys = Object.keys(data)
     const result = Object.create(null)
     keys.sort()
     keys.forEach(k => {
         let val = data[k]
-        if(isObject(val)){
+        if (isObject(val)) {
             val = sortData(val)
         }
         result[k] = val

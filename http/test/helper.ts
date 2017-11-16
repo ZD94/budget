@@ -113,3 +113,5 @@ export const validate = (target: Array<string>, source: Array<string>) => {
     })
     return [missingFields.length < 1, missingFields, extraFields]
 }
+
+export const APP_SECRET = '6c8f2cfd-7aa4-48c7-9d5e-913896acec12'

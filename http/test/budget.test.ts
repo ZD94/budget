@@ -1,7 +1,6 @@
 import request = require('supertest');
 import assert = require('assert');
-import { getFullPath, getToken, APP_SECRET } from "./helper";
-import { verifySign } from "http/auth";
+import { getFullPath, getToken, APP_SECRET, verifyReturnSign } from "./helper";
 
 describe('/budget', () => {
     const url = getFullPath('/budget');
@@ -50,11 +49,8 @@ describe('/budget', () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
-                const result = res.body
                 assert.equal(res.body.code, 0)
-                const sign = result.sign
-                delete result.sign
-                assert.equal(verifySign(result, sign, APP_SECRET), true)
+                assert.equal(verifyReturnSign(res.body), true)
                 done()
             })
     })
@@ -66,11 +62,8 @@ describe('/budget', () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
-                const result = res.body
                 assert.equal(res.body.code, 0)
-                const sign = result.sign
-                delete result.sign
-                assert.equal(verifySign(result, sign, APP_SECRET), true)
+                assert.equal(verifyReturnSign(res.body), true)
                 done()
             })
     })

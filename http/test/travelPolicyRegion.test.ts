@@ -1,6 +1,6 @@
 import request = require('supertest');
 import assert = require('assert');
-import { getFullPath, getToken, validate } from "./helper";
+import { getFullPath, getToken, validate, verifyReturnSign } from "./helper";
 
 describe('/travelPolicyRegion', () => {
     const url = getFullPath('/travelPolicyRegion');
@@ -29,6 +29,7 @@ describe('/travelPolicyRegion', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 assert.equal(res.body.code, 0)
+                assert.equal(verifyReturnSign(res.body), true)
                 const [isValid, missed, extra] = validate(Object.keys(res.body.data[0]), TravelPolicyRegionFields)
                 console.log(`Missing fields:`, missed)
                 console.log(`Extra fields:`, extra)
@@ -48,6 +49,7 @@ describe('/travelPolicyRegion', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 assert.equal(res.body.code, 0)
+                assert.equal(verifyReturnSign(res.body), true)
                 done()
             })
     })
@@ -60,6 +62,7 @@ describe('/travelPolicyRegion', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 assert.equal(res.body.code, 0)
+                assert.equal(verifyReturnSign(res.body), true)
                 done()
             })
     })

@@ -1,6 +1,6 @@
 import request = require('supertest');
 import assert = require('assert');
-import { getFullPath, getToken, validate } from "./helper";
+import { getFullPath, getToken, validate, verifyReturnSign } from "./helper";
 
 const TravelPolicyFields = ['id', 'name', 'desc']
 
@@ -28,6 +28,7 @@ describe('/travelPolicy', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 assert.equal(res.body.code, 0)
+                assert.equal(verifyReturnSign(res.body), true)
                 assert.equal(typeof res.body.data[0], 'string')
                 done()
             })
@@ -40,6 +41,7 @@ describe('/travelPolicy', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 assert.equal(res.body.code, 0)
+                assert.equal(verifyReturnSign(res.body), true)
                 const [isValid, missed, extra] = validate(Object.keys(res.body.data), TravelPolicyFields)
                 console.log(`Missing fields:`, missed)
                 console.log(`Extra fields:`, extra)
@@ -47,5 +49,4 @@ describe('/travelPolicy', () => {
                 done()
             })
     })
-
 })

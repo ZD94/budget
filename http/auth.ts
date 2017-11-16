@@ -143,19 +143,19 @@ export function verifySign(params: object, sign: string, appSecret: string) {
     return sign == signature;
 }
 
-function sortData(data: object): object {
+function sortData(data: any): object {
     if (!isObject(data)) {
         return data
+    }
+    if (data.toJSON && typeof data.toJSON == 'function') {
+        data = data.toJSON()
     }
     const keys = Object.keys(data)
     const result = Object.create(null)
     keys.sort()
     keys.forEach(k => {
         let val = data[k]
-        if(isObject(val)){
-            if(val.toJSON && typeof val.toJSON == 'function'){
-                val = val.toJSON()
-            }
+        if (isObject(val)) {
             val = sortData(val)
         }
         result[k] = val

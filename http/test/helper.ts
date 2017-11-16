@@ -9,35 +9,37 @@ var prefix = '/api/v1'
 import fs = require("fs");
 import md5 = require("md5");
 import request = require("request");
+import { verifySign } from 'http/auth';
+import * as _ from 'lodash/fp';
 
 let storage = {
     filename: `${__dirname}/token.txt`,
-    write: function (data: Object) { 
+    write: function (data: Object) {
         //写入文件
         fs.writeFileSync(this.filename, JSON.stringify(data));
     },
-    read() { 
+    read() {
         try {
             var bfs = fs.readFileSync(this.filename)
             return JSON.parse(bfs.toString());
-        } catch (err) { 
+        } catch (err) {
             return null;
         }
     }
 };
 
-export interface TokenStructure { 
+export interface TokenStructure {
     token: string;
-    expireDateTime: Date| string;
+    expireDateTime: Date | string;
 }
 
-export async function getToken() { 
+export async function getToken() {
     //缓存有，直接通过
     let obj = storage.read() as TokenStructure;
-    if (obj) { 
-        if (typeof obj.expireDateTime == 'string') { 
+    if (obj) {
+        if (typeof obj.expireDateTime == 'string') {
             obj.expireDateTime = new Date(obj.expireDateTime);
-            if (obj.expireDateTime > new Date()) { 
+            if (obj.expireDateTime > new Date()) {
                 return obj.token;
             }
         }
@@ -54,7 +56,7 @@ export async function getToken() {
     let string = [account.username, account.password, timestamp].join("|");
     let sign = md5(string);
 
-    return new Promise<string>((resolve, reject) => { 
+    return new Promise<string>((resolve, reject) => {
         request.post(getFullPath("/auth/login"), {
             form: {
                 sign,
@@ -71,7 +73,7 @@ export async function getToken() {
             } catch (e) {
                 result = body;
             }
-            if (result.code) { 
+            if (result.code) {
                 var e = new Error(result.data.msg);
                 e['code'] = result.data.code;
                 return reject(e);
@@ -88,11 +90,11 @@ export async function getToken() {
 }
 
 export function getFullPath(url: string) {
-    let fullUrl =  host + prefix + url;
+    let fullUrl = host + prefix + url;
     return fullUrl;
 }
 
-export function setTokenExpire() { 
+export function setTokenExpire() {
     return storage.write({})
 }
 
@@ -115,3 +117,18 @@ export const validate = (target: Array<string>, source: Array<string>) => {
 }
 
 export const APP_SECRET = '6c8f2cfd-7aa4-48c7-9d5e-913896acec12'
+
+export function verifyReturnSign(result: ResponseEntity, secret: string = APP_SECRET) {
+    if (!result.sign) return false
+
+    const data = _.omit('sign', result)
+    return verifySign(data, result.sign, secret)
+}
+
+export interface ResponseEntity {
+    code: number;
+    msg: string;
+    responseTime: number;
+    data: any;
+    sign: string;
+}

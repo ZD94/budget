@@ -23,7 +23,7 @@
     "@jingli/language": "^1.0.2",
     "@jingli/logger": "^1.0.1",
     "@jingli/restful": "^1.0.5",
-    "@jingli/sign": "0.0.1",
+    "@jingli/sign": "0.0.3",
     "@jingli/zone-setup": "^1.0.1",
     "@types/lodash": "^4.14.63",
     "@types/pg": "^6.1.39",

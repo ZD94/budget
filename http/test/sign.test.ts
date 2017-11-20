@@ -29,7 +29,7 @@ const body = {
 import request = require('supertest');
 import assert = require('assert');
 import { getFullPath, getToken, validate, APP_SECRET, verifyReturnSign } from "./helper";
-import { genSign } from 'http/auth';
+import { genSign } from '@jingli/sign';
 
 describe('/sign', () => {
 

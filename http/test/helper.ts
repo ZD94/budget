@@ -9,7 +9,7 @@ var prefix = '/api/v1'
 import fs = require("fs");
 import md5 = require("md5");
 import request = require("request");
-import { verifySign } from 'http/auth';
+import { verifySign } from '@jingli/sign';
 import * as _ from 'lodash/fp';
 
 let storage = {

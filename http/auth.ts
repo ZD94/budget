@@ -13,7 +13,7 @@ const logger = new Logger("http");
 import * as _ from 'lodash/fp';
 import { Request, Response, NextFunction } from 'express-serve-static-core';
 const md5 = require('md5');
-
+import {genSign, verifySign, sortData} from '@jingli/sign';
 const cache = require('common/cache');
 
 const pass_urls: (string | RegExp)[] = [
@@ -56,9 +56,9 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
         return next()
     }
 
-    let sign: string = req.headers['sign'];
-    let appid: string = req.headers['appid'];
-    let timestamp: string = req.headers['timestamp'];
+    let sign: string = <string>req.headers['sign'];
+    let appid: string = <string>req.headers['appid'];
+    let timestamp: string = <string>req.headers['timestamp'];
     // const { appid, sign, timestamp } = req.headers
     if (!appid || !sign) {
         return res.sendStatus(403);
@@ -110,99 +110,9 @@ async function statistic(appId: string, url: string) {
 // getSortedStr :: Object -> String
 const getSortedStr = _.compose(JSON.stringify, sortData);
 
-export function genSign(params: object, timestamp: number, appSecret: string) {
-    const temp = getSortedStr(params);
-    const hex = timestamp.toString(16).toUpperCase();
-    let plainText = temp + hex + appSecret;
-    console.log("plainText====>", plainText)
-    return md5(Buffer.from(plainText, "utf8")).toUpperCase() + hex;
-    //
-    // const temp = getSortedStr(params);
-    // const hex = timestamp.toString(16).toUpperCase();
-    // return md5(Buffer.from(temp + hex + appSecret, "utf8")).toUpperCase() + hex;
-}
-
 export function sign(data: any, appSecret: string) {
     const timestamp = Math.floor(Date.now() / 1000);
     const temp = getSortedStr(data);
     const hex = timestamp.toString(16).toUpperCase();
     return md5(Buffer.from(temp + hex + appSecret, "utf8")).toUpperCase() + hex;
-}
-
-/**
- * 校验签名
- * @param params 
- * @param sign 
- * @param appSecret 
- */
-export function verifySign(params: object, sign: string, appSecret: string) :boolean {
-    if (sign.length != 40) {
-        return false;
-    }
-
-    // Verify the expires
-    const hex = sign.substr(-8);
-    const time = parseInt(hex, 16);
-    if (Date.now() / 1000 - time > 500 * 60) {
-        return false;
-    }
-
-    // Compare signature
-    const signature = genSign(params, time, appSecret)
-    return sign == signature;
-}
-
-
-
-function sortData(data) {
-    if (isObject(data, 'String') || isObject(data, 'Boolean') || isObject(data, 'Number')) {
-        return data;
-    }
-    if (isObject(data, 'Array')) {
-        data = data.map( (item) => {
-            return sortData(item);
-        })
-        return data;
-    }
-
-    if (!isObject(data, 'Object')) {
-        throw new Error(`only support String, Number, Array, Object type! support type is `+ typeof data);
-    }
-
-    if (data.toJSON && typeof data.toJSON == 'function') {
-        data = data.toJSON()
-    }
-    const keys = Object.keys(data)
-    const result = Object.create(null)
-    keys.sort()
-    keys.forEach(k => {
-        let val = data[k]
-        if (!isObject(val, 'String')) {
-            val = sortData(val);
-        }
-        result[k] = val
-    })
-    return result;
-}
-
-function isObject(obj, type) {
-    let judgeStr = '[object Object]';
-    switch(type) {
-        case 'Array':
-            judgeStr = '[object Array]';
-            break;
-        case 'Number':
-            judgeStr = '[object Number]';
-            break;
-        case 'String':
-            judgeStr = '[object String]';
-            break;
-        case 'Boolean':
-            judgeStr = '[object Boolean]';
-            break;
-        default :
-            judgeStr = '[object Object]';
-            break;
-    }
-    return Object.prototype.toString.bind(obj).call() == judgeStr;
 }

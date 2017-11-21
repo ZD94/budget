@@ -19,7 +19,7 @@ describe('/agent', () => {
             .send({ appId, timestamp, sign })
             .expect(200)
             .end((err, res) => {
-                if(err) return done(err)
+                if (err) return done(err)
                 assert.equal(res.body.code, 0)
                 assert.equal(verifySign(res.body, res.header['sign'], appSecret), true)
                 assert.equal(res.header['appid'], appId)
@@ -29,16 +29,16 @@ describe('/agent', () => {
 
     it('getToken without appId should be 401', done => {
         request(url)
-        .post('/gettoken')
-        .send({ timestamp, sign })
-        .expect(200)
-        .end((err, res) => {
-            if(err) return done(err)
-            assert.equal(res.body.code, 401)
-            assert.equal(verifySign(res.body, res.header['sign'], '00000000'), true)
-            assert.equal(res.header['appid'], '00000000')
-            done()
-        })
+            .post('/gettoken')
+            .send({ timestamp, sign })
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err)
+                assert.equal(res.body.code, 401)
+                assert.equal(verifySign(res.body, res.header['sign'], '00000000'), true)
+                assert.equal(res.header['appid'], '00000000')
+                done()
+            })
     })
 
 })

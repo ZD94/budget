@@ -31,16 +31,16 @@ export class AgentController extends AbstractController {
     @Router('/gettoken', 'post')
     async tokenByCompany(req, res, next) {
         const { appId, sign, timestamp } = req.body;
-        if (!sign || !timestamp) {
-            return res.json(this.reply(401, null));
+        if (!sign || !timestamp || !appId) {
+            return res.jlReply(this.reply(401, null));
         }
 
         const [resp, companyId, appSecret] = await API['auth'].getCompanyToken(appId, sign, timestamp);
+        req.session = { companyId, appSecret, appId }
         if (resp.code === 0) {
-            req.session = { companyId, appSecret }
-            return res.json(this.reply(0, resp.data));
+            return res.jlReply(this.reply(0, resp.data));
         }
-        return res.json(this.reply(400, null));
+        return res.jlReply(this.reply(400, null));
     }
 
     @Router('/refresh', 'get')

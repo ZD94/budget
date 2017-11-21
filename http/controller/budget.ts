@@ -127,6 +127,7 @@ export class BudgetController extends AbstractController {
         let budgets = segmentBudgets.budgets;
         budgets = this.transformBudgets(budgets);
         segmentBudgets.budgets = budgets;
+        console.log("Budget========>", res.jlRelay)
         res.jlReply(this.reply(0, segmentBudgets));
     }
 

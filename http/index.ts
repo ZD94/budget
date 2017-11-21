@@ -71,6 +71,7 @@ export async function initHttp(app) {
 }
 
 export function jlRelay(req, res, next) {
+    console.log("jlRelay========>")
     res.jlRelay = function(data: any) {
         let {appId, appSecret} = req.session || {appId: '00000000', appSecret: '00000000'};
         let timestamp = Math.floor(Date.now() / 1000);

@@ -28,9 +28,9 @@ export class PlaceController extends AbstractController {
         })
 
         if (resp.code === 0) {
-            return res.jlRelay(this.reply(0, this.transform(resp.data)))
+            return res.jlReply(this.reply(0, this.transform(resp.data)))
         }
-        return res.jlRelay(resp.code, null);
+        return res.jlReply(resp.code, null);
     }
 
     @Router('/search/:keyword', 'get')
@@ -40,7 +40,7 @@ export class PlaceController extends AbstractController {
             ? await restfulAPIUtil.proxyHttp({ uri: `/city/search`, method: 'GET', qs: { keyword } })
             : await restfulAPIUtil.proxyHttp({ uri: `/city`, method: 'GET' })
 
-        return res.jlRelay(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
+        return res.jlReply(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
     }
 
     @Router('/nearby/:longitude/:latitude', 'get')
@@ -50,14 +50,14 @@ export class PlaceController extends AbstractController {
 
         const isValid = pattern.test(latitude) && pattern.test(longitude);
         if (!isValid) {
-            return res.jlRelay(this.reply(400, null));
+            return res.jlReply(this.reply(400, null));
         }
         const resp: any = await restfulAPIUtil.proxyHttp({
             uri: `/city/nearby/${longitude},${latitude}`,
             method: 'GET'
         });
 
-        return res.jlRelay(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
+        return res.jlReply(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
     }
 
     @Router('/:id/children', 'get')
@@ -68,7 +68,7 @@ export class PlaceController extends AbstractController {
             method: 'GET'
         });
 
-        return res.jlRelay(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
+        return res.jlReply(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
     }
 
     private transform(city) {

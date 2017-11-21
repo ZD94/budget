@@ -63,16 +63,15 @@ export async function initHttp(app) {
     let prefixUrl = '/api/v1';
     app.use(prefixUrl, recordLogger);
     app.use(prefixUrl, allowCrossDomain);
-    app.use(prefixUrl, jlRelay);
+    app.use(prefixUrl, jlReply);
     app.use(`${prefixUrl}/errorCodes`, function (req, res, next) {
-        res.jlRelay(reply(0, ERR_TEXT));
+        res.jlReply(reply(0, ERR_TEXT));
     })
     app.use(prefixUrl, authenticate, router);
 }
 
-export function jlRelay(req, res, next) {
-    console.log("jlRelay========>")
-    res.jlRelay = function(data: any) {
+export function jlReply(req, res, next) {
+    res.jlReply = function(data: any) {
         let {appId, appSecret} = req.session || {appId: '00000000', appSecret: '00000000'};
         let timestamp = Math.floor(Date.now() / 1000);
         let sign = genSign(data, timestamp, appSecret);

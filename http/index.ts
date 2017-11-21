@@ -12,13 +12,12 @@ import express = require("express");
 import { authenticate } from "./auth";
 import Logger from "@jingli/logger";
 const logger = new Logger("http");
-import { sign } from 'http/auth'
 
 let router = express.Router();
-
-setConfig({
-    sign
-})
+//
+// setConfig({
+//     sign
+// })
 scannerDecoration(path.join(__dirname, 'controller'));
 registerControllerToRouter(router, { isShowUrls: true });
 

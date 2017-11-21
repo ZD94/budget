@@ -106,13 +106,3 @@ async function statistic(appId: string, url: string) {
     dayStatistic.num = parseInt(dayStatistic.num) + 1;
     await dayStatistic.save();
 }
-
-// getSortedStr :: Object -> String
-const getSortedStr = _.compose(JSON.stringify, sortData);
-
-export function sign(data: any, appSecret: string) {
-    const timestamp = Math.floor(Date.now() / 1000);
-    const temp = getSortedStr(data);
-    const hex = timestamp.toString(16).toUpperCase();
-    return md5(Buffer.from(temp + hex + appSecret, "utf8")).toUpperCase() + hex;
-}

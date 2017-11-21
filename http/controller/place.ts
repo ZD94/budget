@@ -16,7 +16,7 @@ export class PlaceController extends AbstractController {
     }
 
     $isValidId(id: string) {
-        return /^\d+$/.test(id);
+        return /^\d+$/.test(id) || /^CTW?_\d+$/.test(id);
     }
 
     @autoSignReply()

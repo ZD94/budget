@@ -55,5 +55,6 @@
     "url": "${JL_APP_OLD_POSTGRES_URL}"
   },
   "sessionTime": "20",
-  "superUser" : ["qmtrip@jingli365.com"]
+  "superUser" : ["qmtrip@jingli365.com"],
+  "placeAPI": "https://l.jingli365.com/place/"
 }

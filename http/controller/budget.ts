@@ -151,7 +151,6 @@ export class BudgetController extends AbstractController {
                     budget.cabin = enumToStr(TRAIN_SEAT, budget.cabin) || budget.cabin;
                 }
                 budget.trafficType = enumToStr(TRAFFIC_TYPE, budget.trafficType) || budget.trafficType;
-                console.log(budget.prefers)
                 delete budget.prefers;
                 return budget;
             });

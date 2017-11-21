@@ -32,15 +32,15 @@ export class AgentController extends AbstractController {
     async tokenByCompany(req, res, next) {
         const { appId, sign, timestamp } = req.body;
         if (!sign || !timestamp) {
-            return res.jlRelay(this.reply(401, null));
+            return res.json(this.reply(401, null));
         }
 
         const [resp, companyId, appSecret] = await API['auth'].getCompanyToken(appId, sign, timestamp);
         if (resp.code === 0) {
             req.session = { companyId, appSecret }
-            return res.jlRelay(this.reply(0, resp.data));
+            return res.json(this.reply(0, resp.data));
         }
-        return res.jlRelay(this.reply(400, null));
+        return res.json(this.reply(400, null));
     }
 
     @Router('/refresh', 'get')
@@ -51,9 +51,9 @@ export class AgentController extends AbstractController {
         const resp = await API['auth'].refreshToken(token);
 
         if (resp.code == 0) {
-            return res.jlRelay(this.reply(0, resp.data));
+            return res.jlReply(this.reply(0, resp.data));
         }
-        return resp.jlRelay(this.reply(resp.code, null));
+        return resp.jlReply(this.reply(resp.code, null));
     }
 
     @Router('/company/create', 'POST')
@@ -61,7 +61,7 @@ export class AgentController extends AbstractController {
         let params = req.body;
         let company = await API['company'].create(params);
         //TODO://授权给agent
-        return res.jlRelay(this.reply(0, company));
+        return res.json(this.reply(0, company));
     }
 
 }

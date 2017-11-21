@@ -16,6 +16,10 @@ const md5 = require('md5');
 import {genSign, verifySign, sortData} from '@jingli/sign';
 const cache = require('common/cache');
 
+export interface JLResponse extends Response {
+    jlReply: (data: any) => any | Promise<any>;
+}
+
 const pass_urls: (string | RegExp)[] = [
     /^\/auth\/login*/,
     '/agent/gettoken',
@@ -23,7 +27,7 @@ const pass_urls: (string | RegExp)[] = [
     // /\/aircompany/i,
 ]
 
-export async function authenticate(req: Request, res: Response, next: NextFunction) {
+export async function authenticate(req: Request, res: JLResponse, next: NextFunction) {
     let token: string = req.headers['token'] || req.query.token,
         url: string = req.url,
         session: { [key: string]: any };
@@ -41,16 +45,16 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
     if (token) {
         const result = await cache.read(token);
         if (!result) {
-            return res.json(reply(498, null))
+            return res.jlReply(reply(498, null))
         }
         try {
             session = await verifyToken(token, result.appSecret);
         } catch (e) {
             logger.log('err:', e)
-            return res.json(reply(498, null));
+            return res.jlReply(reply(498, null));
         }
         if (!session) {
-            return res.json(reply(500, null));
+            return res.jlReply(reply(500, null));
         }
         req['session'] = { ...session, appSecret: result.appSecret };
         return next()
@@ -69,10 +73,10 @@ export async function authenticate(req: Request, res: Response, next: NextFuncti
     if (companies.length < 1) {
         return res.sendStatus(403);
     }
-    const { appSecret, id } = companies[0]
+    const { appSecret, id, appId } = companies[0]
 
     if (verifySign(getParams(req), sign, appSecret)) {
-        req['session'] = { companyId: id, appSecret };
+        req['session'] = { appId, companyId: id, appSecret };
         return next();
     }
     return res.sendStatus(403);

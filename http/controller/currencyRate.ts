@@ -16,11 +16,11 @@ export class CurrencyRateController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
-    @autoSignReply()
+
     async find(req, res, next) {
         let {currencyTo} = req.query;
         if(!currencyTo || typeof(currencyTo) == 'undefined') {
-            return res.json(this.reply(400, []));
+            return res.jlReply(this.reply(400, []));
         }
         let exchangeRateDetail = [];
         exchangeRateDetail = await Models.currencyRate.find({
@@ -33,7 +33,7 @@ export class CurrencyRateController extends AbstractController {
         if(exchangeRateDetail && exchangeRateDetail.length){
             exchangeRateDetail = _.concat([], exchangeRateDetail[0]);
         }
-        res.json(this.reply(200, exchangeRateDetail));
+        res.jlReply(this.reply(200, exchangeRateDetail));
     }
 
 

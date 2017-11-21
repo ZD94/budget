@@ -19,7 +19,6 @@ export class PolicyRegionSubsidyController extends AbstractModelController<Polic
     }
 
     @Router('/getByCity', "GET")
-    @autoSignReply()
     async getByCity(req, res, next){
         let {travelPolicyId, cityId} = req.query;
         console.info(travelPolicyId, cityId);
@@ -28,18 +27,18 @@ export class PolicyRegionSubsidyController extends AbstractModelController<Polic
         if(tp){
             subsidies = await tp.getSubsidies({placeId: cityId});
         }
-        res.json(this.reply(0, subsidies));
+        res.jlReply(this.reply(0, subsidies));
     }
 
     /*async get(req, res, next) {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(0, null);
+            res.jlReply(0, null);
         }
         let result = await Models.policyRegionSubsidy.get(id);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
 
     async find(req, res, next) {
@@ -59,7 +58,7 @@ export class PolicyRegionSubsidyController extends AbstractModelController<Polic
 
         let result = await Models.policyRegionSubsidy.all(query);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
 
 
@@ -67,7 +66,7 @@ export class PolicyRegionSubsidyController extends AbstractModelController<Polic
         let params = req.body;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(0, null);
+            res.jlReply(0, null);
         }
         let obj = await Models.policyRegionSubsidy.get(id);
 
@@ -77,7 +76,7 @@ export class PolicyRegionSubsidyController extends AbstractModelController<Polic
             }
         }
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
 
@@ -91,14 +90,14 @@ export class PolicyRegionSubsidyController extends AbstractModelController<Polic
         }
         let obj = PolicyRegionSubsidy.create(properties);
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
     async delete(req, res, next) {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(0, null);
+            res.jlReply(0, null);
         }
         let obj = await Models.policyRegionSubsidy.get(id);
         let isDeleted = await obj.destroy();

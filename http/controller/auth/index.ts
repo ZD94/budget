@@ -23,21 +23,21 @@ export class AuthController extends AbstractController {
      * body { username, sign, timestamp }   sign 生成顺序 username, pwd, timestamp
     */
     @Router("/login", "post")
-    async login(req: Request, res: Response, next: NextFunction) { 
+    async login(req: Request, res, next: NextFunction) {
         let result;
         try {
             result = await signIn(req.body);
         } catch (e) {
             console.error(e)
-            return res.json(this.reply(403, null));
+            return res.jlReply(this.reply(403, null));
         }
-        return res.json(this.reply(result.code, result.data));
+        return res.jlReply(this.reply(result.code, result.data));
     }
 
     @Router("/quit", "post")
-    async quit(req: Request, res: Response, next: NextFunction) {
+    async quit(req: Request, res, next: NextFunction) {
         let token = req.headers['token'] || req.query.token;
         await cache.remove(token);
-        return res.json(this.reply(0, null));
+        return res.jlReply(this.reply(0, null));
     }
 }

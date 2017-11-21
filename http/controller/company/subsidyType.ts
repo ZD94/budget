@@ -17,7 +17,7 @@ export class SubsidyTypeController extends AbstractModelController<SubsidyType> 
         super(Models.subsidyType, subsidyTypeCols);
     }
 
-    @autoSignReply()
+    
     async find(req, res, next) {
         const {companyId} = req.session;
         let params = req.query;
@@ -43,18 +43,18 @@ export class SubsidyTypeController extends AbstractModelController<SubsidyType> 
             pager = await Models.subsidyType.find(query);
         }
 
-        res.json(this.reply(0, pager));
+        res.jlReply(this.reply(0, pager));
     }
 
     /*async get(req, res, next) {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(0, null);
+            res.jlReply(0, null);
         }
         let result = await Models.subsidyType.get(id);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
 
     async find(req, res, next) {
@@ -74,7 +74,7 @@ export class SubsidyTypeController extends AbstractModelController<SubsidyType> 
 
         let result = await Models.subsidyType.all(query);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
 
 
@@ -82,7 +82,7 @@ export class SubsidyTypeController extends AbstractModelController<SubsidyType> 
         let params = req.body;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(0, null);
+            res.jlReply(0, null);
         }
         let obj = await Models.subsidyType.get(id);
 
@@ -92,7 +92,7 @@ export class SubsidyTypeController extends AbstractModelController<SubsidyType> 
             }
         }
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
 
@@ -106,14 +106,14 @@ export class SubsidyTypeController extends AbstractModelController<SubsidyType> 
         }
         let obj = SubsidyType.create(properties);
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
     async delete(req, res, next) {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(0, null);
+            res.jlReply(0, null);
         }
         let obj = await Models.subsidyType.get(id);
         let isDeleted = await obj.destroy();

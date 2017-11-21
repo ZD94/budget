@@ -30,15 +30,13 @@ export class CompanyController extends AbstractModelController<Company>{
     }
 
     @Router('/', 'get')
-    @autoSignReply()    
     async getById(req, res, next) {
         let {companyId} = req.session;
         let result = await Models.company.get(companyId);
-        res.json(this.reply(0, result || null));
+        res.jlReply(this.reply(0, result || null));
     }
 
     @Router('/byAccount', 'get')
-    @autoSignReply()
     async find(req, res, next) {
         let {accountId} = req.session;
         let {order = [["createdAt", "desc"]], p = 0, pz = 20} = req.query;
@@ -55,10 +53,10 @@ export class CompanyController extends AbstractModelController<Company>{
         let companies = await Promise.all(authorizations.map(async (item)=>{
             return await Models.company.get(item.companyId);
         }));
-        res.json(this.reply(0, companies));
+        res.jlReply(this.reply(0, companies));
     }
 
-    @autoSignReply()
+
     async update(req, res, next) {
         let {companyId} = req.session,
             params = req.body;
@@ -71,20 +69,20 @@ export class CompanyController extends AbstractModelController<Company>{
             }
         }
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
     // TODO:
-    @autoSignReply()
+
     async add(req, res, next){
         let params = req.body;
         let {id} = params;
         if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(502, null));
+            return res.jlReply(this.reply(502, null));
         }
         let checkCompany = await Models.company.get(id);
         if(checkCompany){
-            return res.json(this.reply(403, null));
+            return res.jlReply(this.reply(403, null));
         }
 
         let company = Company.create({
@@ -100,7 +98,7 @@ export class CompanyController extends AbstractModelController<Company>{
         company.appId = appId;
         company.appSecret = appId.slice(-8);
         company = await company.save();
-        res.json(this.reply(0, company));
+        res.jlReply(this.reply(0, company));
     }
 
 
@@ -115,7 +113,7 @@ export class CompanyController extends AbstractModelController<Company>{
     //     let company = await getCompany(accountId, companyId);
 
     //     if(!company){
-    //         return res.json(this.reply(404, null));
+    //         return res.jlReply(this.reply(404, null));
     //     }
 
     //     let session = req.session;
@@ -123,9 +121,9 @@ export class CompanyController extends AbstractModelController<Company>{
     //     let ticket = req.headers['ticket'] || req.query.ticket; 
     //     let result = await updateSession(ticket, session);
     //     if(!result){
-    //         return res.json(this.reply(500, null));
+    //         return res.jlReply(this.reply(500, null));
     //     }
 
-    //     res.json(this.reply(0, company));
+    //     res.jlReply(this.reply(0, company));
     // }
 }

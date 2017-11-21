@@ -79,17 +79,17 @@ export class BudgetController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
-    @autoSignReply()
+
     async get(req, res, next) {
         let {id} = req.params;
         let segmentBudgets = await API['budget'].getBudgetCache({id: id});
         let budgets = segmentBudgets.budgets;
         budgets = this.transformBudgets(budgets);
         segmentBudgets.budgets = budgets;
-        res.json(this.reply(0, segmentBudgets));
+        res.jlReply(this.reply(0, segmentBudgets));
     }
 
-    @autoSignReply()
+
     async add(req, res, next) {
         req.clearTimeout();
         // let {staffs, policies, fromCity, segments, ret} = req.json;
@@ -99,14 +99,14 @@ export class BudgetController extends AbstractController {
         if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
             let currencyIds = await Models.currency.find({where: {$or: [{currency_code: preferedCurrency}, {currency_name: preferedCurrency}]}});
             if(!currencyIds || !currencyIds.length) {
-                return res.json(this.reply(400, []));
+                return res.jlReply(this.reply(400, []));
             }
         }
         if (!staffs) {
             staffs = []
         }
         if (!staffs.length) {
-            return res.json(this.reply(500, []));
+            return res.jlReply(this.reply(500, []));
         }
 
         //转换员工
@@ -127,7 +127,7 @@ export class BudgetController extends AbstractController {
         let budgets = segmentBudgets.budgets;
         budgets = this.transformBudgets(budgets);
         segmentBudgets.budgets = budgets;
-        res.json(this.reply(0, segmentBudgets));
+        res.jlReply(this.reply(0, segmentBudgets));
     }
 
     private transformBudgets(budgets) {

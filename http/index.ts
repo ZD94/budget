@@ -5,19 +5,16 @@
 
 'use strict';
 
-import { scannerDecoration, registerControllerToRouter, batchRegisterErrorCode, ERR_TEXT, reply, setConfig } from "@jingli/restful";
+import { scannerDecoration, registerControllerToRouter, batchRegisterErrorCode, ERR_TEXT, reply } from "@jingli/restful";
 
 import path = require("path");
 import express = require("express");
 import { authenticate } from "./auth";
 import Logger from "@jingli/logger";
+import {genSign} from "@jingli/sign";
 const logger = new Logger("http");
 
 let router = express.Router();
-//
-// setConfig({
-//     sign
-// })
 scannerDecoration(path.join(__dirname, 'controller'));
 registerControllerToRouter(router, { isShowUrls: true });
 
@@ -63,14 +60,26 @@ batchRegisterErrorCode({
 });
 
 export async function initHttp(app) {
-    app.use('/api/v1', recordLogger);
-    app.use('/api/v1', allowCrossDomain);
-    app.use('/api/v1/errorCodes', function (req, res, next) {
-        res.json(reply(0, ERR_TEXT));
+    let prefixUrl = '/api/v1';
+    app.use(prefixUrl, recordLogger);
+    app.use(prefixUrl, allowCrossDomain);
+    app.use(prefixUrl, jlRelay);
+    app.use(`${prefixUrl}/errorCodes`, function (req, res, next) {
+        res.jlRelay(reply(0, ERR_TEXT));
     })
-    app.use('/api/v1', authenticate, router);
+    app.use(prefixUrl, authenticate, router);
 }
 
-export interface ResponseBodyFunc {
-    (req: any, res: any, next?: any): Promise<any>;
+export function jlRelay(req, res, next) {
+    res.jlRelay = function(data: any) {
+        let {appId, appSecret} = req.session || {appId: '00000000', appSecret: '00000000'};
+        let timestamp = Math.floor(Date.now() / 1000);
+        let sign = genSign(data, timestamp, appSecret);
+        res.setHeader('appid', appId);
+        res.setHeader('sign', sign);
+        res.setHeader('Content-Type', 'application/json');
+        res.write(JSON.stringify(data));
+        res.end();
+    }
+    next();
 }

@@ -79,19 +79,19 @@ export class TravelPolicyRegionController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
-    @autoSignReply()
+    
     async get(req, res, next) {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
+            return res.jlReply(this.reply(0, null));
         }
         let result = await Models.travelPolicyRegion.get(id);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
 
-    @autoSignReply()
+    
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
         let params = req.query;
@@ -109,15 +109,15 @@ export class TravelPolicyRegionController extends AbstractController {
 
         let result = await Models.travelPolicyRegion.find(query);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
 
-    @autoSignReply()
+    
     async update(req, res, next) {
         let params = req.body;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
+            return res.jlReply(this.reply(0, null));
         }
         let obj = await Models.travelPolicyRegion.get(id);
 
@@ -127,10 +127,10 @@ export class TravelPolicyRegionController extends AbstractController {
             }
         }
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
-    @autoSignReply()
+    
     async add(req, res, next) {
         let params = req.body;
         let properties = {};
@@ -141,19 +141,19 @@ export class TravelPolicyRegionController extends AbstractController {
         }
         let obj = TravelPolicyRegion.create(properties);
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
-    @autoSignReply()
+    
     async delete(req, res, next) {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
+            return res.jlReply(this.reply(0, null));
         }
         let obj = await Models.travelPolicyRegion.get(id);
         let isDeleted = await obj.destroy();
-        res.json(this.reply(0, isDeleted));
+        res.jlReply(this.reply(0, isDeleted));
     }
 
 

@@ -19,7 +19,7 @@ export class PlaceController extends AbstractController {
         return /^\d+$/.test(id) || /^CTW?_\d+$/.test(id);
     }
 
-    @autoSignReply()
+
     async get(req, res, next) {
         let { id } = req.params;
         const resp: any = await restfulAPIUtil.proxyHttp({
@@ -28,41 +28,39 @@ export class PlaceController extends AbstractController {
         })
 
         if (resp.code === 0) {
-            return res.send(this.reply(0, this.transform(resp.data)))
+            return res.jlRelay(this.reply(0, this.transform(resp.data)))
         }
-        return res.send(resp.code, null);
+        return res.jlRelay(resp.code, null);
     }
+
     @Router('/search/:keyword', 'get')
-    @autoSignReply()
     async find(req, res, next) {
         let { keyword } = req.params;
         const resp: any = keyword
             ? await restfulAPIUtil.proxyHttp({ uri: `/city/search`, method: 'GET', qs: { keyword } })
             : await restfulAPIUtil.proxyHttp({ uri: `/city`, method: 'GET' })
 
-        return res.send(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
+        return res.jlRelay(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
     }
 
     @Router('/nearby/:longitude/:latitude', 'get')
-    @autoSignReply()
     async findNearCity(req, res, next) {
         let { latitude, longitude } = req.params,
             pattern = /^\d+\.?\d+$/;
 
         const isValid = pattern.test(latitude) && pattern.test(longitude);
         if (!isValid) {
-            return res.send(this.reply(400, null));
+            return res.jlRelay(this.reply(400, null));
         }
         const resp: any = await restfulAPIUtil.proxyHttp({
             uri: `/city/nearby/${longitude},${latitude}`,
             method: 'GET'
         });
 
-        return res.send(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
+        return res.jlRelay(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
     }
 
     @Router('/:id/children', 'get')
-    @autoSignReply()
     async getChildren(req, res, next) {
         let { id } = req.params;
         const resp: any = await restfulAPIUtil.proxyHttp({
@@ -70,7 +68,7 @@ export class PlaceController extends AbstractController {
             method: 'GET'
         });
 
-        return res.send(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
+        return res.jlRelay(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
     }
 
     private transform(city) {

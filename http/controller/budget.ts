@@ -122,7 +122,7 @@ export class BudgetController extends AbstractController {
             segments,
         });
         let budgets = segmentBudgets.budgets;
-        budgets = this.transformBudgets(budgets);
+        // budgets = this.transformBudgets(budgets);
         segmentBudgets.budgets = budgets;
         res.json(this.reply(0, segmentBudgets));
     }

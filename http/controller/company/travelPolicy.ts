@@ -3,9 +3,10 @@
  */
 
 'use strict';
-import {AbstractController, Restful} from "@jingli/restful";
+import {AbstractController, Restful, Router} from "@jingli/restful";
 import {TravelPolicy} from "_types/policy";
 import {Models} from "_types";
+import { autoSignReply } from 'http/reply';
 var travelPolicyRegionCols = TravelPolicy['$fieldnames'];
 
 const HOTEL_START = {
@@ -77,17 +78,19 @@ export class TravelPolicyController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
+    
     async get(req, res, next) {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
+            return res.jlReply(this.reply(0, null));
         }
         let result = await Models.travelPolicy.get(id);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
 
+    
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
         let {p, pz, order} = req.query;
@@ -111,15 +114,15 @@ export class TravelPolicyController extends AbstractController {
         let result = await Models.travelPolicy.find(query);
         result = transform(result);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
 
-
+    
     async update(req, res, next) {
         let params = req.body;
         let id = req.params.id;
         if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
+            return res.jlReply(this.reply(0, null));
         }
         let obj = await Models.travelPolicy.get(id);
 
@@ -129,10 +132,10 @@ export class TravelPolicyController extends AbstractController {
             }
         }
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
-
+    
     async add(req, res, next) {
         let params = req.body;
         let properties = {};
@@ -143,14 +146,15 @@ export class TravelPolicyController extends AbstractController {
         }
         let obj = TravelPolicy.create(properties);
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
+    
     async delete(req, res, next) {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
+            return res.jlReply(this.reply(0, null));
         }
         let isDeleted;
         let tprs = await Models.travelPolicyRegion.find({where: {travelPolicyId: id}});
@@ -164,7 +168,7 @@ export class TravelPolicyController extends AbstractController {
         }catch(err){
             console.log(err);
         }
-        res.json(this.reply(0, isDeleted));
+        res.jlReply(this.reply(0, isDeleted));
     }
 
 

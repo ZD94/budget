@@ -10,6 +10,7 @@ import {Request, Response} from "express-serve-static-core";
 import API from '@jingli/dnode-api';
 var ApiTravelBudget = require("api/budget/index");
 import {ISearchHotelParams, ISearchTicketParams} from "api/budget/index";
+import { autoSignReply } from 'http/reply';
 const HOTEL_START = {
     FIVE: 5,
     FOUR: 4,
@@ -85,7 +86,7 @@ export class BudgetController extends AbstractController {
         let budgets = segmentBudgets.budgets;
         budgets = this.transformBudgets(budgets);
         segmentBudgets.budgets = budgets;
-        res.json(this.reply(0, segmentBudgets));
+        res.jlReply(this.reply(0, segmentBudgets));
     }
 
     async add(req: Request, res: Response, next: Function) {
@@ -97,14 +98,14 @@ export class BudgetController extends AbstractController {
         if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
             let currencyIds = await Models.currency.find({where: {$or: [{currency_code: preferedCurrency}, {currency_name: preferedCurrency}]}});
             if(!currencyIds || !currencyIds.length) {
-                return res.json(this.reply(400, []));
+                return res.jlReply(this.reply(400, []));
             }
         }
         if (!staffs) {
             staffs = []
         }
         if (!staffs.length) {
-            return res.json(this.reply(500, []));
+            return res.jlReply(this.reply(500, []));
         }
 
         //转换员工
@@ -125,14 +126,14 @@ export class BudgetController extends AbstractController {
         let budgets = segmentBudgets.budgets;
         // budgets = this.transformBudgets(budgets);
         segmentBudgets.budgets = budgets;
-        res.json(this.reply(0, segmentBudgets));
+        res.jlReply(this.reply(0, segmentBudgets));
     }
 
     @Router('/getHotelsData', 'post')
     async getHotelsData(req: Request, res: Response, next: Function) {
         let {checkInDate, checkOutDate, cityId, location} = req.body;
         if(!checkInDate || !checkOutDate || !cityId) {
-            return res.json(this.reply(500, null));
+            return res.jlReply(this.reply(500, null));
         }
         let result = await ApiTravelBudget.getHotelsData({
             checkInDate: checkInDate,
@@ -140,7 +141,7 @@ export class BudgetController extends AbstractController {
             cityId: cityId,
             location: location
         });
-        res.json(this.reply(0, result))
+        res.jlReply(this.reply(0, result))
     }
 
     @Router('/getTrafficsData', 'post')
@@ -148,23 +149,23 @@ export class BudgetController extends AbstractController {
 
         let {travelPolicyId, destinationId} = req.body;
         if(!travelPolicyId || !destinationId)
-            return res.json(this.reply(500, null))
+            return res.jlReply(this.reply(500, null))
  
         let result = await ApiTravelBudget.getTrafficsData(travelPolicyId, destinationId);
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
 
     @Router('/getTravelPolicy', 'post')
     async getTravelPolicy(req: Request, res: Response, next: Function) {
         let {leaveDate, originPlaceId, destinationId} = req.body;
         if(!leaveDate || !originPlaceId || !destinationId)
-            return res.json(this.reply(500, null))
+            return res.jlReply(this.reply(500, null))
         let result = await ApiTravelBudget.getTravelPolicy({
             leaveDate: leaveDate,
             originPlaceId: originPlaceId,
             destinationId: destinationId
         });
-        res.json(this.reply(0, result))
+        res.jlReply(this.reply(0, result))
     }
 
     private transformBudgets(budgets) {
@@ -188,10 +189,12 @@ export class BudgetController extends AbstractController {
                     budget.cabin = enumToStr(TRAIN_SEAT, budget.cabin) || budget.cabin;
                 }
                 budget.trafficType = enumToStr(TRAFFIC_TYPE, budget.trafficType) || budget.trafficType;
+                delete budget.prefers;
                 return budget;
             });
             hotelBudget = hotelBudget.map((budget) => {
                 budget.star = enumToStr(HOTEL_START, budget.star) || budget.star;
+                delete budget.prefers;
                 return budget;
             });
             segmentBudget.traffic = trafficBudget;

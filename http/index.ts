@@ -5,27 +5,27 @@
 
 'use strict';
 
-import {scannerDecoration, registerControllerToRouter, batchRegisterErrorCode, ERR_TEXT, reply} from "@jingli/restful";
+import { scannerDecoration, registerControllerToRouter, batchRegisterErrorCode, ERR_TEXT, reply } from "@jingli/restful";
 
 import path = require("path");
 import express = require("express");
-import {authenticate} from "./auth";
+import { authenticate } from "./auth";
 import Logger from "@jingli/logger";
+import {genSign} from "@jingli/sign";
 const logger = new Logger("http");
 
 let router = express.Router();
-
 scannerDecoration(path.join(__dirname, 'controller'));
-registerControllerToRouter(router, {isShowUrls: true});
+registerControllerToRouter(router, { isShowUrls: true });
 
 let allowOrigin = [
     "localhost",
     "jingli365",
 ];
 
-function checkOrigin( origin ){
-    for(let item of allowOrigin){
-        if(origin.indexOf(item) > -1){
+function checkOrigin(origin) {
+    for (let item of allowOrigin) {
+        if (origin.indexOf(item) > -1) {
             return true;
         }
     }
@@ -60,10 +60,26 @@ batchRegisterErrorCode({
 });
 
 export async function initHttp(app) {
-    app.use('/api/v1', recordLogger);
-    app.use('/api/v1', allowCrossDomain);
-    app.use('/api/v1/errorCodes', function(req, res, next) {
-        res.json(reply(0, ERR_TEXT));
+    let prefixUrl = '/api/v1';
+    app.use(prefixUrl, recordLogger);
+    app.use(prefixUrl, allowCrossDomain);
+    app.use(prefixUrl, jlReply);
+    app.use(`${prefixUrl}/errorCodes`, function (req, res, next) {
+        res.jlReply(reply(0, ERR_TEXT));
     })
-    app.use('/api/v1', authenticate, router);
+    app.use(prefixUrl, authenticate, router);
+}
+
+export function jlReply(req, res, next) {
+    res.jlReply = function(data: any) {
+        let {appId, appSecret} = req.session || {appId: '00000000', appSecret: '00000000'};
+        let timestamp = Math.floor(Date.now() / 1000);
+        let sign = genSign(data, timestamp, appSecret);
+        res.setHeader('appid', appId);
+        res.setHeader('sign', sign);
+        res.setHeader('Content-Type', 'application/json');
+        res.write(JSON.stringify(data));
+        res.end();
+    }
+    next();
 }

@@ -68,7 +68,7 @@ class ApiTravelBudget{
             console.log(req.query.id);
             let bookItem = await Models.deeplink.get(req.query.id);
             let bookurl = bookItem['url'];
-            res.json({
+            res.jlReply({
                 'bookurl': bookurl
             });
         });

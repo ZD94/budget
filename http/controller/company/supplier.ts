@@ -7,6 +7,7 @@ import {AbstractController, Restful, Router} from '@jingli/restful';
 import API from '@jingli/dnode-api';
 import {Models} from '_types';
 import {Supplier} from '_types/supplier';
+import { autoSignReply } from 'http/reply';
 var BookLink = require ('api/supplier/index');
 var supplierCols = Supplier['$fieldnames'];
 
@@ -27,6 +28,7 @@ export class SupplierController extends AbstractController {
     /*
      * 创建供应商
      */
+    
     async add(req, res, next) {
         let params = req.body;
         let properties = {};
@@ -37,31 +39,33 @@ export class SupplierController extends AbstractController {
         }
         let obj = Supplier.create(properties);
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
     /*
      * 删除供应商
      */
+    
     async delete(req, res, next) {
         let params = req.params;
         let id = params.id;
         if (!id || typeof(id) == 'undefined') {
-            res.json(0, null);
+            res.jlReply(0, null);
         }
         let obj = await Models.supplier.get(id);
         let isDeleted = await obj.destroy();
-        res.json(this.reply(0, isDeleted));
+        res.jlReply(this.reply(0, isDeleted));
     }
 
     /*
      * 更新供应商
      */
+    
     async update(req, res, next) {
         let params = req.body;
         let id = params.id;
         if (!id || typeof(id) == 'undefined') {
-            res.json(this.reply(0, null));
+            res.jlReply(this.reply(0, null));
         }
         let obj = await Models.supplier.get(id);
         if (obj.companyId !== null) { //更新私有供应商
@@ -72,7 +76,7 @@ export class SupplierController extends AbstractController {
             }
             // console.log('updateobj', obj);
             obj = await obj.save();
-            res.json(this.reply(0, obj));
+            res.jlReply(this.reply(0, obj));
         }
         if (obj.companyId == null) { //更新公共供应商
             let objCom = await Models.company.get(req.session.companyId);
@@ -94,32 +98,33 @@ export class SupplierController extends AbstractController {
             console.log('beforesave', objAppArr);
             objCom.appointedPubilcSuppliers = objAppArr;
             objCom = await objCom.save();
-            res.json(this.reply(0, objCom));
+            res.jlReply(this.reply(0, objCom));
         }
-
     }
 
     /*
      * 根据id查询供应商
      */
+    
     async get(req, res, next) {
         let params = req.params;
         console.info('getparams', params);
         let id = params.id;
         if (!id || typeof (id) == 'undefined') {
-            res.json(this.reply(0, null));
+            res.jlReply(this.reply(0, null));
         }
         let obj = await Models.supplier.get(id);
         // console.info('getobj', obj);
         if (obj == undefined) {
             obj = null;
         }
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
     /*
      * 根据属性名等查询供应商
      */
+    
     async find(req, res, next) {
         let params = req.query;
 
@@ -151,7 +156,7 @@ export class SupplierController extends AbstractController {
         if (obj == undefined) {
             obj = null;
         }
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
     @Router("/getBookLink", 'POST')
@@ -164,6 +169,6 @@ export class SupplierController extends AbstractController {
         if (obj == undefined) {
             obj = null;
         }
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 }

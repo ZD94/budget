@@ -6,8 +6,13 @@
 import { AbstractController, Restful, Router } from "@jingli/restful";
 import { restfulAPIUtil } from 'api/restful';
 import * as validator from 'validator';
+<<<<<<< HEAD
 import {Request, Response} from "express-serve-static-core";
 var API = require("@jingli/dnode-api");
+=======
+import { autoSignReply } from 'http/reply';
+import * as _ from 'lodash/fp';
+>>>>>>> 90d97f7956692e00c3d292fe00cb2affcc125c9d
 
 @Restful()
 export class PlaceController extends AbstractController {
@@ -16,6 +21,7 @@ export class PlaceController extends AbstractController {
     }
 
     $isValidId(id: string) {
+<<<<<<< HEAD
         return /^(CTW?_\d+)|Global$/.test(id);
     }
 
@@ -36,8 +42,27 @@ export class PlaceController extends AbstractController {
         //         return res.send(this.reply(0, this.transform(resp.data)))
         //     }
         //     return res.send(resp.code, null);
+=======
+        return /^\d+$/.test(id) || /^CTW?_\d+$/.test(id);
+    }
 
 
+    async get(req, res, next) {
+        let { id } = req.params;
+        const resp: any = await restfulAPIUtil.proxyHttp({
+            uri: `/city/${id}`,
+            method: 'GET'
+        })
+
+        if (resp.code === 0) {
+            return res.jlReply(this.reply(0, this.transform(resp.data)))
+        }
+        return res.jlReply(resp.code, null);
+    }
+>>>>>>> 90d97f7956692e00c3d292fe00cb2affcc125c9d
+
+
+<<<<<<< HEAD
     }
 
     // @Router('/search/:keyword', 'get')   ------- 此行不需要， queryHotCity, queryCity 两个即可使用该接口
@@ -48,6 +73,19 @@ export class PlaceController extends AbstractController {
             cities = await API['place'].queryHotCity({limit: 20});
         } else {
             cities = await API['place'].queryCity({keyword: keyword});
+=======
+        return res.jlReply(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
+    }
+
+    @Router('/nearby/:longitude/:latitude', 'get')
+    async findNearCity(req, res, next) {
+        let { latitude, longitude } = req.params,
+            pattern = /^\d+\.?\d+$/;
+
+        const isValid = pattern.test(latitude) && pattern.test(longitude);
+        if (!isValid) {
+            return res.jlReply(this.reply(400, null));
+>>>>>>> 90d97f7956692e00c3d292fe00cb2affcc125c9d
         }
         cities = cities.map((city) => {
             return this.transform(city);
@@ -74,6 +112,7 @@ export class PlaceController extends AbstractController {
             return
         }
 
+<<<<<<< HEAD
         //     let { latitude, longitude } = req.params,
         //         pattern = /^\d+\.?\d+$/;
         //
@@ -87,6 +126,9 @@ export class PlaceController extends AbstractController {
         //     });
         //
         //     return res.send(this.processResp(resp));
+=======
+        return res.jlReply(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
+>>>>>>> 90d97f7956692e00c3d292fe00cb2affcc125c9d
     }
 
     @Router('/:id/children', 'get')
@@ -125,6 +167,7 @@ export class PlaceController extends AbstractController {
         res.json(this.reply(0, this.transform(city)));
     }
 
+<<<<<<< HEAD
     // @Router('/queryHotCity', 'GET')
     // async queryHotCity(req, res, next){
     //     let params= req.params;
@@ -152,6 +195,9 @@ export class PlaceController extends AbstractController {
         return resp.code === 0
             ? this.reply(0, resp.data.map(this.transform))
             : this.reply(resp.code, null);
+=======
+        return res.jlReply(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
+>>>>>>> 90d97f7956692e00c3d292fe00cb2affcc125c9d
     }
 
     private transform(city) {

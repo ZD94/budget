@@ -3,7 +3,11 @@
  */
 import {AbstractController, Restful} from "@jingli/restful";
 import {Models} from "_types";
+<<<<<<< HEAD
 import {Request, Response} from "express-serve-static-core";
+=======
+import { autoSignReply } from 'http/reply';
+>>>>>>> 90d97f7956692e00c3d292fe00cb2affcc125c9d
 var _ = require("lodash");
 var defaultCurrency = 'CNY';
 @Restful()
@@ -16,10 +20,15 @@ export class CurrencyRateController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
+<<<<<<< HEAD
     async find(req: Request, res: Response, next: Function) {
+=======
+
+    async find(req, res, next) {
+>>>>>>> 90d97f7956692e00c3d292fe00cb2affcc125c9d
         let {currencyTo} = req.query;
         if(!currencyTo || typeof(currencyTo) == 'undefined') {
-            return res.json(this.reply(400, []));
+            return res.jlReply(this.reply(400, []));
         }
         let exchangeRateDetail = [];
         exchangeRateDetail = await Models.currencyRate.find({
@@ -32,7 +41,7 @@ export class CurrencyRateController extends AbstractController {
         if(exchangeRateDetail && exchangeRateDetail.length){
             exchangeRateDetail = _.concat([], exchangeRateDetail[0]);
         }
-        res.json(this.reply(200, exchangeRateDetail));
+        res.jlReply(this.reply(200, exchangeRateDetail));
     }
 
 

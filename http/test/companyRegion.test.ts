@@ -4,7 +4,7 @@
 
 import request = require('supertest');
 import assert = require('assert');
-import { getFullPath, getToken } from "./helper";
+import { getFullPath, getToken, verifyReturnSign } from "./helper";
 
 describe('/companyRegion', () => {
     let regions = [];
@@ -13,7 +13,6 @@ describe('/companyRegion', () => {
 
     async function getData() {
         const token = await getToken()
-        console.log(token)
         const resp: any = await request(url)
             .get('/')
             .set('token', token)
@@ -35,8 +34,8 @@ describe('/companyRegion', () => {
             .expect(200)
             .end((err, resp) => {
                 if (err) return done(err)
-                // regions.push([...resp.body.data]);
                 assert.equal(resp.body.code, 0)
+                assert.equal(verifyReturnSign(resp.body), true)
                 done()
             });
     })
@@ -49,6 +48,7 @@ describe('/companyRegion', () => {
             .end((err, resp) => {
                 if (err) return done(err)
                 assert.equal(resp.body.code, 0);
+                assert.equal(verifyReturnSign(resp.body), true)
                 assert.equal(typeof resp.body.data, 'object');
                 done()
             })
@@ -64,6 +64,7 @@ describe('/companyRegion', () => {
             .end((err, resp) => {
                 if (err) return done(err);
                 assert.equal(resp.body.code, 0);
+                assert.equal(verifyReturnSign(resp.body), true)
                 assert.equal(resp.body.data.name, '测试名字');
                 done();
             });
@@ -77,6 +78,7 @@ describe('/companyRegion', () => {
             .end((err, resp) => {
                 if (err) return done(err);
                 assert.equal(resp.body.code, 0);
+                assert.equal(verifyReturnSign(resp.body), true)
                 done();
             });
     });

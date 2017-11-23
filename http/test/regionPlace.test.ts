@@ -1,7 +1,7 @@
 
 import request = require('supertest');
 import assert = require('assert');
-import { getFullPath, getToken } from "./helper";
+import { getFullPath, getToken, verifyReturnSign } from "./helper";
 
 describe('/regionPlace', () => {
     const url = getFullPath('/regionPlace');
@@ -28,6 +28,7 @@ describe('/regionPlace', () => {
                 if (err) return done(err)
                 console.log(res.body.data)
                 assert.equal(res.body.code, 0)
+                assert.equal(verifyReturnSign(res.body), true)
                 done()
             })
     })
@@ -53,6 +54,7 @@ describe('/regionPlace', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 assert.equal(res.body.code, 0)
+                assert.equal(verifyReturnSign(res.body), true)
                 done()
             })
     })
@@ -65,6 +67,7 @@ describe('/regionPlace', () => {
             .end((err, res) => {
                 if (err) return done(err)
                 assert.equal(res.body.code, 0)
+                assert.equal(verifyReturnSign(res.body), true)
                 done()
             })
     })

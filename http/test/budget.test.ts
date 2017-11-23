@@ -1,6 +1,6 @@
 import request = require('supertest');
 import assert = require('assert');
-import { getFullPath, getToken } from "./helper";
+import { getFullPath, getToken, APP_SECRET, verifyReturnSign } from "./helper";
 
 describe('/budget', () => {
     const url = getFullPath('/budget');
@@ -27,35 +27,21 @@ describe('/budget', () => {
             .send({
                 fromCity: 'CT_131',
                 ret: 1,
-                backCity:'CT_289',
+                backCity: 'CT_289',
                 beginDate: new Date(),
                 travelPolicyId: '1a83e0e0-c48e-11e7-8bfd-9faba0c3ba2e',
                 segments: [{
-                    beginTime: '2017-11-11',
+                    beginTime: new Date().setDate(new Date().getDate() + 1),
                     destinationPlace: 'CT_332',
                     leaveDate: new Date(),
                     goBackDate: new Date(),
                     noTraffic: false,
                     noHotel: false,
                     city: 'CT_131',
-                    // latestArrivalDateTime: '2017-11-13',
-                    // earliestDepartTime: '2017-11-11',
-                    endTime: '2017-11-13',
+                    endTime: new Date().setDate(new Date().getDate() + 3)
                 }],
                 staffs: [{
-                    // accountId: "5b683130-c48c-11e7-a868-cfdd32cc104a",
-                    // addWay: 0,
-                    // avatar: "",
-                    // avatarColor: "",
-                    // balancePoints: "0.00",
-                    // companyId: "5b685840-c48c-11e7-8009-e5dd826e22cc",
-                    // id: "5b683130-c48c-11e7-8009-e5dd826e22cc",
-                    // isTiped: true,
-                    // name: "张灵玉",
-                    // roleId: 0,
                     sex: 1,
-                    // staffStatus: 1,
-                    // totalPoints: "0.00",
                     travelPolicyId: "1a83e0e0-c48e-11e7-8bfd-9faba0c3ba2e",
                 }],
             })
@@ -63,8 +49,8 @@ describe('/budget', () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
-                console.log(res.body.data)
                 assert.equal(res.body.code, 0)
+                assert.equal(verifyReturnSign(res.body), true)
                 done()
             })
     })
@@ -76,8 +62,8 @@ describe('/budget', () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err)
-                console.log(res.body.data)
                 assert.equal(res.body.code, 0)
+                assert.equal(verifyReturnSign(res.body), true)
                 done()
             })
     })

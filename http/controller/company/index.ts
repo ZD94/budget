@@ -8,11 +8,8 @@
 import {AbstractModelController, Restful, Router} from "@jingli/restful";
 import {Models} from "_types";
 import {Company} from "_types/company";
-<<<<<<< HEAD
-=======
 import { CompanyType } from 'api/auth'
 import { autoSignReply } from 'http/reply';
->>>>>>> 90d97f7956692e00c3d292fe00cb2affcc125c9d
 const md5 = require('md5');
 
 /** 

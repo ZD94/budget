@@ -8,7 +8,7 @@ import {AbstractModelController, Restful, Router} from "@jingli/restful";
 import API from '@jingli/dnode-api';
 import {Models} from "_types/index";
 import {PreferRegion} from "_types/preferRegion";
-
+import {Request, Response} from "express-serve-static-core";
 @Restful()
 export class PreferController extends AbstractModelController<PreferRegion> {
     constructor() {
@@ -16,7 +16,7 @@ export class PreferController extends AbstractModelController<PreferRegion> {
     }
 
     //companyId验证在更上一层
-    async $before(req, res, next){
+    async $before(req: Request, res: Response, next: Function){
         const {companyId} = req.session;
         let {id} = req.params;
         if(!id){

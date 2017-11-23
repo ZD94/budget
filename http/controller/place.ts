@@ -6,7 +6,7 @@
 import { AbstractController, Restful, Router } from "@jingli/restful";
 import { restfulAPIUtil } from 'api/restful';
 import * as validator from 'validator';
-
+import {Request, Response} from "express-serve-static-core";
 var API = require("@jingli/dnode-api");
 
 @Restful()
@@ -19,7 +19,7 @@ export class PlaceController extends AbstractController {
         return /^(CTW?_\d+)|Global$/.test(id);
     }
 
-    async get(req, res, next) {
+    async get(req: Request, res: Response, next: Function) {
         let {id} = req.params;
         let city = await API['place'].getCityInfo({cityCode: id});
         city = this.transform(city);
@@ -41,7 +41,7 @@ export class PlaceController extends AbstractController {
     }
 
     // @Router('/search/:keyword', 'get')   ------- 此行不需要， queryHotCity, queryCity 两个即可使用该接口
-    async find(req, res, next) {
+    async find(req: Request, res: Response, next: Function) {
         let {keyword} = req.query;
         let cities = [];
         if (!keyword) {
@@ -64,7 +64,7 @@ export class PlaceController extends AbstractController {
     }
 
     @Router('/nearby/:latitude/:longitude', 'get')
-    async findNearCity(req, res, next) {
+    async findNearCity(req: Request, res: Response, next: Function) {
         let {latitude,longitude} = req.query;
         const isValid = latitude === void 0
             || validator.isEmpty(latitude)
@@ -90,7 +90,7 @@ export class PlaceController extends AbstractController {
     }
 
     @Router('/:id/children', 'get')
-    async getChildren(req, res, next) {
+    async getChildren(req: Request, res: Response, next: Function) {
         let {id} = req.params,
             cities = await API['place'].queryCity({parentId:id});
         res.json(this.reply(0,cities.map(this.transform)));
@@ -106,7 +106,7 @@ export class PlaceController extends AbstractController {
 
 
     @Router('/getCitiesByLetter', 'GET')
-    async getCitiesByLetter(req, res, next){
+    async getCitiesByLetter(req: Request, res: Response, next: Function){
         let {isAbroad = false, letter = 'A', limit = 20, page = 0, type} = req.params;
         let cities = await API['place'].getCitiesByLetter({
             isAbroad,
@@ -133,7 +133,7 @@ export class PlaceController extends AbstractController {
     // }
 
     @Router('/getAirPortsByCity', 'GET')
-    async getAirPortsByCity(req, res, next){
+    async getAirPortsByCity(req: Request, res: Response, next: Function){
         let {cityCode} = req.params;
         let airports = await API['place'].getAirPortsByCity({
             cityCode

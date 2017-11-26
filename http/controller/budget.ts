@@ -144,23 +144,21 @@ export class BudgetController extends AbstractController {
         res.jlReply(this.reply(0, result))
     }
 
-    @Router('/getTrafficsData', 'post')
-    async getTrafficsData(req: Request, res: Response, next: Function) {
-
+    @Router('/getTravelPolicy', 'post')
+    async getTravelPolicy(req: Request, res: Response, next: Function) {
         let {travelPolicyId, destinationId} = req.body;
         if(!travelPolicyId || !destinationId)
             return res.jlReply(this.reply(500, null))
- 
-        let result = await ApiTravelBudget.getTrafficsData(travelPolicyId, destinationId);
+        let result = await ApiTravelBudget.getTravelPolicy(travelPolicyId, destinationId);
         res.jlReply(this.reply(0, result));
     }
 
-    @Router('/getTravelPolicy', 'post')
-    async getTravelPolicy(req: Request, res: Response, next: Function) {
+    @Router('/getTrafficsData', 'post')
+    async getTrafficsData(req: Request, res: Response, next: Function) {
         let {leaveDate, originPlaceId, destinationId} = req.body;
         if(!leaveDate || !originPlaceId || !destinationId)
             return res.jlReply(this.reply(500, null))
-        let result = await ApiTravelBudget.getTravelPolicy({
+        let result = await ApiTravelBudget.getTrafficsData({
             leaveDate: leaveDate,
             originPlaceId: originPlaceId,
             destinationId: destinationId

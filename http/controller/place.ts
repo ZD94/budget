@@ -74,10 +74,10 @@ export class PlaceController extends AbstractController {
 
     @Router('/getCitiesByLetter', 'GET')
     async getgetCitiesByLetter(req, res, next) {
-        const { letter = 'A', limit = 20, page = 0, isAbroad = false } = req.query;
         const resp: any = await restfulAPIUtil.proxyHttp({
             uri: `/city/getCitiesByLetter`,
-            method: 'GET'
+            method: 'GET',
+            qs: req.query
         });
 
         return res.jlReply(this.reply(resp.code, resp.data && resp.data.map(this.transform)))
@@ -88,7 +88,8 @@ export class PlaceController extends AbstractController {
         const { name } = req.query;
         const resp: any = await restfulAPIUtil.proxyHttp({
             uri: `/city/getCityByName`,
-            method: 'GET'
+            method: 'GET',
+            qs: { name }
         });
 
         if (resp.code === 0) {

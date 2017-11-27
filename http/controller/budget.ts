@@ -6,11 +6,12 @@
 
 import {AbstractController, Restful,Router} from "@jingli/restful";
 import {Models} from "_types";
-import {Request, Response} from "express-serve-static-core";
+import {IRequest, IResponse} from "../index";
 import API from '@jingli/dnode-api';
 var ApiTravelBudget = require("api/budget/index");
 import {ISearchHotelParams, ISearchTicketParams} from "api/budget/index";
 import { autoSignReply } from 'http/reply';
+
 const HOTEL_START = {
     FIVE: 5,
     FOUR: 4,
@@ -80,7 +81,7 @@ export class BudgetController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
-    async get(req: Request, res: Response, next: Function) {
+    async get(req: IRequest, res: IResponse, next: Function) {
         let {id} = req.params;
         let segmentBudgets = await API['budget'].getBudgetCache({id: id});
         let budgets = segmentBudgets.budgets;
@@ -89,7 +90,7 @@ export class BudgetController extends AbstractController {
         res.jlReply(this.reply(0, segmentBudgets));
     }
 
-    async add(req: Request, res: Response, next: Function) {
+    async add(req: IRequest, res: IResponse, next: Function) {
         req.clearTimeout();
         // let {staffs, policies, fromCity, segments, ret} = req.json;
         //改restful budget api为传travelPolicyId, 同时添加请求货币类型
@@ -130,7 +131,7 @@ export class BudgetController extends AbstractController {
     }
 
     @Router('/getHotelsData', 'post')
-    async getHotelsData(req: Request, res: Response, next: Function) {
+    async getHotelsData(req: IRequest, res: IResponse, next: Function) {
         let {checkInDate, checkOutDate, cityId, location} = req.body;
         if(!checkInDate || !checkOutDate || !cityId) {
             return res.jlReply(this.reply(500, null));
@@ -145,7 +146,7 @@ export class BudgetController extends AbstractController {
     }
 
     @Router('/getTravelPolicy', 'post')
-    async getTravelPolicy(req: Request, res: Response, next: Function) {
+    async getTravelPolicy(req: IRequest, res: IResponse, next: Function) {
         let {travelPolicyId, destinationId} = req.body;
         if(!travelPolicyId || !destinationId)
             return res.jlReply(this.reply(500, null))
@@ -154,7 +155,7 @@ export class BudgetController extends AbstractController {
     }
 
     @Router('/getTrafficsData', 'post')
-    async getTrafficsData(req: Request, res: Response, next: Function) {
+    async getTrafficsData(req: IRequest, res: IResponse, next: Function) {
         let {leaveDate, originPlaceId, destinationId} = req.body;
         if(!leaveDate || !originPlaceId || !destinationId)
             return res.jlReply(this.reply(500, null))

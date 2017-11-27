@@ -71,6 +71,32 @@ export class PlaceController extends AbstractController {
         return res.jlReply(this.reply(resp.code, resp.data && resp.data.map(this.transform)));
     }
 
+
+    @Router('/getCitiesByLetter', 'GET')
+    async getgetCitiesByLetter(req, res, next) {
+        const { letter = 'A', limit = 20, page = 0, isAbroad = false } = req.query;
+        const resp: any = await restfulAPIUtil.proxyHttp({
+            uri: `/city/getCitiesByLetter`,
+            method: 'GET'
+        });
+
+        return res.jlReply(this.reply(resp.code, resp.data && resp.data.map(this.transform)))
+    }
+
+    @Router('/getCityByName', 'GET')
+    async getCityInfoByName(req, res, next) {
+        const { name } = req.query;
+        const resp: any = await restfulAPIUtil.proxyHttp({
+            uri: `/city/getCityByName`,
+            method: 'GET'
+        });
+
+        if (resp.code === 0) {
+            return res.jlReply(this.reply(0, this.transform(resp.data)))
+        }
+        return res.jlReply(resp.code, null);
+    }
+
     private transform(city) {
         return {
             id: city.id,

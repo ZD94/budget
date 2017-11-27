@@ -79,9 +79,7 @@ deploy:tester:
     JL_APP_REDIS: redis://dockerhost:16379
     JL_APP_POSTGRES: postgres://test:JingliTest0418@dockerhost:15432/budget_tester_$GITLAB_USER_ID
     JL_APP_POSTGRES_INITDB: tester_$GITLAB_USER_ID
-    JL_APP_CLOUDKEY: jinglicloud2017
-    JL_APP_CLOUDAPI: http://t.jingli365.com/cloud/api/v1
-    JL_APP_CLOUD: http://t.jingli365.com/cloud
+    JL_APP_OLD_POSTGRES_URL: postgres://times:time0418@l.jingli365.com:15432/jlbudget
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME

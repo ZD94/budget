@@ -1,6 +1,5 @@
 variables:
   DOCKER_REG: docker.l.jingli365.com
-  GITLAB_USER_ID: 10
   DOCKER_NAME: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME
   DOCKER_CI_NAME: $DOCKER_REG/$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME:$CI_BUILD_REF
   DOCKER_BRANCH_NAME: $DOCKER_REG/$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME:$CI_BUILD_REF_SLUG
@@ -67,7 +66,6 @@ deploy:master:
     - echo deploy to https://budget.l.jingli365.com
     - ssh test@l.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG -p 0.0.0.0:14103:4103
 
-
 deploy:tester:
   stage: deploy
   when: manual
@@ -79,7 +77,7 @@ deploy:tester:
     JL_APP_REDIS: redis://dockerhost:16379
     JL_APP_POSTGRES: postgres://test:JingliTest0418@dockerhost:15432/budget_tester_$GITLAB_USER_ID
     JL_APP_POSTGRES_INITDB: tester_$GITLAB_USER_ID
-    JL_APP_OLD_POSTGRES_URL: postgres://times:time0418@l.jingli365.com:15432/jlbudget
+    JL_APP_OLD_POSTGRES_URL: postgres://times:time0418@l.jingli365.com:15432/times
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME
@@ -87,42 +85,6 @@ deploy:tester:
     - docker push $DOCKER_REG/$DOCKER_NAME:tester-$GITLAB_USER_ID
     - echo deploy to https://review.l.jingli365.com/tester/$GITLAB_USER_ID
     - ssh test@l.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME tester-$GITLAB_USER_ID
-
-
-deploy:tester:
-  stage: deploy
-  when: manual
-  environment:
-    name: tester/$GITLAB_USER_ID
-    url: https://review.l.jingli365.com/vm/$GITLAB_USER_ID/$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME
-  variables:
-    JL_APP_HOST: //review.l.jingli365.com/tester/$GITLAB_USER_ID/$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME
-    JL_APP_REDIS: redis://dockerhost:16379
-    JL_APP_POSTGRES: postgres://test:JingliTest0418@dockerhost:15432/tester_$GITLAB_USER_ID
-    JL_APP_POSTGRES_INITDB: tester_$GITLAB_USER_ID
-    JL_APP_CLOUDKEY: jinglicloud2017
-    JL_APP_CLOUDAPI: http://t.jingli365.com/cloud/api/v1
-    JL_APP_CLOUD: http://t.jingli365.com/cloud
-  script:
-    - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
-    - docker pull $DOCKER_CI_NAME
-    - docker tag $DOCKER_CI_NAME $DOCKER_REG/$DOCKER_NAME:tester-$GITLAB_USER_ID
-    - docker push $DOCKER_REG/$DOCKER_NAME:tester-$GITLAB_USER_ID
-    - echo deploy to https://review.l.jingli365.com/tester/$GITLAB_USER_ID
-    - ssh test@l.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME tester-$GITLAB_USER_ID
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 deploy:jingli365:
   stage: deploy

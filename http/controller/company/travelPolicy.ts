@@ -7,7 +7,7 @@ import {AbstractController, Restful, Router} from "@jingli/restful";
 import {TravelPolicy} from "_types/policy";
 import {Models} from "_types";
 import { autoSignReply } from 'http/reply';
-var travelPolicyRegionCols = TravelPolicy['$fieldnames'];
+var travelPolicyCols = TravelPolicy['$fieldnames'];
 
 const HOTEL_START = {
     FIVE: 5,
@@ -104,7 +104,7 @@ export class TravelPolicyController extends AbstractController {
             offset: pz * (p-1)
         };
         for(let key in params){
-            if(travelPolicyRegionCols.indexOf(key) >= 0){
+            if(travelPolicyCols.indexOf(key) >= 0){
                 query.where[key] = params[key];
             }
         }
@@ -112,7 +112,7 @@ export class TravelPolicyController extends AbstractController {
         if(!order || typeof order == undefined)
             query["order"] = [["createdAt", "desc"]];
         let result = await Models.travelPolicy.find(query);
-        result = transform(result);
+        result = transform(result, travelPolicyCols);
         if(result == undefined) result = null;
         res.jlReply(this.reply(0, result));
     }
@@ -127,7 +127,7 @@ export class TravelPolicyController extends AbstractController {
         let obj = await Models.travelPolicy.get(id);
 
         for(let key in params){
-            if(travelPolicyRegionCols.indexOf(key) >= 0){
+            if(travelPolicyCols.indexOf(key) >= 0){
                 obj[key] = params[key];
             }
         }
@@ -140,7 +140,7 @@ export class TravelPolicyController extends AbstractController {
         let params = req.body;
         let properties = {};
         for(let key in params){
-            if(travelPolicyRegionCols.indexOf(key) >= 0){
+            if(travelPolicyCols.indexOf(key) >= 0){
                 properties[key] = params[key];
             }
         }
@@ -175,11 +175,11 @@ export class TravelPolicyController extends AbstractController {
 }
 
 //处理差旅政策
-function transform(policies) {
+export function transform(policies, columns: string[]) {
     let result:any = [];
     policies.map(function(policy){
         let tp :any = {};
-         travelPolicyRegionCols.forEach(function(key){
+        columns.forEach(function(key){
              tp[key] = policy[key];
          })
         result.push(tp)

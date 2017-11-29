@@ -110,7 +110,8 @@ export class PlaceController extends AbstractController {
             latitude: city.lat,
             longitude: city.lng,
             parentId: city.parentId,
-            isAbroad: city.isAbroad
+            isAbroad: city.isAbroad,
+            timezone: city.timezone
         }
     }
 }

@@ -42,7 +42,7 @@ export class PlaceController extends AbstractController {
 
     @Router('/search/:keyword', 'get')   //------- 此行不需要， queryHotCity, queryCity 两个即可使用该接口
     async find(req, res, next) {
-        let {keyword} = req.query;
+        let {keyword} = req.params;
         let cities = [];
         if (!keyword) {
             cities = await API['place'].queryHotCity({limit: 20});
@@ -65,7 +65,7 @@ export class PlaceController extends AbstractController {
 
     @Router('/nearby/:latitude/:longitude', 'get')
     async findNearCity(req, res, next) {
-        let {latitude,longitude} = req.query;
+        let {latitude,longitude} = req.params;
         const isValid = latitude === void 0
             || validator.isEmpty(latitude)
             || longitude === void 0
@@ -107,7 +107,7 @@ export class PlaceController extends AbstractController {
 
     @Router('/getCitiesByLetter', 'GET')
     async getCitiesByLetter(req, res, next){
-        let {isAbroad = false, letter = 'A', limit = 20, page = 0, type} = req.params;
+        let {isAbroad = false, letter = 'A', limit = 20, page = 0, type} = req.query;
         let cities = await API['place'].getCitiesByLetter({
             isAbroad,
             letter,
@@ -120,7 +120,7 @@ export class PlaceController extends AbstractController {
 
     @Router('/getCityInfoByName', 'GET')
     async getCityInfoByName(req, res, next){
-        let {name} = req.params;
+        let {name} = req.query;
         let city = await API['place'].getCityInfoByName(name);
         res.json(this.reply(0, this.transform(city)));
     }
@@ -134,7 +134,7 @@ export class PlaceController extends AbstractController {
 
     @Router('/getAirPortsByCity', 'GET')
     async getAirPortsByCity(req, res, next){
-        let {cityCode} = req.params;
+        let {cityCode} = req.query;
         let airports = await API['place'].getAirPortsByCity({
             cityCode
         });

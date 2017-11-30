@@ -29,10 +29,10 @@ export class PlaceController extends AbstractController {
         })
         if (resp.code === 0) {
             //需要将请求的id 转换成原本的CTW类型的id，未完全实现
-            // let city = _.cloneDeep(resp.data)
-            // if(city){
-            //     city['id'] = id;
-            // }
+            let city = _.cloneDeep(resp.data)
+            if(city){
+                city['id'] = id;
+            }
             return res.jlReply(this.reply(0, this.transform(city)))
         }
     

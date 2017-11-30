@@ -22,14 +22,18 @@ export class PlaceController extends AbstractController {
 
     async get(req, res, next) {
         let { id } = req.params;
-        console.log("====>get: ", req.params)
+   
         const resp: any = await restfulAPIUtil.proxyHttp({
             uri: `/city/${id}`,
             method: 'GET'
         })
-        console.log("====>get: ", resp.data)
         if (resp.code === 0) {
-            return res.jlReply(this.reply(0, this.transform(resp.data)))
+            //需要将请求的id 转换成原本的CTW类型的id，未完全实现
+            // let city = _.cloneDeep(resp.data)
+            // if(city){
+            //     city['id'] = id;
+            // }
+            return res.jlReply(this.reply(0, this.transform(city)))
         }
     
         return res.jlReply(resp.code, null);

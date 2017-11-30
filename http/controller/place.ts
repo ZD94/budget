@@ -42,6 +42,7 @@ export class PlaceController extends AbstractController {
 
     @Router('/search/:keyword', 'get')   //------- 此行不需要， queryHotCity, queryCity 两个即可使用该接口
     async find(req, res, next) {
+        console.log("=====.find: ", req.query)
         let {keyword} = req.query;
         let cities = [];
         if (!keyword) {

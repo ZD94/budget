@@ -106,7 +106,7 @@ export class PlaceController extends AbstractController {
 
     @Router('/getCitiesByLetter', 'GET')
     async getCitiesByLetter(req, res, next){
-        let {isAbroad = false, letter = 'A', limit = 20, page = 0, type} = req.query;
+        let {isAbroad = false, letter = 'A', limit = 20, page = 0, type = 2} = req.query;
         let cities = await API['place'].getCitiesByLetter({
             isAbroad,
             letter,
@@ -114,7 +114,7 @@ export class PlaceController extends AbstractController {
             page,
             type
         });
-        res.json(this.reply(0,cities.map(this.transform)));
+        res.json(this.reply(0,cities));
     }
 
     @Router('/getCityInfoByName', 'GET')

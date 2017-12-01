@@ -8,7 +8,7 @@ import {RegionPlace} from "_types/policy";
 import {Models} from "_types";
 import { autoSignReply } from 'http/reply';
 var regionPlaceCols = RegionPlace['$fieldnames'];
-
+import {transform} from "./travelPolicy";
 const HOTEL_START = {
     FIVE: 5,
     FOUR: 4,
@@ -108,6 +108,7 @@ export class RegionPlaceController extends AbstractController {
 
         let result = await Models.regionPlace.find(query);
         if(result == undefined) result = null;
+        result = transform(result, regionPlaceCols)
         res.jlReply(this.reply(0, result));
     }
 

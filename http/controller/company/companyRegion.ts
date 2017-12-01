@@ -9,6 +9,7 @@ import {CompanyRegion} from "_types/policy";
 import {Models} from "_types";
 import { autoSignReply } from 'http/reply';
 var companyRegionCols = CompanyRegion['$fieldnames'];
+import {transform} from "./travelPolicy";
 
 const HOTEL_START = {
     FIVE: 5,
@@ -119,6 +120,7 @@ export class CompanyRegionController extends AbstractController {
                 return types && types.indexOf(type) >= 0;
             })
         }
+        result = transform(result, companyRegionCols);
         res.jlReply(this.reply(0, result));
     }
 

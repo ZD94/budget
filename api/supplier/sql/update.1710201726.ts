@@ -1,3 +1,4 @@
+import {Sequelize, Transaction} from "sequelize";
 let suppliers = [
     {fileId: '00000001-0000-0000-0000-000000000001', imageName: 'logo/ctrip.png'},
     {fileId: '00000001-0000-0000-0000-000000000002',imageName: 'logo/bravofly.png'},
@@ -21,7 +22,7 @@ let suppliers = [
     {fileId: '00000001-0000-0000-0000-000000000020',imageName: 'logo/zuji.png'}
     ]
 
-module.exports =async function(DB, t) {
+    export default async function update(DB: Sequelize, t: Transaction){
     suppliers.forEach(async (supplier) => {
         let fileId = supplier.fileId;
         let imageName = supplier.imageName;

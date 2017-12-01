@@ -40,11 +40,11 @@ export class PlaceController extends AbstractController {
 
     }
 
-    @Router('/search/:keyword', 'get')   //------- 此行不需要， queryHotCity, queryCity 两个即可使用该接口
+    @Router('/search/(:keyword)?', 'get')   //------- 此行不需要， queryHotCity, queryCity 两个即可使用该接口
     async find(req, res, next) {
         let {keyword} = req.params;
         let cities = [];
-        if (!keyword) {
+        if (!keyword ) {
             cities = await API['place'].queryHotCity({limit: 20});
         } else {
             cities = await API['place'].queryCity({keyword: keyword});
@@ -53,7 +53,6 @@ export class PlaceController extends AbstractController {
             return this.transform(city);
         });
         res.json(this.reply(0, cities));
-
 
         //     let { keyword } = req.params;
         //     const resp: any = keyword

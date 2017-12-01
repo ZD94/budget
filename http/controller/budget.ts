@@ -4,10 +4,12 @@
 
 'use strict';
 
-import {AbstractController, Restful} from "@jingli/restful";
+import {AbstractController, Restful,Router} from "@jingli/restful";
 import {Models} from "_types";
-
+import {IRequest, IResponse} from "../index";
 import API from '@jingli/dnode-api';
+var ApiTravelBudget = require("api/budget/index");
+import {ISearchHotelParams, ISearchTicketParams} from "api/budget/index";
 import { autoSignReply } from 'http/reply';
 
 const HOTEL_START = {
@@ -79,8 +81,7 @@ export class BudgetController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
-
-    async get(req, res, next) {
+    async get(req: IRequest, res: IResponse, next: Function) {
         let {id} = req.params;
         let segmentBudgets = await API['budget'].getBudgetCache({id: id});
         let budgets = segmentBudgets.budgets;
@@ -89,8 +90,7 @@ export class BudgetController extends AbstractController {
         res.jlReply(this.reply(0, segmentBudgets));
     }
 
-
-    async add(req, res, next) {
+    async add(req: IRequest, res: IResponse, next: Function) {
         req.clearTimeout();
         // let {staffs, policies, fromCity, segments, ret} = req.json;
         //改restful budget api为传travelPolicyId, 同时添加请求货币类型
@@ -125,9 +125,46 @@ export class BudgetController extends AbstractController {
             segments,
         });
         let budgets = segmentBudgets.budgets;
-        budgets = this.transformBudgets(budgets);
+        // budgets = this.transformBudgets(budgets);
         segmentBudgets.budgets = budgets;
         res.jlReply(this.reply(0, segmentBudgets));
+    }
+
+    @Router('/getHotelsData', 'post')
+    async getHotelsData(req: IRequest, res: IResponse, next: Function) {
+        let {checkInDate, checkOutDate, cityId, location} = req.body;
+        if(!checkInDate || !checkOutDate || !cityId) {
+            return res.jlReply(this.reply(500, null));
+        }
+        let result = await ApiTravelBudget.getHotelsData({
+            checkInDate: checkInDate,
+            checkOutDate: checkOutDate,
+            cityId: cityId,
+            location: location
+        });
+        res.jlReply(this.reply(0, result))
+    }
+
+    @Router('/getTravelPolicy', 'post')
+    async getTravelPolicy(req: IRequest, res: IResponse, next: Function) {
+        let {travelPolicyId, destinationId} = req.body;
+        if(!travelPolicyId || !destinationId)
+            return res.jlReply(this.reply(500, null))
+        let result = await ApiTravelBudget.getTravelPolicy(travelPolicyId, destinationId);
+        res.jlReply(this.reply(0, result));
+    }
+
+    @Router('/getTrafficsData', 'post')
+    async getTrafficsData(req: IRequest, res: IResponse, next: Function) {
+        let {leaveDate, originPlaceId, destinationId} = req.body;
+        if(!leaveDate || !originPlaceId || !destinationId)
+            return res.jlReply(this.reply(500, null))
+        let result = await ApiTravelBudget.getTrafficsData({
+            leaveDate: leaveDate,
+            originPlaceId: originPlaceId,
+            destinationId: destinationId
+        });
+        res.jlReply(this.reply(0, result))
     }
 
     private transformBudgets(budgets) {

@@ -6,7 +6,7 @@
 'use strict';
 
 import { scannerDecoration, registerControllerToRouter, batchRegisterErrorCode, ERR_TEXT, reply } from "@jingli/restful";
-
+import {Request, Response} from "express-serve-static-core";
 import path = require("path");
 import express = require("express");
 import { authenticate } from "./auth";
@@ -17,6 +17,16 @@ const logger = new Logger("http");
 let router = express.Router();
 scannerDecoration(path.join(__dirname, 'controller'));
 registerControllerToRouter(router, { isShowUrls: true });
+
+export interface IResponse extends Response {
+    jlReply: Function;
+    
+}
+
+export interface IRequest extends Request {
+    clearTimeout: Function;
+    session: any;
+}
 
 let allowOrigin = [
     "localhost",

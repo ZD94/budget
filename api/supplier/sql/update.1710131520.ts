@@ -1,4 +1,5 @@
 let uid = require("uuid");
+import {Sequelize, Transaction} from "sequelize";
 var commonSuppliers = [
     {name:"飞猪", logo: 'logo/piggy.png', enName: 'piggy', alias: '飞猪'},
     {name:"去哪儿网", logo: 'logo/qunar.png', enName: 'qunar', alias: '去哪儿'},
@@ -22,14 +23,14 @@ var commonSuppliers = [
     {name:"bravofly", logo: 'logo/bravofly.png', enName: 'bravofly', alias: 'bravofly'}
 ];
 
-
-module.exports =async function(DB, t) {
+export default async function update(DB: Sequelize, t: Transaction){
     commonSuppliers.forEach(async (supplier) => {
         let name = supplier.name;
         let logo = supplier.logo;
         let alias = supplier.alias;
         let enName = supplier.enName;
         let id = uid.v1();
+        console.log("---this is common suppliers: ")
 
         let sql = `INSERT INTO "supplier"."common_suppliers" ("id", "name","alias", "logo", "created_at", "updated_at") 
         VALUES ('${id}', '${name}', '${alias}', '${logo}', now(), now());`;

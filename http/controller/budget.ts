@@ -132,6 +132,7 @@ export class BudgetController extends AbstractController {
 
     @Router('/getHotelsData', 'post')
     async getHotelsData(req: IRequest, res: IResponse, next: Function) {
+        req.clearTimeout();
         let {checkInDate, checkOutDate, cityId, location} = req.body;
         if(!checkInDate || !checkOutDate || !cityId) {
             return res.jlReply(this.reply(500, null));
@@ -156,6 +157,7 @@ export class BudgetController extends AbstractController {
 
     @Router('/getTrafficsData', 'post')
     async getTrafficsData(req: IRequest, res: IResponse, next: Function) {
+        req.clearTimeout();
         let {leaveDate, originPlaceId, destinationId} = req.body;
         if(!leaveDate || !originPlaceId || !destinationId)
             return res.jlReply(this.reply(500, null))

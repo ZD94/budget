@@ -639,7 +639,6 @@ class ApiTravelBudget {
     static async createBudget(params: IQueryBudgetParams): Promise<FinalBudgetResultInterface> {
         try {  //policies,
             console.log("createBudget=====>", params);
-            let times = Date.now();
             let { staffs, segments, fromCity, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, companyId, preferedCurrency, expiredBudget, orderId } = params;
 
             preferedCurrency = preferedCurrency && typeof (preferedCurrency) != 'undefined' ? preferedCurrency : defaultCurrencyUnit;
@@ -667,8 +666,6 @@ class ApiTravelBudget {
                 segments.push(segment);
             }
             let policies: any = {};
-            console.log("time using 1 : ", Date.now() - times);
-
             let tasks: Promise<any>[] = [];
             for (var i = 0, ii = segments.length; i < ii; i++) {
                 let seg = segments[i];
@@ -873,11 +870,8 @@ class ApiTravelBudget {
                 cities.push(toCity.id);
             }
 
-            console.log("time using 3 ready go tasks : ", Date.now() - times);
             let budgetResults = await Promise.all(tasks);
-            console.log("time using 4 tasks over: ", Date.now() - times);
-
-            // console.log("budgetResults=====>", budgetResults);
+            console.log("budgetResults=====>", budgetResults);
             for (var i = 0, ii = budgetResults.length; i < ii; i = i + 3) {
                 budgets.push({
                     traffic: budgetResults[i],
@@ -888,13 +882,12 @@ class ApiTravelBudget {
 
             let result: FinalBudgetResultInterface = {
                 cities: cities,
-                budgets: budgets,
-                orderId
+                budgets: budgets
             }
             let m = Models.budget.create({ query: params, result: result });
             m = await m.save();
             result.id = m.id;
-            console.log("time using 5 save the budget: ", Date.now() - times);
+            result.orderId = orderId;
             return handleBudgetResult(result, isRetMarkedData)
         } catch (err) {
             console.error(err);

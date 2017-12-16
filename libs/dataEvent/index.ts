@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-16 18:01:07 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2017-12-17 02:58:58
+ * @Last Modified time: 2017-12-17 04:53:11
  * @content what is the content of this file. */
 
 const cache = require("common/cache");
@@ -129,6 +129,14 @@ export class DataEvent {
 
     async sendData(params: BudgetOrder) {
         // console.log("sendData sendData sendData", params.createBudgetParam)
+
+        if (!params.callbackUrl) {
+            if (params.step == STEP.FINAL) {
+                await cache.remove(params.id);
+            }
+            return;
+        }
+
         let result = await API['budget'].createBudget(params.createBudgetParam);
         result.step = params.step;
 
@@ -138,12 +146,17 @@ export class DataEvent {
             console.log("================ send Data. Over  ===============")
         }
         try {
-            await request({
+            let ret = await request({
                 uri: params.callbackUrl,
                 method: "post",
                 body: result,
                 json: true
             });
+            console.info("事件推送返回值", ret);
+            if (result.step == STEP.FINAL) {
+                console.log("budgetOrder remove : ", params.id);
+                await cache.remove(params.id);
+            }
         } catch (e) {
             console.error(e);
         }

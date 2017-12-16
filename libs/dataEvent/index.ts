@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-16 18:01:07 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2017-12-17 00:16:11
+ * @Last Modified time: 2017-12-17 02:58:58
  * @content what is the content of this file. */
 
 const cache = require("common/cache");
@@ -74,7 +74,7 @@ export class DataEvent {
             budgetOrder.step = STEP.TWO;
         }
         await cache.write(budgetOrder.id, budgetOrder);
-        console.log("dealDataEvent=====>", budgetOrder);
+        console.log("dealDataEvent================================>", budgetOrder);
         await this.sendData(budgetOrder);
     }
 

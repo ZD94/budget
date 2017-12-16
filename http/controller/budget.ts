@@ -107,7 +107,7 @@ export class BudgetController extends AbstractController {
         //改restful budget api为传travelPolicyId, 同时添加请求货币类型
         let { staffs, fromCity, segments, ret, travelPolicyId, preferedCurrency, qmUrl, approveId } = req.body;
         let time = Date.now();
-        console.log("budget go", req.body)
+        console.log("budget go", req.body);
         if (preferedCurrency && typeof (preferedCurrency) != 'undefined') {
             let currencyIds = await Models.currency.find({ where: { $or: [{ currency_code: preferedCurrency }, { currency_name: preferedCurrency }] } });
             if (!currencyIds || !currencyIds.length) {
@@ -152,9 +152,6 @@ export class BudgetController extends AbstractController {
         let budgets = segmentBudgets.budgets;
         // budgets = this.transformBudgets(budgets);
         segmentBudgets.budgets = budgets;
-
-
-        // console.log("segmentBudgets====>", JSON.stringify(segmentBudgets));
 
         console.log("time using -------->", Date.now() - time);
         res.jlReply(this.reply(0, segmentBudgets));

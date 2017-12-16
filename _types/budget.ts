@@ -455,7 +455,7 @@ export enum STEP {
 export interface FinalBudgetResultInterface {
     id?: string;
     orderId: string;
-    step: STEP;
+    step?: STEP;
     cities: string[];
     budgets: SegmentBudgetItem[]
 }

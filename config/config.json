@@ -30,7 +30,7 @@
       },
       {
         "connect": {"host":"${{hosts.data.addr}}", "port": "${{hosts.data.port}}"},
-        "modules": ["hotels","traffic"]
+        "modules": ["hotels","traffic","getData"]
       }
       
     ]

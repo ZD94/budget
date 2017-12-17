@@ -34,7 +34,7 @@ build:dist:
     - mkdir -p $NPM_CACHE_DIR/`npmhash`/node_modules && ln -s $NPM_CACHE_DIR/`npmhash`/node_modules .
     - echo `npmhash`
     - git submodule update --init --checkout
-    - npm --registry https://npm.l.jingli365.com install
+    - npm install
     - gulp dist
     - ls dist/http/ -al
 

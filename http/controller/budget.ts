@@ -11,7 +11,7 @@ import API from '@jingli/dnode-api';
 var ApiTravelBudget = require("api/budget/index");
 import { ISearchHotelParams, ISearchTicketParams } from "api/budget/index";
 import { autoSignReply } from 'http/reply';
-import { dataEvent, STEP, recordedData } from "libs/dataEvent";
+import { dataEvent, STEP } from "libs/dataEvent";
 import uuid = require("uuid");
 
 const HOTEL_START = {
@@ -155,7 +155,6 @@ export class BudgetController extends AbstractController {
 
 
         console.log("time using -------->", Date.now() - time);
-        // await recordedData(segmentBudgets);
         res.jlReply(this.reply(0, segmentBudgets));
     }
 

@@ -1,5 +1,5 @@
 variables:
-  DOCKER_REG: docker.l.jingli365.com
+  DOCKER_REG: dk.jingli365.com
   DOCKER_NAME: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME
   DOCKER_CI_NAME: $DOCKER_REG/$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME:$CI_BUILD_REF
   DOCKER_BRANCH_NAME: $DOCKER_REG/$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME:$CI_BUILD_REF_SLUG
@@ -25,7 +25,7 @@ build:dist:
   stage: build
   only:
     - branches
-  image: $DOCKER_REG/jl-build:v2
+  image: $DOCKER_REG/jl-build:v3
   cache:
     key: $CI_PIPELINE_ID
     paths:
@@ -34,7 +34,7 @@ build:dist:
     - mkdir -p $NPM_CACHE_DIR/`npmhash`/node_modules && ln -s $NPM_CACHE_DIR/`npmhash`/node_modules .
     - echo `npmhash`
     - git submodule update --init --checkout
-    - npm --registry https://npm.l.jingli365.com install
+    - npm install
     - gulp dist
     - ls dist/http/ -al
 

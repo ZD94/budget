@@ -146,6 +146,10 @@ export class BudgetController extends AbstractController {
         // console.log("budgetOrder===>", budgetOrder);
         await dataEvent.addBudgetOrderCache(budgetOrder);
 
+        setTimeout(async () => {
+            await dataEvent.forceFIN(budgetOrder.id);
+        }, 1000 * 60 * 3);
+
         let segmentBudgets;
         segmentBudgets = await API['budget'].createBudget(createBudgetOptions);
         segmentBudgets.step = STEP.ONE;
@@ -157,7 +161,7 @@ export class BudgetController extends AbstractController {
         // console.log("segmentBudgets====>", JSON.stringify(segmentBudgets));
 
         console.log("time using -------->", Date.now() - time);
-        await recordedData(segmentBudgets);
+        // await recordedData(segmentBudgets);
         res.jlReply(this.reply(0, segmentBudgets));
     }
 

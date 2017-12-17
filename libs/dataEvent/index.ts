@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-16 18:01:07 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2017-12-17 15:00:44
+ * @Last Modified time: 2017-12-17 15:06:20
  * @content what is the content of this file. */
 
 const cache = require("common/cache");
@@ -76,6 +76,20 @@ export class DataEvent {
         await cache.write(budgetOrder.id, budgetOrder);
         console.log("dealDataEvent=====>", budgetOrder);
         await this.sendData(budgetOrder);
+    }
+
+    /* 强制发送FIN */
+    async forceFIN(orderId: string) {
+        let budgetOrder = await cache.read(orderId) as BudgetOrder;
+        if (!budgetOrder) {
+            return;
+        }
+
+        budgetOrder.step = STEP.FINAL;
+        await this.sendData(budgetOrder);
+
+        //delete the order
+        await cache.remove(orderId);
     }
 
     /*  */

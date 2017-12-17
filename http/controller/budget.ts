@@ -103,11 +103,9 @@ export class BudgetController extends AbstractController {
 
     async add(req: IRequest, res: IResponse, next: Function) {
         req.clearTimeout();
-        // let {staffs, policies, fromCity, segments, ret} = req.json;
         //改restful budget api为传travelPolicyId, 同时添加请求货币类型
         let { staffs, fromCity, segments, ret, travelPolicyId, preferedCurrency, qmUrl, approveId } = req.body;
         let time = Date.now();
-        console.log("budget go", req.body)
         if (preferedCurrency && typeof (preferedCurrency) != 'undefined') {
             let currencyIds = await Models.currency.find({ where: { $or: [{ currency_code: preferedCurrency }, { currency_name: preferedCurrency }] } });
             if (!currencyIds || !currencyIds.length) {
@@ -128,7 +126,6 @@ export class BudgetController extends AbstractController {
             id: uuid.v1(),
             budget: [],
             callbackUrl: qmUrl,
-            // callbackUrl: "http://localhost:3003",
             createBudgetParam: null,
             step: STEP.ONE
         }
@@ -143,7 +140,6 @@ export class BudgetController extends AbstractController {
             orderId: budgetOrder.id
         };
         budgetOrder.createBudgetParam = createBudgetOptions;
-        // console.log("budgetOrder===>", budgetOrder);
         await dataEvent.addBudgetOrderCache(budgetOrder);
 
         setTimeout(async () => {
@@ -154,11 +150,9 @@ export class BudgetController extends AbstractController {
         segmentBudgets = await API['budget'].createBudget(createBudgetOptions);
         segmentBudgets.step = STEP.ONE;
         let budgets = segmentBudgets.budgets;
-        // budgets = this.transformBudgets(budgets);
         segmentBudgets.budgets = budgets;
 
 
-        // console.log("segmentBudgets====>", JSON.stringify(segmentBudgets));
 
         console.log("time using -------->", Date.now() - time);
         // await recordedData(segmentBudgets);

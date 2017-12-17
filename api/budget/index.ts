@@ -882,12 +882,12 @@ class ApiTravelBudget {
 
             let result: FinalBudgetResultInterface = {
                 cities: cities,
-                budgets: budgets
+                budgets: budgets,
+                orderId
             }
             let m = Models.budget.create({ query: params, result: result });
             m = await m.save();
             result.id = m.id;
-            result.orderId = orderId;
             return handleBudgetResult(result, isRetMarkedData)
         } catch (err) {
             console.error(err);

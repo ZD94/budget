@@ -227,7 +227,7 @@ export interface IQueryBudgetParams {
     hotels?: IHotel[];
     isRetMarkedData?: boolean;
     preferedCurrency?: string;
-    orderId: string;        //缓存单次预算id
+    orderId?: string;        //缓存单次预算id
 }
 
 export interface PreferSet {
@@ -455,7 +455,7 @@ export enum STEP {
 export interface FinalBudgetResultInterface {
     id?: string;
     orderId: string;
-    step: STEP;
+    step?: STEP;
     cities: string[];
     budgets: SegmentBudgetItem[]
 }

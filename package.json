@@ -76,8 +76,8 @@
     "validator": "^8.1.0"
   },
   "devDependencies": {
-    "@types/bluebird": "^3.5.2",
-    "@types/bluebird-global": "^3.5.1",
+    "@types/bluebird": "3.5.2",
+    "@types/bluebird-global": "3.5.1",
     "@types/callsite": "^1.0.30",
     "@types/chai": "^4.0.4",
     "@types/colors": "^1.1.1",
@@ -103,7 +103,7 @@
     "@types/serve-static": "^1.7.31",
     "@types/sockjs-node": "^0.3.28",
     "@types/superagent": "^1.4.28",
-    "@types/supertest": "^2.0.3",
+    "@types/supertest": "^2.0.4",
     "@types/through2": "^2.0.33",
     "@types/traverse": "^0.6.29",
     "babel-core": "^6.2.4",
@@ -124,7 +124,7 @@
     "run-sequence": "^1.2.2",
     "supertest": "^3.0.0",
     "through2": "^2.0.3",
-    "yargs": "^7.0.2",
-    "typescript": "2.4.2"
+    "typescript": "2.4.2",
+    "yargs": "^7.0.2"
   }
 }

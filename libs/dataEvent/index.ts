@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-16 18:01:07 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2017-12-17 05:17:52
+ * @Last Modified time: 2017-12-17 15:00:44
  * @content what is the content of this file. */
 
 const cache = require("common/cache");
@@ -132,6 +132,7 @@ export class DataEvent {
 
         if (!params.callbackUrl) {
             if (params.step == STEP.FINAL) {
+                console.log("delete the order ", params.id);
                 await cache.remove(params.id);
             }
             return;
@@ -146,6 +147,7 @@ export class DataEvent {
             console.log("================ send Data. Over  ===============")
         }
         try {
+            // await recordedData(result);
             let ret = await request({
                 uri: params.callbackUrl,
                 method: "post",
@@ -155,7 +157,7 @@ export class DataEvent {
             console.info("事件推送返回值", ret);
             if (result.step == STEP.FINAL) {
                 console.log("budgetOrder remove : ", params.id);
-                await cache.remove(params.id);
+                // await cache.remove(params.id);  不要删除cache
             }
         } catch (e) {
             console.error(e);
@@ -164,3 +166,28 @@ export class DataEvent {
 }
 
 export let dataEvent = new DataEvent();
+
+let path = require("path"),
+    fs = require("fs");
+export function recordedData(data: object) {
+    let reg = /\/|\:/ig;
+    // let randomStr = Math.random().toString(36).substr(2, 5);
+    let filename = Date.now();
+    let filepath = path.join(process.cwd(), "mytest/budgetData", filename + ".json");
+    if (!data) {
+        return filepath;
+    }
+    try {
+        fs.statSync(path.join(process.cwd(), "mytest/budgetData"));
+    } catch (e) {
+        fs.mkdirSync(path.join(process.cwd(), "mytest/budgetData"));
+    }
+
+    let source = fs.createWriteStream(filepath);
+    let result = JSON.stringify(data, null, 4);
+
+    source.write(result);
+    source.end(() => {
+        console.log("数据记录结束 :", filepath);
+    });
+}

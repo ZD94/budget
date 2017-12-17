@@ -236,7 +236,7 @@ class ApiTravelBudget {
                 type: BudgetType.HOTEL,
                 channels: [],
                 input: searchParams,
-                callbackUrl: "http://" + config.host + ":" + config.port + "/dataEvent",
+                callbackUrl: getCallbackUrl(config.host, config.port),
                 orderId,
                 id: budgetItemId
             });
@@ -418,7 +418,7 @@ class ApiTravelBudget {
                 type: BudgetType.TRAFFICT,
                 channels: [],
                 input: searchParams,
-                callbackUrl: "http://" + config.host + ":" + config.port + "/dataEvent",
+                callbackUrl: getCallbackUrl(config.host, config.port),
                 orderId,
                 id: budgetItemId
             });
@@ -1125,3 +1125,10 @@ async function getHotelPriceLimit(placeId: string, companyId: string, tp: Travel
     return hotelPrice;
 }
 
+function getCallbackUrl(host: string, port?: number) :string { 
+    let portStr = ''
+    if (port) { 
+        portStr = `:${port}`;
+    }
+    return "http://" + host + portStr + "/dataEvent";
+}

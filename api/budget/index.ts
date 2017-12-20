@@ -22,12 +22,12 @@ export var defaultCurrencyUnit = 'CNY';
 
 import {
     TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory
-} from "./strategy/index";
+} from "model/budget/strategy/index";
 
-import { DEFAULT_PREFER_CONFIG_TYPE, loadPrefers } from "./prefer";
+import { DEFAULT_PREFER_CONFIG_TYPE, loadPrefers } from "model/budget/prefer";
 import { Models } from "_types/index";
 import { ICity, CityService } from "_types/city";
-import { countDays } from "./helper";
+import { countDays } from "model/budget/helper";
 var API = require("@jingli/dnode-api");
 import Logger from "@jingli/logger";
 import { ModelInterface } from "../../common/model/interface";
@@ -43,7 +43,8 @@ export var NoCityPriceLimit = 0;
 import { HotelPriceLimitType } from "_types/company";
 import { ECompanyRegionUsedType } from "_types/policy/companyRegion";
 let haversine = require("haversine");
-import { dataEvent } from "libs/dataEvent";
+import { dataEvent } from "model/budget/dataEvent";
+import getAllPrefer from 'model/budget/getAllPrefer';
 let md5 = require("md5");
 
 export interface ISearchHotelParams {
@@ -278,6 +279,17 @@ class ApiTravelBudget {
                 })
             }
 
+            /*  let allPrefers2 = await getAllPrefer.getHotelAllPrefer({
+                 toCity:city,
+                 companyId,
+                 travelPolicyId,
+                 staff,
+                 checkInDate,
+                 checkOutDate,
+                 location
+             }); */
+
+
             //需要的差旅标准
             let strategy = await HotelBudgetStrategyFactory.getStrategy({
                 star: star,
@@ -479,6 +491,18 @@ class ApiTravelBudget {
                     "options": { "type": "square", "score": -1000000, "percent": 0 }
                 })
             }
+
+            /*  let allPrefers2 = await getAllPrefer.getTrafficAllPrefer({
+                 fromCity,
+                 toCity,
+                 companyId,
+                 travelPolicyId,
+                 staff,
+                 latestArrivalTime,
+                 earliestDepartTime
+             }); */
+
+
             let strategy = await TrafficBudgetStrategyFactory.getStrategy({
                 fromCity,
                 toCity,
@@ -836,7 +860,7 @@ class ApiTravelBudget {
                 let subsidies = [];
                 if (tp) {
                     let company = await Models.company.get(tp.companyId);
-                    subsidies = await tp.getSubsidies({ placeId: toCity.id });
+                    subsidies = await tp.getSubsidies({ placeId: toCity.id });  //获取该差旅标准下，该目的地的 补助项
                     /*
                     ** 当天去当天回 补助只给一天
                     */
@@ -1125,9 +1149,9 @@ async function getHotelPriceLimit(placeId: string, companyId: string, tp: Travel
     return hotelPrice;
 }
 
-function getCallbackUrl(host: string, port?: number) :string { 
+function getCallbackUrl(host: string, port?: number): string {
     let portStr = ''
-    if (port) { 
+    if (port) {
         portStr = `:${port}`;
     }
     return "http://" + host + portStr + "/dataEvent";

@@ -13,7 +13,7 @@ import { authenticate } from "./auth";
 import Logger from "@jingli/logger";
 import { genSign } from "@jingli/sign";
 const logger = new Logger("http");
-import { dataEvent } from "libs/dataEvent";
+import { dataEvent } from "model/budget/dataEvent";
 
 let router = express.Router();
 scannerDecoration(path.join(__dirname, 'controller'));

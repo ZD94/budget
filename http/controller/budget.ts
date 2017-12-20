@@ -11,7 +11,7 @@ import API from '@jingli/dnode-api';
 var ApiTravelBudget = require("api/budget/index");
 import { ISearchHotelParams, ISearchTicketParams } from "api/budget/index";
 import { autoSignReply } from 'http/reply';
-import { dataEvent, STEP } from "libs/dataEvent";
+import { dataEvent, STEP } from "model/budget/dataEvent";
 import uuid = require("uuid");
 
 const HOTEL_START = {
@@ -71,15 +71,6 @@ function transformStaffStrArgsToEnum(staffs) {
     return staffs;
 }
 
-/* 发送数据 */
-async function sendData(url, data) {
-    let result = await request({
-        url,
-        method: "post",
-        form: data
-    });
-}
-
 
 @Restful()
 export class BudgetController extends AbstractController {
@@ -109,14 +100,14 @@ export class BudgetController extends AbstractController {
         if (preferedCurrency && typeof (preferedCurrency) != 'undefined') {
             let currencyIds = await Models.currency.find({ where: { $or: [{ currency_code: preferedCurrency }, { currency_name: preferedCurrency }] } });
             if (!currencyIds || !currencyIds.length) {
-                return res.jlReply(this.reply(400, []));
+                // return res.jlReply(this.reply(400, []));
             }
         }
         if (!staffs) {
             staffs = []
         }
         if (!staffs.length) {
-            return res.jlReply(this.reply(500, []));
+            // return res.jlReply(this.reply(500, []));
         }
 
         //转换员工
@@ -155,8 +146,19 @@ export class BudgetController extends AbstractController {
 
 
         console.log("time using -------->", Date.now() - time);
+        console.log('segmentBudgets segmentBudgets segmentBudgets ==>', JSON.stringify(segmentBudgets));
+
         res.jlReply(this.reply(0, segmentBudgets));
     }
+
+    @Router("/requestBudget", "post")
+    async requestBudget(req: IRequest, res: IResponse, next: Function) {
+        req.clearTimeout();
+        let { staffs, qmUrl, travelPolicyId, preferedCurrency, budgetParams } = req.body;
+
+    }
+
+
 
     @Router('/getHotelsData', 'post')
     async getHotelsData(req: IRequest, res: IResponse, next: Function) {

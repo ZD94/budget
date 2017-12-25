@@ -2,46 +2,13 @@
  * @Author: Mr.He 
  * @Date: 2017-12-16 18:01:07 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2017-12-17 16:32:45
+ * @Last Modified time: 2017-12-22 17:13:25
  * @content what is the content of this file. */
 
 const cache = require("common/cache");
 let request = require("request-promise");
 import API from '@jingli/dnode-api';
-var ApiTravelBudget = require("api/budget/index");
-
-
-
-export enum STEP {
-    ONE = "FULL",
-    TWO = "CACHE",
-    FINAL = "FIN"
-}
-
-export interface BudgetDataItem {
-    id: string;
-    data: any[];
-    step: STEP
-}
-
-export interface BudgetOrder {
-    [index: string]: any;
-    id: string;                 //BudgetOrder标示
-    step: STEP;
-    budget: BudgetDataItem[];              //保存data-store拉取数据
-    callbackUrl: string;        //回调地址
-    createBudgetParam: any;     //预算请求参数
-}
-
-export interface DataOrder {
-    id: string;   //这份数据的id
-    orderId: string;
-    channels: any,
-    param: any,
-    step: STEP,
-    data: any[]
-}
-
+import { DataOrder, BudgetOrder, STEP } from "./interface";
 
 export class DataEvent {
     /* 接收数据推送事件 */
@@ -51,7 +18,7 @@ export class DataEvent {
         if (!budgetOrder) {
             return;
         }
-        for (let budget of budgetOrder.budget) {
+        for (let budget of budgetOrder.budgetData) {
             if (budget.id == pushData.id) {
                 budget.data = pushData.data;
                 budget.step = pushData.step;
@@ -61,7 +28,7 @@ export class DataEvent {
 
         //检查当前几份数据的状态
         let FIN = true;
-        for (let budget of budgetOrder.budget) {
+        for (let budget of budgetOrder.budgetData) {
             if (budget.step != STEP.FINAL) {
                 FIN = false;
                 break;
@@ -118,8 +85,8 @@ export class DataEvent {
         if (!order) {
             throw new Error("Budget order get worry.");
         }
-        let theBudget: BudgetDataItem;
-        for (let budget of order.budget) {
+        let theBudget;
+        for (let budget of order.budgetData) {
             if (budget.id == itemId) {
                 theBudget = budget;
             }
@@ -131,9 +98,9 @@ export class DataEvent {
             theBudget = {
                 id: itemId,
                 data: [],
-                step: STEP.ONE
+                step: STEP.CACHE
             }
-            order.budget.push(theBudget);
+            order.budgetData.push(theBudget);
         }
 
         await cache.write(orderId, order);
@@ -172,6 +139,11 @@ export class DataEvent {
         } catch (e) {
             console.error(e);
         }
+    }
+
+    /* 执行发送 5 次逻辑，5次后最终报错 */
+    async sendBudget(params: BudgetOrder) {
+
     }
 }
 

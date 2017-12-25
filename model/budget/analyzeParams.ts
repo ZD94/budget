@@ -2,11 +2,12 @@
  * @Author: Mr.He 
  * @Date: 2017-11-24 17:06:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2017-12-20 18:44:18
+ * @Last Modified time: 2017-12-21 21:25:57
  * @content analyze the budgets request . */
 
 import * as uuid from "uuid";
 // import { ISegment } from "_types/budget";
+import { SearchHotelParams, SearchTicketParams, BudgetType, BudgetItemParams, DataOrder } from "./interface";
 
 export interface ISegment {
     destinationPlace?: string;
@@ -28,41 +29,10 @@ export interface CreateBudgetParams {
     destinationPlacesInfo: ISegment[];
 }
 
-export enum BudgetType {
-    HOTEL = "hotel",
-    TRAFFICT = "traffic"
-}
-
-/* 预算请求参数 */
-export interface BudgetParams {
-    id: string;  //每段预算唯一标示
-    type: BudgetType;
-    index: number;
-    beginTime: Date;
-    endTime?: Date;
-    fromCity?: string;
-    arrivalCity: string;
-    businessDistrict?: {
-        longitude: number,
-        latitude: number
-    };
-}
-
-/* finally Result */
-export interface BudgetResults {
-    id: string;  //预算订单id
-    originParam: CreateBudgetParams;  //预算请求原始参数
-    budgets: BudgetParams[];
-}
-
 /* 分析请求参数 */
-export function analyzeBudgetParams(params: CreateBudgetParams): BudgetResults {
+export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParams[] | DataOrder[] {
 
-    let result = {
-        id: uuid.v1(),
-        budgets: [],
-        originParam: params
-    }
+    let budgetParams = [];
 
     let destinations = params.destinationPlacesInfo;
 
@@ -74,24 +44,32 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetResults {
                 let trip = {
                     id: uuid.v1(),
                     type: BudgetType.TRAFFICT,
-                    beginTime: destination.latestArrivalDateTime, //第一程的出发时间可优化
-                    fromCity: params.originPlace,
-                    arrivalCity: destination.destinationPlace,
+                    input: {
+                        leaveDate: destination.latestArrivalDateTime, //第一程的出发时间可优化
+                        originPlace: params.originPlace,
+                        destination: destination.destinationPlace,
+                        earliestGoBackDateTime: destination.earliestGoBackDateTime,
+                        latestArrivalDateTime: destination.latestArrivalDateTime
+                    },
                     index
                 };
-                result.budgets.push(trip);
+                budgetParams.push(trip);
             }
 
             if (index != 0) {
                 let trip = {
                     id: uuid.v1(),
                     type: BudgetType.TRAFFICT,
-                    beginTime: destinations[index - 1].earliestGoBackDateTime,
-                    fromCity: destinations[index - 1].destinationPlace,
-                    arrivalCity: destination.destinationPlace,
+                    input: {
+                        leaveDate: destinations[index - 1].earliestGoBackDateTime,
+                        originPlace: destinations[index - 1].destinationPlace,
+                        destination: destination.destinationPlace,
+                        earliestGoBackDateTime: destination.earliestGoBackDateTime,
+                        latestArrivalDateTime: destination.latestArrivalDateTime
+                    },
                     index
                 };
-                result.budgets.push(trip);
+                budgetParams.push(trip);
             }
         }
 
@@ -99,13 +77,18 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetResults {
             let hotelTrip = {
                 id: uuid.v1(),
                 type: BudgetType.HOTEL,
-                beginTime: destination.latestArrivalDateTime,
-                endTime: destination.earliestGoBackDateTime,
-                arrivalCity: destination.destinationPlace,
-                businessDistrict: destination.businessDistrict || null,    //后期加入对商圈的处理
+                input: {
+                    checkInDate: destination.latestArrivalDateTime,
+                    checkOutDate: destination.earliestGoBackDateTime,
+                    city: destination.destinationPlace,
+                    // location: {   //后期加入对商圈的处理
+                    //     latitude:"",
+                    //     longitude:""
+                    // }
+                },
                 index
             };
-            result.budgets.push(hotelTrip);
+            budgetParams.push(hotelTrip);
         }
     });
 
@@ -114,13 +97,17 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetResults {
         let trip = {
             id: uuid.v1(),
             type: BudgetType.TRAFFICT,
-            beginTime: destinations[destinations.length - 1].earliestGoBackDateTime,
-            fromCity: destinations[destinations.length - 1].destinationPlace,
-            arrivalCity: params.goBackPlace,
+            input: {
+                leaveDate: destinations[destinations.length - 1].latestArrivalDateTime,
+                originPlace: destinations[destinations.length - 1].destinationPlace,
+                destination: params.goBackPlace,
+                earliestGoBackDateTime: destinations[destinations.length - 1].earliestGoBackDateTime,
+                latestArrivalDateTime: destinations[destinations.length - 1].latestArrivalDateTime
+            },
             index: destinations.length
         };
-        result.budgets.push(trip);
+        budgetParams.push(trip);
     }
 
-    return result;
+    return budgetParams;
 }

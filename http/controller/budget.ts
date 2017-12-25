@@ -11,7 +11,7 @@ import API from '@jingli/dnode-api';
 var ApiTravelBudget = require("api/budget/index");
 import { ISearchHotelParams, ISearchTicketParams } from "api/budget/index";
 import { autoSignReply } from 'http/reply';
-import { dataEvent, STEP } from "model/budget/dataEvent";
+import { dataEvent, STEP } from "model/budget";
 import uuid = require("uuid");
 
 const HOTEL_START = {
@@ -115,10 +115,11 @@ export class BudgetController extends AbstractController {
 
         let budgetOrder = {
             id: uuid.v1(),
-            budget: [],
+            budgetData: [],
             callbackUrl: qmUrl,
+            budget: [],
             createBudgetParam: null,
-            step: STEP.ONE
+            step: STEP.CACHE
         }
         let createBudgetOptions = {
             preferedCurrency: preferedCurrency,
@@ -139,7 +140,7 @@ export class BudgetController extends AbstractController {
 
         let segmentBudgets;
         segmentBudgets = await API['budget'].createBudget(createBudgetOptions);
-        segmentBudgets.step = STEP.ONE;
+        segmentBudgets.step = STEP.CACHE;
         let budgets = segmentBudgets.budgets;
         segmentBudgets.budgets = budgets;
 

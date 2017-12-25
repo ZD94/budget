@@ -18,7 +18,7 @@ import _ = require("lodash");
 var request = require("request");
 let scheduler = require('common/scheduler');
 import { CurrencyRate } from "_types/currency"
-export var defaultCurrencyUnit = 'CNY';
+import { defaultCurrencyUnit } from "model/budget";
 
 import {
     TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory
@@ -44,6 +44,7 @@ import { HotelPriceLimitType } from "_types/company";
 import { ECompanyRegionUsedType } from "_types/policy/companyRegion";
 let haversine = require("haversine");
 import { dataEvent } from "model/budget/dataEvent";
+import { BudgetType } from "model/budget/interface";
 import getAllPrefer from 'model/budget/getAllPrefer';
 let md5 = require("md5");
 
@@ -63,10 +64,7 @@ export interface ISearchTicketParams {
     destinationId: string;
 }
 
-export enum BudgetType {
-    TRAFFICT = 1,
-    HOTEL = 2
-}
+
 
 class ApiTravelBudget {
     static __initHttpApp(app) {
@@ -301,10 +299,10 @@ class ApiTravelBudget {
             }, { isRecord: true });
             let budget = await strategy.getResult(hotels, isRetMarkedData, preferedCurrency);
 
-            let deeplinkItem = Models.deeplink.create({
-                url: budget.bookurl
-            })
-            deeplinkItem = await deeplinkItem.save();
+            // let deeplinkItem = Models.deeplink.create({
+            //     url: budget.bookurl
+            // })
+            // deeplinkItem = await deeplinkItem.save();
 
             let maxPriceLimit = 0;
             let minPriceLimit = 0;
@@ -524,10 +522,10 @@ class ApiTravelBudget {
                     discount = discount < 1 ? discount : 1;
                 }
             }
-            let deeplinkItem = Models.deeplink.create({
-                url: budget.bookurl,
-            })
-            deeplinkItem = await deeplinkItem.save();
+            // let deeplinkItem = Models.deeplink.create({
+            //     url: budget.bookurl,
+            // })
+            // deeplinkItem = await deeplinkItem.save();
 
             let trafficBudget: ITrafficBudgetItem = {
                 id: budget.id,

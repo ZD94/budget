@@ -9,7 +9,7 @@ import {Models} from "_types";
 var commonSupplierCols = CommonSupplier['$fieldnames'];
 
 @Restful()
-export class CommonSupplierController extends AbstractModelController {
+export class CommonSupplierController extends AbstractModelController<CommonSupplier> {
 
     constructor() {
         super(Models.commonSupplier, commonSupplierCols);

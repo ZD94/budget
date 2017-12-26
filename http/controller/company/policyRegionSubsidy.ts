@@ -11,7 +11,7 @@ import {Models} from "_types";
 var policyRegionSubsidyCols = PolicyRegionSubsidy['$fieldnames'];
 
 @Restful()
-export class PolicyRegionSubsidyController extends AbstractModelController {
+export class PolicyRegionSubsidyController extends AbstractModelController<PolicyRegionSubsidy> {
 
     constructor() {
         super(Models.policyRegionSubsidy, policyRegionSubsidyCols);

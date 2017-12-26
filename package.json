@@ -22,6 +22,7 @@
     "@jingli/dnode-api": "^1.1.8",
     "@jingli/language": "^1.0.2",
     "@jingli/logger": "^1.0.1",
+    "@jingli/restful": "^1.0.1",
     "@jingli/zone-setup": "^1.0.1",
     "@types/lodash": "^4.14.63",
     "@types/pg": "^6.1.39",
@@ -66,8 +67,7 @@
     "tslib": "^1.6.0",
     "typescript": "2.4.2",
     "uuid": "^3.0.1",
-    "validator": "^8.1.0",
-    "@jingli/restful": "^1.0.1"
+    "validator": "^8.1.0"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.2",
@@ -112,7 +112,9 @@
     "gulp-if": "^2.0.2",
     "gulp-tar": "^1.9.0",
     "gulp-typescript": "^3.1.5",
+    "gulp-util": "^3.0.8",
     "merge2": "^1.0.3",
+    "gulp-sourcemaps": "^2.6.2",
     "mocha": "~2.3.4",
     "mochawesome": "^1.2.2",
     "run-sequence": "^1.2.2",

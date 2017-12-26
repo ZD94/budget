@@ -91,6 +91,12 @@ deploy:demo:
   environment:
     name: test
     url: http://demo.jingli365.com
+  variables:
+    JL_APP_HOST: http://demo.jingli365.com/proj/svr-jlbudget
+    JL_APP_OLD_POSTGRES_URL: postgres://demo:d3m0jingli365@dockerhost/qmtrip
+    JL_APP_POSTGRES: postgres://demo:d3m0jingli365@dockerhost/jlbudget
+    JL_APP_REDIS: redis://dockerhost
+
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME

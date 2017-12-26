@@ -83,10 +83,10 @@ deploy:test:
     - echo deploy to https://t.jingli365.com
     - ssh test@l.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG -p 0.0.0.0:14203:4103
 
-deploy:jingli365:
+deploy:demo:
   stage: deploy
   only:
-    - /^master|test|release$/
+    - /^master|test|release|demo$/
   when: manual
   environment:
     name: test

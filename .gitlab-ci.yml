@@ -1,5 +1,5 @@
 variables:
-  DOCKER_REG: docker.l.jingli365.com
+  DOCKER_REG: dk.jingli365.com
   DOCKER_NAME: $CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME
   DOCKER_CI_NAME: $DOCKER_REG/$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME:$CI_BUILD_REF
   DOCKER_BRANCH_NAME: $DOCKER_REG/$CI_PROJECT_NAMESPACE-$CI_PROJECT_NAME:$CI_BUILD_REF_SLUG
@@ -25,7 +25,7 @@ build:dist:
   stage: build
   only:
     - branches
-  image: $DOCKER_REG/jl-build:v2
+  image: $DOCKER_REG/jl-build:v3
   cache:
     key: $CI_PIPELINE_ID
     paths:
@@ -34,7 +34,7 @@ build:dist:
     - mkdir -p $NPM_CACHE_DIR/`npmhash`/node_modules && ln -s $NPM_CACHE_DIR/`npmhash`/node_modules .
     - echo `npmhash`
     - git submodule update --init --checkout
-    - npm --registry https://npm.l.jingli365.com install
+    - npm install
     - gulp dist
     - ls dist/http/ -al
 
@@ -46,7 +46,7 @@ build:image:
       - dist/
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
-    - docker build -t $DOCKER_CI_NAME .
+    - docker build -t $DOCKER_CI_NAME . --build-arg NPM_TOKEN=$NPM_TOKEN
     - docker push $DOCKER_CI_NAME
 
 deploy:master:
@@ -55,7 +55,7 @@ deploy:master:
     - /^master$/
   environment:
     name: dev
-    url: https://budget.l.jingli365.com
+    url: https://l.jingli365.com/proj/svr-jlbudget/
   variables:
     JL_APP_OLD_POSTGRES_URL: postgres://times:time0418@l.jingli365.com/qmtrip
   script:
@@ -63,7 +63,7 @@ deploy:master:
     - docker pull $DOCKER_CI_NAME
     - docker tag $DOCKER_CI_NAME $DOCKER_BRANCH_NAME
     - docker push $DOCKER_BRANCH_NAME
-    - echo deploy to https://budget.l.jingli365.com
+    - echo deploy to https://l.jingli365.com
     - ssh test@l.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG -p 0.0.0.0:14103:4103
 
 deploy:test:
@@ -86,18 +86,18 @@ deploy:test:
 deploy:jingli365:
   stage: deploy
   only:
-    - /^test$/
+    - /^master|test|release$/
   when: manual
   environment:
     name: test
-    url: https://budget.jingli365.com
+    url: http://demo.jingli365.com
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME
     - docker tag $DOCKER_CI_NAME $DOCKER_BRANCH_NAME
     - docker push $DOCKER_BRANCH_NAME
-    - echo deploy to https://j.jingli365.com
-    - ssh test@j.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG -p 14103:4103
+    - echo deploy to https://demo.jingli365.com
+    - ssh test@demo.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG -p 14103:4103
 
 deploy:release:
   stage: deploy

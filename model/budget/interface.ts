@@ -53,13 +53,11 @@ export interface BudgetItemParams {
 
 /* 经由预算参数加工出一个 行程数据对象 */
 export interface DataOrder extends BudgetItemParams {
-    orderId: string;
-    channels: string[];
+    channels: string[];   //将来可从其它渠道注入
     step: STEP;
-    data: any[];
+    data: any[];          //dataStore 返回数据
     budget: any;
     prefer: any;             //打分使用的prefer项
-    callbackUrl: string;     //最终会去掉 data-store push 机制
 }
 
 /* 预算订单 对象 */

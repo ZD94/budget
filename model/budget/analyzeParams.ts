@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-11-24 17:06:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2017-12-21 21:25:57
+ * @Last Modified time: 2017-12-26 17:31:58
  * @content analyze the budgets request . */
 
 import * as uuid from "uuid";
@@ -15,7 +15,7 @@ export interface ISegment {
     goBackDate?: string;
     isNeedTraffic?: boolean;   //后期考虑 是否需要传入
     isNeedHotel?: boolean;     //后期考虑 是否需要传入
-    businessDistrict?: any;    //商圈
+    businessDistrict?: any;    //商圈            逗号分隔的经纬度， 没有逗号则取城市
     hotelName?: string;        //hotelName 
     reason?: string;
     latestArrivalDateTime?: string;

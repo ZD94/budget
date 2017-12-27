@@ -1,7 +1,9 @@
-FROM docker.l.jingli365.com/jl-run:v2
+FROM dk.jingli365.com/jl-run:v3
 MAINTAINER Ke Peng <ke.peng@jingli365.com>
 COPY package.json /opt/app/
-RUN cd /opt/app && rm -rf node_modules && npm --registry https://npm.l.jingli365.com install --production && rm -rf ~/.npm
+ARG NPM_TOKEN
+ENV NPM_TOKEN ${NPM_TOKEN}
+RUN cd /opt/app && rm -rf node_modules && npm install --production && rm -rf ~/.npm
 COPY dist/ /opt/app/
 WORKDIR /opt/app
 CMD node server.js

@@ -232,6 +232,7 @@ class ApiTravelBudget {
             };
             // hotels = await API.hotels.search_hotels(searchParams);
             let hotelTime = Date.now();
+            logger.debug("API.getData==>", API);
             hotels = await API.getData.getData({
                 type: BudgetType.HOTEL,
                 channels: [],

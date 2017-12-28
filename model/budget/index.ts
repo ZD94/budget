@@ -2,11 +2,10 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2017-12-27 21:19:37
+ * @Last Modified time: 2017-12-28 10:42:05
  * @content what is the content of this file. */
 
 export * from "./interface";
-export * from "./dataEvent";
 export * from "./strategy";
 
 import { CreateBudgetParams, analyzeBudgetParams } from "./analyzeParams";
@@ -15,7 +14,6 @@ import uuid = require("uuid");
 var API = require("@jingli/dnode-api");
 import getAllPrefer from "./getAllPrefer";
 import computeBudget from "./computeBudget";
-import { dataEvent } from 'model/budget';
 const cache = require("common/cache");
 let request = require("request-promise");
 import { verifySign, genSign } from '@jingli/sign';

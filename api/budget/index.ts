@@ -43,7 +43,6 @@ export var NoCityPriceLimit = 0;
 import { HotelPriceLimitType } from "_types/company";
 import { ECompanyRegionUsedType } from "_types/policy/companyRegion";
 let haversine = require("haversine");
-import { dataEvent } from "model/budget/dataEvent";
 import { BudgetType, STEP } from 'model/budget/interface';
 import getAllPrefer from 'model/budget/getAllPrefer';
 import { Budget } from '_types/budget';
@@ -179,7 +178,7 @@ class ApiTravelBudget {
         return tickets;
     }
 
-    static async getHotelBudget(params: IQueryHotelBudgetParams): Promise<IHotelBudgetResult> {
+    static async getHotelBudget(params: IQueryHotelBudgetParams){
         // if (!params) {
         //     throw new L.ERROR_CODE_C(500, 'params not exist');
         // }
@@ -361,7 +360,7 @@ class ApiTravelBudget {
         // return budgets;
     }
 
-    static async getTrafficBudget(params: IQueryTrafficBudgetParams): Promise<ITrafficBudgetResult> {
+    static async getTrafficBudget(params: IQueryTrafficBudgetParams)/* : Promise<ITrafficBudgetResult> */ {
         //开始时间,结束时间，差旅标准,企业差旅偏好,票据数据,出差人,是否返回打分数据
         // let { fromCity, toCity, latestArrivalTime, earliestDepartTime, policies, companyId, travelPolicyId, tickets, staffs, isRetMarkedData, preferedCurrency, expiredBudget, orderId, budgetItemId } = params;
         // let requiredParams = {
@@ -647,7 +646,7 @@ class ApiTravelBudget {
         return true;
     }
 
-    static async createBudget(params: IQueryBudgetParams): Promise<FinalBudgetResultInterface> {
+    static async createBudget(params: IQueryBudgetParams)/* : Promise<FinalBudgetResultInterface>  */{
         // try {  //policies,
         //     console.log("createBudget=====>", params);
         //     let { staffs, segments, fromCity, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, companyId, preferedCurrency, expiredBudget, orderId } = params;

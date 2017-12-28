@@ -13,7 +13,6 @@ import { authenticate } from "./auth";
 import Logger from "@jingli/logger";
 import { genSign } from "@jingli/sign";
 const logger = new Logger("http");
-import { dataEvent } from "model/budget/dataEvent";
 
 let router = express.Router();
 scannerDecoration(path.join(__dirname, 'controller'));
@@ -74,11 +73,6 @@ export async function initHttp(app) {
     let prefixUrl = '/api/v1';
     app.use(prefixUrl, recordLogger);
     app.use(prefixUrl, allowCrossDomain);
-    app.post("/dataEvent", async (req, res, next) => {
-        res.json({ "msg": "ok", data: 123 });
-        console.log("post /dataEvent")
-        await dataEvent.dealDataEvent(req.body);
-    });
     app.use(prefixUrl, jlReply);
     app.use(`${prefixUrl}/errorCodes`, function (req, res, next) {
         res.jlReply(reply(0, ERR_TEXT));

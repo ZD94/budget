@@ -112,7 +112,7 @@
     "babel-preset-es2015": "^6.1.18",
     "browser-resolve": "^1.11.2",
     "browserify": "^14.1.0",
-    "chai": "~3.4.1",
+    "chai": "3.4.1",
     "gulp": "^3.9.1",
     "gulp-cached": "^1.1.1",
     "gulp-filter": "^5.0.0",

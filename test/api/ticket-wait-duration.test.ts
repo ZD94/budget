@@ -4,13 +4,13 @@
 
 'use strict';
 
-import TransitWaitDurationPrefer = require('api/budget/prefer/ticket-transitWaitDurationPrefer');
-import {IFinalTicket} from "_types/budget";
+import TransitWaitDurationPrefer = require('model/budget/prefer/ticket-transitWaitDurationPrefer');
+import { IFinalTicket } from "_types/budget";
 const tickets: Array<IFinalTicket> = require('./test-transit-tickets.json');
 
-describe('ticket-transitWaitDurationPrefer', function() {
+describe('ticket-transitWaitDurationPrefer', function () {
 
-    it("#markScore() should be ok", function(done) {
+    it("#markScore() should be ok", function (done) {
         let options = {
             baseScore: 500,
             subScore: 5,

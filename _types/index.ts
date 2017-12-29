@@ -18,6 +18,7 @@ import {CompanyConfig} from "_types/company";
 import {PreferRegion} from "./preferRegion";
 import {CommonSupplier, SupplierAlternateName} from "_types/commonSupplier";
 import { AirCompany } from '_types/static/aircompany';
+import { TmcTypes, TmcSupplier } from "_types/tmcSupplier";
 
 export interface ModelsInterface {
     budget: ModelInterface<Budget>;
@@ -44,6 +45,8 @@ export interface ModelsInterface {
     commonSupplier: ModelInterface<CommonSupplier>;
     supplierAlternateName: ModelInterface<SupplierAlternateName>;
     aircompany: ModelInterface<AirCompany>;
+    tmcTypes: ModelInterface<TmcTypes>;
+    tmcSupplier: ModelInterface<TmcSupplier>;
 }
 
 
@@ -72,5 +75,7 @@ export var Models: ModelsInterface = {
     commonSupplier: new ModelDelegate<CommonSupplier>(),
     supplierAlternateName: new ModelDelegate<SupplierAlternateName>(),
     aircompany: new ModelDelegate<AirCompany>(),
+    tmcTypes: new ModelDelegate<TmcTypes>(),
+    tmcSupplier: new ModelDelegate<TmcSupplier>()
 };
 

@@ -9,30 +9,47 @@
   "apiPort": 4103,
   "socket_file": "${{rootDir}}/web.sock",
   "pid_file": "${{rootDir}}/tmp/server.pid",
-
-  "postgres":{
+  "postgres": {
     "url": "${JL_APP_POSTGRES}",
     "debug": true
   },
-  "redis":{
+  "redis": {
     "url": "${JL_APP_REDIS}"
   },
   "hosts": {
-    "main":{"addr":"t.jingli365.com", "port":14201, "www":"https://${{hosts.main.addr}}"},
-    "data": {"addr": "l.jingli365.com", "port": 14109}
+    "main": {
+      "addr": "t.jingli365.com",
+      "port": 14201,
+      "www": "https://${{hosts.main.addr}}"
+    },
+    "data": {
+      "addr": "l.jingli365.com",
+      "port": 14109
+    }
   },
   "api": {
     "postgres": "${{postgres.url}}",
     "remotes": [
       {
-        "connect": {"host":"${{hosts.main.addr}}", "port":"${{hosts.main.port}}"},
-        "modules": ["place"]
+        "connect": {
+          "host": "${{hosts.main.addr}}",
+          "port": "${{hosts.main.port}}"
+        },
+        "modules": [
+          "place"
+        ]
       },
       {
-        "connect": {"host":"${{hosts.data.addr}}", "port": "${{hosts.data.port}}"},
-        "modules": ["hotels","traffic","getData"]
+        "connect": {
+          "host": "${{hosts.data.addr}}",
+          "port": "${{hosts.data.port}}"
+        },
+        "modules": [
+          "hotels",
+          "traffic",
+          "getData"
+        ]
       }
-      
     ]
   },
   "logger": {
@@ -40,21 +57,31 @@
     "prefix": "${{appName}}_",
     "httptype": "short",
     "mods": {
-      "sequelize": { "prefix": "${{appName}}_sql_", "console": false },
-      "sqlinit": { "prefix": "${{appName}}_sql_", "console": false },
+      "sequelize": {
+        "prefix": "${{appName}}_sql_",
+        "console": true
+      },
+      "sqlinit": {
+        "prefix": "${{appName}}_sql_",
+        "console": false
+      },
       "http": {
         "mods": {
-          "access": { "console": false }
+          "access": {
+            "console": false
+          }
         }
       }
     }
   },
-  "isUsingFakeData":false,
-  "juHeCurrencyAPIKey":"58db4718504b1fa7a7448a8024c41864",
+  "isUsingFakeData": false,
+  "juHeCurrencyAPIKey": "58db4718504b1fa7a7448a8024c41864",
   "oldPostgres": {
     "url": "${JL_APP_OLD_POSTGRES_URL}"
   },
   "sessionTime": "20",
-  "superUser" : ["qmtrip@jingli365.com"],
+  "superUser": [
+    "qmtrip@jingli365.com"
+  ],
   "placeAPI": "https://l.jingli365.com/place/"
 }

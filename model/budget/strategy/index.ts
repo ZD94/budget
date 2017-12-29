@@ -12,7 +12,7 @@ import {
 import moment = require("moment");
 import _ = require("lodash");
 import { Models } from "_types/index";
-import { defaultCurrencyUnit } from "../index"
+import { defaultCurrencyUnit } from "model/budget"
 
 export function formatTicketData(tickets: ITicket[]): IFinalTicket[] {
     let _tickets: IFinalTicket[] = [];

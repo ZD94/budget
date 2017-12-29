@@ -60,7 +60,8 @@ gulplib.dist(function () {
         'libs',
         'config',
         '_types',
-        'http'
+        'http',
+        'model'
     ];
     dirs.forEach(function(dir){
         var t = merge2(gulp.src(dir + '/**/*', {base:'.'}),

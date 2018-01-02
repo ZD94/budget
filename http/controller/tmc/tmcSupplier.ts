@@ -5,11 +5,12 @@
  * @Last Modified time: 2017-12-29 10:51:46
  * @content what is the content of this file. */
 
-import { tmcSupplierMethod } from "model/tmc";
+import {tmcSupplierMethod} from "model/tmc";
 
 
-import { AbstractController, Restful, Router, reply, ReplyData } from "@jingli/restful";
-import { jlReply } from 'http/index';
+import {AbstractController, Restful, Router, reply, ReplyData} from "@jingli/restful";
+import {jlReply} from 'http/index';
+import {__param} from "tslib";
 
 @Restful()
 export default class TmcSupplierController extends AbstractController {
@@ -23,7 +24,6 @@ export default class TmcSupplierController extends AbstractController {
 
     @Router("/:companyId/:id", "get")
     async getOne(req, res, next) {
-        console.log(1111111, req.params);
         //need check the companyId is ok.
         let tmcSupplier = await tmcSupplierMethod.getSupplier(req.params.id);
         res.jlReply(reply(0, tmcSupplier));
@@ -41,8 +41,16 @@ export default class TmcSupplierController extends AbstractController {
         res.jlReply(reply(0, result));
     }
 
-    async udpate(req, res, next) {
+    @Router("/:companyId/:id", "put")
+    async updateOne(req, res, next) {
+        let result = await tmcSupplierMethod.updateSupplier(req.body, req.params.companyId, req.params.id);
+        res.jlReply(reply(0, result));
+    }
 
+    @Router("/:companyId/status/:id", "put")
+    async status(req, res, next) {
+        let result = await tmcSupplierMethod.changeState(req.params,req.body);
+        res.jlReply(reply(0, result))
     }
 
     // async delete(req, res, next){

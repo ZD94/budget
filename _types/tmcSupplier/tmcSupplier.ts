@@ -21,6 +21,12 @@ export enum STARTWAY {
     HAND = 2     //配置成功手动启用
 }
 
+export interface TmcSupplierService{
+    type : TmcServiceType,
+    status: TMCStatus,
+    time: string
+}
+
 @Table(Models.tmcSupplier, 'tmc.')
 export class TmcSupplier extends ModelObject {
     constructor(target: Object) {
@@ -51,8 +57,8 @@ export class TmcSupplier extends ModelObject {
 
     //启用的 飞机，火车，酒店
     @Field({ type: Types.JSONB, defaultValue: '[]' })
-    get services(): TmcServiceType[] { return null; }
-    set services(val: TmcServiceType[]) { }
+    get services(): TmcSupplierService[] { return null; }
+    set services(val: TmcSupplierService[]) { }
 
     @ResolveRef({ type: Types.UUID }, Models.tmcTypes)
     get tmcType(): TmcTypes { return null; }

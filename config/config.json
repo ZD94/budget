@@ -23,8 +23,9 @@
       "www": "https://${{hosts.main.addr}}"
     },
     "data": {
-      "addr": "l.jingli365.com",
-      "port": 14109
+
+      "addr": "${JL_APP_DATA_STORE}",
+      "port": "${JL_APP_DATA_STORE_PORT}"
     }
   },
   "agent": {
@@ -61,7 +62,7 @@
     "mods": {
       "sequelize": {
         "prefix": "${{appName}}_sql_",
-        "console": true
+        "console": false
       },
       "sqlinit": {
         "prefix": "${{appName}}_sql_",

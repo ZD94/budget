@@ -92,79 +92,27 @@ export class BudgetController extends AbstractController {
         res.jlReply(this.reply(0, segmentBudgets));
     }
 
-    async add(req: IRequest, res: IResponse, next: Function){
+    async add(req: IRequest, res: IResponse, next: Function) {
         req.clearTimeout();
         let result = await budget.getBudget(req.body);
         res.jlReply(this.reply(0, result));
     }
 
-    // async add(req: IRequest, res: IResponse, next: Function) {
-    //     req.clearTimeout();
-    //     //改restful budget api为传travelPolicyId, 同时添加请求货币类型
-    //     let { staffs, fromCity, segments, ret, travelPolicyId, preferedCurrency, qmUrl, approveId } = req.body;
-    //     let time = Date.now();
-    //     if (preferedCurrency && typeof (preferedCurrency) != 'undefined') {
-    //         let currencyIds = await Models.currency.find({ where: { $or: [{ currency_code: preferedCurrency }, { currency_name: preferedCurrency }] } });
-    //         if (!currencyIds || !currencyIds.length) {
-    //             // return res.jlReply(this.reply(400, []));
-    //         }
-    //     }
-    //     if (!staffs) {
-    //         staffs = []
-    //     }
-    //     if (!staffs.length) {
-    //         // return res.jlReply(this.reply(500, []));
-    //     }
-
-    //     //转换员工
-    //     staffs = transformStaffStrArgsToEnum(staffs);
-
-    //     let budgetOrder = {
-    //         id: uuid.v1(),
-    //         budgetData: [],
-    //         callbackUrl: qmUrl,
-    //         budget: [],
-    //         createBudgetParam: null,
-    //         step: STEP.CACHE
-    //     }
-    //     let createBudgetOptions = {
-    //         preferedCurrency: preferedCurrency,
-    //         travelPolicyId: travelPolicyId,
-    //         prefers: [],
-    //         staffs: staffs,
-    //         fromCity,
-    //         ret,
-    //         segments,
-    //         orderId: budgetOrder.id
-    //     };
-    //     budgetOrder.createBudgetParam = createBudgetOptions;
-    //     await dataEvent.addBudgetOrderCache(budgetOrder);
-
-    //     setTimeout(async () => {
-    //         await dataEvent.forceFIN(budgetOrder.id);
-    //     }, 1000 * 60 * 3);
-
-    //     let segmentBudgets;
-    //     segmentBudgets = await API['budget'].createBudget(createBudgetOptions);
-    //     segmentBudgets.step = STEP.CACHE;
-    //     let budgets = segmentBudgets.budgets;
-    //     segmentBudgets.budgets = budgets;
-
-
-
-    //     console.log("time using -------->", Date.now() - time);
-    //     console.log('segmentBudgets segmentBudgets segmentBudgets ==>', JSON.stringify(segmentBudgets));
-
-    //     res.jlReply(this.reply(0, segmentBudgets));
-    // }
-
-    @Router("/requestBudget", "post")
-    async requestBudget(req: IRequest, res: IResponse, next: Function) {
+    /**
+     *  preferedCurrency 逻辑并未考虑
+     * 
+     *  async add(req: IRequest, res: IResponse, next: Function) {
         req.clearTimeout();
-        let { staffs, qmUrl, travelPolicyId, preferedCurrency, budgetParams } = req.body;
-
-    }
-
+        //改restful budget api为传travelPolicyId, 同时添加请求货币类型
+        let { staffs, fromCity, segments, ret, travelPolicyId, preferedCurrency, qmUrl, approveId } = req.body;
+        let time = Date.now();
+        if (preferedCurrency && typeof (preferedCurrency) != 'undefined') {
+            let currencyIds = await Models.currency.find({ where: { $or: [{ currency_code: preferedCurrency }, { currency_name: preferedCurrency }] } });
+            if (!currencyIds || !currencyIds.length) {
+                // return res.jlReply(this.reply(400, []));
+            }
+        }
+    } */
 
 
     @Router('/getHotelsData', 'post')

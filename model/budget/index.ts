@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2017-12-28 10:42:05
+ * @Last Modified time: 2017-12-29 17:50:26
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -28,7 +28,7 @@ export interface GetBudgetParams extends CreateBudgetParams {
 
 export class Budget {
     async getBudget(params: GetBudgetParams) {
-        let { callbackUrl, requestBudgetParams, companyId, travelPolicyId, staffs } = params;
+        let { callbackUrl, requestBudgetParams, companyId, travelPolicyId, staffs, expectStep = STEP.CACHE } = params;
 
         console.log('params ===========>', params);
 
@@ -36,7 +36,6 @@ export class Budget {
 
         //后期考虑 针对不同的用户生成不同的预算
         let staff = staffs[0];
-
         let segments = analyzeBudgetParams(params) as DataOrder[];
 
         /* create budget order */
@@ -49,7 +48,7 @@ export class Budget {
         /* perfect the dataOrders. */
         for (let segment of segments) {
             segment.channels = [];
-            segment.step = STEP.CACHE;     //预期数据类型
+            segment.step = expectStep;     //预期数据类型
             segment.data = [];
             budgetOrder.budgetData.push(segment);
         }
@@ -98,13 +97,11 @@ export class Budget {
 
         if (budgetOrder.step != STEP.FINAL) {
             //10s 后拉取最终预算
-            setTimeout(() => {
-                this.getFinalBudget(budgetOrder);
-            }, 1000 * 5);
+            this.getFinalBudget(budgetOrder);
         }
 
         finallyResult.step = budgetOrder.step;
-        console.log('**********', budgetOrder);
+        // console.log('**********', JSON.stringify(finallyResult));
         console.log("using time : ", Date.now() - times);
         return finallyResult;
     }
@@ -141,7 +138,7 @@ export class Budget {
             if (item.step != STEP.FINAL) {
                 num++;
                 if (num < 4) {
-                    console.error("data-store 返回的数据不是全 FIN; 尝试重新拉取 第",num,"次");
+                    console.error("data-store 返回的数据不是全 FIN; 尝试重新拉取 第", num, "次");
                     return await this.getFinalBudget(budgetOrder, num);
                 }
             }
@@ -171,7 +168,7 @@ export class Budget {
                 uri: callbackUrl,
                 method: "post",
                 body: result,
-                headers:{
+                headers: {
                     appid: config.agent.appId,
                     sign: sign
                 },
@@ -199,53 +196,46 @@ export let budget = new Budget();
 
 
 
-// setTimeout(async () => {
-//     console.log("go go");
-//     await budget.getBudget({
-//         callbackUrl: "12344",
-//         "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
-//         "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
-//         "staffs": [
-//             {
-//                 "gender": 1,
-//                 "policy": "domestic"
-//             }
-//         ],
-//         originPlace: 'CT_131',
-//         goBackPlace: 'CT_131',
-//         isRoundTrip: false,
-//         destinationPlacesInfo:
-//             [{
-//                 destinationPlace: 'CT_075',
-//                 leaveDate: "2018-01-26T10:00:00.000Z",
-//                 goBackDate: "2018-01-27T01:00:00.000Z",
-//                 latestArrivalDateTime: "2018-01-26T10:00:00.000Z",
-//                 earliestGoBackDateTime: "2018-01-27T01:00:00.000Z",
-//                 isNeedTraffic: true,
-//                 isNeedHotel: true,
-//                 reason: ''
-//             },
-//                 // {
-//                 //     destinationPlace: 'CT_289',
-//                 //     leaveDate: "2018-01-27T10:00:00.000Z",
-//                 //     goBackDate: "2018-01-28T01:00:00.000Z",
-//                 //     latestArrivalDateTime: "2018-01-27T10:00:00.000Z",
-//                 //     earliestGoBackDateTime: "2018-01-28T01:00:00.000Z",
-//                 //     isNeedTraffic: true,
-//                 //     isNeedHotel: true,
-//                 //     reason: ''
-//                 // },
-//                 // {
-//                 //     destinationPlace: 'CT_179',
-//                 //     leaveDate: "2018-01-28T10:00:00.000Z",
-//                 //     goBackDate: "2018-01-29T01:00:00.000Z",
-//                 //     latestArrivalDateTime: "2018-01-28T10:00:00.000Z",
-//                 //     earliestGoBackDateTime: "2018-01-29T01:00:00.000Z",
-//                 //     isNeedTraffic: true,
-//                 //     isNeedHotel: true,
-//                 //     reason: ''
-//                 // }
-//             ],
-//     })
+/* setTimeout(async () => {
+    console.log("go go");
+    let result = await budget.getBudget({
+        "callbackUrl": "12344",
+        "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
+        "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
+        expectStep: STEP.FINAL,
+        "staffs": [
+            {
+                "gender": 1,
+                "policy": "domestic"
+            }
+        ],
+        "originPlace": "CT_131",
+        "goBackPlace": "CT_131",
+        "isRoundTrip": false,
+        "destinationPlacesInfo":
+            [{
+                "destinationPlace": "CT_075",
+                "leaveDate": "2018-01-26T10:00:00.000Z",
+                "goBackDate": "2018-01-27T01:00:00.000Z",
+                "latestArrivalDateTime": "2018-01-26T10:00:00.000Z",
+                "earliestGoBackDateTime": "2018-01-27T01:00:00.000Z",
+                "isNeedTraffic": true,
+                "isNeedHotel": true,
+                "reason": ""
+            },
+            {
+                "destinationPlace": "CT_289",
+                "leaveDate": "2018-01-27T10:00:00.000Z",
+                "goBackDate": "2018-01-28T01:00:00.000Z",
+                "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
+                "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
+                "isNeedTraffic": true,
+                "isNeedHotel": true,
+                "reason": ""
+            }
+            ]
+    })
 
-// }, 8000);
+    console.log("result result ===>", result);
+
+}, 8000); */

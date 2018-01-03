@@ -95,12 +95,11 @@ export class TmcSupplierMethod {
                     }else {
                         tmcSupplier.target.dataValues[`${item}`] = params[`${items}`]
                     }
-
                 }
             }
         }
 
-        if (tmcSupplier.target.dataValues.companyId == companyId) {
+        if (tmcSupplier.companyId == companyId) {
             return await tmcSupplier.save()
         } else {
             return "供应商与公司不匹配"
@@ -117,28 +116,28 @@ export class TmcSupplierMethod {
             }
         });
         status = Number(status);
-        switch (status) {
-            case 1:
-                status = "未开通";
-                break;
-            case 2:
-                status = "测试中";
-                break;
-            case 3:
-                status = "测试失败";
-                break;
-            case 4:
-                status = "等待启用";
-                break;
-            case 5:
-                status = "正常使用";
-                break;
-            case 6:
-                status = "停用";
-                break;
-            default:
-                status = "暂无此状态类型"
-        }
+        // switch (status) {
+        //     case 1:
+        //         status = "未开通";
+        //         break;
+        //     case 2:
+        //         status = "测试中";
+        //         break;
+        //     case 3:
+        //         status = "测试失败";
+        //         break;
+        //     case 4:
+        //         status = "等待启用";
+        //         break;
+        //     case 5:
+        //         status = "正常使用";
+        //         break;
+        //     case 6:
+        //         status = "停用";
+        //         break;
+        //     default:
+        //         status = "暂无此状态类型"
+        // }
         if (company["0"]) {
             for(let item of company["0"].target.dataValues.services){
                 if(item.type == type){

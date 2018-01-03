@@ -8,6 +8,7 @@
 import * as uuid from "uuid";
 // import { ISegment } from "_types/budget";
 import { SearchHotelParams, SearchTicketParams, BudgetType, BudgetItemParams, DataOrder } from "./interface";
+import { STEP } from 'model/budget';
 
 export interface ISegment {
     destinationPlace?: string;
@@ -23,6 +24,7 @@ export interface ISegment {
 }
 
 export interface CreateBudgetParams {
+    expectStep?: STEP;
     originPlace?: string;
     isRoundTrip?: boolean;             //是否为往返
     goBackPlace?: string;              //返回地

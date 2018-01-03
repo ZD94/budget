@@ -99,7 +99,7 @@ export class BudgetController extends AbstractController {
     }
 
     /**
-     *  preferedCurrency 逻辑并为考虑
+     *  preferedCurrency 逻辑并未考虑
      * 
      *  async add(req: IRequest, res: IResponse, next: Function) {
         req.clearTimeout();

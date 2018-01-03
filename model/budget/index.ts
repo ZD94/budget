@@ -28,7 +28,7 @@ export interface GetBudgetParams extends CreateBudgetParams {
 
 export class Budget {
     async getBudget(params: GetBudgetParams) {
-        let { callbackUrl, requestBudgetParams, companyId, travelPolicyId, staffs } = params;
+        let { callbackUrl, requestBudgetParams, companyId, travelPolicyId, staffs, expectStep = STEP.CACHE } = params;
 
         console.log('params ===========>', params);
 
@@ -36,7 +36,6 @@ export class Budget {
 
         //后期考虑 针对不同的用户生成不同的预算
         let staff = staffs[0];
-
         let segments = analyzeBudgetParams(params) as DataOrder[];
 
         /* create budget order */
@@ -49,7 +48,7 @@ export class Budget {
         /* perfect the dataOrders. */
         for (let segment of segments) {
             segment.channels = [];
-            segment.step = STEP.CACHE;     //预期数据类型
+            segment.step = expectStep;     //预期数据类型
             segment.data = [];
             budgetOrder.budgetData.push(segment);
         }
@@ -197,12 +196,13 @@ export let budget = new Budget();
 
 
 
-setTimeout(async () => {
+/* setTimeout(async () => {
     console.log("go go");
-    await budget.getBudget({
+    let result = await budget.getBudget({
         "callbackUrl": "12344",
         "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
         "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
+        expectStep: STEP.FINAL,
         "staffs": [
             {
                 "gender": 1,
@@ -236,4 +236,6 @@ setTimeout(async () => {
             ]
     })
 
-}, 8000);
+    console.log("result result ===>", result);
+
+}, 8000); */

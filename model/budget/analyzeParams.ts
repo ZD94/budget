@@ -100,7 +100,7 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
             id: uuid.v1(),
             type: BudgetType.TRAFFICT,
             input: {
-                leaveDate: destinations[destinations.length - 1].latestArrivalDateTime,
+                leaveDate: destinations[destinations.length - 1].earliestGoBackDateTime,
                 originPlace: destinations[destinations.length - 1].destinationPlace,
                 destination: params.goBackPlace,
                 earliestGoBackDateTime: destinations[destinations.length - 1].earliestGoBackDateTime,

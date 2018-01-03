@@ -32,7 +32,7 @@
     "@types/superagent": "1.4.28",
     "app-module-path": "^2.2.0",
     "assert": "^1.4.1",
-    "body-parser": "^1.17.1",
+    "body-parser": "1.17.1",
     "callsite": "^1.0.0",
     "chai": "^4.1.2",
     "colors": "^1.1.2",

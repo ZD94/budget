@@ -40,7 +40,7 @@ export class TmcSupplierMethod {
         for (let item of params.services) {
             obj = {
                 type: item,
-                status:"未开通",
+                status:TMCStatus.NOT_CONNECT,
                 time: new Date()
             };
             arr.push(obj)
@@ -101,7 +101,6 @@ export class TmcSupplierMethod {
         }
 
         if (tmcSupplier.target.dataValues.companyId == companyId) {
-            console.log(1111111111111)
             return await tmcSupplier.save()
         } else {
             return "供应商与公司不匹配"

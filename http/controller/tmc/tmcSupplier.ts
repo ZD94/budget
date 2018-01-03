@@ -37,7 +37,7 @@ export default class TmcSupplierController extends AbstractController {
 
     @Router("/:companyId/", "post")
     async addOne(req, res, next) {
-        let result = await tmcSupplierMethod.addSupplier(req.body, req.params.companyId);
+        let result = await tmcSupplierMethod.addSupplier(req.body, req.params.companyId,req.body.tmcTypeId);
         res.jlReply(reply(0, result));
     }
 

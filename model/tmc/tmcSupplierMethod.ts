@@ -109,7 +109,7 @@ export class TmcSupplierMethod {
     async changeState(params, body): Promise<any> {
         let {companyId, id} = params;
         let {status,type} = body;
-        let company = await await Models.tmcSupplier.find({
+        let tmcSupplier = await await Models.tmcSupplier.find({
             where: {
                 company_id: companyId,
                 tmc_type_id: id
@@ -138,14 +138,14 @@ export class TmcSupplierMethod {
         //     default:
         //         status = "暂无此状态类型"
         // }
-        if (company["0"]) {
-            for(let item of company["0"].target.dataValues.services){
+        if (tmcSupplier["0"]) {
+            for(let item of tmcSupplier["0"].target.dataValues.services){
                 if(item.type == type){
                     item.status = status
                 }
             }
         }
-        return await company[0].save();
+        return await tmcSupplier[0].save();
     }
 }
 

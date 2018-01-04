@@ -77,7 +77,7 @@ export async function initHttp(app) {
     app.use(`${prefixUrl}/errorCodes`, function (req, res, next) {
         res.jlReply(reply(0, ERR_TEXT));
     })
-    app.use(prefixUrl /*authenticate*/, router);
+    app.use(prefixUrl, authenticate, router);
 }
 
 export function jlReply(req, res, next) {

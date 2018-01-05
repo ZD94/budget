@@ -196,13 +196,13 @@ export let budget = new Budget();
 
 
 
-/* setTimeout(async () => {
+setTimeout(async () => {
     console.log("go go");
     let result = await budget.getBudget({
         "callbackUrl": "12344",
         "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
         "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
-        expectStep: STEP.FINAL,
+        expectStep: STEP.CACHE,
         "staffs": [
             {
                 "gender": 1,
@@ -238,4 +238,4 @@ export let budget = new Budget();
 
     console.log("result result ===>", result);
 
-}, 8000); */
+}, 8000);

@@ -5,6 +5,7 @@
 'use strict';
 import {AbstractPrefer} from "./index";
 import {IFinalTicket, IFlightSeg, ETrafficType} from "_types/budget";
+import { CityService } from "_types/city";
 const API = require("@jingli/dnode-api");
 
 class TransitCityInChinaPrefer extends AbstractPrefer<IFinalTicket> {
@@ -35,7 +36,7 @@ class TransitCityInChinaPrefer extends AbstractPrefer<IFinalTicket> {
             let transitInChinaNum = 0;
             for(let i=1, ii=ticket.segs.length; i<ii; i++) {
                 let seg = <IFlightSeg>ticket.segs[i];
-                let city = await API.place.getCityInfo({cityCode: seg.deptAirport.city});
+                let city = await CityService.getCity(seg.deptAirport.city);
                 if (city && !city.isAbroad) {
                     transitInChinaNum += 1;
                 }

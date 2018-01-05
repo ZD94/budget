@@ -6,6 +6,7 @@
 import {Models} from "_types/index";
 import {CompanyRegion} from "_types/policy/companyRegion";
 import {RegionPlace} from "_types/policy/regionPlace";
+import { ICity, CityService } from '_types/city';
 const API = require("@jingli/dnode-api");
 
 /* ============================= COMMON USING =================================== */
@@ -27,12 +28,12 @@ export async function getRegionPlace(companyRegions:string[], placeId:string) : 
 }
 
 export async function getParentCity(cityCode: string) : Promise<any>{
-    let cityInfo = await API.place.getCityInfo({cityCode});
+    let cityInfo = await CityService.getCity(cityCode);
     if(!cityInfo.parentId){
         return null;
     }
 
-    return await API.place.getCityInfo({cityCode : cityInfo.parentId});
+    return await await CityService.getCity(cityInfo.parentId);
 }
 
 export async function manage(companyRegions:string[], cityCode:string, checkOptions:{params,checkFn:Function}) : Promise<any>{

@@ -19,7 +19,7 @@
   },
   "hosts": {
     "main":{"addr":"t.jingli365.com", "port":14201, "www":"https://${{hosts.main.addr}}"},
-    "data": {"addr": "l.jingli365.com", "port": 14109}
+    "data": {"addr": "j.jingli365.com", "port": 4106}
   },
   "api": {
     "postgres": "${{postgres.url}}",

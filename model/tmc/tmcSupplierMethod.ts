@@ -10,6 +10,7 @@ import uuid = require("uuid");
 import {TmcServiceType, TmcSupplier, TMCStatus, TmcSupplierService} from "_types/tmcSupplier";
 import {where} from "sequelize";
 import {obj} from "through2";
+import {Point} from "geojson";
 
 export class TmcSupplierMethod {
     async addSupplier(params: {
@@ -45,8 +46,8 @@ export class TmcSupplierMethod {
             };
             arr.push(obj)
         }
-        params.services.splice(0, params.services.length);
-        params.services.push(...arr);
+        params.services.splice(0, params.services.length).push(...arr);
+        // params.services.push(...arr);
         let tmcSupplier = Models.tmcSupplier.create({
             id: uuid.v1(),
             services: params.services,
@@ -65,11 +66,18 @@ export class TmcSupplierMethod {
     }
 
     async getAllSuppliers(companyId: string): Promise<any> {
-        return await Models.tmcSupplier.all({
+        // return await Models.tmcSupplier.all({
+        //     where: {
+        //         company_id: companyId
+        //     }
+        // });
+        let data = await Models.tmcSupplier.all({
             where: {
                 company_id: companyId
             }
         });
+        console.log(data,"<=========data");
+        return data;
     }
 
     async updateSupplier(params, companyId, id): Promise<any> {
@@ -85,15 +93,15 @@ export class TmcSupplierMethod {
                     if(item == "services"){
                             for(let val of params["services"]){
                                 obj = {
-                                    "time":tmcSupplier.target.dataValues["services"][0].time,
+                                    "time":tmcSupplier["services"][0].time,
                                     "type":val.type,
-                                    "status":tmcSupplier.target.dataValues["services"][0].status
+                                    "status":tmcSupplier["services"][0].status
                                 };
                                 arr.push(obj)
                             }
-                        tmcSupplier.target.dataValues["services"] = arr
+                        tmcSupplier["services"] = arr
                     }else {
-                        tmcSupplier.target.dataValues[`${item}`] = params[`${items}`]
+                        tmcSupplier[`${item}`] = params[`${items}`]
                     }
                 }
             }
@@ -116,28 +124,7 @@ export class TmcSupplierMethod {
             }
         });
         status = Number(status);
-        // switch (status) {
-        //     case 1:
-        //         status = "未开通";
-        //         break;
-        //     case 2:
-        //         status = "测试中";
-        //         break;
-        //     case 3:
-        //         status = "测试失败";
-        //         break;
-        //     case 4:
-        //         status = "等待启用";
-        //         break;
-        //     case 5:
-        //         status = "正常使用";
-        //         break;
-        //     case 6:
-        //         status = "停用";
-        //         break;
-        //     default:
-        //         status = "暂无此状态类型"
-        // }
+
         if (tmcSupplier["0"]) {
             for(let item of tmcSupplier["0"].target.dataValues.services){
                 if(item.type == type){
@@ -150,3 +137,4 @@ export class TmcSupplierMethod {
 }
 
 export let tmcSupplierMethod = new TmcSupplierMethod();
+

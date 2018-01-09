@@ -53,7 +53,10 @@ export default class TmcSupplierController extends AbstractController {
         res.jlReply(reply(0, result))
     }
 
-    // async delete(req, res, next){
+    @Router("/:companyId/data","put")
+    async sname(req,res,next){
+        let result = await tmcSupplierMethod.getTmcTypes(req.params);
+        res.jlReply(reply(0, result));
+    }
 
-    // }
 }

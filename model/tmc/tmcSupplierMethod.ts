@@ -141,13 +141,15 @@ export class TmcSupplierMethod {
         if (!tmcSupplier){
             return "供应商不存在"
         }
-        let newTmcSupplier = tmcSupplier.map( async function(supplier) {
+        let newTmcSupplier = tmcSupplier.map( async function(item) {
+            let supplier = item;
             let tmcType = await Models.tmcTypes.find({
                 where: {
                     id: supplier["tmcTypeId"]
                 }
             });
-            supplier["target"]["dataValues"]["Name"] = tmcType["0"]["tmcName"];
+            supplier["target"]["dataValues"]["tmcName"] = tmcType["0"]["tmcName"];
+            supplier["target"]["dataValues"]["sname"] = tmcType["0"]["sname"];
             return supplier
         });
 

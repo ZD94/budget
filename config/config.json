@@ -23,7 +23,6 @@
       "www": "https://${{hosts.main.addr}}"
     },
     "data": {
-
       "addr": "${JL_APP_DATA_STORE}",
       "port": "${JL_APP_DATA_STORE_PORT}"
     }
@@ -86,5 +85,6 @@
   "superUser": [
     "qmtrip@jingli365.com"
   ],
-  "placeAPI": "https://l.jingli365.com/proj/svr-place"
+  "placeAPI": "https://j.jingli365.com/proj/svr-place",
+  "dataStore": "{JL_APP_DATA_STORE_URL}"
 }

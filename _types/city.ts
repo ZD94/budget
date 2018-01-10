@@ -26,18 +26,31 @@ export interface ICity {
 
 export class CityService {
 
-    static async getCity(id) :Promise<ICity> {
+    static async getCity(id): Promise<ICity> {
         let city = <ICity>cache.get(id)
-        if  (city) {
+        if (city) {
             return city;
         }
-        let result = await request({
-            uri: config.placeAPI + "/city/" + id,
-            method: "get",
-            json: true
-        });
 
-        if(result.code != 0){
+        if (id == "Global") {
+            return null;
+        }
+
+        let uri = config.placeAPI + "/city/" + id;
+        let result;
+        try {
+            result = await request({
+                uri,
+                method: "get",
+                json: true
+            });
+        } catch (e) {
+            console.error("place 服务获取地点失败 : ", uri);
+            return null;
+        }
+
+
+        if (result.code != 0) {
             throw new Error("place服务地点不存在 : " + id);
         }
         city = result.data;
@@ -49,14 +62,49 @@ export class CityService {
         }
         return city;
     }
+
+    /* 转换新版placeId 为老版本 */
+    static async getTransferCity(id: string): Promise<string> {
+        let CT_reg = /CT/ig;
+        let D_reg = /^\d+$/ig;
+
+        if (CT_reg.test(id)) {
+            return id;
+        } else if (D_reg.test(id)) {
+            //进入处理逻辑
+        } else {
+            return id;
+        }
+
+        let result = cache.get(id);
+        if (result) {
+            return result as string;
+        }
+
+        try {
+            let getRequest = await request({
+                uri: config.placeAPI + "/city/" + id + "/alternate/jlcityid",
+                method: "get",
+                json: true
+            });
+            if (getRequest.code == 0) {
+                cache.set(id, getRequest.data.value);
+                return getRequest.data.value;
+            } else {
+                return id;
+            }
+        } catch (e) {
+            return id;
+        }
+    }
 }
 
-/* setTimeout(async ()=>{
-    let result = await API.place.getCityInfo({ cityCode: "CT_289" });
+/* setTimeout(async () => {
+    let result = await API.place.getCityInfo({ cityCode: "Global" });
     console.log(result);
 
 
 
-    let two = await CityService.getCity("1796231");
+    let two = await CityService.getCity("CT_289");
     console.log(two);
-}, 5000); */
+}, 7000); */

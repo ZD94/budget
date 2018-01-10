@@ -5,10 +5,12 @@
 
 'use strict';
 const API = require("@jingli/dnode-api");
+import request = require("request-promise");
+const config = require("@jingli/config");
 import LRU = require("lru-cache");
 import L from '@jingli/language';
 import { restfulAPIUtil } from 'api/restful';
-import {CoordDispose, Degree} from "../libs/place/placeUtil";
+import { CoordDispose, Degree } from "../libs/place/placeUtil";
 var cache = LRU(50);
 
 export interface ICity {
@@ -28,30 +30,46 @@ export interface ICity {
 
 export class CityService {
 
-    static async getCity(id) :Promise<ICity> {
+    static async getCity(id): Promise<ICity> {
         let city = <ICity>cache.get(id)
-        if  (city) {
+        if (city) {
             return city;
         }
 
-        // city = await API.place.getCityInfo({cityCode: id});
-
-        let result: any = await restfulAPIUtil.proxyHttp({
-            uri: `/city/${id}`,
-            method: 'GET'
-        });
-        if(result.code == 0){
-            city = result.data;
+        if (id == "Global") {
+            return null;
         }
+
+        let uri = config.placeAPI + "/city/" + id;
+        let result;
+        try {
+            result = await request({
+                uri,
+                method: "get",
+                json: true
+            });
+        } catch (e) {
+            console.error("place 服务获取地点失败 : ", uri);
+            return null;
+        }
+
+
+        if (result.code != 0) {
+            throw new Error("place服务地点不存在 : " + id);
+        }
+        city = result.data;
+        city.isAbroad = !(city.countryCode == "CN");
+
+        // city = await API.place.getCityInfo({ cityCode: id });
         if (city) {
             cache.set(id, city);
         }
         return city;
     }
 
-    static async findCities(options) :Promise<any> {
+    static async findCities(options): Promise<any> {
         let result: any = await restfulAPIUtil.proxyHttp({ uri: `/city`, method: 'GET', qs: options });
-        if(result.code == 0){
+        if (result.code == 0) {
             return result.data;
         }
         return null;
@@ -62,7 +80,7 @@ export class CityService {
      * @param params
      * @returns {Promise<any | any | any>}
      */
-    static async getSuperiorCityInfo(params) :Promise<ICity>  {
+    static async getSuperiorCityInfo(params): Promise<ICity> {
         let self = this;
         let cityId = params.cityId;
         if (!cityId) {
@@ -73,19 +91,20 @@ export class CityService {
         if (!city) {
             throw L.ERR.ERROR_CODE_C(500, "城市不存在");
         }
-        if(city.fcode == "AIRP" || city.fcode == "RSTN"){
+        if (city.fcode == "AIRP" || city.fcode == "RSTN") {
             let parentCity = await this.getCity(city.parentId);
             return parentCity;
         }
 
         let child_cities = await this.findCities({
-            where: {parentId: city.id, fcode: ["AIRP", "RSTN"]}});
+            where: { parentId: city.id, fcode: ["AIRP", "RSTN"] }
+        });
 
-        if(child_cities && child_cities.length){
+        if (child_cities && child_cities.length) {
             return city;
         }
 
-        let deg = new Degree(parseFloat(city.latitude+""), parseFloat(city.longitude+""));
+        let deg = new Degree(parseFloat(city.latitude + ""), parseFloat(city.longitude + ""));
         let result = CoordDispose.GetDegreeCoordinates(deg, 100);
         let nearbyStations: any[] = await this.findCities({
             where: {
@@ -98,32 +117,77 @@ export class CityService {
                     $lte: result["lng_max"]
                 },
                 fcode: ["AIRP", "RSTN"]
-            }});
+            }
+        });
 
 
-        nearbyStations = nearbyStations.filter((item: any)=>{
+        nearbyStations = nearbyStations.filter((item: any) => {
             return item.countryCode == city.countryCode;
         })
 
-        if(nearbyStations && nearbyStations.length){
+        if (nearbyStations && nearbyStations.length) {
             orderByDistance(deg, nearbyStations);
             let parentCity = await this.getCity(nearbyStations[0].parentId);
             return parentCity;
         }
 
-        let returnResult = await self.getSuperiorCityInfo({cityId: city.parentId});
+        let returnResult = await self.getSuperiorCityInfo({ cityId: city.parentId });
         return returnResult;
     }
 
+    /* 转换新版placeId 为老版本 */
+    static async getTransferCity(id: string): Promise<string> {
+        let CT_reg = /CT/ig;
+        let D_reg = /^\d+$/ig;
+
+        if (CT_reg.test(id)) {
+            return id;
+        } else if (D_reg.test(id)) {
+            //进入处理逻辑
+        } else {
+            return id;
+        }
+
+        let result = cache.get(id);
+        if (result) {
+            return result as string;
+        }
+
+        try {
+            let getRequest = await request({
+                uri: config.placeAPI + "/city/" + id + "/alternate/jlcityid",
+                method: "get",
+                json: true
+            });
+            if (getRequest.code == 0) {
+                cache.set(id, getRequest.data.value);
+                return getRequest.data.value;
+            } else {
+                return id;
+            }
+        } catch (e) {
+            return id;
+        }
+    }
 }
 
-function orderByDistance(deg: Degree, nearbyStations: any){
+function orderByDistance(deg: Degree, nearbyStations: any) {
     nearbyStations.forEach((item) => {
-        let degItem = new Degree(parseFloat(item.latitude+""), parseFloat(item.longitude+""));
+        let degItem = new Degree(parseFloat(item.latitude + ""), parseFloat(item.longitude + ""));
         let distance = CoordDispose.GetDistanceGoogle(deg, degItem);
         item.distance = distance;
     })
-    nearbyStations.sort( (item1, item2) => {
+    nearbyStations.sort((item1, item2) => {
         return item1.distance - item2.distance;
     });
 }
+
+/* setTimeout(async () => {
+    let result = await API.place.getCityInfo({ cityCode: "Global" });
+    console.log(result);
+
+
+
+    let two = await CityService.getCity("CT_289");
+    console.log(two);
+}, 7000); */

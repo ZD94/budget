@@ -51,7 +51,6 @@ export class CityService {
 
     static async findCities(options) :Promise<any> {
         let result: any = await restfulAPIUtil.proxyHttp({ uri: `/city`, method: 'GET', qs: options });
-        console.info("result===llllldddd", result);
         if(result.code == 0){
             return result.data;
         }

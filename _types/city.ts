@@ -29,6 +29,11 @@ export interface ICity {
     ctripCode?: string;
 }
 
+export enum PlaceType {
+    GTRAIN = 1,
+    TRAIN = 2
+
+}
 export class CityService {
 
     static async getCity(id): Promise<ICity> {
@@ -91,7 +96,7 @@ export class CityService {
      * @param params
      * @returns {Promise<any | any | any>}
      */
-    static async getSuperiorCityInfo(params): Promise<ICity> {
+    static async getSuperiorCityInfo(params: {cityId: string}) :Promise<ICity>  {
         let self = this;
         let cityId = params.cityId;
         if (!cityId) {
@@ -132,8 +137,12 @@ export class CityService {
         });
 
 
-        nearbyStations = nearbyStations.filter((item: any) => {
-            return item.countryCode == city.countryCode;
+        nearbyStations = nearbyStations.filter((item: any)=>{
+            if(item.fcode == "AIRP"){
+                return item.countryCode == city.countryCode;
+            }else{
+                return item.countryCode == city.countryCode && item.type == PlaceType.GTRAIN;
+            }
         })
 
         if (nearbyStations && nearbyStations.length) {

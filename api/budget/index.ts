@@ -144,6 +144,11 @@ class ApiTravelBudget {
 
     static async getTrafficsData(params: ISearchTicketParams) {
         let { leaveDate, originPlaceId, destinationId } = params;
+        let newOriginPlace = await CityService.getSuperiorCityInfo({cityId: originPlaceId});
+        let newDestination = await CityService.getSuperiorCityInfo({cityId: destinationId});
+        if(newOriginPlace && newOriginPlace.id) originPlaceId = newOriginPlace.id;
+        if(newDestination && newDestination.id) destinationId = newDestination.id;
+
         let tickets = await API.getData.search_data({
             type: BudgetType.TRAFFICT,
             channels: [],

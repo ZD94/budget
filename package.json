@@ -106,7 +106,7 @@
     "@types/sockjs-node": "^0.3.28",
     "@types/supertest": "2.0.4",
     "@types/through2": "^2.0.33",
-    "@types/traverse": "^0.6.29",
+    "@types/traverse": "0.6.29",
     "@types/superagent": "1.4.28",
     "babel-core": "6.2.4",
     "babel-preset-es2015": "^6.1.18",

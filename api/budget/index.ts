@@ -18,8 +18,7 @@ import _ = require("lodash");
 var request = require("request");
 let scheduler = require('common/scheduler');
 import { CurrencyRate } from "_types/currency"
-import { defaultCurrencyUnit } from "model/budget";
-
+import { defaultCurrencyUnit, budget } from "model/budget";
 import {
     TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory
 } from "model/budget/strategy/index";
@@ -35,7 +34,6 @@ import { Model } from "sequelize";
 var logger = new Logger("budget");
 import { PolicyRegionSubsidy } from "_types/policy/policyRegionSubsidy";
 
-import { getSuitablePrefer } from "../prefer"
 import { TravelPolicy, ForbiddenPlane, EPlaneLevel } from "_types/policy";
 import config = require("@jingli/config");
 
@@ -117,9 +115,9 @@ class ApiTravelBudget {
         };
         params.location = location;
 
-        let hotels = await API.getData.search_data({
+        let hotels = await budget.requestDataStore({
             type: BudgetType.HOTEL,
-            channels:[],
+            channels: [],
             input: {
                 checkInDate,
                 checkOutDate,
@@ -144,7 +142,14 @@ class ApiTravelBudget {
 
     static async getTrafficsData(params: ISearchTicketParams) {
         let { leaveDate, originPlaceId, destinationId } = params;
-        let tickets = await API.getData.search_data({
+
+        let newOriginPlace = await CityService.getCity({ cityId: originPlaceId });
+        let newDestination = await CityService.getCity({ cityId: destinationId });
+
+        if (newOriginPlace && newOriginPlace.id) originPlaceId = newOriginPlace.id;
+        if (newDestination && newDestination.id) destinationId = newDestination.id;
+
+        let tickets = await budget.requestDataStore({
             type: BudgetType.TRAFFICT,
             channels: [],
             input: {
@@ -178,7 +183,7 @@ class ApiTravelBudget {
         return tickets;
     }
 
-    static async getHotelBudget(params: IQueryHotelBudgetParams){
+    static async getHotelBudget(params: IQueryHotelBudgetParams) {
         // if (!params) {
         //     throw new L.ERROR_CODE_C(500, 'params not exist');
         // }
@@ -646,7 +651,7 @@ class ApiTravelBudget {
         return true;
     }
 
-    static async createBudget(params: IQueryBudgetParams)/* : Promise<FinalBudgetResultInterface>  */{
+    static async createBudget(params: IQueryBudgetParams)/* : Promise<FinalBudgetResultInterface>  */ {
         // try {  //policies,
         //     console.log("createBudget=====>", params);
         //     let { staffs, segments, fromCity, ret, tickets, hotels, isRetMarkedData, backCity, travelPolicyId, companyId, preferedCurrency, expiredBudget, orderId } = params;

@@ -9,7 +9,8 @@ import {CompanyRegion} from "_types/policy/companyRegion";
 import {RegionPlace} from "_types/policy/regionPlace";
 var _ = require("lodash");
 const API = require("@jingli/dnode-api")
-import {ECompanyRegionUsedType} from "./companyRegion"
+import {ECompanyRegionUsedType} from "./companyRegion";
+import { ICity, CityService } from '_types/city';
 
 export var  MTrainLevel  = {
     1: "商务座",
@@ -231,7 +232,7 @@ export class TravelPolicy extends ModelObject{
                 }
 
             }
-            let cityInfo = await API.place.getCityInfo({cityCode: placeid});
+            let cityInfo = await CityService.getCity(placeid);
             if (!cityInfo) {
                 return getDefault(type);
             }
@@ -288,7 +289,7 @@ export class TravelPolicy extends ModelObject{
                         return null
                     }
                 }
-                let cityInfo = await API.place.getCityInfo({cityCode: placeId});
+                let cityInfo = await CityService.getCity(placeId);
                 if (!cityInfo) {
                     return null;
                 }

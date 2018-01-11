@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2017-12-29 17:50:26
+ * @Last Modified time: 2018-01-11 11:49:31
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -19,6 +19,7 @@ let request = require("request-promise");
 import { verifySign, genSign } from '@jingli/sign';
 import { conf, auth } from 'server-auth';
 import config = require("@jingli/config");
+import { CityService } from "_types/city";
 
 
 
@@ -33,7 +34,7 @@ export class Budget {
         console.log('params ===========>', params);
 
         let times = Date.now();
-
+        // params = await this.transferPlaceId(params);
         //后期考虑 针对不同的用户生成不同的预算
         let staff = staffs[0];
         let segments = analyzeBudgetParams(params) as DataOrder[];
@@ -56,7 +57,7 @@ export class Budget {
         /* request data-store */
         let ps = budgetOrder.budgetData.map(async (item: DataOrder, index) => {
             //全价数据获取，如果出错直接抛出
-            let dataStore = API.getData.search_data(item);
+            let dataStore = this.requestDataStore(item);
             //获取prefer
             let prefer = getAllPrefer.getPrefer({
                 companyId,
@@ -116,7 +117,7 @@ export class Budget {
             }
 
             item.step = STEP.FINAL;  //预期final数据
-            let dataStore = await API.getData.search_data(item);
+            let dataStore = await this.requestDataStore(item);
             item.data = dataStore.data;
             item.step = dataStore.step;
             item.channels = dataStore.channels;
@@ -189,6 +190,28 @@ export class Budget {
             }
         }
     }
+
+
+    /* 新版地点信息转换成老版本 */
+    async transferPlaceId(params: GetBudgetParams) {
+
+        params.goBackPlace = await CityService.getTransferCity(params.goBackPlace);
+        params.originPlace = await CityService.getTransferCity(params.originPlace);
+        for (let item of params.destinationPlacesInfo) {
+            item.destinationPlace = await CityService.getTransferCity(item.destinationPlace);
+        }
+        return params;
+    }
+
+    async requestDataStore(params: any) {
+        let ret = await request({
+            uri: config.dataStore + "/searchData",
+            method: "post",
+            body: params,
+            json: true
+        });
+        return ret;
+    }
 }
 
 export let budget = new Budget();
@@ -196,25 +219,25 @@ export let budget = new Budget();
 
 
 
-/* setTimeout(async () => {
-    console.log("go go");
+
+let testFn = async () => {
     let result = await budget.getBudget({
-        "callbackUrl": "12344",
+        "callbackUrl": "",
         "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
         "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
-        expectStep: STEP.FINAL,
+        "expectStep": STEP.CACHE,
         "staffs": [
             {
                 "gender": 1,
                 "policy": "domestic"
             }
         ],
-        "originPlace": "CT_131",
-        "goBackPlace": "CT_131",
+        "originPlace": "2038349",
+        "goBackPlace": "2038349",
         "isRoundTrip": false,
         "destinationPlacesInfo":
             [{
-                "destinationPlace": "CT_075",
+                "destinationPlace": "1815285",
                 "leaveDate": "2018-01-26T10:00:00.000Z",
                 "goBackDate": "2018-01-27T01:00:00.000Z",
                 "latestArrivalDateTime": "2018-01-26T10:00:00.000Z",
@@ -224,7 +247,7 @@ export let budget = new Budget();
                 "reason": ""
             },
             {
-                "destinationPlace": "CT_289",
+                "destinationPlace": "1796231",
                 "leaveDate": "2018-01-27T10:00:00.000Z",
                 "goBackDate": "2018-01-28T01:00:00.000Z",
                 "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
@@ -232,10 +255,17 @@ export let budget = new Budget();
                 "isNeedTraffic": true,
                 "isNeedHotel": true,
                 "reason": ""
-            }
-            ]
+            }]
     })
 
-    console.log("result result ===>", result);
+    console.log("result result ===>", JSON.stringify(result));
 
-}, 8000); */
+}
+
+
+/* let goTest = 1;
+if (goTest) {
+    for (let i = 0; i < 1; i++) {
+        setTimeout(testFn, 8000);
+    }
+} */

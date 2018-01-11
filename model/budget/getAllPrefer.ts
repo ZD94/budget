@@ -2,12 +2,12 @@
  * @Author: Mr.He 
  * @Date: 2017-12-16 11:35:17 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2017-12-22 14:26:46
+ * @Last Modified time: 2018-01-08 14:26:24
  * @content what is the content of this file. */
 
 import { ICity, CityService } from '_types/city';
 import { IPolicySet, IStaff, EAirCabin, EHotelStar } from "_types/budget";
-import { getSuitablePrefer } from "api/prefer";
+import { getSuitablePrefer } from "./getCompanyPrefer";
 import { ECompanyRegionUsedType } from "_types/policy/companyRegion";
 import { Models } from "_types/index";
 import _ = require("lodash");

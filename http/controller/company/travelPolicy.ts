@@ -3,10 +3,11 @@
  */
 
 'use strict';
-import {AbstractController, Restful} from "@jingli/restful";
+import {AbstractController, Restful, Router} from "@jingli/restful";
 import {TravelPolicy} from "_types/policy";
 import {Models} from "_types";
-var travalPolicyRegionCols = TravelPolicy['$fieldnames'];
+import { autoSignReply } from 'http/reply';
+var travelPolicyCols = TravelPolicy['$fieldnames'];
 
 const HOTEL_START = {
     FIVE: 5,
@@ -77,17 +78,19 @@ export class TravelPolicyController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
+    
     async get(req, res, next) {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
+            return res.jlReply(this.reply(0, null));
         }
         let result = await Models.travelPolicy.get(id);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
 
+    
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
         let {p, pz, order} = req.query;
@@ -101,7 +104,7 @@ export class TravelPolicyController extends AbstractController {
             offset: pz * (p-1)
         };
         for(let key in params){
-            if(travalPolicyRegionCols.indexOf(key) >= 0){
+            if(travelPolicyCols.indexOf(key) >= 0){
                 query.where[key] = params[key];
             }
         }
@@ -109,48 +112,49 @@ export class TravelPolicyController extends AbstractController {
         if(!order || typeof order == undefined)
             query["order"] = [["createdAt", "desc"]];
         let result = await Models.travelPolicy.find(query);
-        result = transform(result);
+        result = transform(result, travelPolicyCols);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
 
-
+    
     async update(req, res, next) {
         let params = req.body;
         let id = req.params.id;
         if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
+            return res.jlReply(this.reply(0, null));
         }
         let obj = await Models.travelPolicy.get(id);
 
         for(let key in params){
-            if(travalPolicyRegionCols.indexOf(key) >= 0){
+            if(travelPolicyCols.indexOf(key) >= 0){
                 obj[key] = params[key];
             }
         }
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
-
+    
     async add(req, res, next) {
         let params = req.body;
         let properties = {};
         for(let key in params){
-            if(travalPolicyRegionCols.indexOf(key) >= 0){
+            if(travelPolicyCols.indexOf(key) >= 0){
                 properties[key] = params[key];
             }
         }
         let obj = TravelPolicy.create(properties);
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
+    
     async delete(req, res, next) {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
+            return res.jlReply(this.reply(0, null));
         }
         let isDeleted;
         let tprs = await Models.travelPolicyRegion.find({where: {travelPolicyId: id}});
@@ -164,18 +168,18 @@ export class TravelPolicyController extends AbstractController {
         }catch(err){
             console.log(err);
         }
-        res.json(this.reply(0, isDeleted));
+        res.jlReply(this.reply(0, isDeleted));
     }
 
 
 }
 
 //处理差旅政策
-function transform(policies) {
+export function transform(policies, columns: string[]) {
     let result:any = [];
     policies.map(function(policy){
         let tp :any = {};
-         travalPolicyRegionCols.forEach(function(key){
+        columns.forEach(function(key){
              tp[key] = policy[key];
          })
         result.push(tp)

@@ -6,8 +6,9 @@
 import {AbstractController, Restful} from "@jingli/restful";
 import {RegionPlace} from "_types/policy";
 import {Models} from "_types";
+import { autoSignReply } from 'http/reply';
 var regionPlaceCols = RegionPlace['$fieldnames'];
-
+import {transform} from "./travelPolicy";
 const HOTEL_START = {
     FIVE: 5,
     FOUR: 4,
@@ -77,16 +78,18 @@ export class RegionPlaceController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
+
     async get(req, res, next) {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
+            return res.jlReply(this.reply(0, null));
         }
         let result = await Models.regionPlace.get(id);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
+
 
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
@@ -103,9 +106,10 @@ export class RegionPlaceController extends AbstractController {
         if(!query['limit'] || query['limit'] == undefined)
             query["limit"] = limit;
 
-        let result = await Models.regionPlace.all(query);
+        let result = await Models.regionPlace.find(query);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        result = transform(result, regionPlaceCols)
+        res.jlReply(this.reply(0, result));
     }
 
 
@@ -113,7 +117,7 @@ export class RegionPlaceController extends AbstractController {
         let params = req.body;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
+            return res.jlReply(this.reply(0, null));
         }
         let obj = await Models.regionPlace.get(id);
 
@@ -123,7 +127,7 @@ export class RegionPlaceController extends AbstractController {
             }
         }
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
 
@@ -137,18 +141,19 @@ export class RegionPlaceController extends AbstractController {
         }
         let obj = RegionPlace.create(properties);
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
+
 
     async delete(req, res, next) {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            return res.json(this.reply(0, null));
+            return res.jlReply(this.reply(0, null));
         }
         let obj = await Models.regionPlace.get(id);
         let isDeleted = await obj.destroy();
-        res.json(this.reply(0, isDeleted));
+        res.jlReply(this.reply(0, isDeleted));
     }
 
 

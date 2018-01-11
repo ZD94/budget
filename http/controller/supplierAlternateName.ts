@@ -19,11 +19,11 @@ export class SupplierAlternateNameController extends AbstractModelController<Sup
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(0, null);
+            res.jlReply(0, null);
         }
         let result = await Models.supplierAlternateName.get(id);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
 
     async find(req, res, next) {
@@ -43,7 +43,7 @@ export class SupplierAlternateNameController extends AbstractModelController<Sup
 
         let result = await Models.supplierAlternateName.all(query);
         if(result == undefined) result = null;
-        res.json(this.reply(0, result));
+        res.jlReply(this.reply(0, result));
     }
 
 
@@ -51,7 +51,7 @@ export class SupplierAlternateNameController extends AbstractModelController<Sup
         let params = req.body;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(0, null);
+            res.jlReply(0, null);
         }
         let obj = await Models.supplierAlternateName.get(id);
 
@@ -61,7 +61,7 @@ export class SupplierAlternateNameController extends AbstractModelController<Sup
             }
         }
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
 
@@ -75,14 +75,14 @@ export class SupplierAlternateNameController extends AbstractModelController<Sup
         }
         let obj = SupplierAlternateName.create(properties);
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
     async delete(req, res, next) {
         let params = req.params;
         let id = params.id;
         if(!id || typeof(id) == 'undefined') {
-            res.json(0, null);
+            res.jlReply(0, null);
         }
         let obj = await Models.supplierAlternateName.get(id);
         let isDeleted = await obj.destroy();

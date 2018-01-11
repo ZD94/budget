@@ -7,6 +7,7 @@
 import {AbstractController, Restful, Router} from "@jingli/restful";
 import {Models} from "_types";
 import { signIn } from "api/auth";
+import { Request, Response, NextFunction } from 'express-serve-static-core';
 
 let cache = require("common/cache");
 
@@ -22,21 +23,21 @@ export class AuthController extends AbstractController {
      * body { username, sign, timestamp }   sign 生成顺序 username, pwd, timestamp
     */
     @Router("/login", "post")
-    async login(req, res, next) {
+    async login(req: Request, res, next: NextFunction) {
         let result;
         try {
             result = await signIn(req.body);
         } catch (e) {
             console.error(e)
-            return res.json(this.reply(403, null));
+            return res.jlReply(this.reply(403, null));
         }
-        return res.json(this.reply(result.code, result.data));
+        return res.jlReply(this.reply(result.code, result.data));
     }
 
     @Router("/quit", "post")
-    async quit(req, res, next) {
+    async quit(req: Request, res, next: NextFunction) {
         let token = req.headers['token'] || req.query.token;
         await cache.remove(token);
-        return res.json(this.reply(0, null));
+        return res.jlReply(this.reply(0, null));
     }
 }

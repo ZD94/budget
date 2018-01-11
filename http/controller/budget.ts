@@ -4,10 +4,15 @@
 
 'use strict';
 
-import {AbstractController, Restful} from "@jingli/restful";
-import {Models} from "_types";
-
+import { AbstractController, Restful, Router } from "@jingli/restful";
+import { Models } from "_types";
+import { IRequest, IResponse } from "../index";
 import API from '@jingli/dnode-api';
+var ApiTravelBudget = require("api/budget/index");
+import { ISearchHotelParams, ISearchTicketParams } from "api/budget/index";
+import { autoSignReply } from 'http/reply';
+import { STEP, budget } from "model/budget";
+import uuid = require("uuid");
 
 const HOTEL_START = {
     FIVE: 5,
@@ -42,7 +47,7 @@ const TRAFFIC_TYPE = {
 
 function enumToStr(obj: any, val: number) {
     let result;
-    for(let key in obj) {
+    for (let key in obj) {
         if (obj[key] == val) {
             result = key;
             break;
@@ -59,7 +64,7 @@ const GENDER = {
 //处理staffs
 function transformStaffStrArgsToEnum(staffs) {
     //处理员工性别
-    staffs = staffs.map( (staff) => {
+    staffs = staffs.map((staff) => {
         staff.gender = GENDER[staff.gender];
         return staff;
     });
@@ -78,53 +83,75 @@ export class BudgetController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
-    async get(req, res, next) {
-        let {id} = req.params;
-        let segmentBudgets = await API['budget'].getBudgetCache({id: id});
+    async get(req: IRequest, res: IResponse, next: Function) {
+        let { id } = req.params;
+        let segmentBudgets = await API['budget'].getBudgetCache({ id: id });
         let budgets = segmentBudgets.budgets;
         budgets = this.transformBudgets(budgets);
         segmentBudgets.budgets = budgets;
-        res.json(this.reply(0, segmentBudgets));
+        res.jlReply(this.reply(0, segmentBudgets));
     }
 
-    async add(req, res, next) {
+    async add(req: IRequest, res: IResponse, next: Function) {
         req.clearTimeout();
-        // let {staffs, policies, fromCity, segments, ret} = req.json;
-        //改restful budget api为传travelPolicyId, 同时添加请求货币类型
-        let {staffs, fromCity, segments, ret, travelPolicyId, preferedCurrency} = req.body;
+        let result = await budget.getBudget(req.body);
+        res.jlReply(this.reply(0, result));
+    }
 
-        if(preferedCurrency && typeof(preferedCurrency) != 'undefined') {
-            let currencyIds = await Models.currency.find({where: {$or: [{currency_code: preferedCurrency}, {currency_name: preferedCurrency}]}});
-            if(!currencyIds || !currencyIds.length) {
-                return res.json(this.reply(400, []));
+    /**
+     *  preferedCurrency 逻辑并未考虑
+     * 
+     *  async add(req: IRequest, res: IResponse, next: Function) {
+        req.clearTimeout();
+        //改restful budget api为传travelPolicyId, 同时添加请求货币类型
+        let { staffs, fromCity, segments, ret, travelPolicyId, preferedCurrency, qmUrl, approveId } = req.body;
+        let time = Date.now();
+        if (preferedCurrency && typeof (preferedCurrency) != 'undefined') {
+            let currencyIds = await Models.currency.find({ where: { $or: [{ currency_code: preferedCurrency }, { currency_name: preferedCurrency }] } });
+            if (!currencyIds || !currencyIds.length) {
+                // return res.jlReply(this.reply(400, []));
             }
         }
-        if (!staffs) {
-            staffs = []
-        }
-        if (!staffs.length) {
-            return res.json(this.reply(500, []));
-        }
+    } */
 
-        //转换员工
-        staffs = transformStaffStrArgsToEnum(staffs);
-        //转换差旅标准
-        // policies = transformPolicyStrArgsToEnum(policies);
-        let segmentBudgets;
-        segmentBudgets = await API['budget'].createBudget({
-            // policies: policies,
-            preferedCurrency: preferedCurrency,
-            travelPolicyId: travelPolicyId,
-            prefers: [],
-            staffs: staffs,
-            fromCity,
-            ret,
-            segments,
+
+    @Router('/getHotelsData', 'post')
+    async getHotelsData(req: IRequest, res: IResponse, next: Function) {
+        req.clearTimeout();
+        let { checkInDate, checkOutDate, cityId, location } = req.body;
+        if (!checkInDate || !checkOutDate || !cityId) {
+            return res.jlReply(this.reply(500, null));
+        }
+        let result = await ApiTravelBudget.getHotelsData({
+            checkInDate: checkInDate,
+            checkOutDate: checkOutDate,
+            cityId: cityId,
+            location: location
         });
-        let budgets = segmentBudgets.budgets;
-        budgets = this.transformBudgets(budgets);
-        segmentBudgets.budgets = budgets;
-        res.json(this.reply(0, segmentBudgets));
+        res.jlReply(this.reply(0, result))
+    }
+
+    @Router('/getTravelPolicy', 'post')
+    async getTravelPolicy(req: IRequest, res: IResponse, next: Function) {
+        let { travelPolicyId, destinationId } = req.body;
+        if (!travelPolicyId || !destinationId)
+            return res.jlReply(this.reply(500, null))
+        let result = await ApiTravelBudget.getTravelPolicy(travelPolicyId, destinationId);
+        res.jlReply(this.reply(0, result));
+    }
+
+    @Router('/getTrafficsData', 'post')
+    async getTrafficsData(req: IRequest, res: IResponse, next: Function) {
+        req.clearTimeout();
+        let { leaveDate, originPlaceId, destinationId } = req.body;
+        if (!leaveDate || !originPlaceId || !destinationId)
+            return res.jlReply(this.reply(500, null))
+        let result = await ApiTravelBudget.getTrafficsData({
+            leaveDate: leaveDate,
+            originPlaceId: originPlaceId,
+            destinationId: destinationId
+        });
+        res.jlReply(this.reply(0, result))
     }
 
     private transformBudgets(budgets) {
@@ -148,10 +175,12 @@ export class BudgetController extends AbstractController {
                     budget.cabin = enumToStr(TRAIN_SEAT, budget.cabin) || budget.cabin;
                 }
                 budget.trafficType = enumToStr(TRAFFIC_TYPE, budget.trafficType) || budget.trafficType;
+                delete budget.prefers;
                 return budget;
             });
             hotelBudget = hotelBudget.map((budget) => {
                 budget.star = enumToStr(HOTEL_START, budget.star) || budget.star;
+                delete budget.prefers;
                 return budget;
             });
             segmentBudget.traffic = trafficBudget;
@@ -164,7 +193,7 @@ export class BudgetController extends AbstractController {
 
 //处理差旅政策
 function transformPolicyStrArgsToEnum(policies) {
-    for(let key in policies) {
+    for (let key in policies) {
         let policy = policies[key];
         if (!policy.trainSeat) {
             policy.trainSeat = [];
@@ -172,7 +201,7 @@ function transformPolicyStrArgsToEnum(policies) {
         if (typeof policy.trainSeat == 'string') {
             policy.trainSeat = [policy.trainSeat]
         }
-        policy.trainSeat = policy.trainSeat.map( (trainSeat) => {
+        policy.trainSeat = policy.trainSeat.map((trainSeat) => {
             return TRAIN_SEAT[trainSeat];
         });
 
@@ -182,7 +211,7 @@ function transformPolicyStrArgsToEnum(policies) {
         if (typeof policy.cabin == 'string') {
             policy.cabin = [policy.cabin];
         }
-        policy.cabin = policy.cabin.map( (cabin) => {
+        policy.cabin = policy.cabin.map((cabin) => {
             return CABIN[cabin];
         });
 
@@ -192,7 +221,7 @@ function transformPolicyStrArgsToEnum(policies) {
         if (typeof policy.hotelStar == 'string') {
             policy.hotelStar = [policy.hotelStar];
         }
-        policy.hotelStar = policy.hotelStar.map( (hotelStar) => {
+        policy.hotelStar = policy.hotelStar.map((hotelStar) => {
             return HOTEL_START[hotelStar];
         })
         policies[key] = policy;

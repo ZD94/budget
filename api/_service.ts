@@ -19,6 +19,8 @@ import {PreferRegion} from "_types/preferRegion";
 import {CompanyConfig} from "_types/company";
 import {Authorization} from "../_types/account/authorization";
 import {CommonSupplier, SupplierAlternateName} from "_types/commonSupplier";
+import { AirCompany } from '_types/static/aircompany';
+import { TmcTypes, TmcSupplier } from "_types/tmcSupplier";
 
 
 export function initModels(models: ModelsInterface) {
@@ -51,5 +53,8 @@ initModels({
     preferRegion: createServerService<PreferRegion>(PreferRegion),
     companyConfig: createServerService<CompanyConfig>(CompanyConfig),
     commonSupplier: createServerService<CommonSupplier>(CommonSupplier),
-    supplierAlternateName: createServerService<SupplierAlternateName>(SupplierAlternateName)
+    supplierAlternateName: createServerService<SupplierAlternateName>(SupplierAlternateName),
+    aircompany: createServerService<AirCompany>(AirCompany),
+    tmcTypes: createServerService<TmcTypes>(TmcTypes),
+    tmcSupplier: createServerService<TmcSupplier>(TmcSupplier)
 });

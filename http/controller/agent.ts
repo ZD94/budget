@@ -23,37 +23,37 @@ export class AgentController extends AbstractController {
         const result = await API['auth'].getTokenByAgent(token, id);
         logger.debug(result);
         if (result.code == 0) {
-            return res.json(this.reply(0, result.data));
+            return res.jlReply(this.reply(0, result.data));
         }
-        return res.json(this.reply(result.code, null));
+        return res.jlReply(this.reply(result.code, null));
     }
-
 
     @Router('/gettoken', 'post')
     async tokenByCompany(req, res, next) {
         const { appId, sign, timestamp } = req.body;
-        if(!sign || !timestamp) {
-            return res.send(this.reply(401, null));
+        if (!sign || !timestamp || !appId) {
+            return res.jlReply(this.reply(401, null));
         }
 
-        const resp = await API['auth'].getCompanyToken(appId, sign, timestamp);
-        if(resp.code === 0) {
-            return res.send(this.reply(0, resp.data));
+        const [resp, companyId, appSecret] = await API['auth'].getCompanyToken(appId, sign, timestamp);
+        req.session = { companyId, appSecret, appId }
+        if (resp.code === 0) {
+            return res.jlReply(this.reply(0, resp.data));
         }
-        return res.send(this.reply(400, null));
+        return res.jlReply(this.reply(400, null));
     }
 
     @Router('/refresh', 'get')
     async refreshToken(req, res, next) {
         const { token } = req.headers;
-        if(!token) return res.sendStatus(403);
-        
+        if (!token) return res.sendStatus(403);
+
         const resp = await API['auth'].refreshToken(token);
 
-        if(resp.code == 0) {
-            return res.send(this.reply(0, resp.data));
+        if (resp.code == 0) {
+            return res.jlReply(this.reply(0, resp.data));
         }
-        return resp.send(this.reply(resp.code, null));
+        return resp.jlReply(this.reply(resp.code, null));
     }
 
     @Router('/company/create', 'POST')
@@ -61,7 +61,7 @@ export class AgentController extends AbstractController {
         let params = req.body;
         let company = await API['company'].create(params);
         //TODO://授权给agent
-        return res.send(this.reply(0, company));
+        return res.json(this.reply(0, company));
     }
 
 }

@@ -7,7 +7,9 @@
 import {AbstractController, Restful, Router} from "@jingli/restful";
 import {CompanyRegion} from "_types/policy";
 import {Models} from "_types";
+import { autoSignReply } from 'http/reply';
 var companyRegionCols = CompanyRegion['$fieldnames'];
+import {transform} from "./travelPolicy";
 
 const HOTEL_START = {
     FIVE: 5,
@@ -78,11 +80,13 @@ export class CompanyRegionController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
+
     async get(req, res, next) {
         let {id} = req.params;
         let result = await Models.companyRegion.get(id);
-        res.json(this.reply(0, result || null));
+        res.jlReply(this.reply(0, result || null));
     }
+
 
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
@@ -116,8 +120,10 @@ export class CompanyRegionController extends AbstractController {
                 return types && types.indexOf(type) >= 0;
             })
         }
-        res.json(this.reply(0, result));
+        result = transform(result, companyRegionCols);
+        res.jlReply(this.reply(0, result));
     }
+
 
     async update(req, res, next) {
         let params = req.body;
@@ -129,7 +135,7 @@ export class CompanyRegionController extends AbstractController {
             }
         }
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
 
@@ -144,14 +150,14 @@ export class CompanyRegionController extends AbstractController {
         }
         let obj = CompanyRegion.create(properties);
         obj = await obj.save();
-        res.json(this.reply(0, obj));
+        res.jlReply(this.reply(0, obj));
     }
 
     async delete(req, res, next) {
         let {id} = req.params;
         let obj = await Models.companyRegion.get(id);
         let isDeleted = await obj.destroy();
-        res.json(this.reply(0, isDeleted));
+        res.jlReply(this.reply(0, isDeleted));
     }
 
 

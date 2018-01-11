@@ -8,7 +8,7 @@ import {AbstractModelController, Restful, Router} from "@jingli/restful";
 import API from '@jingli/dnode-api';
 import {Models} from "_types/index";
 import {PreferRegion} from "_types/preferRegion";
-
+import {IRequest, IResponse} from "../index";
 @Restful()
 export class PreferController extends AbstractModelController<PreferRegion> {
     constructor() {
@@ -16,7 +16,7 @@ export class PreferController extends AbstractModelController<PreferRegion> {
     }
 
     //companyId验证在更上一层
-    async $before(req, res, next){
+    async $before(req: IRequest, res: IResponse, next: Function){
         const {companyId} = req.session;
         let {id} = req.params;
         if(!id){
@@ -28,7 +28,7 @@ export class PreferController extends AbstractModelController<PreferRegion> {
         if(companyRegion.companyId == companyId){
             next();
         }else{
-            res.json(this.reply(403, null));
+            res.jlReply(this.reply(403, null));
         }
     }
 
@@ -37,14 +37,14 @@ export class PreferController extends AbstractModelController<PreferRegion> {
         let prefer = await Models.prefer.get(id);
 
         if(!prefer){
-            return res.json(this.reply(0, null));
+            return res.jlReply(this.reply(0, null));
         }
         let check = await this.identCheck(prefer, companyId);
-        return check ? res.json(this.reply(0, prefer)) : res.json(403, null);
+        return check ? res.jlReply(this.reply(0, prefer)) : res.jlReply(403, null);
     }*/
 
     /*async find(req, res, next) {
-        res.json(this.reply(404, null));
+        res.jlReply(this.reply(404, null));
     }*/
 
     // async update(req, res, next){
@@ -52,11 +52,11 @@ export class PreferController extends AbstractModelController<PreferRegion> {
     //     let params = req.body;
     //     let prefer = await Models.prefer.get(id);
     //     if(!prefer){
-    //         return res.json(this.reply(0, null));
+    //         return res.jlReply(this.reply(0, null));
     //     }
     //     let check:boolean = await this.identCheck(prefer, companyId);
     //     if(!check){
-    //         return res.json(this.reply(403, null));
+    //         return res.jlReply(this.reply(403, null));
     //     }
 
     //     /*if(typeof params.budgetConfig == "string"){
@@ -69,7 +69,7 @@ export class PreferController extends AbstractModelController<PreferRegion> {
     //         }
     //     }
     //     prefer = await prefer.save();
-    //     res.json(this.reply(0, prefer));
+    //     res.jlReply(this.reply(0, prefer));
     // }
 
     /*async add(req, res, next){
@@ -83,21 +83,21 @@ export class PreferController extends AbstractModelController<PreferRegion> {
             prefer[k] = params[k];
         }
         prefer = await prefer.save();
-        res.json(this.reply(0, prefer));
+        res.jlReply(this.reply(0, prefer));
     }*/
 
     // async delete(req, res, next){
     //     let {id, companyId} = req.params;
     //     let prefer = await Models.prefer.get(id);
     //     if(!prefer){
-    //         return res.json(this.reply(404, null));
+    //         return res.jlReply(this.reply(404, null));
     //     }
     //     let check:boolean = await this.identCheck(prefer, companyId);
     //     if(!check){
-    //         return res.json(this.reply(403, null));
+    //         return res.jlReply(this.reply(403, null));
     //     }
 
     //     await prefer.destroy();
-    //     res.json(this.reply(0, prefer));
+    //     res.jlReply(this.reply(0, prefer));
     // }
 }

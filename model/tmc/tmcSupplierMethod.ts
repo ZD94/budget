@@ -10,7 +10,6 @@ import uuid = require("uuid");
 import {TmcServiceType, TmcSupplier, TMCStatus, TmcSupplierService} from "_types/tmcSupplier";
 import {where} from "sequelize";
 import {obj} from "through2";
-import {Point} from "geojson";
 
 export class TmcSupplierMethod {
     async addSupplier(params: {

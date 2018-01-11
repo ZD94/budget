@@ -142,22 +142,14 @@ export class TmcSupplierMethod {
             return "供应商不存在"
         }
         let newTmcSupplier = tmcSupplier.map( async function(item) {
-            let supplier = item;
-            let tmcType = await Models.tmcTypes.find({
-                where: {
-                    id: supplier["tmcTypeId"]
-                }
-            });
-            supplier["target"]["dataValues"]["tmcName"] = tmcType["0"]["tmcName"];
-            supplier["target"]["dataValues"]["sname"] = tmcType["0"]["sname"];
-            return supplier
+            let supplier = item.toJSON();
+            let tmcType = await Models.tmcTypes.get(supplier["tmcTypeId"]);
+            supplier["tmcName"] = tmcType.tmcName;
+            supplier["sname"] = tmcType.sname;
+            return supplier;
         });
 
-        let data = Promise.all(newTmcSupplier).then(function (value) {
-            return value
-        }).catch((e) => {
-            console.log(e)
-        });
+        let data = await Promise.all(newTmcSupplier);
         return data
     }
 }

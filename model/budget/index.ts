@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-08 17:03:35
+ * @Last Modified time: 2018-01-11 11:49:31
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -210,7 +210,6 @@ export class Budget {
             body: params,
             json: true
         });
-        console.info("事件推送返回值", ret);
         return ret;
     }
 }
@@ -247,20 +246,19 @@ let testFn = async () => {
                 "isNeedHotel": true,
                 "reason": ""
             },
-                // {
-                //     "destinationPlace": "1796231",
-                //     "leaveDate": "2018-01-27T10:00:00.000Z",
-                //     "goBackDate": "2018-01-28T01:00:00.000Z",
-                //     "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
-                //     "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
-                //     "isNeedTraffic": true,
-                //     "isNeedHotel": true,
-                //     "reason": ""
-                // }
-            ]
+            {
+                "destinationPlace": "1796231",
+                "leaveDate": "2018-01-27T10:00:00.000Z",
+                "goBackDate": "2018-01-28T01:00:00.000Z",
+                "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
+                "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
+                "isNeedTraffic": true,
+                "isNeedHotel": true,
+                "reason": ""
+            }]
     })
 
-    console.log("result result ===>", result);
+    console.log("result result ===>", JSON.stringify(result));
 
 }
 

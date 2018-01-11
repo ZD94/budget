@@ -21,10 +21,6 @@
       "addr": "t.jingli365.com",
       "port": 14201,
       "www": "https://${{hosts.main.addr}}"
-    },
-    "data": {
-      "addr": "${JL_APP_DATA_STORE}",
-      "port": "${JL_APP_DATA_STORE_PORT}"
     }
   },
   "agent": {
@@ -41,15 +37,6 @@
         },
         "modules": [
           "place"
-        ]
-      },
-      {
-        "connect": {
-          "host": "${{hosts.data.addr}}",
-          "port": "${{hosts.data.port}}"
-        },
-        "modules": [
-          "getData"
         ]
       }
     ]

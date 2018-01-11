@@ -143,11 +143,11 @@ class ApiTravelBudget {
     static async getTrafficsData(params: ISearchTicketParams) {
         let { leaveDate, originPlaceId, destinationId } = params;
 
-        let newOriginPlace = await CityService.getSuperiorCityInfo({cityId: originPlaceId});
-        let newDestination = await CityService.getSuperiorCityInfo({cityId: destinationId});
+        let newOriginPlace = await CityService.getCity({ cityId: originPlaceId });
+        let newDestination = await CityService.getCity({ cityId: destinationId });
 
-        if(newOriginPlace && newOriginPlace.id) originPlaceId = newOriginPlace.id;
-        if(newDestination && newDestination.id) destinationId = newDestination.id;
+        if (newOriginPlace && newOriginPlace.id) originPlaceId = newOriginPlace.id;
+        if (newDestination && newDestination.id) destinationId = newDestination.id;
 
         let tickets = await budget.requestDataStore({
             type: BudgetType.TRAFFICT,

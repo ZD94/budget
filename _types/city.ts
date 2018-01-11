@@ -26,6 +26,7 @@ export interface ICity {
     pinyin: string;
     countryCode: string;
     fcode: string;
+    ctripCode?: string;
 }
 
 export class CityService {
@@ -60,7 +61,17 @@ export class CityService {
         city = result.data;
         city.isAbroad = !(city.countryCode == "CN");
 
-        // city = await API.place.getCityInfo({ cityCode: id });
+        const alternate: any = await restfulAPIUtil.proxyHttp({
+            uri: `/city/${id}/alternate`,
+            method: 'GET'
+        });
+        for (let item of alternate.data) {
+            if (item.lang == "ctripcode") {
+                city.ctripCode = item.value;
+                break;
+            }
+        }
+
         if (city) {
             cache.set(id, city);
         }

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-22 10:56:07 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2017-12-22 14:57:54
+ * @Last Modified time: 2018-01-11 12:14:19
  * @content 计算预算 */
 
 import { BudgetType, SearchHotelParams, SearchTicketParams, defaultCurrencyUnit, DataOrder } from "./interface";
@@ -83,7 +83,7 @@ export class ComputeBudget {
             name: budget.name,
             agent: budget.agent,
             link: budget.link,
-            markedScoreData: budget.markedScoreData,
+            // markedScoreData: budget.markedScoreData,
             prefers: prefer.allPrefers,
             deeplinkData: budget.deeplinkData,
             bookurl: budget.bookurl,
@@ -169,7 +169,7 @@ export class ComputeBudget {
             unit: budget.unit,
             rate: budget.rate,
             discount: discount,
-            markedScoreData: budget.markedScoreData,
+            // markedScoreData: budget.markedScoreData,
             prefers: allPrefers,
             bookurl: budget.bookurl,
             deeplinkData: budget.deeplinkData,

@@ -121,6 +121,7 @@ deploy:release:
   variables:
     JL_APP_DATA_STORE: j.jingli365.com
     JL_APP_DATA_STORE_PORT: 4106
+    JL_APP_DATA_STORE_URL: https://l.jingli365.com/proj/svr-data-store
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME

@@ -5,6 +5,7 @@
 
 import {ReserveLink} from 'libs/suppliers/interface';
 import {SupplierGetter} from 'libs/suppliers';
+import { ICity, CityService } from '_types/city';
 
 var API = require("@jingli/dnode-api");
 let getSupplier: SupplierGetter;
@@ -42,17 +43,17 @@ export default class BookLink {
 
         if(options.fromCity) {
             console.info(options.fromCity);
-            let cityObject = await API.place.getCityInfo({cityCode: options.fromCity});
+            let cityObject = await CityService.getCity(options.fromCity);
             options.fromCity = cityObject.name;
         }
         if(options.toCity){
             console.info(options.toCity);
-            let cityObject = await API.place.getCityInfo({cityCode: options.toCity});
+            let cityObject = await CityService.getCity(options.toCity);
             options.toCity = cityObject.name;
         }
         if(options.city){
             console.info(options.city);
-            let cityObject = await API.place.getCityInfo({cityCode: options.city});
+            let cityObject = await CityService.getCity(options.city);
             options.city = cityObject.name;
         }
 

@@ -5,7 +5,6 @@
  * @Last Modified time: 2017-12-22 17:12:00
  * @content 预算相关接口定义 */
 
-import { ICity, CityService } from '_types/city';
 export let defaultCurrencyUnit = 'CNY';
 
 export interface SearchHotelParams {

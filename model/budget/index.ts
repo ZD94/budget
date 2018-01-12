@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-11 11:49:31
+ * @Last Modified time: 2018-01-12 16:25:44
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -20,6 +20,7 @@ import { verifySign, genSign } from '@jingli/sign';
 import { conf, auth } from 'server-auth';
 import config = require("@jingli/config");
 import { CityService } from "_types/city";
+import { clearTimeout } from 'timers';
 
 
 
@@ -98,7 +99,7 @@ export class Budget {
 
         if (budgetOrder.step != STEP.FINAL) {
             //10s 后拉取最终预算
-            this.getFinalBudget(budgetOrder);
+            this.getFinalBudget(budgetOrder, finallyResult);
         }
 
         finallyResult.step = budgetOrder.step;
@@ -107,9 +108,19 @@ export class Budget {
         return finallyResult;
     }
 
-    async getFinalBudget(budgetOrder: BudgetOrder, num?: number) {
+    async getFinalBudget(budgetOrder: BudgetOrder, result: any, num?: number) {
+        console.log("enter in the getFinalBudget : *********");
         num = num ? num : 0;
         let time = Date.now();
+
+        let forceTime;
+        if (!num) {
+            //重复拉取不额外设置
+            forceTime = setTimeout(() => {
+                this.sendBudget(result, budgetOrder.callbackUrl);
+                throw new Error("force Timeout.")
+            }, 3 * 60 * 1000);
+        }
 
         let ps = budgetOrder.budgetData.map(async (item) => {
             if (item.step == STEP.FINAL) {
@@ -117,16 +128,23 @@ export class Budget {
             }
 
             item.step = STEP.FINAL;  //预期final数据
-            let dataStore = await this.requestDataStore(item);
-            item.data = dataStore.data;
-            item.step = dataStore.step;
-            item.channels = dataStore.channels;
+            try {
+                let dataStore = await this.requestDataStore(item);
+                item.data = dataStore.data;
+                item.step = dataStore.step;
+                item.channels = dataStore.channels;
+            } catch (e) {
+                console.error("requestDataStore error !!!")
+            }
+
             return item;
         });
 
-
         budgetOrder.budgetData = await Promise.all(ps);
-
+        if (!num) {
+            //一切正常, 清除forceTime
+            clearTimeout(forceTime);
+        }
         /* 整理预算数据输出 */
         let finallyResult = {
             budgets: [],
@@ -138,9 +156,9 @@ export class Budget {
             item.budget = await computeBudget.getBudget(item);
             if (item.step != STEP.FINAL) {
                 num++;
-                if (num < 4) {
+                if (num < 2) {
                     console.error("data-store 返回的数据不是全 FIN; 尝试重新拉取 第", num, "次");
-                    return await this.getFinalBudget(budgetOrder, num);
+                    return await this.getFinalBudget(budgetOrder, result, num);
                 }
             }
 
@@ -159,7 +177,7 @@ export class Budget {
             return;
         }
         // console.log("sendBudget  sendBudget  ===>", callbackUrl);
-        // console.log("sendBudget sendBudget  ",result);
+        // console.log("sendBudget sendBudget  ", result.step);
 
         let timestamp = Math.ceil(Date.now() / 1000);
         let sign = genSign(result, timestamp, config.agent.appSecret);
@@ -178,7 +196,7 @@ export class Budget {
             console.info("事件推送返回值", ret);
         } catch (e) {
             console.error("事件推送失败, 次数：", num);
-            console.error(e);
+            // console.error(e);
             num++;
             if (num >= 5) {
                 console.error("*****", num, " 次后还是失败。事件推送失败!");
@@ -204,12 +222,14 @@ export class Budget {
     }
 
     async requestDataStore(params: any) {
+        console.log("expect step : ", params.step);
         let ret = await request({
             uri: config.dataStore + "/searchData",
             method: "post",
             body: params,
             json: true
         });
+        console.log("get step : ", ret.step);
         return ret;
     }
 }
@@ -222,7 +242,7 @@ export let budget = new Budget();
 
 let testFn = async () => {
     let result = await budget.getBudget({
-        "callbackUrl": "",
+        "callbackUrl": "abcdf",
         "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
         "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
         "expectStep": STEP.CACHE,
@@ -232,12 +252,12 @@ let testFn = async () => {
                 "policy": "domestic"
             }
         ],
-        "originPlace": "2038349",
-        "goBackPlace": "2038349",
+        "originPlace": "CT_131",
+        "goBackPlace": "CT_131",
         "isRoundTrip": false,
         "destinationPlacesInfo":
             [{
-                "destinationPlace": "1815285",
+                "destinationPlace": "CT_179",
                 "leaveDate": "2018-01-26T10:00:00.000Z",
                 "goBackDate": "2018-01-27T01:00:00.000Z",
                 "latestArrivalDateTime": "2018-01-26T10:00:00.000Z",
@@ -247,7 +267,7 @@ let testFn = async () => {
                 "reason": ""
             },
             {
-                "destinationPlace": "1796231",
+                "destinationPlace": "CT_075",
                 "leaveDate": "2018-01-27T10:00:00.000Z",
                 "goBackDate": "2018-01-28T01:00:00.000Z",
                 "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",

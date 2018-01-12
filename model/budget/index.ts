@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-11 11:49:31
+ * @Last Modified time: 2018-01-12 14:33:34
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -138,7 +138,7 @@ export class Budget {
             item.budget = await computeBudget.getBudget(item);
             if (item.step != STEP.FINAL) {
                 num++;
-                if (num < 4) {
+                if (num < 1) {
                     console.error("data-store 返回的数据不是全 FIN; 尝试重新拉取 第", num, "次");
                     return await this.getFinalBudget(budgetOrder, num);
                 }
@@ -222,7 +222,7 @@ export let budget = new Budget();
 
 let testFn = async () => {
     let result = await budget.getBudget({
-        "callbackUrl": "",
+        "callbackUrl": "abcdf",
         "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
         "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
         "expectStep": STEP.CACHE,

@@ -42,41 +42,44 @@ export class CityService {
             return city;
         }
 
-        if (id == "Global") {
-            return null;
-        }
+        /**
+         *  master 分支，支持前端业务暂时关闭 新版地点服务
+         */
+        /*if (id == "Global") {
+           return null;
+       }
 
-        let uri = config.placeAPI + "/city/" + id;
-        let result;
-        try {
-            result = await request({
-                uri,
-                method: "get",
-                json: true
-            });
-        } catch (e) {
-            console.error("place 服务获取地点失败 : ", uri);
-            return null;
-        }
+       let uri = config.placeAPI + "/city/" + id;
+       let result;
+       try {
+           result = await request({
+               uri,
+               method: "get",
+               json: true
+           });
+       } catch (e) {
+           console.error("place 服务获取地点失败 : ", uri);
+           return null;
+       }
 
 
-        if (result.code != 0) {
-            throw new Error("place服务地点不存在 : " + id);
-        }
-        city = result.data;
-        city.isAbroad = !(city.countryCode == "CN");
+       if (result.code != 0) {
+           throw new Error("place服务地点不存在 : " + id);
+       }
+       city = result.data;
+       city.isAbroad = !(city.countryCode == "CN");
 
-        const alternate: any = await restfulAPIUtil.proxyHttp({
-            uri: `/city/${id}/alternate`,
-            method: 'GET'
-        });
-        for (let item of alternate.data) {
-            if (item.lang == "ctripcode") {
-                city.ctripCode = item.value;
-                break;
-            }
-        }
-
+       const alternate: any = await restfulAPIUtil.proxyHttp({
+           uri: `/city/${id}/alternate`,
+           method: 'GET'
+       });
+       for (let item of alternate.data) {
+           if (item.lang == "ctripcode") {
+               city.ctripCode = item.value;
+               break;
+           }
+       } */
+        city = await API.place.getCityInfo({ cityCode: id });
         if (city) {
             cache.set(id, city);
         }
@@ -96,7 +99,7 @@ export class CityService {
      * @param params
      * @returns {Promise<any | any | any>}
      */
-    static async getSuperiorCityInfo(params: {cityId: string}) :Promise<ICity>  {
+    static async getSuperiorCityInfo(params: { cityId: string }): Promise<ICity> {
         let self = this;
         let cityId = params.cityId;
         if (!cityId) {
@@ -137,10 +140,10 @@ export class CityService {
         });
 
 
-        nearbyStations = nearbyStations.filter((item: any)=>{
-            if(item.fcode == "AIRP"){
+        nearbyStations = nearbyStations.filter((item: any) => {
+            if (item.fcode == "AIRP") {
                 return item.countryCode == city.countryCode;
-            }else{
+            } else {
                 return item.countryCode == city.countryCode && item.type == PlaceType.GTRAIN;
             }
         })

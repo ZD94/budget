@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-12 17:22:18
+ * @Last Modified time: 2018-01-12 18:09:19
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -119,7 +119,7 @@ export class Budget {
             forceTime = setTimeout(() => {
                 this.sendBudget(result, budgetOrder.callbackUrl);
                 throw new Error("force Timeout.")
-            }, 3 * 60 * 1000);
+            }, 2 * 60 * 1000);
         }
 
         let ps = budgetOrder.budgetData.map(async (item) => {
@@ -181,7 +181,6 @@ export class Budget {
 
         let timestamp = Math.ceil(Date.now() / 1000);
         let sign = genSign(result, timestamp, config.agent.appSecret);
-
         try {
             let ret = await request({
                 uri: callbackUrl,

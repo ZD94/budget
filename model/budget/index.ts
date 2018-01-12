@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-12 19:26:51
+ * @Last Modified time: 2018-01-12 20:32:44
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -119,7 +119,6 @@ export class Budget {
             forceTime = setTimeout(() => {
                 result.step = STEP.FINAL;
                 this.sendBudget(result, budgetOrder.callbackUrl);
-                throw new Error("force Timeout.")
             }, 1 * 60 * 1000);
         }
 
@@ -286,6 +285,6 @@ let testFn = async () => {
 /* let goTest = 1;
 if (goTest) {
     for (let i = 0; i < 1; i++) {
-        setTimeout(testFn, 8000);
+        setTimeout(testFn, 15000);
     }
 } */

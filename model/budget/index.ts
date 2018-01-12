@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-12 18:09:19
+ * @Last Modified time: 2018-01-12 19:26:51
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -117,9 +117,10 @@ export class Budget {
         if (!num) {
             //重复拉取不额外设置
             forceTime = setTimeout(() => {
+                result.step = STEP.FINAL;
                 this.sendBudget(result, budgetOrder.callbackUrl);
                 throw new Error("force Timeout.")
-            }, 2 * 60 * 1000);
+            }, 1 * 60 * 1000);
         }
 
         let ps = budgetOrder.budgetData.map(async (item) => {
@@ -177,7 +178,7 @@ export class Budget {
             return;
         }
         // console.log("sendBudget  sendBudget  ===>", callbackUrl);
-        // console.log("sendBudget sendBudget  ", result.step);
+        console.log("sendBudget sendBudget ************************************** ", num, "    ", result.step);
 
         let timestamp = Math.ceil(Date.now() / 1000);
         let sign = genSign(result, timestamp, config.agent.appSecret);
@@ -255,7 +256,7 @@ let testFn = async () => {
         "goBackPlace": "CT_131",
         "isRoundTrip": false,
         "destinationPlacesInfo":
-            [{
+            [/* {
                 "destinationPlace": "CT_179",
                 "leaveDate": "2018-01-26T10:00:00.000Z",
                 "goBackDate": "2018-01-27T01:00:00.000Z",
@@ -264,20 +265,20 @@ let testFn = async () => {
                 "isNeedTraffic": true,
                 "isNeedHotel": true,
                 "reason": ""
-            },
-            {
-                "destinationPlace": "CT_075",
-                "leaveDate": "2018-01-27T10:00:00.000Z",
-                "goBackDate": "2018-01-28T01:00:00.000Z",
-                "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
-                "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
-                "isNeedTraffic": true,
-                "isNeedHotel": true,
-                "reason": ""
-            }]
+            }, */
+                {
+                    "destinationPlace": "CT_075",
+                    "leaveDate": "2018-01-27T10:00:00.000Z",
+                    "goBackDate": "2018-01-28T01:00:00.000Z",
+                    "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
+                    "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
+                    "isNeedTraffic": true,
+                    "isNeedHotel": true,
+                    "reason": ""
+                }]
     })
 
-    console.log("result result ===>", JSON.stringify(result));
+    console.log("result result ===>", result.step);
 
 }
 

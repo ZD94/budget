@@ -36,8 +36,6 @@ export class PlaceController extends AbstractController {
                 return res.send(this.reply(0, this.transform(resp.data)))
             }
             return res.send(resp.code, null);
-
-        return true;
     }
 
     // async get(req, res, next) {

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-12 16:25:44
+ * @Last Modified time: 2018-01-12 17:22:18
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -196,7 +196,7 @@ export class Budget {
             console.info("事件推送返回值", ret);
         } catch (e) {
             console.error("事件推送失败, 次数：", num);
-            // console.error(e);
+            console.error(e);
             num++;
             if (num >= 5) {
                 console.error("*****", num, " 次后还是失败。事件推送失败!");

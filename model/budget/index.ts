@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-12 20:32:44
+ * @Last Modified time: 2018-01-13 17:50:45
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -91,10 +91,10 @@ export class Budget {
         };
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
+            finallyResult.budgets.push(item.budget);
             if (item.step != STEP.FINAL) {
                 budgetOrder.step = STEP.CACHE;
             }
-            finallyResult.budgets.push(item.budget);
         }
 
         if (budgetOrder.step != STEP.FINAL) {
@@ -103,7 +103,6 @@ export class Budget {
         }
 
         finallyResult.step = budgetOrder.step;
-        // console.log('**********', JSON.stringify(finallyResult));
         console.log("using time : ", Date.now() - times);
         return finallyResult;
     }
@@ -112,16 +111,6 @@ export class Budget {
         console.log("enter in the getFinalBudget : *********");
         num = num ? num : 0;
         let time = Date.now();
-
-        let forceTime;
-        if (!num) {
-            //重复拉取不额外设置
-            forceTime = setTimeout(() => {
-                result.step = STEP.FINAL;
-                this.sendBudget(result, budgetOrder.callbackUrl);
-            }, 1 * 60 * 1000);
-        }
-
         let ps = budgetOrder.budgetData.map(async (item) => {
             if (item.step == STEP.FINAL) {
                 return item;
@@ -140,11 +129,21 @@ export class Budget {
             return item;
         });
 
-        budgetOrder.budgetData = await Promise.all(ps);
-        if (!num) {
-            //一切正常, 清除forceTime
-            clearTimeout(forceTime);
+        try {
+            budgetOrder.budgetData = await function (): Promise<DataOrder[]> {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        reject("DataStore FIN data, request Time out!");
+                    }, 1.5 * 60 * 1000);
+                    Promise.all(ps).then((result: DataOrder[]) => {
+                        resolve(result);
+                    })
+                });
+            }();
+        } catch (e) {
+            console.log(e);
         }
+
         /* 整理预算数据输出 */
         let finallyResult = {
             budgets: [],
@@ -154,13 +153,13 @@ export class Budget {
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
             item.budget = await computeBudget.getBudget(item);
-            if (item.step != STEP.FINAL) {
+            /* if (item.step != STEP.FINAL) {
                 num++;
-                if (num < 2) {
+                if (num < 3) {
                     console.error("data-store 返回的数据不是全 FIN; 尝试重新拉取 第", num, "次");
                     return await this.getFinalBudget(budgetOrder, result, num);
                 }
-            }
+            } */
 
             finallyResult.budgets.push(item.budget);
         }
@@ -221,15 +220,13 @@ export class Budget {
     }
 
     async requestDataStore(params: any) {
-        console.log("expect step : ", params.step);
-        let ret = await request({
+        /* 服务稳定后，应当对请求错误执行重复拉取 */
+        return await request({
             uri: config.dataStore + "/searchData",
             method: "post",
             body: params,
             json: true
         });
-        console.log("get step : ", ret.step);
-        return ret;
     }
 }
 
@@ -285,6 +282,6 @@ let testFn = async () => {
 /* let goTest = 1;
 if (goTest) {
     for (let i = 0; i < 1; i++) {
-        setTimeout(testFn, 15000);
+        setTimeout(testFn, 8000);
     }
 } */

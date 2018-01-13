@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-13 17:50:45
+ * @Last Modified time: 2018-01-13 18:34:13
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -119,9 +119,11 @@ export class Budget {
             item.step = STEP.FINAL;  //预期final数据
             try {
                 let dataStore = await this.requestDataStore(item);
-                item.data = dataStore.data;
-                item.step = dataStore.step;
-                item.channels = dataStore.channels;
+                if (dataStore.data && dataStore.data.length) {
+                    item.data = dataStore.data;
+                    item.step = dataStore.step;
+                    item.channels = dataStore.channels;
+                }
             } catch (e) {
                 console.error("requestDataStore error !!!")
             }
@@ -279,9 +281,9 @@ let testFn = async () => {
 }
 
 
-/* let goTest = 1;
+let goTest = 1;
 if (goTest) {
     for (let i = 0; i < 1; i++) {
         setTimeout(testFn, 8000);
     }
-} */
+}

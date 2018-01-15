@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-12 16:25:44
+ * @Last Modified time: 2018-01-13 18:34:13
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -91,10 +91,10 @@ export class Budget {
         };
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
+            finallyResult.budgets.push(item.budget);
             if (item.step != STEP.FINAL) {
                 budgetOrder.step = STEP.CACHE;
             }
-            finallyResult.budgets.push(item.budget);
         }
 
         if (budgetOrder.step != STEP.FINAL) {
@@ -103,7 +103,6 @@ export class Budget {
         }
 
         finallyResult.step = budgetOrder.step;
-        // console.log('**********', JSON.stringify(finallyResult));
         console.log("using time : ", Date.now() - times);
         return finallyResult;
     }
@@ -112,16 +111,6 @@ export class Budget {
         console.log("enter in the getFinalBudget : *********");
         num = num ? num : 0;
         let time = Date.now();
-
-        let forceTime;
-        if (!num) {
-            //重复拉取不额外设置
-            forceTime = setTimeout(() => {
-                this.sendBudget(result, budgetOrder.callbackUrl);
-                throw new Error("force Timeout.")
-            }, 3 * 60 * 1000);
-        }
-
         let ps = budgetOrder.budgetData.map(async (item) => {
             if (item.step == STEP.FINAL) {
                 return item;
@@ -130,9 +119,11 @@ export class Budget {
             item.step = STEP.FINAL;  //预期final数据
             try {
                 let dataStore = await this.requestDataStore(item);
-                item.data = dataStore.data;
-                item.step = dataStore.step;
-                item.channels = dataStore.channels;
+                if (dataStore.data && dataStore.data.length) {
+                    item.data = dataStore.data;
+                    item.step = dataStore.step;
+                    item.channels = dataStore.channels;
+                }
             } catch (e) {
                 console.error("requestDataStore error !!!")
             }
@@ -140,11 +131,21 @@ export class Budget {
             return item;
         });
 
-        budgetOrder.budgetData = await Promise.all(ps);
-        if (!num) {
-            //一切正常, 清除forceTime
-            clearTimeout(forceTime);
+        try {
+            budgetOrder.budgetData = await function (): Promise<DataOrder[]> {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        reject("DataStore FIN data, request Time out!");
+                    }, 1.5 * 60 * 1000);
+                    Promise.all(ps).then((result: DataOrder[]) => {
+                        resolve(result);
+                    })
+                });
+            }();
+        } catch (e) {
+            console.log(e);
         }
+
         /* 整理预算数据输出 */
         let finallyResult = {
             budgets: [],
@@ -154,13 +155,13 @@ export class Budget {
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
             item.budget = await computeBudget.getBudget(item);
-            if (item.step != STEP.FINAL) {
+            /* if (item.step != STEP.FINAL) {
                 num++;
-                if (num < 2) {
+                if (num < 3) {
                     console.error("data-store 返回的数据不是全 FIN; 尝试重新拉取 第", num, "次");
                     return await this.getFinalBudget(budgetOrder, result, num);
                 }
-            }
+            } */
 
             finallyResult.budgets.push(item.budget);
         }
@@ -177,11 +178,10 @@ export class Budget {
             return;
         }
         // console.log("sendBudget  sendBudget  ===>", callbackUrl);
-        // console.log("sendBudget sendBudget  ", result.step);
+        console.log("sendBudget sendBudget ************************************** ", num, "    ", result.step);
 
         let timestamp = Math.ceil(Date.now() / 1000);
         let sign = genSign(result, timestamp, config.agent.appSecret);
-
         try {
             let ret = await request({
                 uri: callbackUrl,
@@ -196,7 +196,7 @@ export class Budget {
             console.info("事件推送返回值", ret);
         } catch (e) {
             console.error("事件推送失败, 次数：", num);
-            // console.error(e);
+            console.error(e);
             num++;
             if (num >= 5) {
                 console.error("*****", num, " 次后还是失败。事件推送失败!");
@@ -222,15 +222,13 @@ export class Budget {
     }
 
     async requestDataStore(params: any) {
-        console.log("expect step : ", params.step);
-        let ret = await request({
+        /* 服务稳定后，应当对请求错误执行重复拉取 */
+        return await request({
             uri: config.dataStore + "/searchData",
             method: "post",
             body: params,
             json: true
         });
-        console.log("get step : ", ret.step);
-        return ret;
     }
 }
 
@@ -256,7 +254,7 @@ let testFn = async () => {
         "goBackPlace": "CT_131",
         "isRoundTrip": false,
         "destinationPlacesInfo":
-            [{
+            [/* {
                 "destinationPlace": "CT_179",
                 "leaveDate": "2018-01-26T10:00:00.000Z",
                 "goBackDate": "2018-01-27T01:00:00.000Z",
@@ -265,27 +263,27 @@ let testFn = async () => {
                 "isNeedTraffic": true,
                 "isNeedHotel": true,
                 "reason": ""
-            },
-            {
-                "destinationPlace": "CT_075",
-                "leaveDate": "2018-01-27T10:00:00.000Z",
-                "goBackDate": "2018-01-28T01:00:00.000Z",
-                "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
-                "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
-                "isNeedTraffic": true,
-                "isNeedHotel": true,
-                "reason": ""
-            }]
+            }, */
+                {
+                    "destinationPlace": "CT_075",
+                    "leaveDate": "2018-01-27T10:00:00.000Z",
+                    "goBackDate": "2018-01-28T01:00:00.000Z",
+                    "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
+                    "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
+                    "isNeedTraffic": true,
+                    "isNeedHotel": true,
+                    "reason": ""
+                }]
     })
 
-    console.log("result result ===>", JSON.stringify(result));
+    console.log("result result ===>", result.step);
 
 }
 
 
-/* let goTest = 1;
+let goTest = 1;
 if (goTest) {
     for (let i = 0; i < 1; i++) {
         setTimeout(testFn, 8000);
     }
-} */
+}

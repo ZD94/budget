@@ -16,7 +16,7 @@ export class PlaceController extends AbstractController {
     }
 
     $isValidId(id: string) {
-        return /^(CTW?_\d+)|Global|\d+$/.test(id);
+        return /^(CTW?_\d+)|Global$/.test(id) || /^[0-9]+$/.test(id);
     }
 
     async get(req, res, next) {

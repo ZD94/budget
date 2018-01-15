@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-11 11:49:31
+ * @Last Modified time: 2018-01-13 18:34:13
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -20,6 +20,7 @@ import { verifySign, genSign } from '@jingli/sign';
 import { conf, auth } from 'server-auth';
 import config = require("@jingli/config");
 import { CityService } from "_types/city";
+import { clearTimeout } from 'timers';
 
 
 
@@ -90,42 +91,60 @@ export class Budget {
         };
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
+            finallyResult.budgets.push(item.budget);
             if (item.step != STEP.FINAL) {
                 budgetOrder.step = STEP.CACHE;
             }
-            finallyResult.budgets.push(item.budget);
         }
 
         if (budgetOrder.step != STEP.FINAL) {
             //10s 后拉取最终预算
-            this.getFinalBudget(budgetOrder);
+            this.getFinalBudget(budgetOrder, finallyResult);
         }
 
         finallyResult.step = budgetOrder.step;
-        // console.log('**********', JSON.stringify(finallyResult));
         console.log("using time : ", Date.now() - times);
         return finallyResult;
     }
 
-    async getFinalBudget(budgetOrder: BudgetOrder, num?: number) {
+    async getFinalBudget(budgetOrder: BudgetOrder, result: any, num?: number) {
+        console.log("enter in the getFinalBudget : *********");
         num = num ? num : 0;
         let time = Date.now();
-
         let ps = budgetOrder.budgetData.map(async (item) => {
             if (item.step == STEP.FINAL) {
                 return item;
             }
 
             item.step = STEP.FINAL;  //预期final数据
-            let dataStore = await this.requestDataStore(item);
-            item.data = dataStore.data;
-            item.step = dataStore.step;
-            item.channels = dataStore.channels;
+            try {
+                let dataStore = await this.requestDataStore(item);
+                if (dataStore.data && dataStore.data.length) {
+                    item.data = dataStore.data;
+                    item.step = dataStore.step;
+                    item.channels = dataStore.channels;
+                }
+            } catch (e) {
+                console.error("requestDataStore error !!!")
+            }
+
             return item;
         });
 
-
-        budgetOrder.budgetData = await Promise.all(ps);
+        try {
+            budgetOrder.budgetData = await function (): Promise<DataOrder[]> {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        reject("DataStore FIN data, request Time out!");
+                    }, 1.5 * 60 * 1000);
+                    Promise.all(ps).then((result: DataOrder[]) => {
+                        resolve(result);
+                    })
+                });
+            }();
+        } catch (e) {
+            console.log(e);
+        }
 
         /* 整理预算数据输出 */
         let finallyResult = {
@@ -136,13 +155,13 @@ export class Budget {
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
             item.budget = await computeBudget.getBudget(item);
-            if (item.step != STEP.FINAL) {
+            /* if (item.step != STEP.FINAL) {
                 num++;
-                if (num < 4) {
+                if (num < 3) {
                     console.error("data-store 返回的数据不是全 FIN; 尝试重新拉取 第", num, "次");
-                    return await this.getFinalBudget(budgetOrder, num);
+                    return await this.getFinalBudget(budgetOrder, result, num);
                 }
-            }
+            } */
 
             finallyResult.budgets.push(item.budget);
         }
@@ -159,11 +178,10 @@ export class Budget {
             return;
         }
         // console.log("sendBudget  sendBudget  ===>", callbackUrl);
-        // console.log("sendBudget sendBudget  ",result);
+        console.log("sendBudget sendBudget ************************************** ", num, "    ", result.step);
 
         let timestamp = Math.ceil(Date.now() / 1000);
         let sign = genSign(result, timestamp, config.agent.appSecret);
-
         try {
             let ret = await request({
                 uri: callbackUrl,
@@ -204,13 +222,13 @@ export class Budget {
     }
 
     async requestDataStore(params: any) {
-        let ret = await request({
+        /* 服务稳定后，应当对请求错误执行重复拉取 */
+        return await request({
             uri: config.dataStore + "/searchData",
             method: "post",
             body: params,
             json: true
         });
-        return ret;
     }
 }
 
@@ -222,7 +240,7 @@ export let budget = new Budget();
 
 let testFn = async () => {
     let result = await budget.getBudget({
-        "callbackUrl": "",
+        "callbackUrl": "abcdf",
         "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
         "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
         "expectStep": STEP.CACHE,
@@ -232,12 +250,12 @@ let testFn = async () => {
                 "policy": "domestic"
             }
         ],
-        "originPlace": "2038349",
-        "goBackPlace": "2038349",
+        "originPlace": "CT_131",
+        "goBackPlace": "CT_131",
         "isRoundTrip": false,
         "destinationPlacesInfo":
-            [{
-                "destinationPlace": "1815285",
+            [/* {
+                "destinationPlace": "CT_179",
                 "leaveDate": "2018-01-26T10:00:00.000Z",
                 "goBackDate": "2018-01-27T01:00:00.000Z",
                 "latestArrivalDateTime": "2018-01-26T10:00:00.000Z",
@@ -245,27 +263,27 @@ let testFn = async () => {
                 "isNeedTraffic": true,
                 "isNeedHotel": true,
                 "reason": ""
-            },
-            {
-                "destinationPlace": "1796231",
-                "leaveDate": "2018-01-27T10:00:00.000Z",
-                "goBackDate": "2018-01-28T01:00:00.000Z",
-                "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
-                "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
-                "isNeedTraffic": true,
-                "isNeedHotel": true,
-                "reason": ""
-            }]
+            }, */
+                {
+                    "destinationPlace": "CT_075",
+                    "leaveDate": "2018-01-27T10:00:00.000Z",
+                    "goBackDate": "2018-01-28T01:00:00.000Z",
+                    "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
+                    "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
+                    "isNeedTraffic": true,
+                    "isNeedHotel": true,
+                    "reason": ""
+                }]
     })
 
-    console.log("result result ===>", JSON.stringify(result));
+    console.log("result result ===>", result.step);
 
 }
 
 
-/* let goTest = 1;
+let goTest = 1;
 if (goTest) {
     for (let i = 0; i < 1; i++) {
         setTimeout(testFn, 8000);
     }
-} */
+}

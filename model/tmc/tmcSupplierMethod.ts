@@ -40,13 +40,13 @@ export class TmcSupplierMethod {
         for (let item of params.services) {
             obj = {
                 type: item,
-                status: TMCStatus.NOT_CONNECT,
+                status: TMCStatus.TEST,
                 time: new Date()
             };
             arr.push(obj)
         }
-        params.services.splice(0, params.services.length).push(...arr);
-        // params.services.push(...arr);
+        params.services.splice(0, params.services.length);
+        params.services.push(...arr);
         let tmcSupplier = Models.tmcSupplier.create({
             id: uuid.v1(),
             services: params.services,
@@ -92,9 +92,8 @@ export class TmcSupplierMethod {
                             arr.push(obj)
                         }
                         tmcSupplier["services"] = arr
-                    } else {
-                        tmcSupplier[`${item}`] = params[`${items}`]
                     }
+                        tmcSupplier[`${item}`] = params[`${items}`]
                 }
             }
         }

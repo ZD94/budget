@@ -40,7 +40,7 @@ export class TmcSupplierMethod {
         for (let item of params.services) {
             obj = {
                 type: item,
-                status:TMCStatus.NOT_CONNECT,
+                status: TMCStatus.TEST,
                 time: new Date()
             };
             arr.push(obj)
@@ -78,22 +78,22 @@ export class TmcSupplierMethod {
             throw new Error("供应商不存在")
         }
         let arr = [];
-        let obj ={};
+        let obj = {};
         for (let item in tmcSupplier.target.dataValues) {
             for (let items in params) {
                 if (item == items) {
-                    if(item == "services"){
-                            for(let val of params["services"]){
-                                obj = {
-                                    "time":tmcSupplier.target.dataValues["services"][0].time,
-                                    "type":val.type,
-                                    "status":tmcSupplier.target.dataValues["services"][0].status
-                                };
-                                arr.push(obj)
-                            }
-                        tmcSupplier.target.dataValues["services"] = arr
+                    if (item == "services") {
+                        for (let val of params["services"]) {
+                            obj = {
+                                "time": tmcSupplier["services"][0].time,
+                                "type": val.type,
+                                "status": tmcSupplier["services"][0].status
+                            };
+                            arr.push(obj)
+                        }
+                        tmcSupplier["services"] = arr
                     }else {
-                        tmcSupplier.target.dataValues[`${item}`] = params[`${items}`]
+                        tmcSupplier[`${item}`] = params[`${items}`]
                     }
                 }
             }
@@ -108,44 +108,48 @@ export class TmcSupplierMethod {
 
     async changeState(params, body): Promise<any> {
         let {companyId, id} = params;
-        let {status,type} = body;
+        let {status, type} = body;
         let tmcSupplier = await await Models.tmcSupplier.find({
             where: {
                 company_id: companyId,
                 tmc_type_id: id
             }
         });
+        if (!tmcSupplier){
+            return "供应商不存在"
+        }
         status = Number(status);
-        // switch (status) {
-        //     case 1:
-        //         status = "未开通";
-        //         break;
-        //     case 2:
-        //         status = "测试中";
-        //         break;
-        //     case 3:
-        //         status = "测试失败";
-        //         break;
-        //     case 4:
-        //         status = "等待启用";
-        //         break;
-        //     case 5:
-        //         status = "正常使用";
-        //         break;
-        //     case 6:
-        //         status = "停用";
-        //         break;
-        //     default:
-        //         status = "暂无此状态类型"
-        // }
         if (tmcSupplier["0"]) {
-            for(let item of tmcSupplier["0"].target.dataValues.services){
-                if(item.type == type){
+            for (let item of tmcSupplier["0"].target.dataValues.services) {
+                if (item.type == type) {
                     item.status = status
                 }
             }
         }
         return await tmcSupplier[0].save();
+    }
+
+    async getTmcTypes(params): Promise<any> {
+        let {companyId} = params;
+
+        let tmcSupplier = await Models.tmcSupplier.all({
+            where: {
+                company_id: companyId,
+            }
+        });
+        if (!tmcSupplier){
+            return "供应商不存在"
+        }
+        let newTmcSupplier = tmcSupplier.map( async function(item) {
+            let supplier = item.toJSON();
+            let tmcType = await Models.tmcTypes.get(supplier["tmcTypeId"]);
+            supplier["tmcName"] = tmcType.tmcName;
+            supplier["sname"] = tmcType.sname;
+            return supplier;
+        });
+
+        let data = await Promise.all(newTmcSupplier);
+        return data
     }
 }
 

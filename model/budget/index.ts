@@ -282,9 +282,10 @@ let testFn = async () => {
 }
 
 
-/* let goTest = 1;
-if (goTest) {
-    for (let i = 0; i < 1; i++) {
-        setTimeout(testFn, 8000);
-    }
-} */
+// let goTest = 1;
+// if (goTest) {
+//     for (let i = 0; i < 1; i++) {
+//         setTimeout(testFn, 8000);
+//     }
+// }
+

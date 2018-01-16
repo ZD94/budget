@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-15 16:45:06
+ * @Last Modified time: 2018-01-15 18:04:33
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -251,30 +251,30 @@ let testFn = async () => {
                 "policy": "domestic"
             }
         ],
-        "originPlace": "1808925",
-        "goBackPlace": "1808925",
+        "originPlace": "1816670",
+        "goBackPlace": "1816670",
         "isRoundTrip": false,
         "destinationPlacesInfo":
-            [/* {
-                "destinationPlace": "CT_179",
+            [{
+                "destinationPlace": "1796231",
                 "leaveDate": "2018-01-26T10:00:00.000Z",
                 "goBackDate": "2018-01-27T01:00:00.000Z",
                 "latestArrivalDateTime": "2018-01-26T10:00:00.000Z",
                 "earliestGoBackDateTime": "2018-01-27T01:00:00.000Z",
                 "isNeedTraffic": true,
+                "isNeedHotel": false,
+                "reason": ""
+            },
+            /* {
+                "destinationPlace": "1815285",
+                "leaveDate": "2018-01-27T10:00:00.000Z",
+                "goBackDate": "2018-01-28T01:00:00.000Z",
+                "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
+                "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
+                "isNeedTraffic": true,
                 "isNeedHotel": true,
                 "reason": ""
-            }, */
-                {
-                    "destinationPlace": "1796231",
-                    "leaveDate": "2018-01-27T10:00:00.000Z",
-                    "goBackDate": "2018-01-28T01:00:00.000Z",
-                    "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
-                    "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
-                    "isNeedTraffic": true,
-                    "isNeedHotel": true,
-                    "reason": ""
-                }]
+            } */]
     })
 
     console.log("result result ===>", result);

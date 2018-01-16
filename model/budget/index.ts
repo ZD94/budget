@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-13 18:34:13
+ * @Last Modified time: 2018-01-15 16:45:06
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -125,7 +125,8 @@ export class Budget {
                     item.channels = dataStore.channels;
                 }
             } catch (e) {
-                console.error("requestDataStore error !!!")
+                console.error("requestDataStore error !!!");
+                console.error(e);
             }
 
             return item;
@@ -178,7 +179,7 @@ export class Budget {
             return;
         }
         // console.log("sendBudget  sendBudget  ===>", callbackUrl);
-        console.log("sendBudget sendBudget ************************************** ", num, "    ", result.step);
+        console.log("sendBudget sendBudget ************************************** ", num, "    ", result);
 
         let timestamp = Math.ceil(Date.now() / 1000);
         let sign = genSign(result, timestamp, config.agent.appSecret);
@@ -243,15 +244,15 @@ let testFn = async () => {
         "callbackUrl": "abcdf",
         "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
         "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
-        "expectStep": STEP.CACHE,
+        // "expectStep": STEP.FULL,
         "staffs": [
             {
                 "gender": 1,
                 "policy": "domestic"
             }
         ],
-        "originPlace": "CT_131",
-        "goBackPlace": "CT_131",
+        "originPlace": "1808925",
+        "goBackPlace": "1808925",
         "isRoundTrip": false,
         "destinationPlacesInfo":
             [/* {
@@ -265,7 +266,7 @@ let testFn = async () => {
                 "reason": ""
             }, */
                 {
-                    "destinationPlace": "CT_075",
+                    "destinationPlace": "1796231",
                     "leaveDate": "2018-01-27T10:00:00.000Z",
                     "goBackDate": "2018-01-28T01:00:00.000Z",
                     "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
@@ -276,7 +277,7 @@ let testFn = async () => {
                 }]
     })
 
-    console.log("result result ===>", result.step);
+    console.log("result result ===>", result);
 
 }
 
@@ -287,3 +288,4 @@ let testFn = async () => {
 //         setTimeout(testFn, 8000);
 //     }
 // }
+

@@ -92,8 +92,9 @@ export class TmcSupplierMethod {
                             arr.push(obj)
                         }
                         tmcSupplier["services"] = arr
-                    }
+                    }else {
                         tmcSupplier[`${item}`] = params[`${items}`]
+                    }
                 }
             }
         }

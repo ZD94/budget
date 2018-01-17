@@ -42,44 +42,41 @@ export class CityService {
             return city;
         }
 
-        /**
-         *  master 分支，支持前端业务暂时关闭 新版地点服务
-         */
-        /*if (id == "Global") {
-           return null;
-       }
+        if (id == "Global") {
+            return null;
+        }
 
-       let uri = config.placeAPI + "/city/" + id;
-       let result;
-       try {
-           result = await request({
-               uri,
-               method: "get",
-               json: true
-           });
-       } catch (e) {
-           console.error("place 服务获取地点失败 : ", uri);
-           return null;
-       }
+        let uri = config.placeAPI + "/city/" + id;
+        let result;
+        try {
+            result = await request({
+                uri,
+                method: "get",
+                json: true
+            });
+        } catch (e) {
+            console.error("place 服务获取地点失败 : ", uri);
+            return null;
+        }
 
 
-       if (result.code != 0) {
-           throw new Error("place服务地点不存在 : " + id);
-       }
-       city = result.data;
-       city.isAbroad = !(city.countryCode == "CN");
+        if (result.code != 0) {
+            throw new Error("place服务地点不存在 : " + id);
+        }
+        city = result.data;
+        city.isAbroad = !(city.countryCode == "CN");
 
-       const alternate: any = await restfulAPIUtil.proxyHttp({
-           uri: `/city/${id}/alternate`,
-           method: 'GET'
-       });
-       for (let item of alternate.data) {
-           if (item.lang == "ctripcode") {
-               city.ctripCode = item.value;
-               break;
-           }
-       } */
-        city = await API.place.getCityInfo({ cityCode: id });
+        const alternate: any = await restfulAPIUtil.proxyHttp({
+            uri: `/city/${id}/alternate`,
+            method: 'GET'
+        });
+        for (let item of alternate.data) {
+            if (item.lang == "ctripcode") {
+                city.ctripCode = item.value;
+                break;
+            }
+        }
+        // city = await API.place.getCityInfo({ cityCode: id });
         if (city) {
             cache.set(id, city);
         }

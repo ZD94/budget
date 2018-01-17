@@ -3,6 +3,7 @@
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
  * @Last Modified time: 2018-01-15 18:04:33
+ * @Last Modified time: 2018-01-12 14:33:34
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -158,7 +159,9 @@ export class Budget {
             item.budget = await computeBudget.getBudget(item);
             /* if (item.step != STEP.FINAL) {
                 num++;
+
                 if (num < 3) {
+                if (num < 1) {
                     console.error("data-store 返回的数据不是全 FIN; 尝试重新拉取 第", num, "次");
                     return await this.getFinalBudget(budgetOrder, result, num);
                 }

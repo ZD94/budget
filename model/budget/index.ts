@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-15 18:04:33
+ * @Last Modified time: 2018-01-17 16:08:24
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -99,16 +99,16 @@ export class Budget {
 
         if (budgetOrder.step != STEP.FINAL) {
             //10s 后拉取最终预算
-            this.getFinalBudget(budgetOrder, finallyResult);
+            // this.getFinalBudget(budgetOrder, finallyResult);
         }
 
         finallyResult.step = budgetOrder.step;
         console.log("using time : ", Date.now() - times);
+        console.log("第一次预算获取结果：", finallyResult);
         return finallyResult;
     }
 
     async getFinalBudget(budgetOrder: BudgetOrder, result: any, num?: number) {
-        console.log("enter in the getFinalBudget : *********");
         num = num ? num : 0;
         let time = Date.now();
         let ps = budgetOrder.budgetData.map(async (item) => {
@@ -239,53 +239,82 @@ export let budget = new Budget();
 
 
 
+
+
+let params = {
+    preferedCurrency: 'CNY',
+    travelPolicyId: 'bb2d6960-acd0-11e7-80a9-d1533e629a64',
+    companyId: '935fbeb0-acd0-11e7-ab1e-bdc5d9f254d3',
+    staffs: [{ gender: 1, policy: 'domestic' }],
+    destinationPlacesInfo:
+        [{
+            destinationPlace: 'CT_150',
+            leaveDate: '2018-01-20T10:00:00.000Z',
+            goBackDate: '2018-01-21T01:00:00.000Z',
+            latestArrivalDateTime: '2018-01-20T10:00:00.000Z',
+            earliestGoBackDateTime: '2018-01-21T01:00:00.000Z',
+            isNeedTraffic: true,
+            isNeedHotel: true,
+            reason: ''
+        }],
+    originPlace: 'CT_131',
+    isRoundTrip: true,
+    goBackPlace: 'CT_131'
+};
+
+let params2 = {
+    "callbackUrl": "abcdf",
+    "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
+    "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
+    // "expectStep": STEP.FULL,
+    "staffs": [
+        {
+            "gender": 1,
+            "policy": "domestic"
+        }
+    ],
+    "originPlace": "CT_075",
+    "goBackPlace": "CT_075",
+    "isRoundTrip": false,
+    "destinationPlacesInfo":
+        [{
+            "destinationPlace": "CT_289",
+            "leaveDate": "2018-01-26T10:00:00.000Z",
+            "goBackDate": "2018-01-27T01:00:00.000Z",
+            "latestArrivalDateTime": "2018-01-26T10:00:00.000Z",
+            "earliestGoBackDateTime": "2018-01-27T01:00:00.000Z",
+            "isNeedTraffic": true,
+            "isNeedHotel": false,
+            "reason": ""
+        },
+        {
+            "destinationPlace": "CT_131",
+            "leaveDate": "2018-01-27T10:00:00.000Z",
+            "goBackDate": "2018-01-28T01:00:00.000Z",
+            "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
+            "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
+            "isNeedTraffic": true,
+            "isNeedHotel": true,
+            "reason": ""
+        }]
+};
+
+
 let testFn = async () => {
-    let result = await budget.getBudget({
-        "callbackUrl": "abcdf",
-        "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
-        "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
-        // "expectStep": STEP.FULL,
-        "staffs": [
-            {
-                "gender": 1,
-                "policy": "domestic"
-            }
-        ],
-        "originPlace": "1816670",
-        "goBackPlace": "1816670",
-        "isRoundTrip": false,
-        "destinationPlacesInfo":
-            [{
-                "destinationPlace": "1796231",
-                "leaveDate": "2018-01-26T10:00:00.000Z",
-                "goBackDate": "2018-01-27T01:00:00.000Z",
-                "latestArrivalDateTime": "2018-01-26T10:00:00.000Z",
-                "earliestGoBackDateTime": "2018-01-27T01:00:00.000Z",
-                "isNeedTraffic": true,
-                "isNeedHotel": false,
-                "reason": ""
-            },
-            /* {
-                "destinationPlace": "1815285",
-                "leaveDate": "2018-01-27T10:00:00.000Z",
-                "goBackDate": "2018-01-28T01:00:00.000Z",
-                "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
-                "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
-                "isNeedTraffic": true,
-                "isNeedHotel": true,
-                "reason": ""
-            } */]
-    })
+    let result = await budget.getBudget(params)
 
     console.log("result result ===>", result);
 
 }
 
 
-// let goTest = 1;
-// if (goTest) {
-//     for (let i = 0; i < 1; i++) {
-//         setTimeout(testFn, 8000);
-//     }
-// }
+
+
+
+let goTest = 1;
+if (goTest) {
+    for (let i = 0; i < 1; i++) {
+        setTimeout(testFn, 8000);
+    }
+}
 

@@ -71,6 +71,7 @@ batchRegisterErrorCode({
 
 export async function initHttp(app) {
     let prefixUrl = '/api/v1';
+    app.use(express.static(path.join(__dirname, "www")));
     app.use(prefixUrl, recordLogger);
     app.use(prefixUrl, allowCrossDomain);
     app.use(prefixUrl, jlReply);

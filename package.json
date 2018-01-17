@@ -24,7 +24,7 @@
     "@jingli/logger": "^1.0.1",
     "@jingli/patch-dnode-scrub": "^1.0.0",
     "@jingli/restful": "^2.0.1",
-    "@jingli/sign": "0.0.10",
+    "@jingli/sign": "0.0.11",
     "@jingli/zone-setup": "^1.0.1",
     "@types/lodash": "^4.14.63",
     "@types/pg": "^6.1.39",

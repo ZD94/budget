@@ -12,11 +12,15 @@ import express = require("express");
 import { authenticate } from "./auth";
 import Logger from "@jingli/logger";
 import { genSign } from "@jingli/sign";
+import OtherHttp from "./other";
+
 const logger = new Logger("http");
 
 let router = express.Router();
+let routerOther = express.Router();
 scannerDecoration(path.join(__dirname, 'controller'));
 registerControllerToRouter(router, { isShowUrls: true });
+OtherHttp(routerOther);
 
 export interface IResponse extends Response {
     jlReply: Function;
@@ -44,10 +48,7 @@ function checkOrigin(origin) {
 }
 
 function recordLogger(req, res, next) {
-    logger.log(`${req.method}  ${req.url}   ${req.headers['token']}`)
-    // logger.debug("header====>", req.headers);
-    // logger.debug("req.query====>", req.query);
-    // logger.debug("req.body====>", req.body);
+    logger.log(`${req.method}  ${req.url}`)
     return next();
 }
 
@@ -70,14 +71,16 @@ batchRegisterErrorCode({
 });
 
 export async function initHttp(app) {
-    let prefixUrl = '/api/v1';
+    app.use(recordLogger);
+    app.use(jlReply);
+    app.use(allowCrossDomain);
     app.use(express.static(path.join(__dirname, "www")));
-    app.use(prefixUrl, recordLogger);
-    app.use(prefixUrl, allowCrossDomain);
-    app.use(prefixUrl, jlReply);
+    app.use(routerOther);
+
+    let prefixUrl = '/api/v1';
     app.use(`${prefixUrl}/errorCodes`, function (req, res, next) {
         res.jlReply(reply(0, ERR_TEXT));
-    })
+    });
     app.use(prefixUrl, authenticate, router);
 }
 

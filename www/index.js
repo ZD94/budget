@@ -395,7 +395,7 @@ app.controller('debug', function ($scope, $http, $location) {
     //复制粘贴的功能
     var copyTemp = '';
 
-    let ObjData = JSON.parse(localStorage.getItem('config.json'));
+    let ObjData = "http://localhost:3001";
 
     //拿到原始数据
     if (url.key) {
@@ -416,16 +416,16 @@ app.controller('debug', function ($scope, $http, $location) {
     }
 
     //更改服务器
-    $scope.originServer = { name: '默认', url: ObjData.api + '/api/budgets' };
+    // $scope.originServer = { name: '默认', url: ObjData + '/budgets/getBudgetItems?key=Jingli2018' };
     $scope.originServers = [
-        { name: '默认', url: ObjData.api + '/api/budgets' },
-        { name: '测试', url: '//t.jingli365.com/api/budgets' },
-        { name: '本地', url: '//l.jingli365.com/api/budgets' },
-        { name: '正式', url: '//j.jingli365.com/api/budgets' }
+        { name: '默认', url: '/budget/getBudgetItems?key=Jingli2018' },
+        // { name: '测试', url: '//t.jingli365.com/api/budgets' },
+        // { name: '本地', url: '//l.jingli365.com/api/budgets' },
+        // { name: '正式', url: '//j.jingli365.com/api/budgets' }
     ]
     $scope.changeServer = function () {
         let originServer = $scope.originServer;
-        let originServerUrl = originServer.url + '?p=' + p + '&pz=' + pz + '&key=' + url.key;
+        let originServerUrl = originServer.url;
         $http.get(originServerUrl).success(function (response) {
 
 

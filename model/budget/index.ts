@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-17 16:08:24
+ * @Last Modified time: 2018-01-17 18:30:16
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -21,21 +21,22 @@ import { conf, auth } from 'server-auth';
 import config = require("@jingli/config");
 import { CityService } from "_types/city";
 import { clearTimeout } from 'timers';
-
+import { BudgetHelps } from "./helper";
 
 
 export interface GetBudgetParams extends CreateBudgetParams {
     [index: string]: any;               //qmtrip 回传的其它信息
 }
 
-export class Budget {
+export class Budget extends BudgetHelps {
+    constructor() {
+        super();
+    }
     async getBudget(params: GetBudgetParams) {
         let { callbackUrl, requestBudgetParams, companyId, travelPolicyId, staffs, expectStep = STEP.CACHE } = params;
 
         console.log('params ===========>', params);
-
         let times = Date.now();
-        // params = await this.transferPlaceId(params);
         //后期考虑 针对不同的用户生成不同的预算
         let staff = staffs[0];
         let segments = analyzeBudgetParams(params) as DataOrder[];
@@ -210,18 +211,6 @@ export class Budget {
         }
     }
 
-
-    /* 新版地点信息转换成老版本 */
-    async transferPlaceId(params: GetBudgetParams) {
-
-        params.goBackPlace = await CityService.getTransferCity(params.goBackPlace);
-        params.originPlace = await CityService.getTransferCity(params.originPlace);
-        for (let item of params.destinationPlacesInfo) {
-            item.destinationPlace = await CityService.getTransferCity(item.destinationPlace);
-        }
-        return params;
-    }
-
     async requestDataStore(params: any) {
         /* 服务稳定后，应当对请求错误执行重复拉取 */
         return await request({
@@ -301,7 +290,7 @@ let params2 = {
 
 
 let testFn = async () => {
-    let result = await budget.getBudget(params)
+    let result = await budget.getBudget(params2)
 
     console.log("result result ===>", result);
 
@@ -311,10 +300,10 @@ let testFn = async () => {
 
 
 
-let goTest = 1;
+/* let goTest = 1;
 if (goTest) {
     for (let i = 0; i < 1; i++) {
         setTimeout(testFn, 8000);
     }
 }
-
+ */

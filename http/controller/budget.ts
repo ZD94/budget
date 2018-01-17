@@ -98,6 +98,12 @@ export class BudgetController extends AbstractController {
         res.jlReply(this.reply(0, result));
     }
 
+    @Router('/getBudgetItems/:id', 'get')
+    async getBudgetItems(req: IRequest, res: IResponse, next: Function) {
+        let result = await ApiTravelBudget.getBudgetItems(req.query);
+        res.jlReply(this.reply(0, result))
+    }
+
     /**
      *  preferedCurrency 逻辑并未考虑
      * 

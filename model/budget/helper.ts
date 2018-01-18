@@ -7,6 +7,7 @@ import { IStaff, EGender } from "_types/budget";
 const moment = require("moment");
 import 'moment-timezone';
 import { Models } from "_types";
+import { BudgetItem } from "_types/budget";
 
 export function countRoom(staffs: IStaff[], combineRoom?: boolean) {
     if (!combineRoom) {

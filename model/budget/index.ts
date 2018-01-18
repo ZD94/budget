@@ -2,14 +2,14 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-12 14:33:34
+ * @Last Modified time: 2018-01-18 11:39:55
  * @content what is the content of this file. */
 
 export * from "./interface";
 export * from "./strategy";
 
-import { CreateBudgetParams, analyzeBudgetParams } from "./analyzeParams";
-import { STEP, BudgetOrder, DataOrder, BudgetType, SearchHotelParams, SearchTicketParams } from "./interface";
+import { analyzeBudgetParams } from "./analyzeParams";
+import { STEP, BudgetOrder, DataOrder, BudgetType, SearchHotelParams, SearchTicketParams, BudgetFinallyResult, GetBudgetParams } from "./interface";
 import uuid = require("uuid");
 var API = require("@jingli/dnode-api");
 import getAllPrefer from "./getAllPrefer";
@@ -20,21 +20,19 @@ import { verifySign, genSign } from '@jingli/sign';
 import { conf, auth } from 'server-auth';
 import config = require("@jingli/config");
 import { CityService } from "_types/city";
+import { Models } from "_types";
+import { clearTimeout } from 'timers';
+import { BudgetHelps } from "./helper";
 
-
-
-export interface GetBudgetParams extends CreateBudgetParams {
-    [index: string]: any;               //qmtrip 回传的其它信息
-}
-
-export class Budget {
-    async getBudget(params: GetBudgetParams) {
+export class Budget extends BudgetHelps {
+    constructor() {
+        super();
+    }
+    async getBudget(params: GetBudgetParams): Promise<BudgetFinallyResult> {
         let { callbackUrl, requestBudgetParams, companyId, travelPolicyId, staffs, expectStep = STEP.CACHE } = params;
 
         console.log('params ===========>', params);
-
         let times = Date.now();
-        // params = await this.transferPlaceId(params);
         //后期考虑 针对不同的用户生成不同的预算
         let staff = staffs[0];
         let segments = analyzeBudgetParams(params) as DataOrder[];
@@ -44,6 +42,7 @@ export class Budget {
             id: uuid.v1(),
             budgetData: [],
             callbackUrl,
+            params
         } as BudgetOrder;
 
         /* perfect the dataOrders. */
@@ -87,67 +86,96 @@ export class Budget {
         let finallyResult = {
             budgets: [],
             step: STEP.FINAL
-        };
+        } as BudgetFinallyResult;
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
+            finallyResult.budgets.push(item.budget);
             if (item.step != STEP.FINAL) {
                 budgetOrder.step = STEP.CACHE;
             }
-            finallyResult.budgets.push(item.budget);
         }
 
         if (budgetOrder.step != STEP.FINAL) {
             //10s 后拉取最终预算
-            this.getFinalBudget(budgetOrder);
+            this.getFinalBudget(budgetOrder, finallyResult);
         }
 
         finallyResult.step = budgetOrder.step;
-        // console.log('**********', JSON.stringify(finallyResult));
         console.log("using time : ", Date.now() - times);
+        console.log("第一次预算获取结果：", finallyResult);
+        let budgetItem = Models.budget.create({
+            id: budgetOrder.id,
+            query: budgetOrder.params,
+            result: finallyResult
+        });
+        await budgetItem.save();
         return finallyResult;
     }
 
-    async getFinalBudget(budgetOrder: BudgetOrder, num?: number) {
+    async getFinalBudget(budgetOrder: BudgetOrder, result: any, num?: number) {
         num = num ? num : 0;
         let time = Date.now();
-
         let ps = budgetOrder.budgetData.map(async (item) => {
             if (item.step == STEP.FINAL) {
                 return item;
             }
 
             item.step = STEP.FINAL;  //预期final数据
-            let dataStore = await this.requestDataStore(item);
-            item.data = dataStore.data;
-            item.step = dataStore.step;
-            item.channels = dataStore.channels;
+            try {
+                let dataStore = await this.requestDataStore(item);
+                if (dataStore.data && dataStore.data.length) {
+                    item.data = dataStore.data;
+                    item.step = dataStore.step;
+                    item.channels = dataStore.channels;
+                }
+            } catch (e) {
+                console.error("requestDataStore error !!!");
+                console.error(e);
+            }
+
             return item;
         });
 
-
-        budgetOrder.budgetData = await Promise.all(ps);
+        try {
+            budgetOrder.budgetData = await function (): Promise<DataOrder[]> {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        reject("DataStore FIN data, request Time out!");
+                    }, 1.5 * 60 * 1000);
+                    Promise.all(ps).then((result: DataOrder[]) => {
+                        resolve(result);
+                    })
+                });
+            }();
+        } catch (e) {
+            console.log(e);
+        }
 
         /* 整理预算数据输出 */
         let finallyResult = {
             budgets: [],
             step: STEP.FINAL
-        };
+        } as BudgetFinallyResult;
         //计算打分
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
             item.budget = await computeBudget.getBudget(item);
-            if (item.step != STEP.FINAL) {
+            /* if (item.step != STEP.FINAL) {
                 num++;
-                if (num < 1) {
+                if (num < 3) {
                     console.error("data-store 返回的数据不是全 FIN; 尝试重新拉取 第", num, "次");
-                    return await this.getFinalBudget(budgetOrder, num);
+                    return await this.getFinalBudget(budgetOrder, result, num);
                 }
-            }
-
+            } */
             finallyResult.budgets.push(item.budget);
         }
 
         console.log("finalBudget Time using: ", Date.now() - time);
+        let budgetItem = await Models.budget.get(budgetOrder.id);
+        if (budgetItem) {
+            budgetItem.resultFinally = finallyResult;
+            await budgetItem.save();
+        }
 
         await this.sendBudget(finallyResult, budgetOrder.callbackUrl);
     }
@@ -159,11 +187,10 @@ export class Budget {
             return;
         }
         // console.log("sendBudget  sendBudget  ===>", callbackUrl);
-        // console.log("sendBudget sendBudget  ",result);
+        console.log("sendBudget sendBudget ************************************** ", num, "    ", result);
 
         let timestamp = Math.ceil(Date.now() / 1000);
         let sign = genSign(result, timestamp, config.agent.appSecret);
-
         try {
             let ret = await request({
                 uri: callbackUrl,
@@ -191,26 +218,14 @@ export class Budget {
         }
     }
 
-
-    /* 新版地点信息转换成老版本 */
-    async transferPlaceId(params: GetBudgetParams) {
-
-        params.goBackPlace = await CityService.getTransferCity(params.goBackPlace);
-        params.originPlace = await CityService.getTransferCity(params.originPlace);
-        for (let item of params.destinationPlacesInfo) {
-            item.destinationPlace = await CityService.getTransferCity(item.destinationPlace);
-        }
-        return params;
-    }
-
     async requestDataStore(params: any) {
-        let ret = await request({
+        /* 服务稳定后，应当对请求错误执行重复拉取 */
+        return await request({
             uri: config.dataStore + "/searchData",
             method: "post",
             body: params,
             json: true
         });
-        return ret;
     }
 }
 
@@ -218,50 +233,71 @@ export let budget = new Budget();
 
 
 
+let params = {
+    preferedCurrency: 'CNY',
+    travelPolicyId: 'bb2d6960-acd0-11e7-80a9-d1533e629a64',
+    companyId: '935fbeb0-acd0-11e7-ab1e-bdc5d9f254d3',
+    staffs: [{ gender: 1, policy: 'domestic' }],
+    destinationPlacesInfo:
+        [{
+            destinationPlace: 'CT_150',
+            leaveDate: '2018-01-20T10:00:00.000Z',
+            goBackDate: '2018-01-21T01:00:00.000Z',
+            latestArrivalDateTime: '2018-01-20T10:00:00.000Z',
+            earliestGoBackDateTime: '2018-01-21T01:00:00.000Z',
+            isNeedTraffic: true,
+            isNeedHotel: true,
+            reason: ''
+        }],
+    originPlace: 'CT_131',
+    isRoundTrip: true,
+    goBackPlace: 'CT_131'
+};
+
+let params2 = {
+    "callbackUrl": "abcdf",
+    "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
+    "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
+    // "expectStep": STEP.FULL,
+    "staffs": [
+        {
+            "gender": 1,
+            "policy": "domestic"
+        }
+    ],
+    "originPlace": "CT_075",
+    "goBackPlace": "CT_075",
+    "isRoundTrip": false,
+    "destinationPlacesInfo":
+        [{
+            "destinationPlace": "CT_289",
+            "leaveDate": "2018-01-26T10:00:00.000Z",
+            "goBackDate": "2018-01-27T01:00:00.000Z",
+            "latestArrivalDateTime": "2018-01-26T10:00:00.000Z",
+            "earliestGoBackDateTime": "2018-01-27T01:00:00.000Z",
+            "isNeedTraffic": true,
+            "isNeedHotel": false,
+            "reason": ""
+        },
+        {
+            "destinationPlace": "CT_131",
+            "leaveDate": "2018-01-27T10:00:00.000Z",
+            "goBackDate": "2018-01-28T01:00:00.000Z",
+            "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
+            "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
+            "isNeedTraffic": true,
+            "isNeedHotel": true,
+            "reason": ""
+        }]
+};
 
 
 let testFn = async () => {
-    let result = await budget.getBudget({
-        "callbackUrl": "abcdf",
-        "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
-        "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
-        "expectStep": STEP.CACHE,
-        "staffs": [
-            {
-                "gender": 1,
-                "policy": "domestic"
-            }
-        ],
-        "originPlace": "2038349",
-        "goBackPlace": "2038349",
-        "isRoundTrip": false,
-        "destinationPlacesInfo":
-            [{
-                "destinationPlace": "1815285",
-                "leaveDate": "2018-01-26T10:00:00.000Z",
-                "goBackDate": "2018-01-27T01:00:00.000Z",
-                "latestArrivalDateTime": "2018-01-26T10:00:00.000Z",
-                "earliestGoBackDateTime": "2018-01-27T01:00:00.000Z",
-                "isNeedTraffic": true,
-                "isNeedHotel": true,
-                "reason": ""
-            },
-            {
-                "destinationPlace": "1796231",
-                "leaveDate": "2018-01-27T10:00:00.000Z",
-                "goBackDate": "2018-01-28T01:00:00.000Z",
-                "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
-                "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
-                "isNeedTraffic": true,
-                "isNeedHotel": true,
-                "reason": ""
-            }]
-    })
+    let result = await budget.getBudget(params2)
 
-    console.log("result result ===>", JSON.stringify(result));
+    console.log("result result ===>", result);
 
 }
-
 
 /* let goTest = 1;
 if (goTest) {

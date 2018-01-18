@@ -2,14 +2,14 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-17 18:30:16
+ * @Last Modified time: 2018-01-18 11:39:55
  * @content what is the content of this file. */
 
 export * from "./interface";
 export * from "./strategy";
 
-import { CreateBudgetParams, analyzeBudgetParams } from "./analyzeParams";
-import { STEP, BudgetOrder, DataOrder, BudgetType, SearchHotelParams, SearchTicketParams } from "./interface";
+import { analyzeBudgetParams } from "./analyzeParams";
+import { STEP, BudgetOrder, DataOrder, BudgetType, SearchHotelParams, SearchTicketParams, BudgetFinallyResult, GetBudgetParams } from "./interface";
 import uuid = require("uuid");
 var API = require("@jingli/dnode-api");
 import getAllPrefer from "./getAllPrefer";
@@ -20,19 +20,15 @@ import { verifySign, genSign } from '@jingli/sign';
 import { conf, auth } from 'server-auth';
 import config = require("@jingli/config");
 import { CityService } from "_types/city";
+import { Models } from "_types";
 import { clearTimeout } from 'timers';
 import { BudgetHelps } from "./helper";
-
-
-export interface GetBudgetParams extends CreateBudgetParams {
-    [index: string]: any;               //qmtrip 回传的其它信息
-}
 
 export class Budget extends BudgetHelps {
     constructor() {
         super();
     }
-    async getBudget(params: GetBudgetParams) {
+    async getBudget(params: GetBudgetParams): Promise<BudgetFinallyResult> {
         let { callbackUrl, requestBudgetParams, companyId, travelPolicyId, staffs, expectStep = STEP.CACHE } = params;
 
         console.log('params ===========>', params);
@@ -46,6 +42,7 @@ export class Budget extends BudgetHelps {
             id: uuid.v1(),
             budgetData: [],
             callbackUrl,
+            params
         } as BudgetOrder;
 
         /* perfect the dataOrders. */
@@ -89,7 +86,7 @@ export class Budget extends BudgetHelps {
         let finallyResult = {
             budgets: [],
             step: STEP.FINAL
-        };
+        } as BudgetFinallyResult;
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
             finallyResult.budgets.push(item.budget);
@@ -100,12 +97,18 @@ export class Budget extends BudgetHelps {
 
         if (budgetOrder.step != STEP.FINAL) {
             //10s 后拉取最终预算
-            // this.getFinalBudget(budgetOrder, finallyResult);
+            this.getFinalBudget(budgetOrder, finallyResult);
         }
 
         finallyResult.step = budgetOrder.step;
         console.log("using time : ", Date.now() - times);
         console.log("第一次预算获取结果：", finallyResult);
+        let budgetItem = Models.budget.create({
+            id: budgetOrder.id,
+            query: budgetOrder.params,
+            result: finallyResult
+        });
+        await budgetItem.save();
         return finallyResult;
     }
 
@@ -152,7 +155,7 @@ export class Budget extends BudgetHelps {
         let finallyResult = {
             budgets: [],
             step: STEP.FINAL
-        };
+        } as BudgetFinallyResult;
         //计算打分
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
@@ -164,11 +167,15 @@ export class Budget extends BudgetHelps {
                     return await this.getFinalBudget(budgetOrder, result, num);
                 }
             } */
-
             finallyResult.budgets.push(item.budget);
         }
 
         console.log("finalBudget Time using: ", Date.now() - time);
+        let budgetItem = await Models.budget.get(budgetOrder.id);
+        if (budgetItem) {
+            budgetItem.resultFinally = finallyResult;
+            await budgetItem.save();
+        }
 
         await this.sendBudget(finallyResult, budgetOrder.callbackUrl);
     }
@@ -223,10 +230,6 @@ export class Budget extends BudgetHelps {
 }
 
 export let budget = new Budget();
-
-
-
-
 
 
 
@@ -296,14 +299,9 @@ let testFn = async () => {
 
 }
 
-
-
-
-
 /* let goTest = 1;
 if (goTest) {
     for (let i = 0; i < 1; i++) {
         setTimeout(testFn, 8000);
     }
-}
- */
+} */

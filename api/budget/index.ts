@@ -907,21 +907,21 @@ class ApiTravelBudget {
         // }
     }
 
-    static async getBudgetCache(params: { id: string, isRetMarkedData?: boolean }): Promise<FinalBudgetResultInterface> {
-        let { id, isRetMarkedData } = params;
-        if (!id) {
-            throw L.ERR.INVALID_ARGUMENT("id");
-        }
-        if (!isRetMarkedData) {
-            isRetMarkedData = false;
-        }
-        let m = await Models.budget.get(id);
-        if (!m) {
-            throw L.ERR.INVALID_ARGUMENT("id");
-        }
-        m.result.id = m.id;
-        return handleBudgetResult(m.result, isRetMarkedData);
-    }
+    /*  static async getBudgetCache(params: { id: string, isRetMarkedData?: boolean }): Promise<FinalBudgetResultInterface> {
+         let { id, isRetMarkedData } = params;
+         if (!id) {
+             throw L.ERR.INVALID_ARGUMENT("id");
+         }
+         if (!isRetMarkedData) {
+             isRetMarkedData = false;
+         }
+         let m = await Models.budget.get(id);
+         if (!m) {
+             throw L.ERR.INVALID_ARGUMENT("id");
+         }
+         m.result.id = m.id;
+         return handleBudgetResult(m.result, isRetMarkedData);
+     } */
 
     /**
      * 用户调试预算

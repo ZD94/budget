@@ -368,14 +368,13 @@ app.controller('debug', function ($scope, $http, $location) {
         10: '无座'
     }
     var url = $location.search();
-    var p;
-    var pz;
-    if (url.p) {
-        p = url.p;
+    if (!url.key) {
+        alert("请在URL中输入key");
+        return;
     }
-    if (url.pz) {
-        pz = url.pz;
-    }
+    url.page = url.page || 0;
+    url.pageSize = url.pageSize || 20;
+
     $scope.translate_result = translate_result;
     $scope.prefers = available_prefer;
     $scope.ori_prefers = [];
@@ -398,38 +397,42 @@ app.controller('debug', function ($scope, $http, $location) {
     let ObjData = "http://localhost:3001";
 
     //拿到原始数据
-    if (url.key) {
-        /*$http.get('/api/budgets?p='+p+'&pz='+pz+'&key='+url.key)*/
-        $http.get(ObjData.api + '/api/budgets?p=' + p + '&pz=' + pz + '&key=' + url.key)
-            .success(function (response) {
-                for (let i = 0; i < response.length; i++) {
-                    let arr = response[i].markedData;
-                    for (let j = 0; j < arr.length; j++) {
-                        let dep = arr[j].departDateTime;
-                        let arrival = arr[j].arrivalDateTime;
-                        arr[j].departDateTime = new Date(dep);
-                        arr[j].arrivalDateTime = new Date(arrival);
-                    }
-                }
-                $scope.originDatas = response;
-            });
-    }
+    // if (url.key) {
+    //     /*$http.get('/api/budgets?p='+p+'&pz='+pz+'&key='+url.key)*/
+    //     $http.get(ObjData.api + '/api/budgets?p=' + p + '&pz=' + pz + '&key=' + url.key)
+    //         .success(function (response) {
+    //             for (let i = 0; i < response.length; i++) {
+    //                 let arr = response[i].markedData;
+    //                 for (let j = 0; j < arr.length; j++) {
+    //                     let dep = arr[j].departDateTime;
+    //                     let arrival = arr[j].arrivalDateTime;
+    //                     arr[j].departDateTime = new Date(dep);
+    //                     arr[j].arrivalDateTime = new Date(arrival);
+    //                 }
+    //             }
+    //             $scope.originDatas = response;
+    //         });
+    // }
 
     //更改服务器
-    // $scope.originServer = { name: '默认', url: ObjData + '/budgets/getBudgetItems?key=Jingli2018' };
     $scope.originServers = [
-        { name: '默认', url: '/budget/getBudgetItems?key=Jingli2018' },
-        // { name: '测试', url: '//t.jingli365.com/api/budgets' },
-        // { name: '本地', url: '//l.jingli365.com/api/budgets' },
-        // { name: '正式', url: '//j.jingli365.com/api/budgets' }
+        { name: '开发', url: 'http://l.jingli365.com/budget/getBudgetItems' },
+        { name: '测试', url: 'http://t.jingli365.com/budget/getBudgetItems' },
+        { name: '正式', url: 'http://j.jingli365.com/budget/getBudgetItems' }
     ]
     $scope.changeServer = function () {
-        let originServer = $scope.originServer;
-        let originServerUrl = originServer.url;
+
+
+
+        let originServerUrl = $scope.originServer.url + `?key=${url.key}&page=${url.page}&pageSize=${url.pageSize}`;
         $http.get(originServerUrl).success(function (response) {
+            if (response.code != 0) {
+                alert("数据请求出错，请检查key");
+                console.log(response);
+                return;
+            }
 
-
-            let responseArr = response;
+            let responseArr = response.data;
             for (let i = 0; i < responseArr.length; i++) {
                 let arr = responseArr[i].markedData;
                 for (let j = 0; j < arr.length; j++) {
@@ -442,8 +445,6 @@ app.controller('debug', function ($scope, $http, $location) {
                 }
             }
             $scope.originDatas = responseArr;
-
-
         })
     }
 
@@ -463,7 +464,8 @@ app.controller('debug', function ($scope, $http, $location) {
     });
 
     $scope.getBudget = function () {
-
+        //没什么用；
+        return;
         //翻译舱位
         levelChange();
         //  将价格区间的json字符串转换为json对象
@@ -476,10 +478,10 @@ app.controller('debug', function ($scope, $http, $location) {
         var policy = JSON.stringify($scope.policy);
         let originServer = $scope.originServer;
         let originServerUrl = originServer.url + '?key=' + url.key;
-        $.post(originServerUrl, { originData: originData, query: query, policy: policy, prefers: prefers, type: type }, function (datas) {
-            $scope.result = datas;
-            $scope.originData.markedData = datas.markedScoreData;
-        }, "json")
+        /*  $.post(originServerUrl, { originData: originData, query: query, policy: policy, prefers: prefers, type: type }, function (datas) {
+             $scope.result = datas;
+             $scope.originData.markedData = datas.markedScoreData;
+         }, "json") */
 
 
 

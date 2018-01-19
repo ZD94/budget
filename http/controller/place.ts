@@ -22,7 +22,8 @@ export class PlaceController extends AbstractController {
 
     async get(req, res, next) {
         let { id } = req.params;
-        let city = await CityService.getCity(id);
+        // let city = await CityService.getCity(id);
+        let city = await API.place.getCityInfo({ cityCode: id });
         if (!city) {
             return res.json(this.reply(404, null));
         }

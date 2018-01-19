@@ -141,7 +141,7 @@ export class CityService {
             if (item.fcode == "AIRP") {
                 return item.countryCode == city.countryCode;
             } else {
-                return item.countryCode == city.countryCode && item.type == PlaceType.GTRAIN;
+                return item.countryCode == city.countryCode;
             }
         })
 

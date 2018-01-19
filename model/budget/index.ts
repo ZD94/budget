@@ -2,18 +2,19 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-18 11:39:55
+ * @Last Modified time: 2018-01-19 17:53:03
  * @content what is the content of this file. */
 
 export * from "./interface";
 export * from "./strategy";
 
 import { analyzeBudgetParams } from "./analyzeParams";
-import { STEP, BudgetOrder, DataOrder, BudgetType, SearchHotelParams, SearchTicketParams, BudgetFinallyResult, GetBudgetParams } from "./interface";
+import { STEP, BudgetOrder, DataOrder, BudgetType, SearchHotelParams, SearchTicketParams, SearchSubsidyParams, BudgetFinallyResult, GetBudgetParams } from "./interface";
 import uuid = require("uuid");
 var API = require("@jingli/dnode-api");
 import getAllPrefer from "./getAllPrefer";
 import computeBudget from "./computeBudget";
+import getSubsidy from "./getSubsidy";
 const cache = require("common/cache");
 let request = require("request-promise");
 import { verifySign, genSign } from '@jingli/sign';
@@ -23,6 +24,8 @@ import { CityService } from "_types/city";
 import { Models } from "_types";
 import { clearTimeout } from 'timers';
 import { BudgetHelps } from "./helper";
+
+import "test/api/budget.test";
 
 export class Budget extends BudgetHelps {
     constructor() {
@@ -55,7 +58,16 @@ export class Budget extends BudgetHelps {
 
         /* request data-store */
         let ps = budgetOrder.budgetData.map(async (item: DataOrder, index) => {
-            //全价数据获取，如果出错直接抛出
+            //获取补助，之后获取
+            if (item.type == 3) {
+                let input = item.input as SearchSubsidyParams;
+                item.budget = await getSubsidy.getSubsidyItem(companyId,
+                    travelPolicyId, input);
+                item.budget.index = item.index;
+                return item;
+            }
+
+            //数据获取，如果出错直接抛出
             let dataStore = this.requestDataStore(item);
             //获取prefer
             let prefer = getAllPrefer.getPrefer({
@@ -66,17 +78,14 @@ export class Budget extends BudgetHelps {
                 input: item.input
             });
 
-            //获取补助，之后获取
-
             let ps = await Promise.all([await dataStore, await prefer]);
             item.data = ps[0].data;
             item.step = ps[0].step;
             item.channels = ps[0].channels;
             item.prefer = ps[1];
-
             //进行打分，得出最终预算
             item.budget = await computeBudget.getBudget(item);
-            item.budget.index = item.index; //方便前端分组
+            item.budget.index = item.index; //方便前端分组            
             return item;
         });
 
@@ -186,7 +195,6 @@ export class Budget extends BudgetHelps {
         if (!callbackUrl) {
             return;
         }
-        // console.log("sendBudget  sendBudget  ===>", callbackUrl);
         console.log("sendBudget sendBudget ************************************** ", num, "    ", result);
 
         let timestamp = Math.ceil(Date.now() / 1000);
@@ -207,7 +215,7 @@ export class Budget extends BudgetHelps {
             console.error("事件推送失败, 次数：", num);
             console.error(e);
             num++;
-            if (num >= 5) {
+            if (num >= 3) {
                 console.error("*****", num, " 次后还是失败。事件推送失败!");
                 return;
             } else {
@@ -230,78 +238,3 @@ export class Budget extends BudgetHelps {
 }
 
 export let budget = new Budget();
-
-
-
-let params = {
-    preferedCurrency: 'CNY',
-    travelPolicyId: 'bb2d6960-acd0-11e7-80a9-d1533e629a64',
-    companyId: '935fbeb0-acd0-11e7-ab1e-bdc5d9f254d3',
-    staffs: [{ gender: 1, policy: 'domestic' }],
-    destinationPlacesInfo:
-        [{
-            destinationPlace: 'CT_150',
-            leaveDate: '2018-01-20T10:00:00.000Z',
-            goBackDate: '2018-01-21T01:00:00.000Z',
-            latestArrivalDateTime: '2018-01-20T10:00:00.000Z',
-            earliestGoBackDateTime: '2018-01-21T01:00:00.000Z',
-            isNeedTraffic: true,
-            isNeedHotel: true,
-            reason: ''
-        }],
-    originPlace: 'CT_131',
-    isRoundTrip: true,
-    goBackPlace: 'CT_131'
-};
-
-let params2 = {
-    "callbackUrl": "abcdf",
-    "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
-    "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
-    // "expectStep": STEP.FULL,
-    "staffs": [
-        {
-            "gender": 1,
-            "policy": "domestic"
-        }
-    ],
-    "originPlace": "CT_075",
-    "goBackPlace": "CT_075",
-    "isRoundTrip": false,
-    "destinationPlacesInfo":
-        [{
-            "destinationPlace": "CT_289",
-            "leaveDate": "2018-01-26T10:00:00.000Z",
-            "goBackDate": "2018-01-27T01:00:00.000Z",
-            "latestArrivalDateTime": "2018-01-26T10:00:00.000Z",
-            "earliestGoBackDateTime": "2018-01-27T01:00:00.000Z",
-            "isNeedTraffic": true,
-            "isNeedHotel": false,
-            "reason": ""
-        },
-        {
-            "destinationPlace": "CT_131",
-            "leaveDate": "2018-01-27T10:00:00.000Z",
-            "goBackDate": "2018-01-28T01:00:00.000Z",
-            "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
-            "earliestGoBackDateTime": "2018-01-28T01:00:00.000Z",
-            "isNeedTraffic": true,
-            "isNeedHotel": true,
-            "reason": ""
-        }]
-};
-
-
-let testFn = async () => {
-    let result = await budget.getBudget(params2)
-
-    console.log("result result ===>", result);
-
-}
-
-/* let goTest = 1;
-if (goTest) {
-    for (let i = 0; i < 1; i++) {
-        setTimeout(testFn, 8000);
-    }
-} */

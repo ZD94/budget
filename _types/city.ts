@@ -30,8 +30,8 @@ export interface ICity {
 }
 
 export enum PlaceType {
-    GTRAIN = 1,
-    TRAIN = 2
+    GTRAIN = "G_RSTN",
+    TRAIN = "RSTN"
 
 }
 export class CityService {
@@ -141,7 +141,7 @@ export class CityService {
             if (item.fcode == "AIRP") {
                 return item.countryCode == city.countryCode;
             } else {
-                return item.countryCode == city.countryCode && item.type == PlaceType.GTRAIN;
+                return item.countryCode == city.countryCode && item.fcode == PlaceType.GTRAIN;
             }
         })
 

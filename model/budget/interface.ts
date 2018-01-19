@@ -6,6 +6,8 @@
  * @content 预算相关接口定义 */
 
 export let defaultCurrencyUnit = 'CNY';
+import { CreateBudgetParams, analyzeBudgetParams } from "./analyzeParams";
+import { Budget } from '_types/budget';
 
 export interface SearchHotelParams {
     checkInDate: string;
@@ -36,12 +38,6 @@ export enum STEP {
     FINAL = "FIN"
 }
 
-/* export interface BudgetDataItem {
-    id: string;
-    data: any[];
-    step: STEP
-} */
-
 /* 分析出的预算请求参数 */
 export interface BudgetItemParams {
     id: string;
@@ -55,17 +51,26 @@ export interface DataOrder extends BudgetItemParams {
     channels: string[];   //将来可从其它渠道注入
     step: STEP;
     data: any[];          //dataStore 返回数据
-    budget: any;
-    prefer: any;             //打分使用的prefer项
+    budget: any;          //这一项的预算
+    prefer: any;          //打分使用的prefer项
 }
 
-/* 预算订单 对象 */
+/* 预算订单对象 */
 export interface BudgetOrder {
     id: string;                 //BudgetOrder标示
     step: STEP;
     budgetData: DataOrder[];              //保存data-store拉取数据
     callbackUrl: string;        //回调地址
-
-    createBudgetParam?: any;    //预算请求参数, 以前API.createBudget参数, delete finally.
+    params: GetBudgetParams;    //请求参数
 }
 
+/* 预算请求参数 */
+export interface GetBudgetParams extends CreateBudgetParams {
+    [index: string]: any;               //qmtrip 回传的其它信息
+}
+
+/* 预算返回结果 */
+export interface BudgetFinallyResult {
+    step: STEP;
+    budgets: any[]
+}

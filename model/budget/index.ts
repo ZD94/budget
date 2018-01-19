@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-19 17:53:03
+ * @Last Modified time: 2018-01-19 18:59:29
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -25,8 +25,10 @@ import { Models } from "_types";
 import { clearTimeout } from 'timers';
 import { BudgetHelps } from "./helper";
 
-import "test/api/budget.test";
-
+/**
+ * test
+ * import "test/api/budget.test";
+ */
 export class Budget extends BudgetHelps {
     constructor() {
         super();
@@ -125,7 +127,7 @@ export class Budget extends BudgetHelps {
         num = num ? num : 0;
         let time = Date.now();
         let ps = budgetOrder.budgetData.map(async (item) => {
-            if (item.step == STEP.FINAL) {
+            if (item.step == STEP.FINAL || item.type == BudgetType.SUBSIDY) {
                 return item;
             }
 
@@ -168,7 +170,9 @@ export class Budget extends BudgetHelps {
         //计算打分
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
-            item.budget = await computeBudget.getBudget(item);
+            if (item.type != BudgetType.SUBSIDY) {
+                item.budget = await computeBudget.getBudget(item);
+            }
             /* if (item.step != STEP.FINAL) {
                 num++;
                 if (num < 3) {

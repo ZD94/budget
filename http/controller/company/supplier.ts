@@ -130,7 +130,7 @@ export class SupplierController extends AbstractController {
         if (params.companyId == 'null' || params.companyId == '') {
             params.companyId = null;
         }
-        const {companyId} = req.session;
+        const {companyId} = req.query;
 
 
         let query = {where: {companyId}};

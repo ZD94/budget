@@ -10,6 +10,8 @@ import { Table, Field, Create } from "common/model/common";
 import { Models } from "_types/index";
 import uuid = require("uuid");
 import { Types } from "../common/model/index";
+import { GetBudgetParams, BudgetFinallyResult } from "model/budget"
+
 export enum EShipCabin {
 }
 
@@ -366,12 +368,16 @@ export class Budget extends ModelObject {
     set id(id: string) { }
 
     @Field({ type: Types.JSONB })
-    get query(): IQueryBudgetParams { return null }
-    set query(qs: IQueryBudgetParams) { }
+    get query(): GetBudgetParams { return null }
+    set query(qs: GetBudgetParams) { }
 
     @Field({ type: Types.JSONB })
-    get result(): FinalBudgetResultInterface { return null }
-    set result(result: FinalBudgetResultInterface) { }
+    get result(): BudgetFinallyResult { return null }
+    set result(result: BudgetFinallyResult) { }
+
+    @Field({ type: Types.JSONB })
+    get resultFinally(): BudgetFinallyResult { return null }
+    set resultFinally(result: BudgetFinallyResult) { }
 }
 
 @Table(Models.budgetItem, "budget.")

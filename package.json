@@ -28,7 +28,7 @@
     "@jingli/zone-setup": "^1.0.1",
     "@types/lodash": "^4.14.63",
     "@types/pg": "^6.1.39",
-    "@types/sequelize": "^4.0.51",
+    "@types/sequelize": "4.0.51",
     "app-module-path": "2.2.0",
     "assert": "1.4.1",
     "body-parser": "1.17.1",

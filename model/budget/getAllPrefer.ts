@@ -17,7 +17,7 @@ import L from '@jingli/language';
 let moment = require("moment");
 require("moment-timezone");
 import { HotelPriceLimitType } from "_types/company";
-import { BudgetType, SearchHotelParams, SearchTicketParams } from "./interface";
+import { BudgetType, SearchHotelParams, SearchTicketParams, SearchSubsidyParams } from "./interface";
 
 
 export interface AllPreferParams {
@@ -25,7 +25,7 @@ export interface AllPreferParams {
     travelPolicyId: string;
     staff: IStaff;
     type: BudgetType;
-    input: SearchHotelParams | SearchTicketParams;
+    input: SearchHotelParams | SearchTicketParams | SearchSubsidyParams;
 }
 
 

@@ -8,6 +8,7 @@
 export let defaultCurrencyUnit = 'CNY';
 import { CreateBudgetParams, analyzeBudgetParams } from "./analyzeParams";
 import { Budget } from '_types/budget';
+import { ICity } from '_types/city';
 
 export interface SearchHotelParams {
     checkInDate: string;
@@ -27,9 +28,17 @@ export interface SearchTicketParams {
     latestArrivalDateTime?: string;     //打分最终会用到
 }
 
+export interface SearchSubsidyParams {
+    city: string | ICity;
+    beginTime: string;
+    endTime: string;
+    days: number;     //天数
+}
+
 export enum BudgetType {
     TRAFFICT = 1,
-    HOTEL = 2
+    HOTEL = 2,
+    SUBSIDY = 3
 }
 
 export enum STEP {
@@ -42,7 +51,7 @@ export enum STEP {
 export interface BudgetItemParams {
     id: string;
     type: BudgetType;
-    input: SearchHotelParams | SearchTicketParams;
+    input: SearchHotelParams | SearchTicketParams | SearchSubsidyParams;
     index: number;          //标记段与段之间的关系
 }
 

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-18 11:39:55
+ * @Last Modified time: 2018-01-24 14:09:41
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -160,6 +160,7 @@ export class Budget extends BudgetHelps {
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
             item.budget = await computeBudget.getBudget(item);
+            item.budget.index = item.index;
             /* if (item.step != STEP.FINAL) {
                 num++;
                 if (num < 3) {

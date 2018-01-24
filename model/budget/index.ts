@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-18 11:39:55
+ * @Last Modified time: 2018-01-24 10:40:27
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -183,11 +183,11 @@ export class Budget extends BudgetHelps {
     /* 执行发送 5 次逻辑，5次后最终报错 */
     async sendBudget(result: any, callbackUrl: string, num?: number) {
         num = num ? num : 0;
+        console.log("sendBudget sendBudget ************************************** ", num, "    ", result);
+
         if (!callbackUrl) {
             return;
         }
-        // console.log("sendBudget  sendBudget  ===>", callbackUrl);
-        console.log("sendBudget sendBudget ************************************** ", num, "    ", result);
 
         let timestamp = Math.ceil(Date.now() / 1000);
         let sign = genSign(result, timestamp, config.agent.appSecret);
@@ -255,7 +255,7 @@ let params = {
 };
 
 let params2 = {
-    "callbackUrl": "abcdf",
+    "callbackUrl": "",
     "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
     "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
     // "expectStep": STEP.FULL,
@@ -280,7 +280,7 @@ let params2 = {
             "reason": ""
         },
         {
-            "destinationPlace": "CT_131",
+            "destinationPlace": "1790384",    //西安
             "leaveDate": "2018-01-27T10:00:00.000Z",
             "goBackDate": "2018-01-28T01:00:00.000Z",
             "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
@@ -294,9 +294,6 @@ let params2 = {
 
 let testFn = async () => {
     let result = await budget.getBudget(params2)
-
-    console.log("result result ===>", result);
-
 }
 
 /* let goTest = 1;

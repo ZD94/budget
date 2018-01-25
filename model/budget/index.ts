@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-25 14:53:34
+ * @Last Modified time: 2018-01-25 17:29:57
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -223,7 +223,7 @@ export class Budget extends BudgetHelps {
     completeBudget(item: DataOrder) {
         let budget = item.budget;
         budget.index = item.index;
-        budget.tripType = item.tripType;
+        budget.backOrGo = item.backOrGo;
         delete budget.prefers;
         delete budget.markedScoreData;
         return budget;

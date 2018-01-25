@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-21 17:09:03 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2017-12-22 17:12:00
+ * @Last Modified time: 2018-01-25 17:29:39
  * @content 预算相关接口定义 */
 
 export let defaultCurrencyUnit = 'CNY';
@@ -57,7 +57,7 @@ export enum STEP {
 export interface BudgetItemParams {
     id: string;
     type: BudgetType;
-    tripType: TripType;
+    backOrGo: TripType;
     input: SearchHotelParams | SearchTicketParams | SearchSubsidyParams;
     index: number;          //标记段与段之间的关系
 }

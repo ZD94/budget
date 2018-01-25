@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-01-19 16:35:24 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-19 19:00:00
+ * @Last Modified time: 2018-01-25 14:03:13
  * @content what is the content of this file. */
 
 import { budget } from "model/budget";
@@ -101,11 +101,14 @@ let params3 = {
 
 
 let testFn = async () => {
+    console.log("ok ok ok ok ok ok");
     let result = await budget.getBudget(params3);
     // console.log("result result ===>", result);
 }
 
-let goTest = 0;
+
+console.log("Test go. Please.");
+let goTest = 1;
 if (goTest) {
     for (let i = 0; i < 1; i++) {
         setTimeout(testFn, 8000);

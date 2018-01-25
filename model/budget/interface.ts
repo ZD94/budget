@@ -41,6 +41,12 @@ export enum BudgetType {
     SUBSIDY = 3
 }
 
+/* 去程还是返程 */
+export enum TripType {
+    GoTrip = 1,
+    BackTrip = 2
+}
+
 export enum STEP {
     FULL = "FULL",
     CACHE = "CACHE",
@@ -51,6 +57,7 @@ export enum STEP {
 export interface BudgetItemParams {
     id: string;
     type: BudgetType;
+    tripType: TripType;
     input: SearchHotelParams | SearchTicketParams | SearchSubsidyParams;
     index: number;          //标记段与段之间的关系
 }

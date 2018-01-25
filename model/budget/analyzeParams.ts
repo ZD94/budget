@@ -2,11 +2,11 @@
  * @Author: Mr.He 
  * @Date: 2017-11-24 17:06:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-19 16:38:39
+ * @Last Modified time: 2018-01-25 11:23:53
  * @content analyze the budgets request . */
 
 import * as uuid from "uuid";
-import { SearchHotelParams, SearchTicketParams, BudgetType, BudgetItemParams, DataOrder } from "./interface";
+import { SearchHotelParams, SearchTicketParams, BudgetType, TripType, BudgetItemParams, DataOrder } from "./interface";
 import { STEP } from 'model/budget';
 import moment = require("moment");
 
@@ -35,9 +35,7 @@ export interface CreateBudgetParams {
 export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParams[] | DataOrder[] {
 
     let budgetParams = [];
-
     let destinations = params.destinationPlacesInfo;
-
 
     destinations.map((destination, index) => {
         /* deal traffic budget params. 不处理最后返程 */
@@ -54,7 +52,8 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
                         earliestGoBackDateTime: destination.earliestGoBackDateTime,
                         latestArrivalDateTime: destination.latestArrivalDateTime
                     },
-                    index
+                    index,
+                    tripType: TripType.GoTrip
                 };
                 budgetParams.push(trip);
             }
@@ -70,7 +69,8 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
                         earliestGoBackDateTime: destination.earliestGoBackDateTime,
                         latestArrivalDateTime: destination.latestArrivalDateTime
                     },
-                    index
+                    index,
+                    tripType: TripType.GoTrip
                 };
                 budgetParams.push(trip);
             }
@@ -84,14 +84,24 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
                 let nextBeginDate = moment(nextDestination.leaveDate).format("YYYY-MM-DD");
                 if (beginDate < nextBeginDate) {
                     //符合实际条件，添加住宿项
-                    budgetParams.push(createHotel(destination.leaveDate, destination.goBackDate, destination.destinationPlace, index));
+                    budgetParams.push(createHotel({
+                        checkInDate: destination.leaveDate,
+                        checkOutDate: destination.goBackDate,
+                        city: destination.destinationPlace,
+                        index
+                    }));
                 }
             } else {
                 let beginDate = moment(destination.leaveDate).format("YYYY-MM-DD");
                 let endDate = moment(destination.goBackDate).format("YYYY-MM-DD");
                 if (beginDate < endDate) {
                     //符合实际条件，添加住宿项
-                    budgetParams.push(createHotel(destination.leaveDate, destination.goBackDate, destination.destinationPlace, index));
+                    budgetParams.push(createHotel({
+                        checkInDate: destination.leaveDate,
+                        checkOutDate: destination.goBackDate,
+                        city: destination.destinationPlace,
+                        index
+                    }));
                 }
             }
         }
@@ -103,7 +113,12 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
             let nextBeginDate = moment(nextDestination.leaveDate).format("YYYY-MM-DD");
             if (beginDate < nextBeginDate) {
                 /* 增加一项补助 */
-                budgetParams.push(createSubsidy(destination.leaveDate, destination.goBackDate, destination.destinationPlace, index));
+                budgetParams.push(createSubsidy({
+                    beginTime: destination.leaveDate,
+                    endTime: destination.goBackDate,
+                    city: destination.destinationPlace,
+                    index
+                }));
             }
         } else {
             /**
@@ -114,15 +129,31 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
             let beginDate = moment(destination.leaveDate).format("YYYY-MM-DD");
             if (tripBeginDate < beginDate) {
                 /* 增加一项补助 */
-                budgetParams.push(createSubsidy(destination.leaveDate, destination.goBackDate, destination.destinationPlace, index));
+                budgetParams.push(createSubsidy({
+                    beginTime: destination.leaveDate,
+                    endTime: destination.goBackDate,
+                    city: destination.destinationPlace,
+                    index
+                }));
             } else {
                 let endDate = moment(destination.goBackDate).format("YYYY-MM-DD");
                 if (beginDate < endDate) {
                     /* 不是当天回的情况，增加一项补助 */
-                    budgetParams.push(createSubsidy(destination.leaveDate, destination.goBackDate, destination.destinationPlace, index));
+                    budgetParams.push(createSubsidy({
+                        beginTime: destination.leaveDate,
+                        endTime: destination.goBackDate,
+                        city: destination.destinationPlace,
+                        index
+                    }));
                 } else if (!params.goBackPlace || !params.isRoundTrip) {
                     /* 当天回的情况，检查是否有返程；没有返程，增加一项补助 */
-                    budgetParams.push(createSubsidy(destination.leaveDate, destination.goBackDate, destination.destinationPlace, index, 1));
+                    budgetParams.push(createSubsidy({
+                        beginTime: destination.leaveDate,
+                        endTime: destination.goBackDate,
+                        city: destination.destinationPlace,
+                        index,
+                        days: 1
+                    }));
                 }
             }
         }
@@ -143,18 +174,27 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
                 earliestGoBackDateTime: lastDestinations.earliestGoBackDateTime,
                 latestArrivalDateTime: lastDestinations.latestArrivalDateTime
             },
-            index: destinations.length
+            index: destinations.length,
+            tripType: TripType.BackTrip
         };
         budgetParams.push(trip);
 
         /* 增加一项补助 */
-        budgetParams.push(createSubsidy(lastDestinations.leaveDate, lastDestinations.goBackDate, params.goBackPlace, destinations.length, 1));
+        budgetParams.push(createSubsidy({
+            beginTime: lastDestinations.leaveDate,
+            endTime: lastDestinations.goBackDate,
+            city: params.goBackPlace,
+            index: destinations.length,
+            days: 1
+        }));
     }
 
     return budgetParams;
 }
 
-function createSubsidy(beginTime: string, endTime: string, city: string, index: number, days?: number) {
+function createSubsidy(params: { beginTime: string, endTime: string, city: string, index: number, days?: number, tripType?: TripType }) {
+    let { beginTime, endTime, city, index, days, tripType = TripType.GoTrip } = params;
+
     if (!days) {
         let mBeginTime = moment(moment(beginTime).format("YYYY-MM-DD")),
             mEndTime = moment(moment(endTime).format("YYYY-MM-DD"));
@@ -170,11 +210,13 @@ function createSubsidy(beginTime: string, endTime: string, city: string, index: 
             city,
             days
         },
-        index
+        index,
+        tripType
     };
 }
 
-function createHotel(checkInDate: string, checkOutDate: string, city: string, index, location?: any) {
+function createHotel(params: { checkInDate: string, checkOutDate: string, city: string, index, location?: any, tripType?: TripType }) {
+    let { checkInDate, checkOutDate, city, index, tripType = TripType.GoTrip, location } = params;
     return {
         id: uuid.v1(),
         type: BudgetType.HOTEL,
@@ -184,6 +226,7 @@ function createHotel(checkInDate: string, checkOutDate: string, city: string, in
             city,
             location: location || {}
         },
-        index
+        index,
+        tripType
     };
 }

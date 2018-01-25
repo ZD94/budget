@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-24 14:27:00
+ * @Last Modified time: 2018-01-25 14:02:56
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -25,10 +25,9 @@ import { Models } from "_types";
 import { clearTimeout } from 'timers';
 import { BudgetHelps } from "./helper";
 
-/**
- * test
- * import "test/api/budget.test";
- */
+// test
+// import "test/api/budget.test";
+
 export class Budget extends BudgetHelps {
     constructor() {
         super();
@@ -65,7 +64,6 @@ export class Budget extends BudgetHelps {
                 let input = item.input as SearchSubsidyParams;
                 item.budget = await getSubsidy.getSubsidyItem(companyId,
                     travelPolicyId, input);
-                item.budget.index = item.index;
                 return item;
             }
 
@@ -87,7 +85,6 @@ export class Budget extends BudgetHelps {
             item.prefer = ps[1];
             //进行打分，得出最终预算
             item.budget = await computeBudget.getBudget(item);
-            item.budget.index = item.index; //方便前端分组            
             return item;
         });
 
@@ -100,7 +97,7 @@ export class Budget extends BudgetHelps {
         } as BudgetFinallyResult;
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
-            finallyResult.budgets.push(item.budget);
+            finallyResult.budgets.push(this.completeBudget(item));
             if (item.step != STEP.FINAL) {
                 budgetOrder.step = STEP.CACHE;
             }
@@ -141,7 +138,7 @@ export class Budget extends BudgetHelps {
                 }
             } catch (e) {
                 console.error("requestDataStore error !!!");
-                console.error(e);
+                // console.error(e);
             }
 
             return item;
@@ -173,15 +170,7 @@ export class Budget extends BudgetHelps {
             if (item.type != BudgetType.SUBSIDY) {
                 item.budget = await computeBudget.getBudget(item);
             }
-            item.budget.index = item.index;
-            /* if (item.step != STEP.FINAL) {
-                num++;
-                if (num < 3) {
-                    console.error("data-store 返回的数据不是全 FIN; 尝试重新拉取 第", num, "次");
-                    return await this.getFinalBudget(budgetOrder, result, num);
-                }
-            } */
-            finallyResult.budgets.push(item.budget);
+            finallyResult.budgets.push(this.completeBudget(item));
         }
 
         console.log("finalBudget Time using: ", Date.now() - time);
@@ -197,10 +186,10 @@ export class Budget extends BudgetHelps {
     /* 执行发送 5 次逻辑，5次后最终报错 */
     async sendBudget(result: any, callbackUrl: string, num?: number) {
         num = num ? num : 0;
+        console.log("sendBudget sendBudget ************************************** ", num, "    ", result);
         if (!callbackUrl) {
             return;
         }
-        console.log("sendBudget sendBudget ************************************** ", num, "    ", result);
 
         let timestamp = Math.ceil(Date.now() / 1000);
         let sign = genSign(result, timestamp, config.agent.appSecret);
@@ -220,7 +209,7 @@ export class Budget extends BudgetHelps {
             console.error("事件推送失败, 次数：", num);
             console.error(e);
             num++;
-            if (num >= 3) {
+            if (num >= 2) {
                 console.error("*****", num, " 次后还是失败。事件推送失败!");
                 return;
             } else {
@@ -229,6 +218,13 @@ export class Budget extends BudgetHelps {
                 }, num * 1000);
             }
         }
+    }
+
+    completeBudget(item: DataOrder) {
+        let budget = item.budget;
+        budget.index = item.index;
+        budget.tripType = item.tripType;
+        return budget;
     }
 
     async requestDataStore(params: any) {

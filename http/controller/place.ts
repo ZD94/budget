@@ -25,16 +25,25 @@ export class PlaceController extends AbstractController {
         // city = this.transform(city);
         // res.json(this.reply(0, city));
 
-            let { id } = req.params;
-            const resp: any = await restfulAPIUtil.proxyHttp({
-                uri: `/city/${id}`,
-                method: 'GET'
-            })
-          
-            if (resp.code === 0) {
-                return res.send(this.reply(0, this.transform(resp.data)))
-            }
-            return res.send(resp.code, null);
+        let { id } = req.params;
+        const resp: any = await restfulAPIUtil.proxyHttp({
+            uri: `/city/${id}`,
+            method: 'GET'
+        });
+
+        if (resp.code === 0) {
+            return res.send(this.reply(0, this.transform(resp.data)))
+        }
+        return res.send(resp.code, null);
+
+
+        // let { id } = req.params;
+        // // let city = await CityService.getCity(id);
+        // let city = await API.place.getCityInfo({ cityCode: id });
+        // if (!city) {
+        //     return res.json(this.reply(404, null));
+        // }
+        // return res.json(this.reply(0, city));
     }
 
     // async get(req, res, next) {
@@ -61,13 +70,13 @@ export class PlaceController extends AbstractController {
         // res.json(this.reply(0, cities));
 
 
-        let {keyword} = req.params;
+        let { keyword } = req.params;
         console.log("==search===keyword: ", keyword)
         let cities = [];
         const resp: any = keyword
             ? await restfulAPIUtil.proxyHttp({ uri: `/city/search`, method: 'GET', qs: { keyword } })
             : await restfulAPIUtil.proxyHttp({ uri: `/city`, method: 'GET' })
-    
+
         console.log("========search ======>keyword: ", resp)
         return res.send(this.processResp(resp));
 
@@ -104,7 +113,7 @@ export class PlaceController extends AbstractController {
 
         let { latitude, longitude } = req.params,
             pattern = /^\d+\.?\d+$/;
-    
+
         const isValid = pattern.test(latitude) && pattern.test(longitude);
         if (!isValid) {
             return res.send(this.reply(400, null));
@@ -113,7 +122,7 @@ export class PlaceController extends AbstractController {
             uri: `/city/nearby/${longitude},${latitude}`,
             method: 'GET'
         });
-    
+
         return res.send(this.processResp(resp.data));
 
         // let { latitude, longitude } = req.params;
@@ -151,7 +160,7 @@ export class PlaceController extends AbstractController {
             uri: `/city/${id}/children`,
             method: 'GET'
         });
-    
+
         return res.send(this.processResp(resp));
 
         // let { id } = req.params,
@@ -170,14 +179,14 @@ export class PlaceController extends AbstractController {
 
 
     @Router('/getCitiesByLetter', 'GET')
-    async getCitiesByLetter(req, res, next){
-        let {isAbroad = false, letter = 'A', limit = 20, page = 0, type = 2, lang = 'zh'} = req.query;
+    async getCitiesByLetter(req, res, next) {
+        let { isAbroad = false, letter = 'A', limit = 20, page = 0, type = 2, lang = 'zh' } = req.query;
 
-        let country_code = isAbroad ? '!CN': 'CN';
+        let country_code = isAbroad ? '!CN' : 'CN';
         let qs = {
             letter,
             lang,
-            country_code 
+            country_code
         };
         const resp: any = await restfulAPIUtil.proxyHttp({
             uri: `/city/getCitiesByLetter`,
@@ -191,7 +200,7 @@ export class PlaceController extends AbstractController {
         //     let { isAbroad = false, letter = 'A', limit = 20, page = 0, type = 2 } = req.query;
         //     let cities = await API['place'].getCitiesByLetter({
         //         isAbroad,
-    
+
         // let cities = await API['place'].getCitiesByLetter({
         //     isAbroad,
         //     letter,
@@ -203,16 +212,16 @@ export class PlaceController extends AbstractController {
     }
 
     @Router('/getCityInfoByName', 'GET')
-    async getCityInfoByName(req, res, next){
+    async getCityInfoByName(req, res, next) {
         // let {name} = req.query;
         // let city = await API['place'].getCityInfoByName(name);
         // res.json(this.reply(0, this.transform(city)));
 
 
-         let {name} = req.query;
-         console.log("======name: ", name)
-         if(!name) return res.json(this.reply(502, null));
-         const resp: any = await restfulAPIUtil.proxyHttp({
+        let { name } = req.query;
+        console.log("======name: ", name)
+        if (!name) return res.json(this.reply(502, null));
+        const resp: any = await restfulAPIUtil.proxyHttp({
             uri: `/city/getCityByName`,
             method: 'GET',
             qs: {

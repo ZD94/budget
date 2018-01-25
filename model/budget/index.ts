@@ -2,11 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
-<<<<<<< HEAD
- * @Last Modified time: 2018-01-24 15:53:05
-=======
- * @Last Modified time: 2018-01-25 17:29:57
->>>>>>> 6c8cd5fc1a3a639ea07754c620922904a3285d0d
+ * @Last Modified time: 2018-01-25 18:33:14
  * @content what is the content of this file. */
 
 export * from "./interface";

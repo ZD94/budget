@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-11-24 17:06:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-25 11:23:53
+ * @Last Modified time: 2018-01-25 17:46:25
  * @content analyze the budgets request . */
 
 import * as uuid from "uuid";
@@ -53,7 +53,7 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
                         latestArrivalDateTime: destination.latestArrivalDateTime
                     },
                     index,
-                    tripType: TripType.GoTrip
+                    backOrGo: TripType.GoTrip
                 };
                 budgetParams.push(trip);
             }
@@ -70,7 +70,7 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
                         latestArrivalDateTime: destination.latestArrivalDateTime
                     },
                     index,
-                    tripType: TripType.GoTrip
+                    backOrGo: TripType.GoTrip
                 };
                 budgetParams.push(trip);
             }
@@ -175,7 +175,7 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
                 latestArrivalDateTime: lastDestinations.latestArrivalDateTime
             },
             index: destinations.length,
-            tripType: TripType.BackTrip
+            backOrGo: TripType.BackTrip
         };
         budgetParams.push(trip);
 
@@ -185,15 +185,16 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
             endTime: lastDestinations.goBackDate,
             city: params.goBackPlace,
             index: destinations.length,
-            days: 1
+            days: 1,
+            backOrGo: TripType.BackTrip
         }));
     }
 
     return budgetParams;
 }
 
-function createSubsidy(params: { beginTime: string, endTime: string, city: string, index: number, days?: number, tripType?: TripType }) {
-    let { beginTime, endTime, city, index, days, tripType = TripType.GoTrip } = params;
+function createSubsidy(params: { beginTime: string, endTime: string, city: string, index: number, days?: number, backOrGo?: TripType }) {
+    let { beginTime, endTime, city, index, days, backOrGo = TripType.GoTrip } = params;
 
     if (!days) {
         let mBeginTime = moment(moment(beginTime).format("YYYY-MM-DD")),
@@ -211,12 +212,12 @@ function createSubsidy(params: { beginTime: string, endTime: string, city: strin
             days
         },
         index,
-        tripType
+        backOrGo
     };
 }
 
-function createHotel(params: { checkInDate: string, checkOutDate: string, city: string, index, location?: any, tripType?: TripType }) {
-    let { checkInDate, checkOutDate, city, index, tripType = TripType.GoTrip, location } = params;
+function createHotel(params: { checkInDate: string, checkOutDate: string, city: string, index, location?: any, backOrGo?: TripType }) {
+    let { checkInDate, checkOutDate, city, index, backOrGo = TripType.GoTrip, location } = params;
     return {
         id: uuid.v1(),
         type: BudgetType.HOTEL,
@@ -227,6 +228,6 @@ function createHotel(params: { checkInDate: string, checkOutDate: string, city: 
             location: location || {}
         },
         index,
-        tripType
+        backOrGo
     };
 }

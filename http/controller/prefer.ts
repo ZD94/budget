@@ -44,7 +44,9 @@ export class PreferController extends AbstractModelController<PreferRegion> {
 
     async update(req, res, next){
         let self = this;
+        let {id} = req.params;
         let params = req.body;
+
         let prefer = await Models.preferRegion.get(id);
         if(!prefer){
             return res.jlReply(this.reply(0, null));

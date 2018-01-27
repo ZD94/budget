@@ -128,6 +128,29 @@ deploy:demo:
     - echo deploy to https://demo.jingli365.com
     - ssh test@demo.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG -p 14103:4103
 
+deploy:swarm:
+  stage: deploy
+  only:
+    - /^master|test|release|demo$/
+  when: manual
+  environment:
+    name: test
+    url: http://l.jingli365.com
+  variables:
+    JL_APP_HOST: http://l.jingli365.com/proj/svr-jlbudget
+    JL_APP_OLD_POSTGRES_URL: postgres://times:time0418@l.jingli365.com:15432/qmtrip
+    JL_APP_POSTGRES: postgres://times:time0418@l.jingli365.com:15432/jlbudget
+    JL_APP_REDIS: redis://l.jingli365.com:16379
+
+  script:
+    - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
+    - docker pull $DOCKER_CI_NAME
+    - docker tag $DOCKER_CI_NAME $DOCKER_BRANCH_NAME
+    - docker push $DOCKER_BRANCH_NAME
+    - echo deploy to https://l.jingli365.com
+    - ssh test@192.168.1.3 /home/test/bin/docker_swarm_start.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG --publish 14103:4103
+
+
 deploy:release:
   stage: deploy
   only:

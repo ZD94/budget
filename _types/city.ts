@@ -7,11 +7,9 @@
 const API = require("@jingli/dnode-api");
 import request = require("request-promise");
 const config = require("@jingli/config");
-import LRU = require("lru-cache");
 import L from '@jingli/language';
 import { restfulAPIUtil } from 'api/restful';
 import { CoordDispose, Degree } from "../libs/place/placeUtil";
-var cache = LRU(50);
 
 export interface ICity {
     name: string;
@@ -37,15 +35,10 @@ export enum PlaceType {
 export class CityService {
 
     static async getCity(id): Promise<ICity> {
-        let city = <ICity>cache.get(id)
-        if (city) {
-            return city;
-        }
-
         if (id == "Global") {
             return null;
         }
-
+        let city: ICity;
         let uri = config.placeAPI + "/city/" + id;
         let result;
         try {
@@ -63,7 +56,7 @@ export class CityService {
         if (result.code != 0) {
             throw new Error("place服务地点不存在 : " + id);
         }
-        city = result.data;
+        city = <ICity>result.data;
         city.isAbroad = !(city.countryCode == "CN");
 
         const alternate: any = await restfulAPIUtil.proxyHttp({
@@ -75,10 +68,6 @@ export class CityService {
                 city.ctripCode = item.value;
                 break;
             }
-        }
-        // city = await API.place.getCityInfo({ cityCode: id });
-        if (city) {
-            cache.set(id, city);
         }
         return city;
     }
@@ -168,11 +157,6 @@ export class CityService {
             return id;
         }
 
-        let result = cache.get(id);
-        if (result) {
-            return result as string;
-        }
-
         try {
             let getRequest = await request({
                 uri: config.placeAPI + "/city/" + id + "/alternate/jlcityid",
@@ -180,7 +164,6 @@ export class CityService {
                 json: true
             });
             if (getRequest.code == 0) {
-                cache.set(id, getRequest.data.value);
                 return getRequest.data.value;
             } else {
                 return id;

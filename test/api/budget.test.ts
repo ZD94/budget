@@ -1,78 +1,116 @@
-// /**
-//  * Created by wlh on 2017/3/10.
-//  */
-//
-// 'use strict';
-//
-// import ApiTravelBudget = require('api/budget');
-// // let {getBudget, getBudgetCache} = ApiTravelBudget;
-// import {IQueryBudgetParams, EAirCabin, EGender} from "_types/budget";
-// import {ICity} from "_types/city";
-//
-// let CITY_BJ: ICity = {
-//     id: 'CT_131',
-//     name: "北京",
-//     code: "BJS",
-//     isAbroad: false,
-//     letter: 'BJ'
-// }
-//
-// let appid = '00000000-0000-0000-0000-000000000001'
-//
-// let hotels = require("./test-hotels.json");
-// let tickets = require("./test-transit-tickets.json");
-//
-// describe("lib/budget.ts", () => {
-//     it("#getBudget() should be oa", (done) => {
-//         let params: IQueryBudgetParams = {
-//             hotels: hotels,
-//             tickets: tickets,
-//             isRetMarkedData: true,
-//             fromCity: CITY_BJ,
-//             appid: appid,
-//             ret: true,
-//             segs: [
-//                 {
-//                     city:CITY_BJ,
-//                     beginTime: new Date('2017-01-01'),
-//                     endTime: new Date('2017-01-01'),
-//                     location: {
-//                         latitude: 123,
-//                         longitude: 46,
-//                     }
-//                 }
-//             ],
-//             policies: {
-//                 "default": {
-//                     cabin: [EAirCabin.ECONOMY],
-//                     hotelStar: [],
-//                     trainSeat: []
-//                 }
-//             },
-//             staffs: [{
-//                 gender: EGender.MALE,
-//                 policy: "default"
-//             }],
-//             combineRoom: false,
-//         }
-//         return getBudget(params)
-//             .then( (result) => {
-//                 console.log(JSON.stringify(result))
-//                 done();
-//             })
-//             .catch( (err) => {
-//                 throw err
-//             })
-//     })
-//
-//     it("#getBudgetCache() should be ok", function(done) {
-//         getBudgetCache({appid: appid, id: 'f5d2b840-086b-11e7-b25e-33a5c04dc7af'})
-//             .then( (result) => {
-//                 console.log(JSON.stringify(result));
-//                 done();
-//             })
-//             .catch( (err) => {
-//                 throw err;
-//             })
-//     })
-// })
+/*
+ * @Author: Mr.He 
+ * @Date: 2018-01-19 16:35:24 
+ * @Last Modified by: Mr.He
+ * @Last Modified time: 2018-01-25 14:03:13
+ * @content what is the content of this file. */
+
+import { budget } from "model/budget";
+import { analyzeBudgetParams } from "model/budget/analyzeParams";
+
+
+let params = {
+    preferedCurrency: 'CNY',
+    travelPolicyId: 'bb2d6960-acd0-11e7-80a9-d1533e629a64',
+    companyId: '935fbeb0-acd0-11e7-ab1e-bdc5d9f254d3',
+    staffs: [{ gender: 1, policy: 'domestic' }],
+    destinationPlacesInfo:
+        [{
+            destinationPlace: 'CT_150',
+            leaveDate: '2018-01-20T10:00:00.000Z',
+            goBackDate: '2018-01-21T01:00:00.000Z',
+            latestArrivalDateTime: '2018-01-20T10:00:00.000Z',
+            earliestGoBackDateTime: '2018-01-21T01:00:00.000Z',
+            isNeedTraffic: true,
+            isNeedHotel: true,
+            reason: ''
+        }],
+    originPlace: 'CT_131',
+    isRoundTrip: true,
+    goBackPlace: 'CT_131'
+};
+
+let params2 = {
+    "callbackUrl": "abcdf",
+    "travelPolicyId": "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
+    "companyId": "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
+    // "expectStep": STEP.FULL,
+    "staffs": [
+        {
+            "gender": 1,
+            "policy": "domestic"
+        }
+    ],
+    "originPlace": "CT_075",
+    "goBackPlace": "CT_075",
+    "isRoundTrip": true,
+    "destinationPlacesInfo":
+        [{
+            "destinationPlace": "CT_289",
+            "leaveDate": "2018-01-24T10:00:00.000Z",
+            "goBackDate": "2018-01-27T01:00:00.000Z",
+            "latestArrivalDateTime": "2018-01-24T10:00:00.000Z",
+            "earliestGoBackDateTime": "2018-01-27T01:00:00.000Z",
+            "isNeedTraffic": true,
+            "isNeedHotel": true,
+            "reason": ""
+        },
+        {
+            "destinationPlace": "CT_131",
+            "leaveDate": "2018-01-27T10:00:00.000Z",
+            "goBackDate": "2018-01-29T01:00:00.000Z",
+            "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
+            "earliestGoBackDateTime": "2018-01-29T01:00:00.000Z",
+            "isNeedTraffic": true,
+            "isNeedHotel": true,
+            "reason": ""
+        }]
+};
+
+
+/* 当天去，当天回 */
+let params3 = {
+    preferedCurrency: 'CNY',
+    travelPolicyId: 'bb2d6960-acd0-11e7-80a9-d1533e629a64',
+    companyId: '935fbeb0-acd0-11e7-ab1e-bdc5d9f254d3',
+    staffs: [{ gender: 1, policy: 'domestic' }],
+    destinationPlacesInfo:
+        [{
+            destinationPlace: 'CT_150',
+            leaveDate: '2018-01-20T01:00:00.000Z',
+            goBackDate: '2018-01-20T08:00:00.000Z',
+            latestArrivalDateTime: '2018-01-20T01:00:00.000Z',
+            earliestGoBackDateTime: '2018-01-20T08:00:00.000Z',
+            isNeedTraffic: true,
+            isNeedHotel: true,
+            reason: ''
+        }, {
+            destinationPlace: 'CT_075',
+            leaveDate: '2018-01-20T08:00:00.000Z',
+            goBackDate: '2018-01-21T08:00:00.000Z',
+            latestArrivalDateTime: '2018-01-20T08:00:00.000Z',
+            earliestGoBackDateTime: '2018-01-21T08:00:00.000Z',
+            isNeedTraffic: true,
+            isNeedHotel: true,
+            reason: ''
+        }],
+    originPlace: 'CT_131',
+    isRoundTrip: true,
+    goBackPlace: 'CT_131'
+};
+
+
+let testFn = async () => {
+    console.log("ok ok ok ok ok ok");
+    let result = await budget.getBudget(params3);
+    // console.log("result result ===>", result);
+}
+
+
+console.log("Test go. Please.");
+let goTest = 1;
+if (goTest) {
+    for (let i = 0; i < 1; i++) {
+        setTimeout(testFn, 8000);
+    }
+}

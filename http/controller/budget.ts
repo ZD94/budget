@@ -84,18 +84,24 @@ export class BudgetController extends AbstractController {
     }
 
     async get(req: IRequest, res: IResponse, next: Function) {
-        let { id } = req.params;
-        let segmentBudgets = await API['budget'].getBudgetCache({ id: id });
-        let budgets = segmentBudgets.budgets;
-        budgets = this.transformBudgets(budgets);
-        segmentBudgets.budgets = budgets;
-        res.jlReply(this.reply(0, segmentBudgets));
+        /*  let { id } = req.params;
+         let segmentBudgets = await API['budget'].getBudgetCache({ id: id });
+         let budgets = segmentBudgets.budgets;
+         budgets = this.transformBudgets(budgets);
+         segmentBudgets.budgets = budgets;
+         res.jlReply(this.reply(0, segmentBudgets)); */
     }
 
     async add(req: IRequest, res: IResponse, next: Function) {
         req.clearTimeout();
         let result = await budget.getBudget(req.body);
         res.jlReply(this.reply(0, result));
+    }
+
+    @Router('/getBudgetItems/:id', 'get')
+    async getBudgetItems(req: IRequest, res: IResponse, next: Function) {
+        let result = await ApiTravelBudget.getBudgetItems(req.query);
+        res.jlReply(this.reply(0, result))
     }
 
     /**

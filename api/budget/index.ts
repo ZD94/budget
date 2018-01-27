@@ -33,11 +33,8 @@ import { ModelInterface } from "../../common/model/interface";
 import { Model } from "sequelize";
 var logger = new Logger("budget");
 import { PolicyRegionSubsidy } from "_types/policy/policyRegionSubsidy";
-
 import { TravelPolicy, ForbiddenPlane, EPlaneLevel } from "_types/policy";
 import config = require("@jingli/config");
-
-export var NoCityPriceLimit = 0;
 import { HotelPriceLimitType } from "_types/company";
 import { ECompanyRegionUsedType } from "_types/policy/companyRegion";
 let haversine = require("haversine");
@@ -910,39 +907,21 @@ class ApiTravelBudget {
         // }
     }
 
-    static async getBudgetCache(params: { id: string, isRetMarkedData?: boolean }): Promise<FinalBudgetResultInterface> {
-        let { id, isRetMarkedData } = params;
-        if (!id) {
-            throw L.ERR.INVALID_ARGUMENT("id");
-        }
-        if (!isRetMarkedData) {
-            isRetMarkedData = false;
-        }
-        let m = await Models.budget.get(id);
-        if (!m) {
-            throw L.ERR.INVALID_ARGUMENT("id");
-        }
-        m.result.id = m.id;
-        return handleBudgetResult(m.result, isRetMarkedData);
-    }
-
-    static async getBudgetItems(params: { page: number, pageSize: number, type: number }): Promise<BudgetItem[]> {
-        let { page, pageSize, type } = params;
-        let where: any = {};
-        if (type) {
-            where.type = type;
-        }
-        if (page < 0) {
-            page = 0;
-        }
-        if (pageSize < 1) {
-            pageSize = 10;
-        }
-        let offset = (page - 1) * pageSize;
-        let pager = await Models.budgetItem.find({ where: where, limit: pageSize, offset: offset, order: [["created_at", "desc"]] });
-        let result = Array.from(pager);
-        return result;
-    }
+    /*  static async getBudgetCache(params: { id: string, isRetMarkedData?: boolean }): Promise<FinalBudgetResultInterface> {
+         let { id, isRetMarkedData } = params;
+         if (!id) {
+             throw L.ERR.INVALID_ARGUMENT("id");
+         }
+         if (!isRetMarkedData) {
+             isRetMarkedData = false;
+         }
+         let m = await Models.budget.get(id);
+         if (!m) {
+             throw L.ERR.INVALID_ARGUMENT("id");
+         }
+         m.result.id = m.id;
+         return handleBudgetResult(m.result, isRetMarkedData);
+     } */
 
     /**
      * 用户调试预算

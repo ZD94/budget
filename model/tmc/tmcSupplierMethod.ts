@@ -92,7 +92,7 @@ export class TmcSupplierMethod {
                             arr.push(obj)
                         }
                         tmcSupplier["services"] = arr
-                    }else {
+                    } else {
                         tmcSupplier[`${item}`] = params[`${items}`]
                     }
                 }
@@ -115,7 +115,7 @@ export class TmcSupplierMethod {
                 tmc_type_id: id
             }
         });
-        if (!tmcSupplier){
+        if (!tmcSupplier) {
             return "供应商不存在"
         }
         status = Number(status);
@@ -130,26 +130,46 @@ export class TmcSupplierMethod {
     }
 
     async getTmcTypes(params): Promise<any> {
-        let {companyId} = params;
-
-        let tmcSupplier = await Models.tmcSupplier.all({
-            where: {
-                company_id: companyId,
+        let {companyId, sname} = params;
+        if (sname) {
+            try {
+                let tmcType = await Models.tmcTypes.find({
+                    where: {
+                        sname: sname
+                    }
+                });
+                let tmcSupplier = await await Models.tmcSupplier.find({
+                    where: {
+                        company_id: companyId,
+                        tmc_type_id: tmcType["0"]["id"]
+                    }
+                });
+                tmcSupplier["0"]["target"]["dataValues"]["tmcName"] = tmcType["0"]["tmcName"];
+                tmcSupplier["0"]["target"]["dataValues"]["sname"] = tmcType["0"]["sname"];
+                return tmcSupplier
+            } catch (e) {
+                console.log(e)
             }
-        });
-        if (!tmcSupplier){
-            return "供应商不存在"
-        }
-        let newTmcSupplier = tmcSupplier.map( async function(item) {
-            let supplier = item.toJSON();
-            let tmcType = await Models.tmcTypes.get(supplier["tmcTypeId"]);
-            supplier["tmcName"] = tmcType.tmcName;
-            supplier["sname"] = tmcType.sname;
-            return supplier;
-        });
+        }else {
+            let tmcSupplier = await Models.tmcSupplier.all({
+                where: {
+                    company_id: companyId,
+                }
+            });
+            if (!tmcSupplier) {
+                return "供应商不存在"
+            }
+            let newTmcSupplier = tmcSupplier.map(async function (item) {
+                let supplier = item.toJSON();
+                let tmcType = await Models.tmcTypes.get(supplier["tmcTypeId"]);
+                supplier["tmcName"] = tmcType.tmcName;
+                supplier["sname"] = tmcType.sname;
+                return supplier;
+            });
 
-        let data = await Promise.all(newTmcSupplier);
-        return data
+            let data = await Promise.all(newTmcSupplier);
+            return data
+        }
     }
 }
 

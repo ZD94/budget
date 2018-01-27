@@ -30,8 +30,8 @@ export interface ICity {
 }
 
 export enum PlaceType {
-    GTRAIN = 1,
-    TRAIN = 2
+    GTRAIN = "G_RSTN",
+    TRAIN = "RSTN"
 
 }
 export class CityService {

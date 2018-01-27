@@ -186,7 +186,9 @@ export class PlaceController extends AbstractController {
         let qs = {
             letter,
             lang,
-            country_code
+            country_code,
+            limit,
+            page,
         };
         const resp: any = await restfulAPIUtil.proxyHttp({
             uri: `/city/getCitiesByLetter`,

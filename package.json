@@ -121,7 +121,7 @@
     "gulp-tar": "1.9.0",
     "gulp-typescript": "^3.1.5",
     "gulp-util": "^3.0.8",
-    "merge2": "^1.0.3",
+    "merge2": "1.0.3",
     "gulp-sourcemaps": "2.6.2",
     "mocha": "2.3.4",
     "mochawesome": "1.2.2",

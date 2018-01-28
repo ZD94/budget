@@ -35,7 +35,7 @@ export enum PlaceType {
 export class CityService {
 
     static async getCity(id): Promise<ICity> {
-        if (id == "Global") {
+        if (id == DefaultRegionId.abroad) {
             return null;
         }
         let city: ICity;

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-27 14:34:14
+ * @Last Modified time: 2018-01-28 19:27:39
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -40,7 +40,7 @@ export class Budget extends BudgetHelps {
         //后期考虑 针对不同的用户生成不同的预算
         let staff = staffs[0];
         let segments = analyzeBudgetParams(params) as DataOrder[];
-
+        console.log("预算请求参数分析： ", segments);
         /* create budget order */
         let budgetOrder = {
             id: uuid.v1(),
@@ -241,3 +241,7 @@ export class Budget extends BudgetHelps {
 }
 
 export let budget = new Budget();
+
+/* setInterval(() => {
+    console.log(process.pid, process.memoryUsage());
+}, 10 * 1000); */

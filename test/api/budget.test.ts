@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-01-19 16:35:24 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-25 14:03:13
+ * @Last Modified time: 2018-01-28 19:05:23
  * @content what is the content of this file. */
 
 import { budget } from "model/budget";
@@ -100,9 +100,34 @@ let params3 = {
 };
 
 
+let params4 = {
+    "goBackPlace": "CT_131",
+    "isRoundTrip": true,
+    staffs: [{ gender: 1, policy: 'domestic' }],
+    "originPlace": "CT_131",
+    "projectName": "",
+    "travelPolicyId": "7a4ceb50-f9ce-11e7-89c4-73c84750254b",
+    "destinationPlacesInfo": [
+        {
+            "reason": "",
+            "subsidy": {
+                "template": null
+            },
+            "leaveDate": "2018-01-28T13:00:00.000Z",
+            "goBackDate": "2018-01-30T02:00:00.000Z",
+            "isNeedHotel": true,
+            "isNeedTraffic": true,
+            "destinationPlace": "1814905",
+            "latestArrivalDateTime": "2018-01-28T13:00:00.000Z",
+            "earliestGoBackDateTime": "2018-01-30T02:00:00.000Z"
+        }
+    ]
+}
+
+
 let testFn = async () => {
     console.log("ok ok ok ok ok ok");
-    let result = await budget.getBudget(params3);
+    let result = await budget.getBudget(params4);
     // console.log("result result ===>", result);
 }
 

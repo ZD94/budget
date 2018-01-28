@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-11-24 17:06:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-25 17:46:25
+ * @Last Modified time: 2018-01-28 19:17:37
  * @content analyze the budgets request . */
 
 import * as uuid from "uuid";
@@ -168,7 +168,7 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
             id: uuid.v1(),
             type: BudgetType.TRAFFICT,
             input: {
-                leaveDate: lastDestinations.leaveDate,
+                leaveDate: lastDestinations.goBackDate,
                 originPlace: lastDestinations.destinationPlace,
                 destination: params.goBackPlace,
                 earliestGoBackDateTime: lastDestinations.earliestGoBackDateTime,

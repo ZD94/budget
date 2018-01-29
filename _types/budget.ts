@@ -254,7 +254,6 @@ export interface ILocation {
 
 export interface IStaff {
     gender: EGender,          //性别
-    policy: string;           // domestic 为默认值，来源于qmtrip
 }
 
 export interface IPolicySet {
@@ -334,7 +333,7 @@ export interface IHotelBudgetItem extends IBudgetItem {
     deeplinkData?: object;
     commentScore?: number;
     landmark?: any;
-
+    duringDays: number;                           //天数
 }
 
 export interface ISubsidyItem extends IBudgetItem {

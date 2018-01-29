@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-22 10:56:07 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-17 16:16:33
+ * @Last Modified time: 2018-01-28 21:16:33
  * @content 计算预算 */
 
 import { BudgetType, SearchHotelParams, SearchTicketParams, defaultCurrencyUnit, DataOrder } from "./interface";
@@ -17,7 +17,8 @@ export class ComputeBudget {
     async getBudget(params: DataOrder) {
         let transParams = {
             prefer: params.prefer,
-            data: params.data
+            data: params.data,
+            days: params.days || 0
         }
         for (let key in params.input) {
             transParams[key] = params.input[key];
@@ -30,7 +31,7 @@ export class ComputeBudget {
     }
 
     async getHotelBudget(params): Promise<IHotelBudgetItem> {
-        let { checkInDate, checkOutDate, city, location, data, prefer } = params;
+        let { checkInDate, checkOutDate, city, location, data, prefer, days } = params;
         if (typeof city == "string") {
             city = await CityService.getCity(city);
         }
@@ -48,13 +49,8 @@ export class ComputeBudget {
         let isRetMarkedData = true;
         let budget = await strategy.getResult(data, isRetMarkedData, preferedCurrency);
 
-        let maxPriceLimit = 0;
+        /* let maxPriceLimit = 0;
         let minPriceLimit = 0;
-        let days: number = 0;
-
-        let beginTime = moment(checkInDate).hour(12);
-        let endTime = moment(checkOutDate).hour(12);
-        days = moment(endTime).diff(beginTime, 'days');
 
         let selector: string;
         if (!city['isAbroad']) {
@@ -67,7 +63,7 @@ export class ComputeBudget {
 
         maxPriceLimit = policies[selector].maxPriceLimit;
         minPriceLimit = policies[selector].minPriceLimit;
-        budget.price = this.limitHotelBudgetByPrefer(minPriceLimit * days, maxPriceLimit * days, budget.price);
+        budget.price = this.limitHotelBudgetByPrefer(minPriceLimit, maxPriceLimit, budget.price); */
 
         let hotelBudget: IHotelBudgetItem = {
             id: budget.id,
@@ -76,7 +72,8 @@ export class ComputeBudget {
             checkOutDate: params.checkOutDate,
             city: (<ICity>city).id,
             star: budget.star,
-            price: budget.price,
+            price: budget.price * days,
+            duringDays: days,
             unit: budget.unit,
             rate: budget.rate,
             type: EBudgetType.HOTEL,

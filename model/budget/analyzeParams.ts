@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-11-24 17:06:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-28 19:17:37
+ * @Last Modified time: 2018-01-28 20:57:44
  * @content analyze the budgets request . */
 
 import * as uuid from "uuid";
@@ -46,7 +46,7 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
                     id: uuid.v1(),
                     type: BudgetType.TRAFFICT,
                     input: {
-                        leaveDate: destination.latestArrivalDateTime, //第一程的出发时间可优化
+                        leaveDate: destination.latestArrivalDateTime, //第一程的出发时间可优化，理论上应该在此基础上提前一段时间
                         originPlace: params.originPlace,
                         destination: destination.destinationPlace,
                         earliestGoBackDateTime: destination.earliestGoBackDateTime,
@@ -205,6 +205,7 @@ function createSubsidy(params: { beginTime: string, endTime: string, city: strin
     return {
         id: uuid.v1(),
         type: BudgetType.SUBSIDY,
+        days,
         input: {
             beginTime,
             endTime,
@@ -218,6 +219,9 @@ function createSubsidy(params: { beginTime: string, endTime: string, city: strin
 
 function createHotel(params: { checkInDate: string, checkOutDate: string, city: string, index, location?: any, backOrGo?: TripType }) {
     let { checkInDate, checkOutDate, city, index, backOrGo = TripType.GoTrip, location } = params;
+    let mBeginTime = moment(moment(checkInDate).format("YYYY-MM-DD")),
+        mEndTime = moment(moment(checkOutDate).format("YYYY-MM-DD"));
+    let days = mEndTime.diff(mBeginTime, "days");
     return {
         id: uuid.v1(),
         type: BudgetType.HOTEL,
@@ -227,6 +231,7 @@ function createHotel(params: { checkInDate: string, checkOutDate: string, city: 
             city,
             location: location || {}
         },
+        days,
         index,
         backOrGo
     };

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-21 17:09:03 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-25 17:29:39
+ * @Last Modified time: 2018-01-28 21:20:38
  * @content 预算相关接口定义 */
 
 export let defaultCurrencyUnit = 'CNY';
@@ -60,6 +60,7 @@ export interface BudgetItemParams {
     backOrGo: TripType;
     input: SearchHotelParams | SearchTicketParams | SearchSubsidyParams;
     index: number;          //标记段与段之间的关系
+    days?: number;          //经历天数
 }
 
 /* 经由预算参数加工出一个 行程数据对象 */
@@ -78,6 +79,7 @@ export interface BudgetOrder {
     budgetData: DataOrder[];              //保存data-store拉取数据
     callbackUrl: string;        //回调地址
     params: GetBudgetParams;    //请求参数
+    persons: number;            //预算人数
 }
 
 /* 预算请求参数 */
@@ -88,5 +90,6 @@ export interface GetBudgetParams extends CreateBudgetParams {
 /* 预算返回结果 */
 export interface BudgetFinallyResult {
     step: STEP;
-    budgets: any[]
+    budgets: any[];
+    persons: number;
 }

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-28 19:27:39
+ * @Last Modified time: 2018-01-28 21:21:21
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -26,7 +26,7 @@ import { clearTimeout } from 'timers';
 import { BudgetHelps } from "./helper";
 
 // test
-// import "test/api/budget.test";
+import "test/api/budget.test";
 
 export class Budget extends BudgetHelps {
     constructor() {
@@ -38,15 +38,18 @@ export class Budget extends BudgetHelps {
         console.log('params ===========>', params);
         let times = Date.now();
         //后期考虑 针对不同的用户生成不同的预算
-        let staff = staffs[0];
+        let persons = staffs.length;   //预算人数
         let segments = analyzeBudgetParams(params) as DataOrder[];
         console.log("预算请求参数分析： ", segments);
+
+
         /* create budget order */
         let budgetOrder = {
             id: uuid.v1(),
             budgetData: [],
             callbackUrl,
-            params
+            params,
+            persons
         } as BudgetOrder;
 
         /* perfect the dataOrders. */
@@ -73,7 +76,6 @@ export class Budget extends BudgetHelps {
             let prefer = getAllPrefer.getPrefer({
                 companyId,
                 travelPolicyId,
-                staff,
                 type: item.type,
                 input: item.input
             });
@@ -93,11 +95,12 @@ export class Budget extends BudgetHelps {
         /* 整理预算数据输出 */
         let finallyResult = {
             budgets: [],
-            step: STEP.FINAL
+            step: STEP.FINAL,
+            persons: budgetOrder.persons
         } as BudgetFinallyResult;
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
-            finallyResult.budgets.push(this.completeBudget(item));
+            finallyResult.budgets.push(this.completeBudget(item, budgetOrder.persons));
             if (item.step != STEP.FINAL) {
                 budgetOrder.step = STEP.CACHE;
             }
@@ -162,7 +165,8 @@ export class Budget extends BudgetHelps {
         /* 整理预算数据输出 */
         let finallyResult = {
             budgets: [],
-            step: STEP.FINAL
+            step: STEP.FINAL,
+            persons: budgetOrder.persons
         } as BudgetFinallyResult;
         //计算打分
         budgetOrder.step = STEP.FINAL;
@@ -170,7 +174,7 @@ export class Budget extends BudgetHelps {
             if (item.type != BudgetType.SUBSIDY) {
                 item.budget = await computeBudget.getBudget(item);
             }
-            finallyResult.budgets.push(this.completeBudget(item));
+            finallyResult.budgets.push(this.completeBudget(item, budgetOrder.persons));
         }
 
         console.log("finalBudget Time using: ", Date.now() - time);
@@ -220,10 +224,11 @@ export class Budget extends BudgetHelps {
         }
     }
 
-    completeBudget(item: DataOrder) {
+    completeBudget(item: DataOrder, persons: number = 1) {
         let budget = item.budget;
         budget.index = item.index;
         budget.backOrGo = item.backOrGo;
+        budget.price = budget.price * persons;
         delete budget.prefers;
         delete budget.markedScoreData;
         return budget;

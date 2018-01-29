@@ -7,23 +7,23 @@
 var assert = require("assert");
 var API = require("@jingli/dnode-api");
 import moment = require("moment");
-import {countRoom, countDays} from "../helper";
-import {EGender, EHotelStar, ETrainSeat, EAirCabin, IQueryBudgetParams} from "_types/budget";
+import { countRoom, countDays } from "../helper";
+import { EGender, EHotelStar, ETrainSeat, EAirCabin, IQueryBudgetParams } from "_types/budget";
 import Logger from "@jingli/logger";
 const logger = new Logger("mocha");
 
 describe("api/budget", () => {
 
-    describe("hotel budget", function() {
+    describe("hotel budget", function () {
         it("#API.budget.getHotelBudget should throw error", () => {
             return API.budget.getHotelBudget()
-                .catch( (err) => {
+                .catch((err) => {
                     assert.equal(err.code, 500);
                     return;
                 })
         })
 
-        it("#API.budget.getHotelBudget should be ok without hotels", function() {
+        it("#API.budget.getHotelBudget should be ok without hotels", function () {
             this.timeout(20 * 1000)
             let dateFormat = 'YYYY-MM-DD'
             let params = {
@@ -41,17 +41,17 @@ describe("api/budget", () => {
                     }
                 ],
                 combineRoom: false,
-                city:"CT_131",
+                city: "CT_131",
                 // isRetMarkedData: true
             }
             return API.budget.getHotelBudget(params)
-                .then( (budget) => {
-                    logger.log('单人预算结果:==>'+JSON.stringify(budget));
+                .then((budget) => {
+                    logger.log('单人预算结果:==>' + JSON.stringify(budget));
                     return;
                 })
         })
 
-        it("#API.budget.getHotelBudget should be ok without hotels AND muti staffs", function() {
+        it("#API.budget.getHotelBudget should be ok without hotels AND muti staffs", function () {
             this.timeout(20 * 1000)
             let dateFormat = 'YYYY-MM-DD'
             let params = {
@@ -77,18 +77,18 @@ describe("api/budget", () => {
                         "policy": "manager",
                     }
                 ],
-                city:"CT_131",
+                city: "CT_131",
                 // isRetMarkedData: true
             }
             return API.budget.getHotelBudget(params)
-                .then( (budgetResult) => {
-                    logger.log("多人预算结果==>"+ JSON.stringify(budgetResult));
+                .then((budgetResult) => {
+                    logger.log("多人预算结果==>" + JSON.stringify(budgetResult));
                     return true;
                 })
         })
 
 
-        it("#API.budget.getHotelBudget should be ok with location", function() {
+        it("#API.budget.getHotelBudget should be ok with location", function () {
             this.timeout(20 * 1000)
             let dateFormat = 'YYYY-MM-DD'
             let params = {
@@ -107,15 +107,15 @@ describe("api/budget", () => {
                         "policy": "staff",
                     }
                 ],
-                city:"CT_131",
+                city: "CT_131",
                 location: {
                     latitude: 39.929986,
                     longitude: 116.395645,
                 }
             }
             return API.budget.getHotelBudget(params)
-                .then( (budgetResult) => {
-                    logger.log("location==>"+ JSON.stringify(budgetResult));
+                .then((budgetResult) => {
+                    logger.log("location==>" + JSON.stringify(budgetResult));
                     return true;
                 })
         })
@@ -123,8 +123,8 @@ describe("api/budget", () => {
 
     })
 
-    describe("countRoom", function() {
-        it("#countRoom should be ok with combineRoom=true AND 1M+1FM=2 rooms", function() {
+    describe("countRoom", function () {
+        it("#countRoom should be ok with combineRoom=true AND 1M+1FM=2 rooms", function () {
             let staffs = [
                 {
                     gender: EGender.MALE,
@@ -139,7 +139,7 @@ describe("api/budget", () => {
             assert.equal(num, 2);
         })
 
-        it("#countRoom should be ok with combineRoom=true AND 2M+1FM=2 rooms", function() {
+        it("#countRoom should be ok with combineRoom=true AND 2M+1FM=2 rooms", function () {
             let staffs = [
                 {
                     gender: EGender.MALE,
@@ -158,7 +158,7 @@ describe("api/budget", () => {
             assert.equal(num, 2);
         });
 
-        it("#countRoom should be ok with combineRoom=true AND (3M+1FM=3)", function() {
+        it("#countRoom should be ok with combineRoom=true AND (3M+1FM=3)", function () {
             let staffs = [
                 {
                     gender: EGender.MALE,
@@ -181,7 +181,7 @@ describe("api/budget", () => {
             assert.equal(num, 3);
         })
 
-        it("#countRoom should be ok with combineRoom=false", function() {
+        it("#countRoom should be ok with combineRoom=false", function () {
             let staffs = [
                 {
                     gender: EGender.MALE,
@@ -197,8 +197,8 @@ describe("api/budget", () => {
         })
     })
 
-    describe("countDays", function() {
-        it("#countDays should be ok", function() {
+    describe("countDays", function () {
+        it("#countDays should be ok", function () {
             let beginTime = new Date('2017-05-10T12:00:00');
             let endTime = new Date('2017-05-10T22:00:00');
             let timezone = 'Europe/London'
@@ -206,7 +206,7 @@ describe("api/budget", () => {
             assert.equal(0, days);
         });
 
-        it("#countDays should be ok", function() {
+        it("#countDays should be ok", function () {
             let beginTime = new Date('2017-05-10T05:00:00')
             let endTime = new Date('2017-05-10T18:00:00');
             let timezone = 'Asia/Shanghai'
@@ -214,7 +214,7 @@ describe("api/budget", () => {
             assert.equal(1, days);
         });
 
-        it("#countDays should throw error when endTime < beginTime", function() {
+        it("#countDays should throw error when endTime < beginTime", function () {
             let beginTime = new Date('2017-05-11T05:00:00');
             let endTime = new Date('2017-05-10T12:00:00');
             let timezone = 'Europe/London'
@@ -226,9 +226,9 @@ describe("api/budget", () => {
     })
 
 
-    describe("traffic budget", function() {
+    describe("traffic budget", function () {
 
-        it("#API.budget.getTrafficBudget should be ok", async function() {
+        it("#API.budget.getTrafficBudget should be ok", async function () {
             this.timeout(20 * 1000)
             let params = {
                 staffs: [
@@ -252,7 +252,7 @@ describe("api/budget", () => {
             return budgets;
         })
 
-        it("#API.budget.getTrafficBudget should be ok with mutip staffs", async function() {
+        it("#API.budget.getTrafficBudget should be ok with mutip staffs", async function () {
             this.timeout(20 * 1000)
             let params = {
                 staffs: [
@@ -281,21 +281,20 @@ describe("api/budget", () => {
                 endTime: moment().add(4, 'days').format("YYYY-MM-DD HH:mm:ss")
             }
             let budgets = await API.budget.getTrafficBudget(params);
-            logger.log("多人预算==>"+ JSON.stringify(budgets));
+            logger.log("多人预算==>" + JSON.stringify(budgets));
             return budgets;
         })
     })
-    
-    describe("getBudget", function() {
+
+    describe("getBudget", function () {
 
         this.timeout(60 * 1000);
-        it("#API.budget.getBudget should be ok", function(done) {
+        it("#API.budget.getBudget should be ok", function (done) {
             let params = {
                 fromCity: 'CT_231',
                 staffs: [
                     {
                         gender: EGender.FEMALE,
-                        policy: 'staff'
                     }
                 ],
                 policies: {
@@ -303,7 +302,7 @@ describe("api/budget", () => {
                         hotelStar: [EHotelStar.FIVE, EHotelStar.FOUR]
                     }
                 },
-                segments:[
+                segments: [
                     {
                         city: 'CT_131',
                         beginTime: moment().add(3, 'days').toDate(),
@@ -312,28 +311,27 @@ describe("api/budget", () => {
                 ],
                 ret: false
             } as IQueryBudgetParams;
-            logger.log("单人单目的地请求参数==>"+ JSON.stringify(params) )
+            logger.log("单人单目的地请求参数==>" + JSON.stringify(params))
             return API.budget.createBudget(params)
-                .then( (budgetResult) => {
-                    logger.log("budgets==>"+ JSON.stringify(budgetResult));
+                .then((budgetResult) => {
+                    logger.log("budgets==>" + JSON.stringify(budgetResult));
                     let cities = budgetResult.cities;
                     assert.equal(!!cities, true);
                     assert.equal(cities[0], 'CT_131');
                     done();
                 })
-                .catch( (err) => {
+                .catch((err) => {
                     console.error(err.stack)
                     throw err;
                 })
         })
 
-        it("#API.budget.getBudget should be ok", function(done) {
+        it("#API.budget.getBudget should be ok", function (done) {
             let params = {
                 fromCity: 'CT_231',
                 staffs: [
                     {
-                        gender: EGender.FEMALE,
-                        policy: 'staff'
+                        gender: EGender.FEMALE
                     }
                 ],
                 policies: {
@@ -341,7 +339,7 @@ describe("api/budget", () => {
                         hotelStar: [EHotelStar.FIVE, EHotelStar.FOUR]
                     }
                 },
-                segments:[
+                segments: [
                     {
                         city: 'CT_131',
                         beginTime: moment().add(3, 'days').toDate(),
@@ -350,32 +348,30 @@ describe("api/budget", () => {
                 ],
                 ret: true
             } as IQueryBudgetParams;
-            logger.log("单人单目的地有返程请求参数==>"+ JSON.stringify(params) )
+            logger.log("单人单目的地有返程请求参数==>" + JSON.stringify(params))
             return API.budget.createBudget(params)
-                .then( (budgetResult) => {
-                    logger.log("budgets==>"+ JSON.stringify(budgetResult));
+                .then((budgetResult) => {
+                    logger.log("budgets==>" + JSON.stringify(budgetResult));
                     let cities = budgetResult.cities;
                     assert.equal(!!cities, true);
                     assert.equal(cities[0], 'CT_131');
                     done();
                 })
-                .catch( (err) => {
+                .catch((err) => {
                     console.error(err.stack)
                     throw err;
                 })
         })
 
-        it("#API.budget.getBudget should be ok", function(done) {
+        it("#API.budget.getBudget should be ok", function (done) {
             let params = {
                 fromCity: 'CT_231',
                 staffs: [
                     {
                         gender: EGender.FEMALE,
-                        policy: 'staff'
                     },
                     {
                         gender: EGender.MALE,
-                        policy: 'manager'
                     }
                 ],
                 policies: {
@@ -390,7 +386,7 @@ describe("api/budget", () => {
                         cabin: [EAirCabin.FIRST, EAirCabin.BUSINESS]
                     }
                 },
-                segments:[
+                segments: [
                     {
                         city: 'CT_131',
                         beginTime: moment().add(3, 'days').toDate(),
@@ -406,30 +402,28 @@ describe("api/budget", () => {
             } as IQueryBudgetParams
             logger.log("多人单目的地==>", JSON.stringify(params));
             return API.budget.createBudget(params)
-                .then( (budgetResult) => {
-                    logger.log("budgets==>"+ JSON.stringify(budgetResult));
+                .then((budgetResult) => {
+                    logger.log("budgets==>" + JSON.stringify(budgetResult));
                     let cities = budgetResult.cities;
                     assert.equal(!!cities, true);
                     assert.equal(cities[0], 'CT_131');
                     done();
                 })
-                .catch( (err) => {
+                .catch((err) => {
                     console.error(err.stack)
                     throw err;
                 })
         })
 
-        it("#API.budget.getBudget should be ok", function(done) {
+        it("#API.budget.getBudget should be ok", function (done) {
             let params = {
                 fromCity: 'CT_231',
                 staffs: [
                     {
                         gender: EGender.FEMALE,
-                        policy: 'staff'
                     },
                     {
                         gender: EGender.MALE,
-                        policy: 'manager'
                     }
                 ],
                 policies: {
@@ -444,7 +438,7 @@ describe("api/budget", () => {
                         cabin: [EAirCabin.FIRST, EAirCabin.BUSINESS]
                     }
                 },
-                segments:[
+                segments: [
                     {
                         city: 'CT_131',
                         beginTime: moment().add(3, 'days').toDate(),
@@ -460,27 +454,26 @@ describe("api/budget", () => {
             } as IQueryBudgetParams
             logger.log("多人多目的地==>", JSON.stringify(params));
             return API.budget.createBudget(params)
-                .then( (budgetResult) => {
-                    logger.log("budgets==>"+ JSON.stringify(budgetResult));
+                .then((budgetResult) => {
+                    logger.log("budgets==>" + JSON.stringify(budgetResult));
                     let cities = budgetResult.cities;
                     assert.equal(!!cities, true);
                     assert.equal(cities[0], 'CT_131');
-                    assert.equal(cities[cities.length-1], 'CT_231');
+                    assert.equal(cities[cities.length - 1], 'CT_231');
                     done();
                 })
-                .catch( (err) => {
+                .catch((err) => {
                     console.error(err.stack)
                     throw err;
                 })
         })
 
-        it("#API.budget.createBudget should be ok without fromCity", function(done) {
+        it("#API.budget.createBudget should be ok without fromCity", function (done) {
             this.timeout(10 * 1000);
             let params = {
                 staffs: [
                     {
                         gender: EGender.FEMALE,
-                        policy: 'staff'
                     }
                 ],
                 policies: {
@@ -490,7 +483,7 @@ describe("api/budget", () => {
                         cabin: [EAirCabin.ECONOMY]
                     }
                 },
-                segments:[
+                segments: [
                     {
                         city: 'CT_131',
                         beginTime: moment().add(3, 'days').toDate(),
@@ -501,25 +494,24 @@ describe("api/budget", () => {
             } as IQueryBudgetParams
             logger.log("没有出发地==>", JSON.stringify(params));
             return API.budget.createBudget(params)
-                .then( (budgetResult) => {
-                    logger.log("budgets==>"+ JSON.stringify(budgetResult));
+                .then((budgetResult) => {
+                    logger.log("budgets==>" + JSON.stringify(budgetResult));
                     let cities = budgetResult.cities;
                     assert.equal(!!cities, true);
                     assert.equal(cities[0], 'CT_131');
                     done();
                 })
-                .catch( (err) => {
+                .catch((err) => {
                     throw err;
                 })
         })
 
-        it("#API.budget.createBudget should be ok when point to backCity", function(done) {
+        it("#API.budget.createBudget should be ok when point to backCity", function (done) {
             this.timeout(60 * 1000);
             let params = {
                 staffs: [
                     {
                         gender: EGender.FEMALE,
-                        policy: 'staff'
                     }
                 ],
                 policies: {
@@ -529,7 +521,7 @@ describe("api/budget", () => {
                         cabin: [EAirCabin.ECONOMY]
                     }
                 },
-                segments:[
+                segments: [
                     {
                         city: 'CT_131',
                         beginTime: moment().add(3, 'days').toDate(),
@@ -542,14 +534,14 @@ describe("api/budget", () => {
             } as IQueryBudgetParams
             logger.log("指定返回地==>", JSON.stringify(params));
             return API.budget.createBudget(params)
-                .then( (budgetResult) => {
-                    logger.log("budgets==>"+ JSON.stringify(budgetResult));
+                .then((budgetResult) => {
+                    logger.log("budgets==>" + JSON.stringify(budgetResult));
                     let cities = budgetResult.cities;
                     assert.equal(!!cities, true);
-                    assert.equal(cities[cities.length-1], 'CT_289');
+                    assert.equal(cities[cities.length - 1], 'CT_289');
                     done();
                 })
-                .catch( (err) => {
+                .catch((err) => {
                     throw err;
                 })
         })

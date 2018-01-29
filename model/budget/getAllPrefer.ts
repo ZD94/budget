@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-16 11:35:17 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-28 20:33:25
+ * @Last Modified time: 2018-01-29 10:53:35
  * @content what is the content of this file. */
 
 import { ICity, CityService } from '_types/city';
@@ -52,7 +52,7 @@ export interface HotelPreferParams extends AllPreferParams {
 export class GetAllPrefer {
 
     async getPrefer(params: AllPreferParams) {
-        let { companyId, travelPolicyId, staff, input, type } = params;
+        let { companyId, travelPolicyId, input, type } = params;
 
         // console.log("getPrefer =====> ", params);
         for (let key in input) {

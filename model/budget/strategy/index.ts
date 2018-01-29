@@ -112,6 +112,10 @@ export abstract class AbstractHotelStrategy {
     async getResult(hotels: IHotel[], isRetMarkedData?: boolean, preferedCurrency?: string): Promise<IHotelBudgetItem> {
         let self = this;
         let _hotels = formatHotel(hotels);
+
+        let checkOutDate = moment(self.qs.checkOutDate).format("YYYY-MM-DD");
+        let checkInDate = moment(self.qs.checkInDate).format("YYYY-MM-DD");
+        let days = moment(checkOutDate).diff(checkInDate, 'days');
         if ((!_hotels || !_hotels.length) && self.qs.city && !self.qs.city.isAbroad) {
             const defaultPrice = {
                 "5": 500,
@@ -119,9 +123,7 @@ export abstract class AbstractHotelStrategy {
                 "3": 400,
                 "2": 350
             }
-            let checkOutDate = moment(self.qs.checkOutDate).format("YYYY-MM-DD");
-            let checkInDate = moment(self.qs.checkInDate).format("YYYY-MM-DD");
-            let days = moment(checkOutDate).diff(checkInDate, 'days');
+
             return {
                 city: self.qs.city ? self.qs.city.id : '',
                 name: null,
@@ -134,7 +136,8 @@ export abstract class AbstractHotelStrategy {
                 agent: null,
                 type: EBudgetType.HOTEL,
                 latitude: 0,
-                longitude: 0
+                longitude: 0,
+                duringDays: days
             } as IHotelBudgetItem;
         }
 
@@ -151,7 +154,8 @@ export abstract class AbstractHotelStrategy {
                 longitude: 0,
                 price: -1,
                 unit: preferedCurrency && typeof (preferedCurrency) != 'undefined' ? preferedCurrency : defaultCurrencyUnit,
-                rate: 1
+                rate: 1,
+                duringDays: days
             }
         }
 

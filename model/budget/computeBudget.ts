@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-22 10:56:07 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-28 21:16:33
+ * @Last Modified time: 2018-01-29 17:01:14
  * @content 计算预算 */
 
 import { BudgetType, SearchHotelParams, SearchTicketParams, defaultCurrencyUnit, DataOrder } from "./interface";
@@ -114,7 +114,7 @@ export class ComputeBudget {
     }
 
     async getTrafficBudget(params): Promise<ITrafficBudgetItem> {
-        let { originPlace: fromCity, destination: toCity, earliestGoBackDateTime: earliestDepartTime, latestArrivalDateTime: latestArrivalTime, prefer, data, staff } = params;
+        let { originPlace: fromCity, destination: toCity, leaveDate, earliestGoBackDateTime: earliestDepartTime, latestArrivalDateTime: latestArrivalTime, prefer, data, staff } = params;
 
         if (typeof fromCity == 'string') {
             fromCity = await CityService.getCity(fromCity);
@@ -158,6 +158,7 @@ export class ComputeBudget {
             departTime: budget.departTime,
             arrivalTime: budget.arrivalTime,
             trafficType: budget.trafficType,
+            leaveDate,
             cabin: budget.cabin,
             fromCity: budget.fromCity,
             toCity: budget.toCity,

@@ -304,6 +304,7 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     toCity: string;                        //目的城市
     departTime: Date;
     arrivalTime: Date;
+    leaveDate: string;                     //用户选择的离开时间
     trafficType: ETrafficType;                  //交通类别,飞机、火车、轮船、大巴、打车或者自驾,租车
     cabin?: EAirCabin | ETrainSeat | EShipCabin;     //仓位或者座位
     discount?: number;                  //大致折扣

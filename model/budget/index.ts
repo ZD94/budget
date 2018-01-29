@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-29 14:25:02
+ * @Last Modified time: 2018-01-29 15:09:17
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -248,7 +248,3 @@ export class Budget extends BudgetHelps {
 }
 
 export let budget = new Budget();
-
-/* setInterval(() => {
-    console.log(process.pid, process.memoryUsage());
-}, 10 * 1000); */

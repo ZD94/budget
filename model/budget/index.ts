@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-29 13:22:41
+ * @Last Modified time: 2018-01-29 15:09:17
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -107,8 +107,9 @@ export class Budget extends BudgetHelps {
         }
 
         if (budgetOrder.step != STEP.FINAL) {
+            await cache.write(budgetOrder.id, { budgetOrder, finallyResult }, 5 * 60);
             //10s 后拉取最终预算
-            this.getFinalBudget(budgetOrder, finallyResult);
+            this.getFinalBudget(budgetOrder.id);
         }
 
         finallyResult.step = budgetOrder.step;
@@ -123,8 +124,9 @@ export class Budget extends BudgetHelps {
         return finallyResult;
     }
 
-    async getFinalBudget(budgetOrder: BudgetOrder, result: any, num?: number) {
+    async getFinalBudget(id, num?: number) {
         num = num ? num : 0;
+        let { budgetOrder, finallyResult: result } = await cache.read(id);
         let time = Date.now();
         let ps = budgetOrder.budgetData.map(async (item) => {
             if (item.step == STEP.FINAL || item.type == BudgetType.SUBSIDY) {
@@ -148,12 +150,12 @@ export class Budget extends BudgetHelps {
         });
 
         try {
-            budgetOrder.budgetData = await function (): Promise<DataOrder[]> {
+            budgetOrder.budgetData = await function () {
                 return new Promise((resolve, reject) => {
                     setTimeout(() => {
                         reject("DataStore FIN data, request Time out!");
                     }, 1.5 * 60 * 1000);
-                    Promise.all(ps).then((result: DataOrder[]) => {
+                    Promise.all(ps).then((result) => {
                         resolve(result);
                     })
                 });
@@ -246,7 +248,3 @@ export class Budget extends BudgetHelps {
 }
 
 export let budget = new Budget();
-
-/* setInterval(() => {
-    console.log(process.pid, process.memoryUsage());
-}, 10 * 1000); */

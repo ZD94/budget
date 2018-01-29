@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-29 15:09:17
+ * @Last Modified time: 2018-01-29 17:24:26
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -231,6 +231,9 @@ export class Budget extends BudgetHelps {
         budget.index = item.index;
         budget.backOrGo = item.backOrGo;
         budget.price = budget.price * persons;
+        if (item.type == BudgetType.TRAFFICT) {
+            budget.leaveDate = (item.input as SearchTicketParams).leaveDate;
+        }
         delete budget.prefers;
         delete budget.markedScoreData;
         return budget;

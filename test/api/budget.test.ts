@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-01-19 16:35:24 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-28 19:05:23
+ * @Last Modified time: 2018-01-29 17:06:16
  * @content what is the content of this file. */
 
 import { budget } from "model/budget";
@@ -17,10 +17,10 @@ let params = {
     destinationPlacesInfo:
         [{
             destinationPlace: 'CT_150',
-            leaveDate: '2018-01-20T10:00:00.000Z',
-            goBackDate: '2018-01-21T01:00:00.000Z',
-            latestArrivalDateTime: '2018-01-20T10:00:00.000Z',
-            earliestGoBackDateTime: '2018-01-21T01:00:00.000Z',
+            leaveDate: '2018-03-20T10:00:00.000Z',
+            goBackDate: '2018-03-21T01:00:00.000Z',
+            latestArrivalDateTime: '2018-03-20T10:00:00.000Z',
+            earliestGoBackDateTime: '2018-03-21T01:00:00.000Z',
             isNeedTraffic: true,
             isNeedHotel: true,
             reason: ''
@@ -47,20 +47,20 @@ let params2 = {
     "destinationPlacesInfo":
         [{
             "destinationPlace": "CT_289",
-            "leaveDate": "2018-01-24T10:00:00.000Z",
-            "goBackDate": "2018-01-27T01:00:00.000Z",
-            "latestArrivalDateTime": "2018-01-24T10:00:00.000Z",
-            "earliestGoBackDateTime": "2018-01-27T01:00:00.000Z",
+            "leaveDate": "2018-03-24T10:00:00.000Z",
+            "goBackDate": "2018-03-27T01:00:00.000Z",
+            "latestArrivalDateTime": "2018-03-24T10:00:00.000Z",
+            "earliestGoBackDateTime": "2018-03-27T01:00:00.000Z",
             "isNeedTraffic": true,
             "isNeedHotel": true,
             "reason": ""
         },
         {
             "destinationPlace": "CT_131",
-            "leaveDate": "2018-01-27T10:00:00.000Z",
-            "goBackDate": "2018-01-29T01:00:00.000Z",
-            "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
-            "earliestGoBackDateTime": "2018-01-29T01:00:00.000Z",
+            "leaveDate": "2018-03-27T10:00:00.000Z",
+            "goBackDate": "2018-03-29T01:00:00.000Z",
+            "latestArrivalDateTime": "2018-03-27T10:00:00.000Z",
+            "earliestGoBackDateTime": "2018-03-29T01:00:00.000Z",
             "isNeedTraffic": true,
             "isNeedHotel": true,
             "reason": ""
@@ -77,19 +77,19 @@ let params3 = {
     destinationPlacesInfo:
         [{
             destinationPlace: 'CT_150',
-            leaveDate: '2018-01-20T01:00:00.000Z',
-            goBackDate: '2018-01-20T08:00:00.000Z',
-            latestArrivalDateTime: '2018-01-20T01:00:00.000Z',
-            earliestGoBackDateTime: '2018-01-20T08:00:00.000Z',
+            leaveDate: '2018-03-20T01:00:00.000Z',
+            goBackDate: '2018-03-20T08:00:00.000Z',
+            latestArrivalDateTime: '2018-03-20T01:00:00.000Z',
+            earliestGoBackDateTime: '2018-03-20T08:00:00.000Z',
             isNeedTraffic: true,
             isNeedHotel: true,
             reason: ''
         }, {
             destinationPlace: 'CT_075',
-            leaveDate: '2018-01-20T08:00:00.000Z',
-            goBackDate: '2018-01-21T08:00:00.000Z',
-            latestArrivalDateTime: '2018-01-20T08:00:00.000Z',
-            earliestGoBackDateTime: '2018-01-21T08:00:00.000Z',
+            leaveDate: '2018-03-20T08:00:00.000Z',
+            goBackDate: '2018-03-21T08:00:00.000Z',
+            latestArrivalDateTime: '2018-03-20T08:00:00.000Z',
+            earliestGoBackDateTime: '2018-03-21T08:00:00.000Z',
             isNeedTraffic: true,
             isNeedHotel: true,
             reason: ''
@@ -113,13 +113,13 @@ let params4 = {
             "subsidy": {
                 "template": null
             },
-            "leaveDate": "2018-01-28T13:00:00.000Z",
-            "goBackDate": "2018-01-30T02:00:00.000Z",
+            "leaveDate": "2018-03-28T13:00:00.000Z",
+            "goBackDate": "2018-03-30T02:00:00.000Z",
             "isNeedHotel": true,
             "isNeedTraffic": true,
             "destinationPlace": "1814905",
-            "latestArrivalDateTime": "2018-01-28T13:00:00.000Z",
-            "earliestGoBackDateTime": "2018-01-30T02:00:00.000Z"
+            "latestArrivalDateTime": "2018-03-28T13:00:00.000Z",
+            "earliestGoBackDateTime": "2018-03-30T02:00:00.000Z"
         }
     ]
 }

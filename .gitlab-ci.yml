@@ -59,6 +59,7 @@ deploy:master:
   variables:
     JL_APP_OLD_POSTGRES_URL: postgres://times:time0418@l.jingli365.com:15432/times
     JL_APP_DATA_STORE_URL: https://l.jingli365.com/proj/svr-data-store
+    JL_APP_PLACE: https://l.jingli365.com/proj/svr-place
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME
@@ -77,6 +78,7 @@ deploy:test:
   variables:
     JL_APP_OLD_POSTGRES_URL: postgres://times:time0418@l.jingli365.com:15432/times
     JL_APP_DATA_STORE_URL: https://l.jingli365.com/proj/svr-data-store
+    JL_APP_PLACE: https://l.jingli365.com/proj/svr-place
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME
@@ -98,6 +100,7 @@ deploy:tester:
     JL_APP_POSTGRES_INITDB: tester_$GITLAB_USER_ID
     JL_APP_OLD_POSTGRES_URL: postgres://times:time0418@l.jingli365.com:15432/times
     JL_APP_DATA_STORE_URL: https://l.jingli365.com/proj/svr-data-store
+    JL_APP_PLACE: https://l.jingli365.com/proj/svr-place
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME
@@ -163,6 +166,7 @@ deploy:release:
     JL_APP_DATA_STORE: j.jingli365.com
     JL_APP_DATA_STORE_PORT: 4106
     JL_APP_DATA_STORE_URL: https://l.jingli365.com/proj/svr-data-store
+    JL_APP_PLACE: https://j.jingli365.com/proj/svr-place
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME

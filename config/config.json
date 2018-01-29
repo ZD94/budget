@@ -72,6 +72,6 @@
   "superUser": [
     "qmtrip@jingli365.com"
   ],
-  "placeAPI": "https://j.jingli365.com/proj/svr-place",
+  "placeAPI": "{JL_APP_PLACE}",
   "dataStore": "{JL_APP_DATA_STORE_URL}"
 }

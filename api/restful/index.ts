@@ -21,7 +21,7 @@ export class RestfulAPIUtil {
                     }
                     return resolve(result);
                 } catch (e) {
-                    console.log("proxyHttp ======> ", params);
+                    console.log("proxyHttp ======> ", params, Config.placeAPI + params.uri);
                     return reject(e);
                 }
 

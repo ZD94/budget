@@ -20,11 +20,6 @@ export class PlaceController extends AbstractController {
     }
 
     async get(req, res, next) {
-        // let {id} = req.params;
-        // let city = await API['place'].getCityInfo({cityCode: id});
-        // city = this.transform(city);
-        // res.json(this.reply(0, city));
-
         let { id } = req.params;
         const resp: any = await restfulAPIUtil.proxyHttp({
             uri: `/city/${id}`,
@@ -35,85 +30,22 @@ export class PlaceController extends AbstractController {
             return res.send(this.reply(0, this.transform(resp.data)))
         }
         return res.send(resp.code, null);
-
-
-        // let { id } = req.params;
-        // // let city = await CityService.getCity(id);
-        // let city = await API.place.getCityInfo({ cityCode: id });
-        // if (!city) {
-        //     return res.json(this.reply(404, null));
-        // }
-        // return res.json(this.reply(0, city));
     }
 
-    // async get(req, res, next) {
-    //     let { id } = req.params;
-    //     let city = await CityService.getCity(id);
-    //     if (!city) {
-    //         return res.json(this.reply(404, null));
-    //     }
-    //     return res.json(this.reply(0, city));
-    // }
-
-    @Router('/search/(:keyword)?', 'get')   //------- 此行不需要， queryHotCity, queryCity 两个即可使用该接口
+    @Router('/search/(:keyword)?', 'get')
     async find(req, res, next) {
-        // let {keyword} = req.params;
-        // let cities = [];
-        // if (!keyword ) {
-        //     cities = await API['place'].queryHotCity({limit: 20});
-        // } else {
-        //     cities = await API['place'].queryCity({keyword: keyword});
-        // }
-        // cities = cities.map((city) => {
-        //     return this.transform(city);
-        // });
-        // res.json(this.reply(0, cities));
-
-
         let { keyword } = req.params;
-        console.log("==search===keyword: ", keyword)
         let cities = [];
         const resp: any = keyword
             ? await restfulAPIUtil.proxyHttp({ uri: `/city/search`, method: 'GET', qs: { keyword } })
             : await restfulAPIUtil.proxyHttp({ uri: `/city`, method: 'GET' })
-
-        console.log("========search ======>keyword: ", resp)
         return res.send(this.processResp(resp));
-
-        // let { keyword } = req.params;
-        // let cities = [];
-        // if (!keyword) {
-        //     cities = await API['place'].queryHotCity({ limit: 20 });
-        // } else {
-        //     cities = await API['place'].queryCity({ keyword: keyword });
-        // }
-        // cities = cities.map((city) => {
-        //     return this.transform(city);
-        // });
-        // res.json(this.reply(0, cities));
-
-        //     let { keyword } = req.params;
-        //     const resp: any = keyword
-        //         ? await restfulAPIUtil.proxyHttp({ uri: `/city/search`, method: 'GET', qs: { keyword } })
-        //         : await restfulAPIUtil.proxyHttp({ uri: `/city`, method: 'GET' })
-        //
-        //     return res.send(this.processResp(resp));
     }
 
     @Router('/nearby/:latitude/:longitude', 'get')
     async findNearCity(req, res, next) {
-        // let {latitude,longitude} = req.params;
-        // const isValid = latitude === void 0
-        //     || validator.isEmpty(latitude)
-        //     || longitude === void 0
-        //     || validator.isEmpty(longitude);
-        // if(!isValid){
-        //     return
-        // }
-
         let { latitude, longitude } = req.params,
             pattern = /^\d+\.?\d+$/;
-
         const isValid = pattern.test(latitude) && pattern.test(longitude);
         if (!isValid) {
             return res.send(this.reply(400, null));
@@ -124,57 +56,16 @@ export class PlaceController extends AbstractController {
         });
 
         return res.send(this.processResp(resp.data));
-
-        // let { latitude, longitude } = req.params;
-        // const isValid = latitude === void 0
-        //     || validator.isEmpty(latitude)
-        //     || longitude === void 0
-        //     || validator.isEmpty(longitude);
-        // if (!isValid) {
-        //     return
-        // }
-
-        //     let { latitude, longitude } = req.params,
-        //         pattern = /^\d+\.?\d+$/;
-        //
-        //     const isValid = pattern.test(latitude) && pattern.test(longitude);
-        //     if (!isValid) {
-        //         return res.send(this.reply(400, null));
-        //     }
-        //     const resp: any = await restfulAPIUtil.proxyHttp({
-        //         uri: `/city/nearby/${longitude},${latitude}`,
-        //         method: 'GET'
-        //     });
-        //
-        //     return res.send(this.processResp(resp));
     }
 
     @Router('/:id/children', 'get')
     async getChildren(req, res, next) {
-        // let {id} = req.params,
-        //     cities = await API['place'].queryCity({parentId:id});
-        // res.json(this.reply(0,cities.map(this.transform)));
-
         let { id } = req.params;
         const resp: any = await restfulAPIUtil.proxyHttp({
             uri: `/city/${id}/children`,
             method: 'GET'
         });
-
         return res.send(this.processResp(resp));
-
-        // let { id } = req.params,
-        //     cities = await API['place'].queryCity({ parentId: id });
-        // res.json(this.reply(0, cities.map(this.transform)));
-
-        //     let { id } = req.params;
-        //     const resp: any = await restfulAPIUtil.proxyHttp({
-        //         uri: `/city/${id}/children`,
-        //         method: 'GET'
-        //     });
-        //
-        //     return res.send(this.processResp(resp));
-
     }
 
 
@@ -195,33 +86,12 @@ export class PlaceController extends AbstractController {
             method: 'GET',
             qs
         });
-
         res.json(this.reply(0, this.processResp(resp)));
-
-        // async getCitiesByLetter(req, res, next) {
-        //     let { isAbroad = false, letter = 'A', limit = 20, page = 0, type = 2 } = req.query;
-        //     let cities = await API['place'].getCitiesByLetter({
-        //         isAbroad,
-
-        // let cities = await API['place'].getCitiesByLetter({
-        //     isAbroad,
-        //     letter,
-        //     limit,
-        //     page,
-        //     type
-        // });
-        // res.json(this.reply(0,cities));
     }
 
     @Router('/getCityInfoByName', 'GET')
     async getCityInfoByName(req, res, next) {
-        // let {name} = req.query;
-        // let city = await API['place'].getCityInfoByName(name);
-        // res.json(this.reply(0, this.transform(city)));
-
-
         let { name } = req.query;
-        console.log("======name: ", name)
         if (!name) return res.json(this.reply(502, null));
         const resp: any = await restfulAPIUtil.proxyHttp({
             uri: `/city/getCityByName`,
@@ -233,19 +103,6 @@ export class PlaceController extends AbstractController {
         res.json(this.reply(0, this.transform(resp.data)));
     }
 
-    // @Router('/getCityInfoByName', 'GET')
-    // async getCityInfoByName(req, res, next) {
-    //     let { name } = req.query;
-    //     let city = await API['place'].getCityInfoByName(name);
-    //     res.json(this.reply(0, this.transform(city)));
-    // }
-
-    // @Router('/queryHotCity', 'GET')
-    // async queryHotCity(req, res, next){
-    //     let params= req.params;
-    //     let cities = await API['place'].queryHotCity(params);
-    //     res.json(this.reply(0, cities.map(this.transform)));
-    // }
 
     @Router('/getAirPortsByCity', 'GET')
     async getAirPortsByCity(req, res, next) {
@@ -256,35 +113,29 @@ export class PlaceController extends AbstractController {
         res.json(this.reply(0, airports.map(this.transform)));
     }
 
-    // @Router('/queryCity', 'GET')
-    // async queryCity(req, res, next){
-    //     let params = req.params;
-    //     let cities = await API['place'].queryCity(params);
-    //     res.json(this.reply(0, cities.map(this.transform)));
-    // }
-
     private processResp(resp) {
         return resp.code === 0
             ? this.reply(0, resp.data.map(this.transform))
             : this.reply(resp.code, null);
     }
 
-    private transform(city) {
+    private async transform(city) {
+        let res: any = await restfulAPIUtil.proxyHttp({ uri: `/city/${city.id}/alternate/iatacode` });
+        let iataCode;
+        if (!res.code || res.code == 200) { 
+            iataCode = res.data.value;
+        }
         return {
             id: city.id,
             name: city.name,
             pinyin: city.pinyin,
             letter: city.letter,
-            latitude: city.lat,
-            longitude: city.lng,
-            // latitude: city.latitude,
-            // longitude: city.longitude,
+            latitude: city.latitude ? city.latitude: city.lat,
+            longitude: city.longitude ? city.longitude: city.lng,
             parentId: city.parentId,
-
             timezone: city.timezone,
-            isAbroad: city.isAbroad,
-            ctripCode: city.ctrip_code
-
+            isAbroad: city.country_code == 'CN' ? true: false,
+            ctripCode: iataCode ? iataCode: city.ctrip_code
         }
     }
 }

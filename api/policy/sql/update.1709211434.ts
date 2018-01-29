@@ -5,15 +5,15 @@ var DefaultRegion = {
 };
 
 var DefaultRegionId = {
-    domestic: 'CTW_5',
-    abroad:  'Global'
+    domestic: '1814991',  //表示中国
+    abroad:  '1'          //表示最顶级-全球
 };
 var subsidyRegions = [
     {name:DefaultRegion.abroad, cityIds: [DefaultRegionId.abroad], group: 2, types: '[1,2,3]'},
     {name:DefaultRegion.domestic, cityIds: [DefaultRegionId.domestic], group: 1, types: '[1,2,3]'},
-    {name:'中国一类地区', cityIds: ['CT_340','CT_257','CT_289','CT_131'], group: 1, types: '[2,3]'},
-    {name:'中国二类地区', cityIds: ['CT_194','CT_179','CT_158','CT_317','CT_233','CT_058','CT_236','CT_315','CT_218','CT_167','CT_300','CT_075','CT_332','CT_288','CT_132'], group: 1, types: '[2,3]'},
-    {name:'港澳台', cityIds: ['CT_2912','CT_9000','CT_2911'], group: 2, types: '[1,2,3]'}
+    {name:'中国一类地区', cityIds: ['1795563','1809857','1796231','2038349'], group: 1, types: '[2,3]'},
+    {name:'中国二类地区', cityIds: ['800000235','1808925','1815550','1790902','CT_233','2034935','1797926','1799960','1791243','1814068','1810821','1815285','1792943','1805751','1814905'], group: 1, types: '[2,3]'},
+    {name:'港澳台', cityIds: ['1814991','CT_9000','CT_2911'], group: 2, types: '[1,2,3]'}
 ];
 
 

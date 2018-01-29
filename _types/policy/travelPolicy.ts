@@ -98,8 +98,8 @@ export var DefaultRegion = {
 }
 
 export var DefaultRegionId = {
-    domestic: 'CTW_5',
-    abroad:  'Global'
+    domestic: '1814991',  //表示中国
+    abroad:  '1'          //表示最顶级，为全球
 }
 
 export var TravelPolicyType = {

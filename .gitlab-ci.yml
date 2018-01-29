@@ -31,8 +31,8 @@ build:dist:
     paths:
       - dist/
   script:
-    - --mkdir -p $NPM_CACHE_DIR/`npmhash`/node_modules && ln -s $NPM_CACHE_DIR/`npmhash`/node_modules .
-    - --echo `npmhash`
+    # - --mkdir -p $NPM_CACHE_DIR/`npmhash`/node_modules && ln -s $NPM_CACHE_DIR/`npmhash`/node_modules .
+    # - --echo `npmhash`
     - git submodule update --init --checkout
     - npm install
     - gulp dist

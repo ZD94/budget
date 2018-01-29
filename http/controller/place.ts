@@ -27,7 +27,7 @@ export class PlaceController extends AbstractController {
         });
 
         if (resp.code === 0) {
-            return res.send(this.reply(0, this.transform(resp.data)))
+            return res.send(this.reply(0, await this.transform(resp.data)))
         }
         return res.send(resp.code, null);
     }
@@ -100,7 +100,7 @@ export class PlaceController extends AbstractController {
                 name
             }
         });
-        res.json(this.reply(0, this.transform(resp.data)));
+        res.json(this.reply(0, await this.transform(resp.data)));
     }
 
 
@@ -110,13 +110,20 @@ export class PlaceController extends AbstractController {
         let airports = await API['place'].getAirPortsByCity({
             cityCode
         });
-        res.json(this.reply(0, airports.map(this.transform)));
+        let ps = airports.map((airport) => {
+            return this.transform(airport);
+        });
+        res.json(this.reply(0, await Promise.all(ps)));
     }
 
-    private processResp(resp) {
-        return resp.code === 0
-            ? this.reply(0, resp.data.map(this.transform))
-            : this.reply(resp.code, null);
+    private async processResp(resp) {
+        if (resp.code == 0) { 
+            let ps = resp.data.map((item) => {
+                return this.transform(item);
+            });
+            return this.reply(0, await Promise.all(ps));
+        }
+        return this.reply(resp.code, null);
     }
 
     private async transform(city) {

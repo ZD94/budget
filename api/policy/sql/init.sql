@@ -8,7 +8,7 @@ INSERT INTO travel_policy.travel_policies (
 
 INSERT INTO travel_policy.region_places (
             id, place_id, company_region_id, created_at, updated_at)
-    VALUES ('9ec16150-7526-11e7-8d7a-fb2cf68e71e9', 'CTW_5', '9f3ea7a0-7526-11e7-8d7a-fb2cf68e71e9', now(), now());
+    VALUES ('9ec16150-7526-11e7-8d7a-fb2cf68e71e9', '1814991', '9f3ea7a0-7526-11e7-8d7a-fb2cf68e71e9', now(), now());  
 
 INSERT INTO travel_policy.company_regions (
             id, name, company_id, created_at, updated_at)

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-29 14:22:53
+ * @Last Modified time: 2018-01-29 14:25:02
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -26,7 +26,7 @@ import { clearTimeout } from 'timers';
 import { BudgetHelps } from "./helper";
 
 // test
-import "test/api/budget.test";
+// import "test/api/budget.test";
 
 export class Budget extends BudgetHelps {
     constructor() {

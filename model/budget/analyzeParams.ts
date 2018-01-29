@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-11-24 17:06:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-28 20:57:44
+ * @Last Modified time: 2018-01-29 11:05:30
  * @content analyze the budgets request . */
 
 import * as uuid from "uuid";
@@ -181,7 +181,7 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
 
         /* 增加一项补助 */
         budgetParams.push(createSubsidy({
-            beginTime: lastDestinations.leaveDate,
+            beginTime: lastDestinations.goBackDate,
             endTime: lastDestinations.goBackDate,
             city: params.goBackPlace,
             index: destinations.length,

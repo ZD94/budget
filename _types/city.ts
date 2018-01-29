@@ -10,6 +10,10 @@ const config = require("@jingli/config");
 import L from '@jingli/language';
 import { restfulAPIUtil } from 'api/restful';
 import { CoordDispose, Degree } from "../libs/place/placeUtil";
+var DefaultRegionId = {
+    domestic: '1814991',  //表示中国
+    abroad: '1'          //表示最顶级-全球
+};
 
 export interface ICity {
     name: string;

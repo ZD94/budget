@@ -73,7 +73,7 @@ export class PlaceController extends AbstractController {
     async getCitiesByLetter(req, res, next) {
         let { isAbroad = false, letter = 'A', limit = 20, page = 0, type = 2, lang = 'zh' } = req.query;
 
-        let country_code = (isAbroad == true || isAbroad== 'true') ? '!CN' : 'CN';
+        let country_code = (isAbroad == true || isAbroad.toString() == 'true') ? '!CN' : 'CN';
         let qs = {
             letter,
             lang,

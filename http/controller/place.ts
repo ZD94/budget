@@ -130,8 +130,9 @@ export class PlaceController extends AbstractController {
         let res: any = await restfulAPIUtil.proxyHttp({ uri: `/city/${city.id}/alternate/iatacode` });
         let iataCode;
         if (!res.code || res.code == 200) { 
-            iataCode = res.data.value;
+            iataCode = res.data ? res.data.value: null;
         }
+
         return {
             id: city.id,
             name: city.name,

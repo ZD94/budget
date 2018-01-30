@@ -57,22 +57,8 @@ export default class TmcSupplierController extends AbstractController {
     @Router("/:companyId/data","put")
     async sname(req,res,next){
         let result = await tmcSupplierMethod.getTmcTypes(req.body);
-        let values = this.transform(result)
-        res.jlReply(reply(0, values));
+        res.jlReply(reply(0, result));
     }
 
-    async transform(vals: TmcSupplier[]){
-        let result: TmcSupplier[] = [];
-        await Promise.all(vals.map(async (val: TmcSupplier) => {
-            for(let key in TmcSupplier['$fieldnames']) {
-                let supplier: any = {};
-                if(val[key]){
-                    supplier[key] = val[key]
-                }
-                result.push(supplier);
-            }
-        }))
-        return result;
-    }
 
 }

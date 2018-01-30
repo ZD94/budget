@@ -138,7 +138,7 @@ export class TmcSupplierMethod {
                         sname: sname
                     }
                 });
-                let tmcSupplier = await await Models.tmcSupplier.find({
+                let tmcSupplier = await await Models.tmcSupplier.all({
                     where: {
                         company_id: companyId,
                         tmc_type_id: tmcType["0"]["id"]

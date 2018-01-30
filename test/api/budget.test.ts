@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-01-19 16:35:24 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-29 17:06:16
+ * @Last Modified time: 2018-01-30 17:41:59
  * @content what is the content of this file. */
 
 import { budget } from "model/budget";
@@ -113,15 +113,37 @@ let params4 = {
             "subsidy": {
                 "template": null
             },
-            "leaveDate": "2018-03-28T13:00:00.000Z",
-            "goBackDate": "2018-03-30T02:00:00.000Z",
+            "leaveDate": "2018-02-15T13:00:00.000Z",
+            "goBackDate": "2018-02-17T02:00:00.000Z",
             "isNeedHotel": true,
             "isNeedTraffic": true,
-            "destinationPlace": "1814905",
-            "latestArrivalDateTime": "2018-03-28T13:00:00.000Z",
-            "earliestGoBackDateTime": "2018-03-30T02:00:00.000Z"
+            "destinationPlace": "1792943",
+            "latestArrivalDateTime": "2018-02-15T13:00:00.000Z",
+            "earliestGoBackDateTime": "2018-02-17T02:00:00.000Z"
         }
     ]
+}
+
+let params5 = {
+    // callbackUrl: 'l.jingli365.com/api/v1/budget/7981c4d0-058f-11e8-96e0-afb5c70cc3c3/updateBudget',
+    preferedCurrency: 'CNY',
+    travelPolicyId: '0beaf7d0-04da-11e8-aad3-dfe6b7162831',
+    companyId: 'f0156b30-04d9-11e8-87ce-95314b2290d2',
+    staffs: [{ gender: 1, policy: 'domestic' }],
+    destinationPlacesInfo:
+        [{
+            destinationPlace: '1791243',
+            leaveDate: '2018-02-02T10:00:00.000Z',
+            goBackDate: '2018-02-03T01:00:00.000Z',
+            latestArrivalDateTime: '2018-02-02T10:00:00.000Z',
+            earliestGoBackDateTime: '2018-02-03T01:00:00.000Z',
+            isNeedTraffic: true,
+            isNeedHotel: true,
+            reason: ''
+        }],
+    originPlace: '1814905',
+    isRoundTrip: true,
+    goBackPlace: '1814905'
 }
 
 

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-29 17:24:26
+ * @Last Modified time: 2018-01-30 17:43:13
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -55,7 +55,7 @@ export class Budget extends BudgetHelps {
         /* perfect the dataOrders. */
         for (let segment of segments) {
             segment.channels = [];
-            segment.step = expectStep;     //预期数据类型
+            segment.step = expectStep;
             segment.data = [];
             budgetOrder.budgetData.push(segment);
         }
@@ -65,8 +65,10 @@ export class Budget extends BudgetHelps {
             //获取补助，之后获取
             if (item.type == 3) {
                 let input = item.input as SearchSubsidyParams;
-                item.budget = await getSubsidy.getSubsidyItem(companyId,
-                    travelPolicyId, input);
+                item.budget = await getSubsidy.getSubsidyItem(companyId, travelPolicyId, input);
+                if (!item.budget) {
+                    return null;
+                }
                 return item;
             }
 
@@ -91,6 +93,7 @@ export class Budget extends BudgetHelps {
         });
 
         budgetOrder.budgetData = await Promise.all(ps);
+        budgetOrder.budgetData = budgetOrder.budgetData.filter((item) => item);
 
         /* 整理预算数据输出 */
         let finallyResult = {

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 10:11:47 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-19 17:18:25
+ * @Last Modified time: 2018-01-30 17:39:52
  * @content what is the content of this file. 
  * */
 
@@ -50,7 +50,9 @@ export class GetSubsidy {
         budget.templates = templates;
         budget.type = EBudgetType.SUBSIDY;
         budget.timezone = timezone;
-
+        if (totalMoney <= 0) {
+            return null;
+        }
         return budget;
     }
 }
@@ -58,19 +60,3 @@ export class GetSubsidy {
 
 let getSubsidy = new GetSubsidy();
 export default getSubsidy;
-
-
-
-// setTimeout(async () => {
-//     /* let result = await getSubsidy.getSubsidyItem({
-//         companyId: "e3e7e690-1b7c-11e7-a571-7fedc950bceb",
-//         travelPolicyId: "ae6e7050-af2a-11e7-abf6-9f811e5a6ff9",
-//         city: "CT_179",
-//         beginTime: "2018-01-22",
-//         endTime: "2018-01-24",
-//         days: 2     //天数
-//     }); */
-
-
-//     console.log(123, JSON.stringify(result));
-// }, 8000);

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-11-24 17:06:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-29 11:05:30
+ * @Last Modified time: 2018-01-30 18:00:39
  * @content analyze the budgets request . */
 
 import * as uuid from "uuid";
@@ -190,6 +190,9 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
         }));
     }
 
+    /* 分析完参数后，检查预算参数是否正确 */
+    checkBudgetParams(budgetParams);
+
     return budgetParams;
 }
 
@@ -235,4 +238,11 @@ function createHotel(params: { checkInDate: string, checkOutDate: string, city: 
         index,
         backOrGo
     };
+}
+
+function checkBudgetParams(params) {
+    /* 按照分析条件，检查budgetParams */
+    if (!params.length) {
+        throw new Error("没有合适的预算项");
+    }
 }

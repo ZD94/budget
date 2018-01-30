@@ -132,6 +132,7 @@ export class PlaceController extends AbstractController {
         if (!res.code || res.code == 200) { 
             iataCode = res.data ? res.data.value : null;
         }
+
         return {
             id: city.id,
             name: city.name,

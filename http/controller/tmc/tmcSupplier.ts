@@ -11,6 +11,7 @@ import {tmcSupplierMethod} from "model/tmc";
 import {AbstractController, Restful, Router, reply, ReplyData} from "@jingli/restful";
 import {jlReply} from 'http/index';
 import {__param} from "tslib";
+import { TmcSupplier, TmcServiceType } from '_types/tmcSupplier';
 
 @Restful()
 export default class TmcSupplierController extends AbstractController {
@@ -56,7 +57,22 @@ export default class TmcSupplierController extends AbstractController {
     @Router("/:companyId/data","put")
     async sname(req,res,next){
         let result = await tmcSupplierMethod.getTmcTypes(req.body);
-        res.jlReply(reply(0, result));
+        let values = this.transform(result)
+        res.jlReply(reply(0, values));
+    }
+
+    async transform(vals: TmcSupplier[]){
+        let result: TmcSupplier[] = [];
+        await Promise.all(vals.map(async (val: TmcSupplier) => {
+            for(let key in TmcSupplier['$fieldnames']) {
+                let supplier: any = {};
+                if(val[key]){
+                    supplier[key] = val[key]
+                }
+                result.push(supplier);
+            }
+        }))
+        return result;
     }
 
 }

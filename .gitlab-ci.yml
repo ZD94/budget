@@ -58,32 +58,6 @@ deploy:master:
     name: dev
     url: https://l.jingli365.com/proj/svr-jlbudget/
   variables:
-    JL_APP_PORT: "/data/web.sock"
-    JL_APP_HOST: http://l.jingli365.com/proj/svr-jlbudget
-    JL_APP_POSTGRES: postgres://times:time0418@l.jingli365.com:15432/jlbudget
-    JL_APP_OLD_POSTGRES_URL: postgres://times:time0418@l.jingli365.com:15432/times
-    JL_APP_REDIS: redis://l.jingli365.com:16379
-    JL_APP_DATA_STORE_URL: https://l.jingli365.com/proj/svr-data-store
-    JL_APP_PLACE: https://l.jingli365.com/proj/svr-place
-    JL_APP_COMMONAPI_HOST: l.jingli365.com
-    JL_APP_COMMONAPI_PORT: 14101
-  script:
-    - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
-    - docker pull $DOCKER_CI_NAME
-    - docker tag $DOCKER_CI_NAME $DOCKER_BRANCH_NAME
-    - docker push $DOCKER_BRANCH_NAME
-    - echo deploy to https://l.jingli365.com
-    - ssh test@l.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG -p 14103:4103
-
-deploy:swarm:
-  stage: deploy
-  only:
-    - /^master$/
-  when: manual
-  environment:
-    name: dev
-    url: https://l.jingli365.com/proj/svr-jlbudget/
-  variables:
     JL_APP_HOST: http://l.jingli365.com/proj/svr-jlbudget
     JL_APP_POSTGRES: postgres://times:time0418@l.jingli365.com:15432/jlbudget
     JL_APP_OLD_POSTGRES_URL: postgres://times:time0418@l.jingli365.com:15432/times
@@ -122,7 +96,7 @@ deploy:test:
     - docker tag $DOCKER_CI_NAME $DOCKER_BRANCH_NAME
     - docker push $DOCKER_BRANCH_NAME
     - echo deploy to https://t.jingli365.com
-    - ssh test@t.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG -p 14113:4103 -p 8080
+    - ssh test@t.jingli365.com /home/test/bin/docker_swarm.sh $DOCKER_REG $DOCKER_NAME $CI_BUILD_REF_SLUG -p 14113:4103 -p 8080
 
 deploy:tester:
   stage: deploy

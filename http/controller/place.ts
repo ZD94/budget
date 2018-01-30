@@ -73,7 +73,7 @@ export class PlaceController extends AbstractController {
     async getCitiesByLetter(req, res, next) {
         let { isAbroad = false, letter = 'A', limit = 20, page = 0, type = 2, lang = 'zh' } = req.query;
 
-        let country_code = isAbroad ? '!CN' : 'CN';
+        let country_code = (isAbroad == true || isAbroad== 'true') ? '!CN' : 'CN';
         let qs = {
             letter,
             lang,
@@ -86,7 +86,7 @@ export class PlaceController extends AbstractController {
             method: 'GET',
             qs
         });
-        res.json(this.reply(0, this.processResp(resp)));
+        res.json(this.reply(0, await this.processResp(resp)));
     }
 
     @Router('/getCityInfoByName', 'GET')
@@ -130,7 +130,7 @@ export class PlaceController extends AbstractController {
         let res: any = await restfulAPIUtil.proxyHttp({ uri: `/city/${city.id}/alternate/iatacode` });
         let iataCode;
         if (!res.code || res.code == 200) { 
-            iataCode = res.data.value;
+            iataCode = res.data ? res.data.value : null;
         }
         return {
             id: city.id,

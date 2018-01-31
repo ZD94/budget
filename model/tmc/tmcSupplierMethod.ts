@@ -32,9 +32,9 @@ export class TmcSupplierMethod {
                 tmc_type_id: tmcTypeId
             }
         });
-        // if (isCmpany) {
-        //     throw new Error("公司已存在，请勿重复添加")
-        // }
+        if (isCmpany) {
+            throw new Error("公司已存在，请勿重复添加")
+        }
         let obj;
         let arr = [];
         for (let item of params.services) {

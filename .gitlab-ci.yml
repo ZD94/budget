@@ -152,6 +152,7 @@ deploy:release:
     name: release
     url: https://budget.jingli365.com
   variables:
+    JL_APP_HOST: "http://j.jingli365.com/proj/svr-jlbudget"
     JL_APP_DATA_STORE: j.jingli365.com
     JL_APP_DATA_STORE_PORT: 4106
     JL_APP_DATA_STORE_URL: https://j.jingli365.com/proj/svr-data-store

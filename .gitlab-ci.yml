@@ -157,6 +157,8 @@ deploy:release:
     JL_APP_DATA_STORE_URL: https://l.jingli365.com/proj/svr-data-store
     JL_APP_REDIS: redis://j.jingli365.com
     JL_APP_PLACE: https://j.jingli365.com/proj/svr-place
+    JL_APP_POSTGRES: postgres://jingli:J1n9L1.t3ch@j.jingli365.com:5432/jlbudget
+    JL_APP_OLD_POSTGRES_URL: postgres://jingli:J1n9L1.t3ch@j.jingli365.com:5432/qmtrip
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME

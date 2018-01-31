@@ -2,13 +2,12 @@
  * @Author: Mr.He 
  * @Date: 2017-11-24 17:06:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-31 17:13:21
+ * @Last Modified time: 2018-01-31 17:20:33
  * @content analyze the budgets request . */
 
 import * as uuid from "uuid";
 import { SearchHotelParams, SearchTicketParams, BudgetType, TripType, BudgetItemParams, DataOrder } from "./interface";
 import { STEP } from 'model/budget';
-import { BudgetType } from 'model/budget/interface';
 import moment = require("moment");
 
 export interface ISegment {

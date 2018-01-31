@@ -2,12 +2,13 @@
  * @Author: Mr.He 
  * @Date: 2017-11-24 17:06:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-30 18:00:39
+ * @Last Modified time: 2018-01-31 17:13:21
  * @content analyze the budgets request . */
 
 import * as uuid from "uuid";
 import { SearchHotelParams, SearchTicketParams, BudgetType, TripType, BudgetItemParams, DataOrder } from "./interface";
 import { STEP } from 'model/budget';
+import { BudgetType } from 'model/budget/interface';
 import moment = require("moment");
 
 export interface ISegment {
@@ -242,7 +243,8 @@ function createHotel(params: { checkInDate: string, checkOutDate: string, city: 
 
 function checkBudgetParams(params) {
     /* 按照分析条件，检查budgetParams */
-    if (!params.length) {
+    let checkParams = params.filter((item) => item.type != BudgetType.SUBSIDY);
+    if (!checkParams.length) {
         throw new Error("没有合适的预算项");
     }
 }

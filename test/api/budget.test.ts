@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-01-19 16:35:24 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-30 17:41:59
+ * @Last Modified time: 2018-01-31 17:03:26
  * @content what is the content of this file. */
 
 import { budget } from "model/budget";
@@ -133,23 +133,23 @@ let params5 = {
     destinationPlacesInfo:
         [{
             destinationPlace: '1791243',
-            leaveDate: '2018-02-02T10:00:00.000Z',
-            goBackDate: '2018-02-03T01:00:00.000Z',
-            latestArrivalDateTime: '2018-02-02T10:00:00.000Z',
-            earliestGoBackDateTime: '2018-02-03T01:00:00.000Z',
-            isNeedTraffic: true,
+            leaveDate: '2018-02-03T02:00:00.000Z',
+            goBackDate: '2018-02-03T10:00:00.000Z',
+            latestArrivalDateTime: '2018-02-03T02:00:00.000Z',
+            earliestGoBackDateTime: '2018-02-03T10:00:00.000Z',
+            isNeedTraffic: false,
             isNeedHotel: true,
             reason: ''
         }],
     originPlace: '1814905',
-    isRoundTrip: true,
+    isRoundTrip: false,
     goBackPlace: '1814905'
 }
 
 
 let testFn = async () => {
     console.log("ok ok ok ok ok ok");
-    let result = await budget.getBudget(params4);
+    let result = await budget.getBudget(params5);
     // console.log("result result ===>", result);
 }
 

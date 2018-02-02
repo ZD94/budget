@@ -93,13 +93,18 @@ export class PlaceController extends AbstractController {
     async getCityInfoByName(req, res, next) {
         let { name } = req.query;
         if (!name) return res.json(this.reply(502, null));
-        const resp: any = await restfulAPIUtil.proxyHttp({
-            uri: `/city/getCityByName`,
-            method: 'GET',
-            qs: {
-                name
-            }
-        });
+        let resp: any
+        try {
+            resp = await restfulAPIUtil.proxyHttp({
+                uri: `/city/getCityByName`,
+                method: 'GET',
+                qs: {
+                    name
+                }
+            });
+        } catch(e) {
+            return res.json(this.reply(resp.code, null))
+        }
         res.json(this.reply(0, await this.transform(resp.data)));
     }
 
@@ -117,7 +122,7 @@ export class PlaceController extends AbstractController {
     }
 
     private async processResp(resp) {
-        if (resp.code == 0) { 
+        if (resp.code == 0) {
             let ps = resp.data.map((item) => {
                 return this.transform(item);
             });
@@ -129,7 +134,7 @@ export class PlaceController extends AbstractController {
     private async transform(city) {
         let res: any = await restfulAPIUtil.proxyHttp({ uri: `/city/${city.id}/alternate/iatacode` });
         let iataCode;
-        if (!res.code || res.code == 200) { 
+        if (!res.code || res.code == 200) {
             iataCode = res.data ? res.data.value : null;
         }
 
@@ -138,12 +143,12 @@ export class PlaceController extends AbstractController {
             name: city.name,
             pinyin: city.pinyin,
             letter: city.letter,
-            latitude: city.latitude ? city.latitude: city.lat,
-            longitude: city.longitude ? city.longitude: city.lng,
+            latitude: city.latitude ? city.latitude : city.lat,
+            longitude: city.longitude ? city.longitude : city.lng,
             parentId: city.parentId,
             timezone: city.timezone,
-            isAbroad: city.country_code == 'CN' ? true: false,
-            ctripCode: iataCode ? iataCode: city.ctrip_code
+            isAbroad: city.country_code == 'CN' ? true : false,
+            ctripCode: iataCode ? iataCode : city.ctrip_code
         }
     }
 }

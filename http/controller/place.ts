@@ -93,19 +93,18 @@ export class PlaceController extends AbstractController {
     async getCityInfoByName(req, res, next) {
         let { name } = req.query;
         if (!name) return res.json(this.reply(502, null));
-        let resp: any
         try {
-            resp = await restfulAPIUtil.proxyHttp({
+            const resp: any = await restfulAPIUtil.proxyHttp({
                 uri: `/city/getCityByName`,
                 method: 'GET',
                 qs: {
                     name
                 }
             });
+            res.json(this.reply(0, typeof resp.data == 'object' ? await this.transform(resp.data) : null));
         } catch(e) {
-            return res.json(this.reply(resp.code, null))
+            return res.json(this.reply(404, null))
         }
-        res.json(this.reply(0, await this.transform(resp.data)));
     }
 
 

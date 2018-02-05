@@ -1,6 +1,10 @@
-/**
- * Created by lsw on 31/10/2017.
- */
+/*
+ * @Author: Mr.He 
+ * @Date: 2018-02-05 14:52:14 
+ * @Last Modified by:   Mr.He 
+ * @Last Modified time: 2018-02-05 14:52:14 
+ * @content what is the content of this file. */
+
 
 var request = require("request-promise");
 var Config = require("@jingli/config");

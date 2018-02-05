@@ -1,8 +1,8 @@
 /*
  * @Author: Mr.He 
  * @Date: 2018-02-05 14:52:14 
- * @Last Modified by:   Mr.He 
- * @Last Modified time: 2018-02-05 14:52:14 
+ * @Last Modified by: Mr.He
+ * @Last Modified time: 2018-02-05 15:26:48
  * @content what is the content of this file. */
 
 
@@ -21,7 +21,7 @@ export class RestfulAPIUtil {
             return result;
         } catch (e) {
             console.log("proxyHttp ======> ", params);
-            throw new Error(e);
+            throw new Error(e.message || e);
         }
     }
 }

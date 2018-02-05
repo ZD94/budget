@@ -2,13 +2,17 @@
  * @Author: Mr.He 
  * @Date: 2017-12-21 17:09:03 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-28 21:20:38
+ * @Last Modified time: 2018-02-05 18:35:15
  * @content 预算相关接口定义 */
 
-export let defaultCurrencyUnit = 'CNY';
+
+
 import { CreateBudgetParams, analyzeBudgetParams } from "./analyzeParams";
 import { Budget } from '_types/budget';
 import { ICity } from '_types/city';
+import { Currency } from '_types/currency/currency';
+import config = require("@jingli/config");
+export let defaultCurrencyUnit = config.defaultCurrency;
 
 export interface SearchHotelParams {
     checkInDate: string;
@@ -80,6 +84,8 @@ export interface BudgetOrder {
     callbackUrl: string;        //回调地址
     params: GetBudgetParams;    //请求参数
     persons: number;            //预算人数
+    currency: string;           //币种
+    rate: number;               //汇率
 }
 
 /* 预算请求参数 */
@@ -92,4 +98,6 @@ export interface BudgetFinallyResult {
     step: STEP;
     budgets: any[];
     persons: number;
+    currency: string;   //币种
+    rate: number;       //汇率
 }

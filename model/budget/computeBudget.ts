@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-22 10:56:07 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-29 17:21:41
+ * @Last Modified time: 2018-02-05 18:13:01
  * @content 计算预算 */
 
 import { BudgetType, SearchHotelParams, SearchTicketParams, defaultCurrencyUnit, DataOrder } from "./interface";
@@ -45,9 +45,8 @@ export class ComputeBudget {
             location,
         }, { isRecord: true });
 
-        let preferedCurrency = defaultCurrencyUnit;
         let isRetMarkedData = true;
-        let budget = await strategy.getResult(data, isRetMarkedData, preferedCurrency);
+        let budget = await strategy.getResult(data, isRetMarkedData);
 
         /* let maxPriceLimit = 0;
         let minPriceLimit = 0;
@@ -74,8 +73,6 @@ export class ComputeBudget {
             star: budget.star,
             price: budget.price * days,
             duringDays: days,
-            unit: budget.unit,
-            rate: budget.rate,
             type: EBudgetType.HOTEL,
             name: budget.name,
             agent: budget.agent,
@@ -136,9 +133,8 @@ export class ComputeBudget {
             staffs: [staff],
         }, { isRecord: true });
 
-        let preferedCurrency = defaultCurrencyUnit;
         let isRetMarkedData = true;
-        let budget = await strategy.getResult(data, isRetMarkedData, preferedCurrency);
+        let budget = await strategy.getResult(data, isRetMarkedData);
 
         let discount = 0;
         if (budget.trafficType == ETrafficType.PLANE) {
@@ -163,8 +159,6 @@ export class ComputeBudget {
             toCity: budget.toCity,
             type: EBudgetType.TRAFFIC,
             price: budget.price,
-            unit: budget.unit,
-            rate: budget.rate,
             discount: discount,
             markedScoreData: budget.markedScoreData,
             prefers: allPrefers,

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-30 17:43:13
+ * @Last Modified time: 2018-02-05 18:52:39
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -24,6 +24,7 @@ import { CityService } from "_types/city";
 import { Models } from "_types";
 import { clearTimeout } from 'timers';
 import { BudgetHelps } from "./helper";
+import { getRate } from "model/rate";
 
 // test
 // import "test/api/budget.test";
@@ -33,7 +34,7 @@ export class Budget extends BudgetHelps {
         super();
     }
     async getBudget(params: GetBudgetParams): Promise<BudgetFinallyResult> {
-        let { callbackUrl, requestBudgetParams, companyId, travelPolicyId, staffs, expectStep = STEP.CACHE } = params;
+        let { callbackUrl, requestBudgetParams, companyId, travelPolicyId, staffs, currency = config.defaultCurrency, expectStep = STEP.CACHE } = params;
 
         console.log('params ===========>', params);
         let times = Date.now();
@@ -49,7 +50,9 @@ export class Budget extends BudgetHelps {
             budgetData: [],
             callbackUrl,
             params,
-            persons
+            persons,
+            currency,
+            rate: await getRate(currency)
         } as BudgetOrder;
 
         /* perfect the dataOrders. */
@@ -99,11 +102,13 @@ export class Budget extends BudgetHelps {
         let finallyResult = {
             budgets: [],
             step: STEP.FINAL,
-            persons: budgetOrder.persons
+            persons: budgetOrder.persons,
+            currency: budgetOrder.currency,
+            rate: budgetOrder.rate
         } as BudgetFinallyResult;
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
-            finallyResult.budgets.push(this.completeBudget(item, budgetOrder.persons));
+            finallyResult.budgets.push(this.completeBudget(item, budgetOrder));
             if (item.step != STEP.FINAL) {
                 budgetOrder.step = STEP.CACHE;
             }
@@ -130,6 +135,7 @@ export class Budget extends BudgetHelps {
     async getFinalBudget(id, num?: number) {
         num = num ? num : 0;
         let { budgetOrder, finallyResult: result } = await cache.read(id);
+        budgetOrder as BudgetOrder;
         let time = Date.now();
         let ps = budgetOrder.budgetData.map(async (item) => {
             if (item.step == STEP.FINAL || item.type == BudgetType.SUBSIDY) {
@@ -146,7 +152,7 @@ export class Budget extends BudgetHelps {
                 }
             } catch (e) {
                 console.error("requestDataStore error !!!");
-                // console.error(e);
+                console.error(e.message || e);
             }
 
             return item;
@@ -171,7 +177,9 @@ export class Budget extends BudgetHelps {
         let finallyResult = {
             budgets: [],
             step: STEP.FINAL,
-            persons: budgetOrder.persons
+            persons: budgetOrder.persons,
+            currency: budgetOrder.currency,
+            rate: budgetOrder.rate
         } as BudgetFinallyResult;
         //计算打分
         budgetOrder.step = STEP.FINAL;
@@ -179,7 +187,7 @@ export class Budget extends BudgetHelps {
             if (item.type != BudgetType.SUBSIDY) {
                 item.budget = await computeBudget.getBudget(item);
             }
-            finallyResult.budgets.push(this.completeBudget(item, budgetOrder.persons));
+            finallyResult.budgets.push(this.completeBudget(item, budgetOrder));
         }
 
         console.log("finalBudget Time using: ", Date.now() - time);
@@ -229,11 +237,14 @@ export class Budget extends BudgetHelps {
         }
     }
 
-    completeBudget(item: DataOrder, persons: number = 1) {
+    completeBudget(item: DataOrder, budgetOrder: BudgetOrder) {
         let budget = item.budget;
         budget.index = item.index;
         budget.backOrGo = item.backOrGo;
-        budget.price = budget.price * persons;
+        //处理人数，汇率
+        budget.price = Math.floor(budget.price * budgetOrder.persons * budgetOrder.rate * 100) / 100;
+        budget.unit = budgetOrder.currency;
+        budget.rate = budgetOrder.rate;
         if (item.type == BudgetType.TRAFFICT) {
             budget.leaveDate = (item.input as SearchTicketParams).leaveDate;
         }

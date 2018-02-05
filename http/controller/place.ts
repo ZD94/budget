@@ -8,6 +8,7 @@ import { CityService } from "_types/city";
 import { restfulAPIUtil } from 'api/restful';
 import * as validator from 'validator';
 var API = require("@jingli/dnode-api");
+const config = require("@jingli/config");
 
 @Restful()
 export class PlaceController extends AbstractController {
@@ -22,7 +23,7 @@ export class PlaceController extends AbstractController {
     async get(req, res, next) {
         let { id } = req.params;
         const resp: any = await restfulAPIUtil.proxyHttp({
-            uri: `/city/${id}`,
+            uri: config.placeAPI + `/city/${id}`,
             method: 'GET'
         });
 
@@ -37,8 +38,8 @@ export class PlaceController extends AbstractController {
         let { keyword } = req.params;
         let cities = [];
         const resp: any = keyword
-            ? await restfulAPIUtil.proxyHttp({ uri: `/city/search`, method: 'GET', qs: { keyword } })
-            : await restfulAPIUtil.proxyHttp({ uri: `/city`, method: 'GET' })
+            ? await restfulAPIUtil.proxyHttp({ uri: config.placeAPI + `/city/search`, method: 'GET', qs: { keyword } })
+            : await restfulAPIUtil.proxyHttp({ uri: config.placeAPI + `/city`, method: 'GET' })
         return res.send(this.processResp(resp));
     }
 
@@ -51,7 +52,7 @@ export class PlaceController extends AbstractController {
             return res.send(this.reply(400, null));
         }
         const resp: any = await restfulAPIUtil.proxyHttp({
-            uri: `/city/nearby/${longitude},${latitude}`,
+            uri: config.placeAPI + `/city/nearby/${longitude},${latitude}`,
             method: 'GET'
         });
 
@@ -62,7 +63,7 @@ export class PlaceController extends AbstractController {
     async getChildren(req, res, next) {
         let { id } = req.params;
         const resp: any = await restfulAPIUtil.proxyHttp({
-            uri: `/city/${id}/children`,
+            uri: config.placeAPI + `/city/${id}/children`,
             method: 'GET'
         });
         return res.send(this.processResp(resp));
@@ -82,7 +83,7 @@ export class PlaceController extends AbstractController {
             page,
         };
         const resp: any = await restfulAPIUtil.proxyHttp({
-            uri: `/city/getCitiesByLetter`,
+            uri: config.placeAPI + `/city/getCitiesByLetter`,
             method: 'GET',
             qs
         });
@@ -95,14 +96,14 @@ export class PlaceController extends AbstractController {
         if (!name) return res.json(this.reply(502, null));
         try {
             const resp: any = await restfulAPIUtil.proxyHttp({
-                uri: `/city/getCityByName`,
+                uri: config.placeAPI + `/city/getCityByName`,
                 method: 'GET',
                 qs: {
                     name
                 }
             });
             res.json(this.reply(0, typeof resp.data == 'object' ? await this.transform(resp.data) : null));
-        } catch(e) {
+        } catch (e) {
             return res.json(this.reply(404, null))
         }
     }
@@ -131,7 +132,7 @@ export class PlaceController extends AbstractController {
     }
 
     private async transform(city) {
-        let res: any = await restfulAPIUtil.proxyHttp({ uri: `/city/${city.id}/alternate/iatacode` });
+        let res: any = await restfulAPIUtil.proxyHttp({ uri: config.placeAPI + `/city/${city.id}/alternate/iatacode` });
         let iataCode;
         if (!res.code || res.code == 200) {
             iataCode = res.data ? res.data.value : null;

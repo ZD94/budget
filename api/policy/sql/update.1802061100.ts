@@ -17,7 +17,8 @@ var subsidyRegions = [
 ];
 
 /**
- * @method 未成功初始化默认地区的公司进行首次更新
+ * @method 未成功初始化默认地区的公司进行二次更新
+ *    创建于：2018-02-06 10:45
  */
 module.exports =async function(DB, t) {
     let sql = `select * from company.companies where deleted_at is null`;

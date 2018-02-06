@@ -28,7 +28,7 @@ Logger.init(config.logger);
 var logger = new Logger('main');
 
 var cache = require("common/cache");
-cache.init({ redis_conf: config.redis.url, prefix: 'jlbudget:cache:'+config.appName });
+cache.init({ redis_conf: config.redis.url, prefix: 'jlbudget:cache:' + config.appName });
 
 var db = require('@jingli/database');
 db.init(config.postgres.url);
@@ -54,7 +54,8 @@ server.api_path = path.join(__dirname, 'api');
 server.api_port = config.apiPort;
 server.api_config = config.api;
 
-//
+require("./model");
+
 server.on('init.api', function (API) {
     console.log("init.api")
     //     API.registerAuthWeb(API.auth.authentication);

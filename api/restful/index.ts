@@ -1,32 +1,28 @@
-/**
- * Created by lsw on 31/10/2017.
- */
+/*
+ * @Author: Mr.He 
+ * @Date: 2018-02-05 14:52:14 
+ * @Last Modified by: Mr.He
+ * @Last Modified time: 2018-02-05 15:26:48
+ * @content what is the content of this file. */
 
-var request = require("request");
+
+var request = require("request-promise");
 var Config = require("@jingli/config");
 
 export class RestfulAPIUtil {
 
-    async proxyHttp(params: { uri: string, body?: any, method?: string, qs?: any }
-        = { uri: '', body: {}, method: "get", qs: {} }) {
-        return new Promise((resolve, reject) => {
-            request({ ...params, uri: Config.placeAPI + params.uri }, (err, resp, result) => {
-                if (err) {
-                    return reject(err);
-                }
-
-                try {
-                    if (typeof result == 'string') {
-                        result = JSON.parse(result);
-                    }
-                    return resolve(result);
-                } catch (e) {
-                    console.log("proxyHttp ======> ", params, Config.placeAPI + params.uri);
-                    return reject(e);
-                }
-
-            });
-        })
+    async proxyHttp(params: { uri: string, body?: any, method?: string, qs?: any, json?: boolean }) {
+        params.json = true;
+        try {
+            let result = await request(params);
+            if (typeof result == "string") {
+                return JSON.parse(result);
+            }
+            return result;
+        } catch (e) {
+            console.log("proxyHttp ======> ", params);
+            throw new Error(e.message || e);
+        }
     }
 }
 

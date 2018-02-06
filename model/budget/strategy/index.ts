@@ -130,7 +130,8 @@ export abstract class AbstractHotelStrategy {
                 checkInDate: self.qs.checkInDate,
                 checkOutDate: self.qs.checkOutDate,
                 star: null,
-                price: defaultPrice[this.qs.star] as number * days,
+                singlePrice: defaultPrice[this.qs.star],
+                price: defaultPrice[this.qs.star] as number,
                 unit: preferedCurrency && typeof (preferedCurrency) != 'undefined' ? preferedCurrency : defaultCurrencyUnit,
                 rate: 1,
                 agent: null,
@@ -153,6 +154,7 @@ export abstract class AbstractHotelStrategy {
                 latitude: 0,
                 longitude: 0,
                 price: -1,
+                singlePrice: -1,
                 duringDays: days
             }
         }
@@ -286,6 +288,7 @@ export abstract class AbstractTicketStrategy {
         _tickets = await this.customerMarkedScoreData(_tickets);
         let ret = _tickets[0];
         let result: ITrafficBudgetItem = {
+            singlePrice: ret.price,
             price: ret.price,
             type: EBudgetType.TRAFFIC,
             no: ret.No,

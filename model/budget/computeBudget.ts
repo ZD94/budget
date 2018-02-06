@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-22 10:56:07 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-02-06 16:01:26
+ * @Last Modified time: 2018-02-06 16:45:30
  * @content 计算预算 */
 
 import { BudgetType, SearchHotelParams, SearchTicketParams, defaultCurrencyUnit, DataOrder } from "./interface";
@@ -57,6 +57,7 @@ export class ComputeBudget {
             checkOutDate: params.checkOutDate,
             city: (<ICity>city).id,
             star: budget.star,
+            singlePrice: budget.price,
             price: budget.price * days,
             duringDays: days,
             type: EBudgetType.HOTEL,
@@ -139,6 +140,7 @@ export class ComputeBudget {
             fromCity: budget.fromCity,
             toCity: budget.toCity,
             type: EBudgetType.TRAFFIC,
+            singlePrice: budget.price,
             price: budget.price,
             discount: discount,
             markedScoreData: budget.markedScoreData,

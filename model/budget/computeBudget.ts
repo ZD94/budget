@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-22 10:56:07 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-02-05 18:13:01
+ * @Last Modified time: 2018-02-06 16:01:26
  * @content 计算预算 */
 
 import { BudgetType, SearchHotelParams, SearchTicketParams, defaultCurrencyUnit, DataOrder } from "./interface";
@@ -48,21 +48,7 @@ export class ComputeBudget {
         let isRetMarkedData = true;
         let budget = await strategy.getResult(data, isRetMarkedData);
 
-        /* let maxPriceLimit = 0;
-        let minPriceLimit = 0;
-
-        let selector: string;
-        if (!city['isAbroad']) {
-            selector = 'domestic'
-        } else {
-            selector = 'abroad';
-        }
-
-        let policies = prefer.policies;
-
-        maxPriceLimit = policies[selector].maxPriceLimit;
-        minPriceLimit = policies[selector].minPriceLimit;
-        budget.price = this.limitHotelBudgetByPrefer(minPriceLimit, maxPriceLimit, budget.price); */
+        budget.price = this.limitHotelBudgetByPrefer(prefer.policies.minPriceLimit, prefer.policies.maxPriceLimit, budget.price);
 
         let hotelBudget: IHotelBudgetItem = {
             id: budget.id,
@@ -89,24 +75,19 @@ export class ComputeBudget {
     }
 
     limitHotelBudgetByPrefer(min: number, max: number, hotelBudget: number) {
-        if (hotelBudget == -1) {
-            if (max != NoCityPriceLimit) return max;
-            return hotelBudget;
-        }
-        if (min == NoCityPriceLimit && max == NoCityPriceLimit) return hotelBudget;
-
-        if (max != NoCityPriceLimit && min > max) {
-            let tmp = min;
-            min = max;
-            max = tmp;
+        //无预算的情况
+        if (hotelBudget < 0) {
+            return min || max || hotelBudget;
         }
 
-        if (hotelBudget > max) {
-            if (max != NoCityPriceLimit) return max;
+        if (min) {
+            return hotelBudget > min ? hotelBudget : min;
         }
-        if (hotelBudget < min) {
-            if (min != NoCityPriceLimit) return min;
+
+        if (max) {
+            return hotelBudget < max ? hotelBudget : max;
         }
+
         return hotelBudget;
     }
 

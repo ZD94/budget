@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-01-19 16:35:24 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-02-06 14:20:31
+ * @Last Modified time: 2018-02-06 15:19:17
  * @content what is the content of this file. */
 
 import { budget, STEP } from "model/budget";
@@ -137,15 +137,15 @@ let params5 = {
         [{
             destinationPlace: '1791243',
             leaveDate: '2018-03-03T02:00:00.000Z',
-            goBackDate: '2018-03-03T10:00:00.000Z',
+            goBackDate: '2018-03-04T10:00:00.000Z',
             latestArrivalDateTime: '2018-03-03T02:00:00.000Z',
-            earliestGoBackDateTime: '2018-03-03T10:00:00.000Z',
-            isNeedTraffic: false,
+            earliestGoBackDateTime: '2018-03-04T10:00:00.000Z',
+            isNeedTraffic: true,
             isNeedHotel: true,
             reason: ''
         }],
     originPlace: '1814905',
-    isRoundTrip: false,
+    isRoundTrip: true,
     goBackPlace: '1814905'
 }
 

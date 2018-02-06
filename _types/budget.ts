@@ -273,8 +273,8 @@ export interface IPolicy {
 
 export interface IBudgetItem {
     price: number;
-    unit?: string;
-    rate?: number;
+    currency?: string;       //币种
+    rate?: number;           //汇率
     type: EBudgetType;
     link?: string;
     agent?: string;

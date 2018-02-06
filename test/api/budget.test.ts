@@ -2,11 +2,12 @@
  * @Author: Mr.He 
  * @Date: 2018-01-19 16:35:24 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-31 17:03:26
+ * @Last Modified time: 2018-02-05 18:48:39
  * @content what is the content of this file. */
 
-import { budget } from "model/budget";
+import { budget, STEP } from "model/budget";
 import { analyzeBudgetParams } from "model/budget/analyzeParams";
+import { Currency } from '_types/currency/currency';
 
 
 let params = {
@@ -106,6 +107,7 @@ let params4 = {
     staffs: [{ gender: 1, policy: 'domestic' }],
     "originPlace": "CT_131",
     "projectName": "",
+    currency: "EUR",
     "travelPolicyId": "7a4ceb50-f9ce-11e7-89c4-73c84750254b",
     "destinationPlacesInfo": [
         {
@@ -130,6 +132,7 @@ let params5 = {
     travelPolicyId: '0beaf7d0-04da-11e8-aad3-dfe6b7162831',
     companyId: 'f0156b30-04d9-11e8-87ce-95314b2290d2',
     staffs: [{ gender: 1, policy: 'domestic' }],
+    currency: "CNY",
     destinationPlacesInfo:
         [{
             destinationPlace: '1791243',
@@ -147,9 +150,25 @@ let params5 = {
 }
 
 
+/* test enviornment */
+let params6 = {
+    "companyId": "f6350f90-4fbb-11e6-81af-4b3384f7a2a9",
+    "goBackPlace": "2038349",
+    "originPlace": "2038349",
+    "expectStep": STEP.FINAL,
+    "isRoundTrip": true,
+    "travelPolicyId": "d3364020-4fbd-11e6-9bd0-918bb412d7c8", "destinationPlacesInfo": [{
+        "reason": "", "isNeedHotel": true, "latestArrivalDateTime": "2018-02-20T12:25:29.000Z", "earliestGoBackDateTime": "2018-02-22T12:25:29.000Z", "destinationPlace": "1796231", "leaveDate": "2018-02-20T12:25:29.000Z", "goBackDate": "2018-02-22T12:25:29.000Z", "isNeedTraffic": true
+    }],
+    "callbackUrl": "",
+    "staffs": [{ "gender": 0 }]
+};
+
+
+
 let testFn = async () => {
     console.log("ok ok ok ok ok ok");
-    let result = await budget.getBudget(params5);
+    let result = await budget.getBudget(params4);
     // console.log("result result ===>", result);
 }
 

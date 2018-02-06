@@ -1,4 +1,5 @@
-let uuid = require("uuid");
+const uuid = require("uuid");
+import {Sequelize, Transaction} from "sequelize";
 var DefaultRegion = {
     domestic: '国内',
     abroad:  '国际'
@@ -19,7 +20,7 @@ var subsidyRegions = [
 /**
  * @method 未成功初始化默认地区的公司进行首次更新
  */
-module.exports =async function(DB, t) {
+export default async function update(DB: Sequelize, t: Transaction) {
     let sql = `select * from company.companies where deleted_at is null`;
     let companies = await DB.query(sql);
     if(companies) companies = companies[0];

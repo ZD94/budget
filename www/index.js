@@ -393,37 +393,13 @@ app.controller('debug', function ($scope, $http, $location) {
     var orderBooleanlast;
     //复制粘贴的功能
     var copyTemp = '';
-
-    let ObjData = "http://localhost:3001";
-
-    //拿到原始数据
-    // if (url.key) {
-    //     /*$http.get('/api/budgets?p='+p+'&pz='+pz+'&key='+url.key)*/
-    //     $http.get(ObjData.api + '/api/budgets?p=' + p + '&pz=' + pz + '&key=' + url.key)
-    //         .success(function (response) {
-    //             for (let i = 0; i < response.length; i++) {
-    //                 let arr = response[i].markedData;
-    //                 for (let j = 0; j < arr.length; j++) {
-    //                     let dep = arr[j].departDateTime;
-    //                     let arrival = arr[j].arrivalDateTime;
-    //                     arr[j].departDateTime = new Date(dep);
-    //                     arr[j].arrivalDateTime = new Date(arrival);
-    //                 }
-    //             }
-    //             $scope.originDatas = response;
-    //         });
-    // }
-
     //更改服务器
     $scope.originServers = [
-        { name: '开发', url: 'http://l.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
-        { name: '测试', url: 'http://t.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
-        { name: '正式', url: 'http://j.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' }
+        { name: '开发', url: '//l.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
+        { name: '测试', url: '//t.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
+        { name: '正式', url: '//j.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' }
     ]
     $scope.changeServer = function () {
-
-
-
         let originServerUrl = $scope.originServer.url + `?key=${url.key}&page=${url.page}&pageSize=${url.pageSize}`;
         $http.get(originServerUrl).success(function (response) {
             if (response.code != 0) {
@@ -448,24 +424,12 @@ app.controller('debug', function ($scope, $http, $location) {
         })
     }
 
-    //动态加载clipboard
-    // function loadJScript(){
-    //   var script = document.createElement("script");
-    //   script.type = "text/javascript";
-    //   script.src = "//cdn.bootcss.com/clipboard.js/1.5.12/clipboard.min.js";
-    //   document.body.appendChild(script);
-    // }
-
-    //window.onload = loadJScript;
-
     //计算出结果
     $.ajaxSetup({
         async: false
     });
 
     $scope.getBudget = function () {
-        //没什么用；
-        return;
         //翻译舱位
         levelChange();
         //  将价格区间的json字符串转换为json对象
@@ -478,30 +442,7 @@ app.controller('debug', function ($scope, $http, $location) {
         var policy = JSON.stringify($scope.policy);
         let originServer = $scope.originServer;
         let originServerUrl = originServer.url + '?key=' + url.key;
-        /*  $.post(originServerUrl, { originData: originData, query: query, policy: policy, prefers: prefers, type: type }, function (datas) {
-             $scope.result = datas;
-             $scope.originData.markedData = datas.markedScoreData;
-         }, "json") */
-
-
-
-
-        // $http.post(originServerUrl,{originData: originData, query: query, policy: policy, prefers: prefers, type: type})
-        //     .success(function(datas){
-        //         console.log('进入');
-        //         $scope.result = datas;
-        //         $scope.originData.markedData = datas.markedScoreData;
-        //         console.log('出来');
-        //     })
-        //   $http({
-        //       method: 'POST',
-        //       url: originServerUrl,
-        //       data: {originData: originData, query: query, policy: policy, prefers: prefers, type: type}}).then(
-        //           function(res){
-        //               console.log(res);
-        //           },function(){}
-        //   )
-        //
+       
         if ($scope.result) {
             if ($scope.result.star != null) {
                 $scope.result.star = MHotelLevel[$scope.result.star];
@@ -524,6 +465,7 @@ app.controller('debug', function ($scope, $http, $location) {
         //翻译舱位
         changeLevel();
     };
+    
     $scope.change = function () {
         var single = $scope.prefer;    //string
         var ori = $scope.ori_prefers;   //arr
@@ -595,17 +537,6 @@ app.controller('debug', function ($scope, $http, $location) {
         //  将价格区间的json对象转换为json字符串
         rangeStrChangeJson();
 
-
-        //算法描述翻译
-        /*translate_prefer = [];
-        for (var i = 0; i < $scope.ori_prefers.length; i++) {
-            for(var j = 0; j < available_prefer.length; j++){
-                if ($scope.ori_prefers[i].name == available_prefer[j].cn) {
-                    translate_prefer.push(available_prefer[j].template);
-                }
-            }
-        }
-        $scope.translate_prefer = translate_prefer;*/
         levelChange();
         //翻译舱位
         changeLevel();
@@ -629,8 +560,6 @@ app.controller('debug', function ($scope, $http, $location) {
     $scope.delete = function (index) {
         var del_arr = $scope.ori_prefers;
         del_arr.splice(index, 1);
-        /*translate_prefer.splice(index,1);
-        $scope.translate_prefer = translate_prefer;*/
         $scope.ori_prefers = del_arr;
     }
     $scope.showMap = function (lon, lat) {
@@ -638,8 +567,7 @@ app.controller('debug', function ($scope, $http, $location) {
         let zoom = 15;
         lon = lon + 0.007536;
         lat = lat + 0.005636;
-        //+"&bbox="+minX+","+minY+";"+maxX+","+maxY
-        let mapUrl = "http://api.map.baidu.com/staticimage/v2?ak=" + mapKey + "&width=1000&height=1000&center=" + lon + "," + lat + "&markers=" + lon + "," + lat + "&zoom=" + zoom + "&markerStyles=l,A,0xFFFF00";
+        let mapUrl = "//api.map.baidu.com/staticimage/v2?ak=" + mapKey + "&width=1000&height=1000&center=" + lon + "," + lat + "&markers=" + lon + "," + lat + "&zoom=" + zoom + "&markerStyles=l,A,0xFFFF00";
         window.open(mapUrl);
     }
 

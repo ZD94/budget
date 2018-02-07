@@ -939,10 +939,10 @@ class ApiTravelBudget {
             query.prefers = prefers;
             if (type == 1) {
                 let strategy = await TrafficBudgetStrategyFactory.getStrategy(query, { isRecord: false });
-                result = await strategy.getResult(<ITicket[]>originData, true)
+                result = await strategy.getResult(<ITicket[]>originData, STEP.CACHE)
             } else {
                 let strategy = await HotelBudgetStrategyFactory.getStrategy(query, { isRecord: false });
-                result = await strategy.getResult(<IHotel[]>originData, true);
+                result = await strategy.getResult(<IHotel[]>originData, STEP.CACHE);
             }
             // result.prefers = prefers;
             result.markedData = result.markedScoreData;

@@ -83,6 +83,8 @@ export class GetAllPrefer {
             companyId,
             placeId: destination.id
         });
+        //由于prefer赋值问题，暂时关闭company单独设置，启用company默认设置
+        preferSet = [];
 
         /* 交通的差旅政策 */
         let policies;

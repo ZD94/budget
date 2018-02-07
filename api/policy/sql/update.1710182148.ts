@@ -9,7 +9,7 @@ export default async function update(DB: Sequelize, t: Transaction){
     let allCompaniesSql = 'select * from company.companies where deleted_at is null;';
     let allCompanies = await DB.query(allCompaniesSql, {type: SEQUELIZE.QueryTypes.SELECT});
     let defaultRegions = ['国内', '国际', '港澳台'];
-    let regionIds = [['1814991'], ['1'], ['1819729', 'CT_2911', 'CT_9000']]; //[['CTW_5'], ['Global'], ['CT_2912', 'CT_2911', 'CT_9000']];
+    let regionIds = [['1814991'], ['1'], ['800000921', '800000922', '800000901']]; //[['CTW_5'], ['Global'], ['CT_2912', 'CT_2911', 'CT_9000']];
 
     for(let i =0; i< allCompanies.length; i++){
         let allRegionsSql = `select * from travel_policy.company_regions where deleted_at is null and company_id = '${allCompanies[i].id}';`;

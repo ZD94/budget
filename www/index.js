@@ -395,9 +395,9 @@ app.controller('debug', function ($scope, $http, $location) {
     var copyTemp = '';
     //更改服务器
     $scope.originServers = [
-        { name: '开发', url: '//l.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
-        { name: '测试', url: '//t.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
-        { name: '正式', url: '//j.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' }
+        { name: '开发', url: 'https://l.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
+        { name: '测试', url: 'https://t.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
+        { name: '正式', url: 'https://j.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' }
     ]
     $scope.changeServer = function () {
         let originServerUrl = $scope.originServer.url + `?key=${url.key}&page=${url.page}&pageSize=${url.pageSize}`;

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-01-19 16:35:24 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-02-05 18:48:39
+ * @Last Modified time: 2018-02-06 17:47:22
  * @content what is the content of this file. */
 
 import { budget, STEP } from "model/budget";
@@ -129,23 +129,23 @@ let params4 = {
 let params5 = {
     // callbackUrl: 'l.jingli365.com/api/v1/budget/7981c4d0-058f-11e8-96e0-afb5c70cc3c3/updateBudget',
     preferedCurrency: 'CNY',
-    travelPolicyId: '0beaf7d0-04da-11e8-aad3-dfe6b7162831',
-    companyId: 'f0156b30-04d9-11e8-87ce-95314b2290d2',
-    staffs: [{ gender: 1, policy: 'domestic' }],
+    travelPolicyId: '7a4ceb50-f9ce-11e7-89c4-73c84750254b',
+    companyId: '625c6110-f9ce-11e7-b540-af4848d193b7',
+    staffs: [{ gender: 1, policy: 'domestic' }, { gender: 1, policy: 'domestic' }],
     currency: "CNY",
     destinationPlacesInfo:
         [{
-            destinationPlace: '1791243',
-            leaveDate: '2018-02-03T02:00:00.000Z',
-            goBackDate: '2018-02-03T10:00:00.000Z',
-            latestArrivalDateTime: '2018-02-03T02:00:00.000Z',
-            earliestGoBackDateTime: '2018-02-03T10:00:00.000Z',
-            isNeedTraffic: false,
+            destinationPlace: '1796231',
+            leaveDate: '2018-03-03T12:00:00.000Z',
+            goBackDate: '2018-03-05T10:00:00.000Z',
+            latestArrivalDateTime: '2018-03-03T12:00:00.000Z',
+            earliestGoBackDateTime: '2018-03-05T10:00:00.000Z',
+            isNeedTraffic: true,
             isNeedHotel: true,
             reason: ''
         }],
     originPlace: '1814905',
-    isRoundTrip: false,
+    isRoundTrip: true,
     goBackPlace: '1814905'
 }
 
@@ -168,7 +168,7 @@ let params6 = {
 
 let testFn = async () => {
     console.log("ok ok ok ok ok ok");
-    let result = await budget.getBudget(params4);
+    let result = await budget.getBudget(params5);
     // console.log("result result ===>", result);
 }
 

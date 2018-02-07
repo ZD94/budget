@@ -273,6 +273,7 @@ export interface IPolicy {
 
 export interface IBudgetItem {
     price: number;
+    singlePrice: number;     //单价(每人每次)
     currency?: string;       //币种
     rate?: number;           //汇率
     type: EBudgetType;

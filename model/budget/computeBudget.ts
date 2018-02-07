@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-22 10:56:07 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-02-06 16:45:30
+ * @Last Modified time: 2018-02-07 16:25:02
  * @content 计算预算 */
 
 import { BudgetType, SearchHotelParams, SearchTicketParams, defaultCurrencyUnit, DataOrder } from "./interface";
@@ -18,7 +18,8 @@ export class ComputeBudget {
         let transParams = {
             prefer: params.prefer,
             data: params.data,
-            days: params.days || 0
+            days: params.days || 0,
+            step: params.step
         }
         for (let key in params.input) {
             transParams[key] = params.input[key];
@@ -45,8 +46,7 @@ export class ComputeBudget {
             location,
         }, { isRecord: true });
 
-        let isRetMarkedData = true;
-        let budget = await strategy.getResult(data, isRetMarkedData);
+        let budget = await strategy.getResult(data, params.step);
 
         budget.price = this.limitHotelBudgetByPrefer(prefer.policies.minPriceLimit, prefer.policies.maxPriceLimit, budget.price);
 
@@ -115,8 +115,7 @@ export class ComputeBudget {
             staffs: [staff],
         }, { isRecord: true });
 
-        let isRetMarkedData = true;
-        let budget = await strategy.getResult(data, isRetMarkedData);
+        let budget = await strategy.getResult(data, params.step);
 
         let discount = 0;
         if (budget.trafficType == ETrafficType.PLANE) {

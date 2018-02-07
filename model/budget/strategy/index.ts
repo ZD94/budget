@@ -12,7 +12,7 @@ import {
 import moment = require("moment");
 import _ = require("lodash");
 import { Models } from "_types/index";
-import { defaultCurrencyUnit } from "model/budget"
+import { defaultCurrencyUnit, STEP } from "model/budget"
 
 export function formatTicketData(tickets: ITicket[]): IFinalTicket[] {
     let _tickets: IFinalTicket[] = [];
@@ -109,7 +109,7 @@ export abstract class AbstractHotelStrategy {
 
     abstract async customMarkedScoreData(hotels: IFinalHotel[]): Promise<IFinalHotel[]>;
 
-    async getResult(hotels: IHotel[], isRetMarkedData?: boolean, preferedCurrency?: string): Promise<IHotelBudgetItem> {
+    async getResult(hotels: IHotel[], step: STEP): Promise<IHotelBudgetItem> {
         let self = this;
         let _hotels = formatHotel(hotels);
 
@@ -132,7 +132,6 @@ export abstract class AbstractHotelStrategy {
                 star: null,
                 singlePrice: defaultPrice[this.qs.star],
                 price: defaultPrice[this.qs.star] as number,
-                unit: preferedCurrency && typeof (preferedCurrency) != 'undefined' ? preferedCurrency : defaultCurrencyUnit,
                 rate: 1,
                 agent: null,
                 type: EBudgetType.HOTEL,
@@ -158,7 +157,6 @@ export abstract class AbstractHotelStrategy {
                 duringDays: days
             }
         }
-
 
         _hotels = await this.getMarkedScoreHotels(_hotels);
 
@@ -186,21 +184,19 @@ export abstract class AbstractHotelStrategy {
         if (self.isRecord) {
             //保存调试记录
             let budgetItem = Models.budgetItem.create({
-                title: `${self.qs.city ? (self.qs.city.name ? self.qs.city.name : result.city) : result.city}(${moment(self.qs.checkInDate).format('YYYY-MM-DD')}-${moment(self.qs.checkOutDate).format('YYYY-MM-DD')})`,
+                title: `${self.qs.city ? (self.qs.city.name ? self.qs.city.name : result.city) : result.city}(${moment(self.qs.checkInDate).format('YYYY-MM-DD')}-${moment(self.qs.checkOutDate).format('YYYY-MM-DD')})--${step}`,
                 query: _.cloneDeep(self.qs),
                 type: EBudgetType.HOTEL,
                 originData: hotels,
                 markedData: _hotels,
                 result: result,
-                prefers: self.qs.prefers,
+                prefers: self.qs.prefers
             })
             budgetItem = await budgetItem.save();
             result.id = budgetItem.id;
         }
 
-        if (isRetMarkedData) {
-            result.markedScoreData = _hotels;
-        }
+        result.markedScoreData = _hotels;
         return result;
     }
 }
@@ -265,7 +261,7 @@ export abstract class AbstractTicketStrategy {
 
     abstract async customerMarkedScoreData(tickets: IFinalTicket[]): Promise<IFinalTicket[]>;
 
-    async getResult(tickets: ITicket[], isRetMarkedData?: boolean): Promise<ITrafficBudgetItem> {
+    async getResult(tickets: ITicket[], step: STEP): Promise<ITrafficBudgetItem> {
         let self = this;
         let _tickets = formatTicketData(tickets);
         if (!_tickets || !_tickets.length) {
@@ -311,7 +307,7 @@ export abstract class AbstractTicketStrategy {
             //保存调试记录
             let date = self.qs.earliestDepartTime ? self.qs.earliestDepartTime : self.qs.latestArrivalTime
             let budgetItem = Models.budgetItem.create({
-                title: `${self.qs.fromCity.name}-${self.qs.toCity.name}(${moment(`${date}`).format('YYYY/MM/DD')})`,
+                title: `${self.qs.fromCity.name}-${self.qs.toCity.name}(${moment(`${date}`).format('YYYY/MM/DD')})--${step}`,
                 query: _.cloneDeep(self.qs),
                 type: EBudgetType.TRAFFIC,
                 originData: tickets,
@@ -323,9 +319,7 @@ export abstract class AbstractTicketStrategy {
             result.id = budgetItem.id;
         }
 
-        if (isRetMarkedData) {
-            // result.markedScoreData = _tickets;
-        }
+        result.markedScoreData = _tickets;
         return result;
     }
 }

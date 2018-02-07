@@ -2,52 +2,33 @@
  * @Author: Mr.He 
  * @Date: 2017-11-24 17:06:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-31 17:20:33
+ * @Last Modified time: 2018-02-06 19:34:40
  * @content analyze the budgets request . */
 
 import * as uuid from "uuid";
-import { SearchHotelParams, SearchTicketParams, BudgetType, TripType, BudgetItemParams, DataOrder } from "./interface";
-import { STEP } from 'model/budget';
+import { SearchHotelParams, SearchTicketParams, BudgetType, TripType, BudgetItemParams, DataOrder, BudgetOrder, STEP } from "./interface";
 import moment = require("moment");
-
-export interface ISegment {
-    destinationPlace?: string;
-    leaveDate?: string;
-    goBackDate?: string;
-    isNeedTraffic?: boolean;   //后期考虑 是否需要传入
-    isNeedHotel?: boolean;     //后期考虑 是否需要传入
-    businessDistrict?: any;    //商圈            逗号分隔的经纬度， 没有逗号则取城市
-    hotelName?: string;        //hotelName 
-    reason?: string;
-    latestArrivalDateTime?: string;
-    earliestGoBackDateTime?: string;
-}
-
-export interface CreateBudgetParams {
-    expectStep?: STEP;
-    originPlace?: string;
-    isRoundTrip?: boolean;             //是否为往返
-    goBackPlace?: string;              //返回地
-    destinationPlacesInfo: ISegment[];
-}
+import { Models } from '_types';
 
 /* 分析请求参数 */
-export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParams[] | DataOrder[] {
+export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<BudgetOrder> {
 
     let budgetParams = [];
-    let destinations = params.destinationPlacesInfo;
+    let originParams = budgetOrder.originParams;
+    let destinations = originParams.destinationPlacesInfo;
+    let company = await Models.company.get(budgetOrder.companyId);
 
     destinations.map((destination, index) => {
         /* deal traffic budget params. 不处理最后返程 */
         if (destination.isNeedTraffic) {
-            if (index == 0 && params.originPlace) {
+            if (index == 0 && originParams.originPlace) {
                 //第一段，看是否需要去程交通
                 let trip = {
                     id: uuid.v1(),
                     type: BudgetType.TRAFFICT,
                     input: {
                         leaveDate: destination.latestArrivalDateTime, //第一程的出发时间可优化，理论上应该在此基础上提前一段时间
-                        originPlace: params.originPlace,
+                        originPlace: originParams.originPlace,
                         destination: destination.destinationPlace,
                         earliestGoBackDateTime: destination.earliestGoBackDateTime,
                         latestArrivalDateTime: destination.latestArrivalDateTime
@@ -106,6 +87,10 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
             }
         }
 
+        if (!company.isOpenSubsidyBudget) {
+            return;
+        }
+
         /* =================================== 添加补助参数 ================================= */
         if (destinations[index + 1]) {
             let nextDestination = destinations[index + 1];
@@ -145,7 +130,7 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
                         city: destination.destinationPlace,
                         index
                     }));
-                } else if (!params.goBackPlace || !params.isRoundTrip) {
+                } else if (!originParams.goBackPlace || !originParams.isRoundTrip) {
                     /* 当天回的情况，检查是否有返程；没有返程，增加一项补助 */
                     budgetParams.push(createSubsidy({
                         beginTime: destination.leaveDate,
@@ -158,11 +143,10 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
             }
         }
         /* ==================================== 添加补助参数 ====== END =================== */
-
     });
 
     /* 处理最后返程 */
-    if (params.goBackPlace && params.isRoundTrip) {
+    if (originParams.goBackPlace && originParams.isRoundTrip) {
         let lastDestinations = destinations[destinations.length - 1];
         let trip = {
             id: uuid.v1(),
@@ -170,7 +154,7 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
             input: {
                 leaveDate: lastDestinations.goBackDate,
                 originPlace: lastDestinations.destinationPlace,
-                destination: params.goBackPlace,
+                destination: originParams.goBackPlace,
                 earliestGoBackDateTime: lastDestinations.earliestGoBackDateTime,
                 latestArrivalDateTime: lastDestinations.latestArrivalDateTime
             },
@@ -180,20 +164,30 @@ export function analyzeBudgetParams(params: CreateBudgetParams): BudgetItemParam
         budgetParams.push(trip);
 
         /* 增加一项补助 */
-        budgetParams.push(createSubsidy({
-            beginTime: lastDestinations.goBackDate,
-            endTime: lastDestinations.goBackDate,
-            city: params.goBackPlace,
-            index: destinations.length,
-            days: 1,
-            backOrGo: TripType.BackTrip
-        }));
+        if (company.isOpenSubsidyBudget) {
+            budgetParams.push(createSubsidy({
+                beginTime: lastDestinations.goBackDate,
+                endTime: lastDestinations.goBackDate,
+                city: originParams.goBackPlace,
+                index: destinations.length,
+                days: 1,
+                backOrGo: TripType.BackTrip
+            }));
+        }
     }
 
     /* 分析完参数后，检查预算参数是否正确 */
     checkBudgetParams(budgetParams);
 
-    return budgetParams;
+    /* perfect the dataOrders, 拼装DataOrder对象 */
+    for (let segment of budgetParams) {
+        segment.channels = [];
+        segment.step = budgetOrder.step;
+        segment.data = [];
+        budgetOrder.budgetData.push(segment);
+    }
+
+    return budgetOrder;
 }
 
 function createSubsidy(params: { beginTime: string, endTime: string, city: string, index: number, days?: number, backOrGo?: TripType }) {

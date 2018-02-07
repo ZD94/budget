@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-01-19 16:35:24 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-02-06 16:53:23
+ * @Last Modified time: 2018-02-06 17:47:22
  * @content what is the content of this file. */
 
 import { budget, STEP } from "model/budget";
@@ -131,11 +131,11 @@ let params5 = {
     preferedCurrency: 'CNY',
     travelPolicyId: '7a4ceb50-f9ce-11e7-89c4-73c84750254b',
     companyId: '625c6110-f9ce-11e7-b540-af4848d193b7',
-    staffs: [{ gender: 1, policy: 'domestic' }],
+    staffs: [{ gender: 1, policy: 'domestic' }, { gender: 1, policy: 'domestic' }],
     currency: "CNY",
     destinationPlacesInfo:
         [{
-            destinationPlace: '1791243',
+            destinationPlace: '1796231',
             leaveDate: '2018-03-03T12:00:00.000Z',
             goBackDate: '2018-03-05T10:00:00.000Z',
             latestArrivalDateTime: '2018-03-03T12:00:00.000Z',

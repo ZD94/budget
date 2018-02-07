@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-02-05 18:52:39
+ * @Last Modified time: 2018-02-06 22:07:57
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -34,34 +34,30 @@ export class Budget extends BudgetHelps {
         super();
     }
     async getBudget(params: GetBudgetParams): Promise<BudgetFinallyResult> {
-        let { callbackUrl, requestBudgetParams, companyId, travelPolicyId, staffs, currency = config.defaultCurrency, expectStep = STEP.CACHE } = params;
+        let { callbackUrl, companyId, travelPolicyId, staffs, currency = config.defaultCurrency, expectStep = STEP.CACHE } = params;
 
         console.log('params ===========>', params);
         let times = Date.now();
-        //后期考虑 针对不同的用户生成不同的预算
         let persons = staffs.length;   //预算人数
-        let segments = analyzeBudgetParams(params) as DataOrder[];
-        console.log("预算请求参数分析： ", segments);
-
 
         /* create budget order */
         let budgetOrder = {
             id: uuid.v1(),
-            budgetData: [],
+            companyId,
+            travelPolicyId,
+            step: expectStep,
             callbackUrl,
-            params,
+            originParams: params,
             persons,
             currency,
-            rate: await getRate(currency)
+            rate: await getRate(currency),
+            budgetData: []
         } as BudgetOrder;
 
-        /* perfect the dataOrders. */
-        for (let segment of segments) {
-            segment.channels = [];
-            segment.step = expectStep;
-            segment.data = [];
-            budgetOrder.budgetData.push(segment);
-        }
+
+        budgetOrder = await analyzeBudgetParams(budgetOrder);
+        console.log("预算请求参数分析： ", budgetOrder.budgetData);
+
 
         /* request data-store */
         let ps = budgetOrder.budgetData.map(async (item: DataOrder, index) => {
@@ -125,7 +121,7 @@ export class Budget extends BudgetHelps {
         console.log("第一次预算获取结果：", finallyResult);
         let budgetItem = Models.budget.create({
             id: budgetOrder.id,
-            query: budgetOrder.params,
+            query: budgetOrder.originParams,
             result: finallyResult
         });
         await budgetItem.save();
@@ -170,6 +166,7 @@ export class Budget extends BudgetHelps {
                 });
             }();
         } catch (e) {
+            budgetOrder.budgetData = result;
             console.log(e);
         }
 
@@ -186,6 +183,9 @@ export class Budget extends BudgetHelps {
         for (let item of budgetOrder.budgetData) {
             if (item.type != BudgetType.SUBSIDY) {
                 item.budget = await computeBudget.getBudget(item);
+            } else {
+                let input = item.input as SearchSubsidyParams;
+                item.budget = await getSubsidy.getSubsidyItem(budgetOrder.companyId, budgetOrder.travelPolicyId, input);
             }
             finallyResult.budgets.push(this.completeBudget(item, budgetOrder));
         }
@@ -255,12 +255,22 @@ export class Budget extends BudgetHelps {
 
     async requestDataStore(params: any) {
         /* 服务稳定后，应当对请求错误执行重复拉取 */
-        return await request({
-            uri: config.dataStore + "/searchData",
-            method: "post",
-            body: params,
-            json: true
-        });
+        try {
+            return await request({
+                uri: config.dataStore + "/searchData",
+                method: "post",
+                body: params,
+                json: true
+            });
+        } catch (e) {
+            console.error("requestDataStore error. The params : ", {
+                uri: config.dataStore + "/searchData",
+                method: "post",
+                body: params,
+                json: true
+            });
+            throw new Error(e.message || e);
+        }
     }
 }
 

@@ -416,9 +416,9 @@ app.controller('debug', function ($scope, $http, $location) {
 
     //更改服务器
     $scope.originServers = [
-        { name: '开发', url: 'http://l.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
-        { name: '测试', url: 'http://t.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
-        { name: '正式', url: 'http://j.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' }
+        { name: '开发', url: 'https://l.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
+        { name: '测试', url: 'https://t.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
+        { name: '正式', url: 'https://j.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' }
     ]
     $scope.changeServer = function () {
 

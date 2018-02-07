@@ -39,9 +39,6 @@ export enum PlaceType {
 export class CityService {
 
     static async getCity(id): Promise<ICity> {
-        if (id == DefaultRegionId.abroad) {
-            return null;
-        }
         let city: ICity;
         let uri = config.placeAPI + "/city/" + id;
         let result: any = await restfulAPIUtil.proxyHttp({

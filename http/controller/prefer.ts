@@ -67,7 +67,7 @@ export class PreferController extends AbstractModelController<PreferRegion> {
 
     async add(req, res, next){
         let params = req.body;
-        let prefer = PreferRegion.create({});
+        let prefer = PreferRegion.create({id: params.id});
         if(typeof params.budgetConfig == "string"){
             params.budgetConfig = JSON.parse(params.budgetConfig);
         }

@@ -228,8 +228,8 @@ export async function authorizeTo(agentId: string, companyId: string) {
  * @param sign 签名规则：md5(appSecret|timestamp)
  * @param timestamp 
  */
-export async function getCompanyToken(appId: string, sign: string, timestamp: number) {
-    const res = {code: 0, msg: '', data: null};
+export async function getCompanyToken(appId: string, sign: string, timestamp: number) :Promise<any[]>{
+    const res = { code: 0, msg: '', data: null };
     const enterprises = await Models.company.find({
         where:{
             appId
@@ -237,14 +237,14 @@ export async function getCompanyToken(appId: string, sign: string, timestamp: nu
     });
     if(enterprises.length <= 0) {
         res.code = 400;
-        return res;
+        return [res];
     }
 
     const enterprise = enterprises[0];
     const temp = md5([enterprise.appSecret, timestamp].join('|'));
     if(temp != sign) {
         res.code = 500;
-        return res;
+        return [res];
     }
 
     const token = await generateToken({

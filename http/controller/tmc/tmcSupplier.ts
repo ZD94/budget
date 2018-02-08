@@ -11,6 +11,7 @@ import {tmcSupplierMethod} from "model/tmc";
 import {AbstractController, Restful, Router, reply, ReplyData} from "@jingli/restful";
 import {jlReply} from 'http/index';
 import {__param} from "tslib";
+import { TmcSupplier, TmcServiceType } from '_types/tmcSupplier';
 
 @Restful()
 export default class TmcSupplierController extends AbstractController {
@@ -58,5 +59,6 @@ export default class TmcSupplierController extends AbstractController {
         let result = await tmcSupplierMethod.getTmcTypes(req.body);
         res.jlReply(reply(0, result));
     }
+
 
 }

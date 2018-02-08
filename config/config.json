@@ -4,10 +4,9 @@
   "host": "${JL_APP_HOST}",
   "debug": false,
   "ts_node": true,
-  "cluster": true,
-  "port": 80,
+  "cluster": 4,
+  "port": "${JL_APP_PORT}",
   "apiPort": 4103,
-  "socket_file": "${{rootDir}}/web.sock",
   "pid_file": "${{rootDir}}/tmp/server.pid",
   "postgres": {
     "url": "${JL_APP_POSTGRES}",
@@ -18,8 +17,8 @@
   },
   "hosts": {
     "main": {
-      "addr": "t.jingli365.com",
-      "port": 14201,
+      "addr": "${JL_APP_COMMONAPI_HOST}",
+      "port": "${JL_APP_COMMONAPI_PORT}",
       "www": "https://${{hosts.main.addr}}"
     }
   },
@@ -64,7 +63,7 @@
     }
   },
   "isUsingFakeData": false,
-  "juHeCurrencyAPIKey": "58db4718504b1fa7a7448a8024c41864",
+  "juHeCurrencyAPIKey": "${JL_APP_JUHE_KEY}",
   "oldPostgres": {
     "url": "${JL_APP_OLD_POSTGRES_URL}"
   },
@@ -72,6 +71,7 @@
   "superUser": [
     "qmtrip@jingli365.com"
   ],
-  "placeAPI": "https://j.jingli365.com/proj/svr-place",
-  "dataStore": "{JL_APP_DATA_STORE_URL}"
+  "placeAPI": "${JL_APP_PLACE}",
+  "dataStore": "${JL_APP_DATA_STORE_URL}",
+  "defaultCurrency": "CNY"
 }

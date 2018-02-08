@@ -2,11 +2,12 @@
  * @Author: Mr.He 
  * @Date: 2018-01-19 16:35:24 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-25 14:03:13
+ * @Last Modified time: 2018-02-08 15:46:37
  * @content what is the content of this file. */
 
-import { budget } from "model/budget";
+import { budget, STEP } from "model/budget";
 import { analyzeBudgetParams } from "model/budget/analyzeParams";
+import { Currency } from '_types/currency/currency';
 
 
 let params = {
@@ -17,10 +18,10 @@ let params = {
     destinationPlacesInfo:
         [{
             destinationPlace: 'CT_150',
-            leaveDate: '2018-01-20T10:00:00.000Z',
-            goBackDate: '2018-01-21T01:00:00.000Z',
-            latestArrivalDateTime: '2018-01-20T10:00:00.000Z',
-            earliestGoBackDateTime: '2018-01-21T01:00:00.000Z',
+            leaveDate: '2018-03-20T10:00:00.000Z',
+            goBackDate: '2018-03-21T01:00:00.000Z',
+            latestArrivalDateTime: '2018-03-20T10:00:00.000Z',
+            earliestGoBackDateTime: '2018-03-21T01:00:00.000Z',
             isNeedTraffic: true,
             isNeedHotel: true,
             reason: ''
@@ -47,20 +48,20 @@ let params2 = {
     "destinationPlacesInfo":
         [{
             "destinationPlace": "CT_289",
-            "leaveDate": "2018-01-24T10:00:00.000Z",
-            "goBackDate": "2018-01-27T01:00:00.000Z",
-            "latestArrivalDateTime": "2018-01-24T10:00:00.000Z",
-            "earliestGoBackDateTime": "2018-01-27T01:00:00.000Z",
+            "leaveDate": "2018-03-24T10:00:00.000Z",
+            "goBackDate": "2018-03-27T01:00:00.000Z",
+            "latestArrivalDateTime": "2018-03-24T10:00:00.000Z",
+            "earliestGoBackDateTime": "2018-03-27T01:00:00.000Z",
             "isNeedTraffic": true,
             "isNeedHotel": true,
             "reason": ""
         },
         {
             "destinationPlace": "CT_131",
-            "leaveDate": "2018-01-27T10:00:00.000Z",
-            "goBackDate": "2018-01-29T01:00:00.000Z",
-            "latestArrivalDateTime": "2018-01-27T10:00:00.000Z",
-            "earliestGoBackDateTime": "2018-01-29T01:00:00.000Z",
+            "leaveDate": "2018-03-27T10:00:00.000Z",
+            "goBackDate": "2018-03-29T01:00:00.000Z",
+            "latestArrivalDateTime": "2018-03-27T10:00:00.000Z",
+            "earliestGoBackDateTime": "2018-03-29T01:00:00.000Z",
             "isNeedTraffic": true,
             "isNeedHotel": true,
             "reason": ""
@@ -77,19 +78,19 @@ let params3 = {
     destinationPlacesInfo:
         [{
             destinationPlace: 'CT_150',
-            leaveDate: '2018-01-20T01:00:00.000Z',
-            goBackDate: '2018-01-20T08:00:00.000Z',
-            latestArrivalDateTime: '2018-01-20T01:00:00.000Z',
-            earliestGoBackDateTime: '2018-01-20T08:00:00.000Z',
+            leaveDate: '2018-03-20T01:00:00.000Z',
+            goBackDate: '2018-03-20T08:00:00.000Z',
+            latestArrivalDateTime: '2018-03-20T01:00:00.000Z',
+            earliestGoBackDateTime: '2018-03-20T08:00:00.000Z',
             isNeedTraffic: true,
             isNeedHotel: true,
             reason: ''
         }, {
             destinationPlace: 'CT_075',
-            leaveDate: '2018-01-20T08:00:00.000Z',
-            goBackDate: '2018-01-21T08:00:00.000Z',
-            latestArrivalDateTime: '2018-01-20T08:00:00.000Z',
-            earliestGoBackDateTime: '2018-01-21T08:00:00.000Z',
+            leaveDate: '2018-03-20T08:00:00.000Z',
+            goBackDate: '2018-03-21T08:00:00.000Z',
+            latestArrivalDateTime: '2018-03-20T08:00:00.000Z',
+            earliestGoBackDateTime: '2018-03-21T08:00:00.000Z',
             isNeedTraffic: true,
             isNeedHotel: true,
             reason: ''
@@ -100,9 +101,97 @@ let params3 = {
 };
 
 
+let params4 = {
+    "goBackPlace": "CT_131",
+    "isRoundTrip": true,
+    staffs: [{ gender: 1, policy: 'domestic' }],
+    "originPlace": "CT_131",
+    "projectName": "",
+    currency: "EUR",
+    "travelPolicyId": "7a4ceb50-f9ce-11e7-89c4-73c84750254b",
+    "destinationPlacesInfo": [
+        {
+            "reason": "",
+            "subsidy": {
+                "template": null
+            },
+            "leaveDate": "2018-02-15T13:00:00.000Z",
+            "goBackDate": "2018-02-17T02:00:00.000Z",
+            "isNeedHotel": true,
+            "isNeedTraffic": true,
+            "destinationPlace": "1792943",
+            "latestArrivalDateTime": "2018-02-15T13:00:00.000Z",
+            "earliestGoBackDateTime": "2018-02-17T02:00:00.000Z"
+        }
+    ]
+}
+
+let params5 = {
+    // callbackUrl: 'l.jingli365.com/api/v1/budget/7981c4d0-058f-11e8-96e0-afb5c70cc3c3/updateBudget',
+    preferedCurrency: 'CNY',
+    travelPolicyId: '7a4ceb50-f9ce-11e7-89c4-73c84750254b',
+    companyId: '625c6110-f9ce-11e7-b540-af4848d193b7',
+    staffs: [{ gender: 1, policy: 'domestic' }, { gender: 1, policy: 'domestic' }],
+    currency: "CNY",
+    destinationPlacesInfo:
+        [{
+            destinationPlace: '1796231',
+            leaveDate: '2018-03-03T12:00:00.000Z',
+            goBackDate: '2018-03-05T10:00:00.000Z',
+            latestArrivalDateTime: '2018-03-03T12:00:00.000Z',
+            earliestGoBackDateTime: '2018-03-05T10:00:00.000Z',
+            isNeedTraffic: true,
+            isNeedHotel: true,
+            reason: ''
+        }],
+    originPlace: '1814905',
+    isRoundTrip: true,
+    goBackPlace: '1814905'
+}
+
+
+/* test enviornment */
+let params6 = {
+    "companyId": "f6350f90-4fbb-11e6-81af-4b3384f7a2a9",
+    "goBackPlace": "2038349",
+    "originPlace": "2038349",
+    "expectStep": STEP.FINAL,
+    "isRoundTrip": true,
+    "travelPolicyId": "d3364020-4fbd-11e6-9bd0-918bb412d7c8", "destinationPlacesInfo": [{
+        "reason": "", "isNeedHotel": true, "latestArrivalDateTime": "2018-02-20T12:25:29.000Z", "earliestGoBackDateTime": "2018-02-22T12:25:29.000Z", "destinationPlace": "1796231", "leaveDate": "2018-02-20T12:25:29.000Z", "goBackDate": "2018-02-22T12:25:29.000Z", "isNeedTraffic": true
+    }],
+    "callbackUrl": "",
+    "staffs": [{ "gender": 0 }]
+};
+
+
+let params7 = {
+    preferedCurrency: 'CNY',
+    travelPolicyId: '61886c80-ada1-11e7-be58-77beedadf88e',
+    companyId: '0f15daa0-a432-11e7-988b-b9f0504fc2e1',
+    staffs: [{ gender: 1, policy: 'domestic' }],
+    destinationPlacesInfo:
+        [{
+            destinationPlace: '1795563',
+            leaveDate: '2018-02-08T10:00:00.000Z',
+            goBackDate: '2018-02-09T01:00:00.000Z',
+            latestArrivalDateTime: '2018-02-08T10:00:00.000Z',
+            earliestGoBackDateTime: '2018-02-09T01:00:00.000Z',
+            isNeedTraffic: true,
+            isNeedHotel: true,
+            subsidy: [Object],
+            reason: ''
+        }],
+    originPlace: '2038349',
+    isRoundTrip: true,
+    goBackPlace: '2038349'
+}
+
+
+
 let testFn = async () => {
     console.log("ok ok ok ok ok ok");
-    let result = await budget.getBudget(params3);
+    let result = await budget.getBudget(params7);
     // console.log("result result ===>", result);
 }
 

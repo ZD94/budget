@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-16 11:35:17 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-08 14:26:24
+ * @Last Modified time: 2018-01-29 10:53:35
  * @content what is the content of this file. */
 
 import { ICity, CityService } from '_types/city';
@@ -23,7 +23,6 @@ import { BudgetType, SearchHotelParams, SearchTicketParams, SearchSubsidyParams 
 export interface AllPreferParams {
     companyId: string;
     travelPolicyId: string;
-    staff: IStaff;
     type: BudgetType;
     input: SearchHotelParams | SearchTicketParams | SearchSubsidyParams;
 }
@@ -53,7 +52,7 @@ export interface HotelPreferParams extends AllPreferParams {
 export class GetAllPrefer {
 
     async getPrefer(params: AllPreferParams) {
-        let { companyId, travelPolicyId, staff, input, type } = params;
+        let { companyId, travelPolicyId, input, type } = params;
 
         // console.log("getPrefer =====> ", params);
         for (let key in input) {
@@ -70,7 +69,7 @@ export class GetAllPrefer {
 
     /* 获取交通行程所需全部打分参数 */
     async getTrafficAllPrefer(params: TrafficPreferParams) {
-        let { originPlace, destination, latestArrivalDateTime, earliestGoBackDateTime, companyId, travelPolicyId, staff } = params;
+        let { originPlace, destination, latestArrivalDateTime, earliestGoBackDateTime, companyId, travelPolicyId } = params;
 
         if (typeof originPlace == 'string') {
             originPlace = await CityService.getCity(originPlace);
@@ -84,6 +83,8 @@ export class GetAllPrefer {
             companyId,
             placeId: destination.id
         });
+        //由于prefer赋值问题，暂时关闭company单独设置，启用company默认设置
+        preferSet = [];
 
         /* 交通的差旅政策 */
         let policies;
@@ -93,45 +94,41 @@ export class GetAllPrefer {
         }
         if (destination.isAbroad) {
             policies = {
-                abroad: {
-                    cabin: await tp.getBestTravelPolicy({
-                        placeId: destination["id"],
-                        type: "planeLevels",
-                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
-                    }),
-                    trafficPrefer: await tp.getBestTravelPolicy({
-                        placeId: destination["id"],
-                        type: "trafficPrefer",
-                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
-                    }),
-                }
+                cabin: await tp.getBestTravelPolicy({
+                    placeId: destination["id"],
+                    type: "planeLevels",
+                    companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                }),
+                trafficPrefer: await tp.getBestTravelPolicy({
+                    placeId: destination["id"],
+                    type: "trafficPrefer",
+                    companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                }),
             }
         } else {
             policies = {
-                domestic: {
-                    cabin: await tp.getBestTravelPolicy({
-                        placeId: destination["id"],
-                        type: "planeLevels",
-                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
-                    }),
-                    trainSeat: await tp.getBestTravelPolicy({
-                        placeId: destination["id"],
-                        type: "trainLevels",
-                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
-                    }),
-                    trafficPrefer: await tp.getBestTravelPolicy({
-                        placeId: destination["id"],
-                        type: "trafficPrefer",
-                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
-                    }),
-                }
+                cabin: await tp.getBestTravelPolicy({
+                    placeId: destination["id"],
+                    type: "planeLevels",
+                    companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                }),
+                trainSeat: await tp.getBestTravelPolicy({
+                    placeId: destination["id"],
+                    type: "trainLevels",
+                    companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                }),
+                trafficPrefer: await tp.getBestTravelPolicy({
+                    placeId: destination["id"],
+                    type: "trafficPrefer",
+                    companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                }),
             }
         }
 
         let dtimezone = destination && destination.timezone ? destination.timezone : 'Asia/Shanghai';
         let leaveDate = moment(latestArrivalDateTime || earliestGoBackDateTime).tz(dtimezone).format('YYYY-MM-DD');
 
-        let staffPolicy = policies[staff.policy] || {};
+        let staffPolicy = policies || {};
         let trainSeat = staffPolicy.trainSeat;
         let cabin = staffPolicy.cabin;
 
@@ -179,12 +176,12 @@ export class GetAllPrefer {
             })
         }
 
-        return { allPrefers, policies, staff };
+        return { allPrefers, policies };
     }
 
     /* 获取住宿行程所需全部打分参数 */
     async getHotelAllPrefer(params: HotelPreferParams) {
-        let { city, checkInDate, checkOutDate, companyId, travelPolicyId, staff, location } = params;
+        let { city, checkInDate, checkOutDate, companyId, travelPolicyId, location } = params;
         if (typeof city == 'string') {
             city = await CityService.getCity(city);
         }
@@ -200,36 +197,32 @@ export class GetAllPrefer {
         let policies: any = {};
         if (city.isAbroad) {
             policies = {
-                abroad: {
-                    hotelStar: await tp.getBestTravelPolicy({
-                        placeId: city["id"],
-                        type: "hotelLevels",
-                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
-                    }),
-                    hotelPrefer: await tp.getBestTravelPolicy({
-                        placeId: city["id"],
-                        type: "hotelPrefer",
-                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
-                    }),
-                }
+                hotelStar: await tp.getBestTravelPolicy({
+                    placeId: city["id"],
+                    type: "hotelLevels",
+                    companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                }),
+                hotelPrefer: await tp.getBestTravelPolicy({
+                    placeId: city["id"],
+                    type: "hotelPrefer",
+                    companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                }),
             }
-            policies['abroad'] = _.assign(policies['abroad'], await this.getHotelPriceLimit(city['id'], companyId, tp))
+            policies = _.assign(policies, await this.getHotelPriceLimit(city['id'], companyId, tp))
         } else {
             policies = {
-                domestic: {
-                    hotelStar: await tp.getBestTravelPolicy({
-                        placeId: city["id"],
-                        type: "hotelLevels",
-                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
-                    }),
-                    hotelPrefer: await tp.getBestTravelPolicy({
-                        placeId: city["id"],
-                        type: "hotelPrefer",
-                        companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
-                    })
-                }
+                hotelStar: await tp.getBestTravelPolicy({
+                    placeId: city["id"],
+                    type: "hotelLevels",
+                    companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                }),
+                hotelPrefer: await tp.getBestTravelPolicy({
+                    placeId: city["id"],
+                    type: "hotelPrefer",
+                    companyRegionType: ECompanyRegionUsedType.TRAVEL_POLICY
+                })
             }
-            policies['domestic'] = _.assign(policies['domestic'], await this.getHotelPriceLimit(city['id'], companyId, tp));
+            policies = _.assign(policies, await this.getHotelPriceLimit(city['id'], companyId, tp));
         }
 
         /* 获取偏好设置 */
@@ -251,8 +244,7 @@ export class GetAllPrefer {
             }
         }
 
-        let policyKey = staff.policy || 'domestic';
-        let staffPolicy = policies[policyKey] || {};
+        let staffPolicy = policies || {};
         let star = staffPolicy.hotelStar;
         let allPrefers = loadPrefers(companyPrefers, {
             local: {
@@ -279,7 +271,7 @@ export class GetAllPrefer {
             })
         }
 
-        return { allPrefers, star, policies, staff };
+        return { allPrefers, star, policies };
     }
 
     async getHotelPriceLimit(placeId: string, companyId: string, tp: TravelPolicy) {

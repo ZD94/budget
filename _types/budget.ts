@@ -254,7 +254,6 @@ export interface ILocation {
 
 export interface IStaff {
     gender: EGender,          //性别
-    policy: string;           // domestic 为默认值，来源于qmtrip
 }
 
 export interface IPolicySet {
@@ -274,8 +273,9 @@ export interface IPolicy {
 
 export interface IBudgetItem {
     price: number;
-    unit?: string;
-    rate?: number;
+    singlePrice: number;     //单价(每人每次)
+    currency?: string;       //币种
+    rate?: number;           //汇率
     type: EBudgetType;
     link?: string;
     agent?: string;
@@ -305,6 +305,7 @@ export interface ITrafficBudgetItem extends IBudgetItem {
     toCity: string;                        //目的城市
     departTime: Date;
     arrivalTime: Date;
+    leaveDate?: string;                     //用户选择的离开时间
     trafficType: ETrafficType;                  //交通类别,飞机、火车、轮船、大巴、打车或者自驾,租车
     cabin?: EAirCabin | ETrainSeat | EShipCabin;     //仓位或者座位
     discount?: number;                  //大致折扣
@@ -334,7 +335,7 @@ export interface IHotelBudgetItem extends IBudgetItem {
     deeplinkData?: object;
     commentScore?: number;
     landmark?: any;
-
+    duringDays: number;                           //天数
 }
 
 export interface ISubsidyItem extends IBudgetItem {

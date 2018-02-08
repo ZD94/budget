@@ -12,7 +12,7 @@ import {
 import moment = require("moment");
 import _ = require("lodash");
 import { Models } from "_types/index";
-import { defaultCurrencyUnit } from "model/budget"
+import { defaultCurrencyUnit, STEP } from "model/budget"
 
 export function formatTicketData(tickets: ITicket[]): IFinalTicket[] {
     let _tickets: IFinalTicket[] = [];
@@ -109,9 +109,13 @@ export abstract class AbstractHotelStrategy {
 
     abstract async customMarkedScoreData(hotels: IFinalHotel[]): Promise<IFinalHotel[]>;
 
-    async getResult(hotels: IHotel[], isRetMarkedData?: boolean, preferedCurrency?: string): Promise<IHotelBudgetItem> {
+    async getResult(hotels: IHotel[], step: STEP): Promise<IHotelBudgetItem> {
         let self = this;
         let _hotels = formatHotel(hotels);
+
+        let checkOutDate = moment(self.qs.checkOutDate).format("YYYY-MM-DD");
+        let checkInDate = moment(self.qs.checkInDate).format("YYYY-MM-DD");
+        let days = moment(checkOutDate).diff(checkInDate, 'days');
         if ((!_hotels || !_hotels.length) && self.qs.city && !self.qs.city.isAbroad) {
             const defaultPrice = {
                 "5": 500,
@@ -119,22 +123,21 @@ export abstract class AbstractHotelStrategy {
                 "3": 400,
                 "2": 350
             }
-            let checkOutDate = moment(self.qs.checkOutDate).format("YYYY-MM-DD");
-            let checkInDate = moment(self.qs.checkInDate).format("YYYY-MM-DD");
-            let days = moment(checkOutDate).diff(checkInDate, 'days');
+
             return {
                 city: self.qs.city ? self.qs.city.id : '',
                 name: null,
                 checkInDate: self.qs.checkInDate,
                 checkOutDate: self.qs.checkOutDate,
                 star: null,
-                price: defaultPrice[this.qs.star] as number * days,
-                unit: preferedCurrency && typeof (preferedCurrency) != 'undefined' ? preferedCurrency : defaultCurrencyUnit,
+                singlePrice: defaultPrice[this.qs.star],
+                price: defaultPrice[this.qs.star] as number,
                 rate: 1,
                 agent: null,
                 type: EBudgetType.HOTEL,
                 latitude: 0,
-                longitude: 0
+                longitude: 0,
+                duringDays: days
             } as IHotelBudgetItem;
         }
 
@@ -150,11 +153,10 @@ export abstract class AbstractHotelStrategy {
                 latitude: 0,
                 longitude: 0,
                 price: -1,
-                unit: preferedCurrency && typeof (preferedCurrency) != 'undefined' ? preferedCurrency : defaultCurrencyUnit,
-                rate: 1
+                singlePrice: -1,
+                duringDays: days
             }
         }
-
 
         _hotels = await this.getMarkedScoreHotels(_hotels);
 
@@ -163,18 +165,12 @@ export abstract class AbstractHotelStrategy {
         });
         _hotels = await this.customMarkedScoreData(_hotels);
         let ret = _hotels[0];
-        let rate = 1;
-        if (preferedCurrency && typeof (preferedCurrency) != 'undefined') {
-            rate = await getExpectedCurrencyRate(preferedCurrency);
-        }
 
         let result: any = {
             city: self.qs.city ? self.qs.city.id : '',
             checkInDate: self.qs.checkInDate,
             checkOutDate: self.qs.checkOutDate,
             price: ret.price,
-            rate: rate,
-            unit: preferedCurrency && typeof (preferedCurrency) != 'undefined' ? preferedCurrency : defaultCurrencyUnit,
             agent: ret.agent,
             name: ret.name,
             star: ret.star,
@@ -188,21 +184,19 @@ export abstract class AbstractHotelStrategy {
         if (self.isRecord) {
             //保存调试记录
             let budgetItem = Models.budgetItem.create({
-                title: `${self.qs.city ? (self.qs.city.name ? self.qs.city.name : result.city) : result.city}(${moment(self.qs.checkInDate).format('YYYY-MM-DD')}-${moment(self.qs.checkOutDate).format('YYYY-MM-DD')})`,
+                title: `${self.qs.city ? (self.qs.city.name ? self.qs.city.name : result.city) : result.city}(${moment(self.qs.checkInDate).format('YYYY-MM-DD')}-${moment(self.qs.checkOutDate).format('YYYY-MM-DD')})--${step}`,
                 query: _.cloneDeep(self.qs),
                 type: EBudgetType.HOTEL,
                 originData: hotels,
                 markedData: _hotels,
                 result: result,
-                prefers: self.qs.prefers,
+                prefers: self.qs.prefers
             })
             budgetItem = await budgetItem.save();
             result.id = budgetItem.id;
         }
 
-        if (isRetMarkedData) {
-            result.markedScoreData = _hotels;
-        }
+        result.markedScoreData = _hotels;
         return result;
     }
 }
@@ -267,7 +261,7 @@ export abstract class AbstractTicketStrategy {
 
     abstract async customerMarkedScoreData(tickets: IFinalTicket[]): Promise<IFinalTicket[]>;
 
-    async getResult(tickets: ITicket[], isRetMarkedData?: boolean, preferedCurrency?: string): Promise<ITrafficBudgetItem> {
+    async getResult(tickets: ITicket[], step: STEP): Promise<ITrafficBudgetItem> {
         let self = this;
         let _tickets = formatTicketData(tickets);
         if (!_tickets || !_tickets.length) {
@@ -275,8 +269,6 @@ export abstract class AbstractTicketStrategy {
                 fromCity: self.qs.fromCity.id,
                 toCity: self.qs.toCity.id,
                 price: -1,
-                rate: 1,
-                unit: preferedCurrency && typeof (preferedCurrency) != 'undefined' ? preferedCurrency : defaultCurrencyUnit,
                 departTime: new Date(),
                 arrivalTime: new Date(),
                 trafficType: ETrafficType.PLANE,
@@ -291,14 +283,9 @@ export abstract class AbstractTicketStrategy {
         });
         _tickets = await this.customerMarkedScoreData(_tickets);
         let ret = _tickets[0];
-        let rate = 1;
-        if (preferedCurrency && typeof (preferedCurrency) != 'undefined') {
-            rate = await getExpectedCurrencyRate(preferedCurrency);
-        }
         let result: ITrafficBudgetItem = {
+            singlePrice: ret.price,
             price: ret.price,
-            unit: preferedCurrency && typeof (preferedCurrency) != 'undefined' ? preferedCurrency : defaultCurrencyUnit,
-            rate: rate,
             type: EBudgetType.TRAFFIC,
             no: ret.No,
             agent: ret.agent,
@@ -320,7 +307,7 @@ export abstract class AbstractTicketStrategy {
             //保存调试记录
             let date = self.qs.earliestDepartTime ? self.qs.earliestDepartTime : self.qs.latestArrivalTime
             let budgetItem = Models.budgetItem.create({
-                title: `${self.qs.fromCity.name}-${self.qs.toCity.name}(${moment(`${date}`).format('YYYY/MM/DD')})`,
+                title: `${self.qs.fromCity.name}-${self.qs.toCity.name}(${moment(`${date}`).format('YYYY/MM/DD')})--${step}`,
                 query: _.cloneDeep(self.qs),
                 type: EBudgetType.TRAFFIC,
                 originData: tickets,
@@ -332,9 +319,7 @@ export abstract class AbstractTicketStrategy {
             result.id = budgetItem.id;
         }
 
-        if (isRetMarkedData) {
-            // result.markedScoreData = _tickets;
-        }
+        result.markedScoreData = _tickets;
         return result;
     }
 }
@@ -396,40 +381,3 @@ class PreferFactory {
         return null;
     }
 }
-
-async function getExpectedCurrencyRate(expectedCurrency: string) {
-    //4a66fb50-96a6-11e7-b929-cbb6f90690e1 表示人民币
-    let currencies = await Models.currency.find({ where: { currencyCode: defaultCurrencyUnit } });
-    let defaultCNYRate = 1;
-    let defaultCurrencyFrom = defaultCurrencyUnit;
-    // if(currencies && currencies.length) {
-    //     if(currencies[0]['currencyCode'] == expectedCurrency) {
-    //         return defaultCNYRate;
-    //     }
-    //     defaultCurrencyIdFrom = currencies[0]['id']
-    // } else {
-    //     return defaultCNYRate;
-    // }
-
-
-    currencies = await Models.currency.find({ where: { currencyCode: expectedCurrency } });
-    let expectedCurrencyTo = '';
-    if (currencies && currencies.length) {
-        expectedCurrencyTo = currencies[0]['currencyCode']
-    } else {
-        return defaultCNYRate;
-    }
-    let query = {
-        where: {
-            currencyFrom: defaultCurrencyFrom,
-            currencyTo: expectedCurrencyTo,
-        },
-        order: [['postedAt', 'desc'], ['createdAt', 'desc']]
-    };
-    let rates = await Models.currencyRate.find(query);
-    if (rates && rates.length) {
-        return rates[0]['rate'];
-    }
-    return defaultCNYRate;
-}
-

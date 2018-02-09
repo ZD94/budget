@@ -70,7 +70,8 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
                         checkOutDate: destination.goBackDate,
                         city: destination.destinationPlace,
                         index,
-                        location: destination.businessDistrict
+                        location: destination.businessDistrict,
+                        selectName: destination.selectName
                     }));
                 }
             } else {
@@ -83,7 +84,8 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
                         checkOutDate: destination.goBackDate,
                         city: destination.destinationPlace,
                         index,
-                        location: destination.businessDistrict
+                        location: destination.businessDistrict,
+                        selectName: destination.selectName
                     }));
                 }
             }
@@ -216,17 +218,20 @@ function createSubsidy(params: { beginTime: string, endTime: string, city: strin
     };
 }
 
-function createHotel(params: { checkInDate: string, checkOutDate: string, city: string, index, location?: string, backOrGo?: TripType }) {
-    let { checkInDate, checkOutDate, city, index, backOrGo = TripType.GoTrip, location } = params;
+function createHotel(params: { checkInDate: string, checkOutDate: string, city: string, index, location?: string, selectName?: string, backOrGo?: TripType }) {
+    let { checkInDate, checkOutDate, city, index, backOrGo = TripType.GoTrip, location, selectName } = params;
     let mBeginTime = moment(moment(checkInDate).format("YYYY-MM-DD")),
         mEndTime = moment(moment(checkOutDate).format("YYYY-MM-DD"));
     let days = mEndTime.diff(mBeginTime, "days");
 
     let latitude = null, longitude = null;
+    let selectAddress: any = {
+        selectName
+    };
     if (location) {
         if (location.indexOf(",") > 0) {
-            latitude = location.split(",")[0];
-            longitude = location.split(",")[1];
+            latitude = selectAddress.latitude = location.split(",")[0];
+            longitude = selectAddress.longitude = location.split(",")[1];
         }
     }
 
@@ -238,7 +243,8 @@ function createHotel(params: { checkInDate: string, checkOutDate: string, city: 
             checkOutDate,
             city,
             latitude,
-            longitude
+            longitude,
+            selectAddress
         },
         days,
         index,

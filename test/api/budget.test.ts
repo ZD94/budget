@@ -203,7 +203,7 @@ let params8 = {
             isNeedTraffic: true,
             isNeedHotel: true,
             businessDistrict: '22.733669,114.253232',
-            hotelName: '天健花园',
+            selectName: '天健花园',
             reason: ''
         }],
     originPlace: '1796231',

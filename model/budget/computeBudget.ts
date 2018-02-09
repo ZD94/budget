@@ -32,7 +32,7 @@ export class ComputeBudget {
     }
 
     async getHotelBudget(params): Promise<IHotelBudgetItem> {
-        let { checkInDate, checkOutDate, city, location, data, prefer, days } = params;
+        let { checkInDate, checkOutDate, city, location, data, prefer, days, selectAddress } = params;
         if (typeof city == "string") {
             city = await CityService.getCity(city);
         }
@@ -62,6 +62,7 @@ export class ComputeBudget {
             duringDays: days,
             type: EBudgetType.HOTEL,
             name: budget.name,
+            selectAddress,
             agent: budget.agent,
             link: budget.link,
             markedScoreData: budget.markedScoreData,

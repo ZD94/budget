@@ -27,7 +27,7 @@ import { BudgetHelps } from "./helper";
 import { getRate } from "model/rate";
 
 // test
-import "test/api/budget.test";
+// import "test/api/budget.test";
 
 export class Budget extends BudgetHelps {
     constructor() {

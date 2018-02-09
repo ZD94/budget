@@ -33,14 +33,14 @@ export class PlaceController extends AbstractController {
         return res.send(resp.code, null);
     }
 
-    @Router('/search/(:keyword)?', 'get')
+    @Router('/search', 'get')
     async find(req, res, next) {
-        let { keyword } = req.params;
-        let cities = [];
+        let { keyword } = req.query;
         const resp: any = keyword
-            ? await restfulAPIUtil.proxyHttp({ uri: config.placeAPI + `/city/search`, method: 'GET', qs: { keyword } })
-            : await restfulAPIUtil.proxyHttp({ uri: config.placeAPI + `/city`, method: 'GET' })
-        return res.send(this.processResp(resp));
+            ? await restfulAPIUtil.proxyHttp({ uri:  `${config.placeAPI}/city/search`, method: 'GET', qs: { keyword } })
+            : await restfulAPIUtil.proxyHttp({ uri: `${config.placeAPI}/city`, method: 'GET' })
+
+        return res.json(await this.processResp(resp));
     }
 
     @Router('/nearby/:latitude/:longitude', 'get')
@@ -56,7 +56,7 @@ export class PlaceController extends AbstractController {
             method: 'GET'
         });
 
-        return res.send(this.processResp(resp.data));
+        return res.json(await this.processResp(resp));
     }
 
     @Router('/:id/children', 'get')
@@ -66,7 +66,7 @@ export class PlaceController extends AbstractController {
             uri: config.placeAPI + `/city/${id}/children`,
             method: 'GET'
         });
-        return res.send(this.processResp(resp));
+        return res.send(await this.processResp(resp));
     }
 
 
@@ -87,7 +87,7 @@ export class PlaceController extends AbstractController {
             method: 'GET',
             qs
         });
-        res.json(this.reply(0, await this.processResp(resp)));
+        res.json( await this.processResp(resp));
     }
 
     @Router('/getCityInfoByName', 'GET')
@@ -123,7 +123,7 @@ export class PlaceController extends AbstractController {
 
     private async processResp(resp) {
         if (resp.code == 0) {
-            let ps = resp.data.map((item) => {
+            let ps = resp.data.map(async (item) => {
                 return this.transform(item);
             });
             return this.reply(0, await Promise.all(ps));

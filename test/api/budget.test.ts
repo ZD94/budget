@@ -189,23 +189,21 @@ let params7 = {
 
 /* 线上 请求参数 */
 let params8 = {
-    callbackUrl: 'https://j.jingli365.com/api/v1/budget/ab4bba30-0cb9-11e8-91c8-11c3c1cea3a0/updateBudget',
     preferedCurrency: 'CNY',
-    travelPolicyId: 'd0ca11f0-5583-11e7-8e04-19cb4dd465aa',
-    companyId: '8ffb7330-f764-11e6-b7f9-69c789c63fc2',
+    travelPolicyId: 'd3364020-4fbd-11e6-9bd0-918bb412d7c8',
+    companyId: 'f6350f90-4fbb-11e6-81af-4b3384f7a2a9',
     staffs: [{ gender: 2, policy: 'domestic' }],
     destinationPlacesInfo:
         [{
             destinationPlace: '1795563',
-            leaveDate: '2018-02-09T10:00:00.000Z',
-            goBackDate: '2018-02-10T01:00:00.000Z',
-            latestArrivalDateTime: '2018-02-09T10:00:00.000Z',
-            earliestGoBackDateTime: '2018-02-10T01:00:00.000Z',
+            leaveDate: '2018-02-19T10:00:00.000Z',
+            goBackDate: '2018-02-20T01:00:00.000Z',
+            latestArrivalDateTime: '2018-02-19T10:00:00.000Z',
+            earliestGoBackDateTime: '2018-02-20T01:00:00.000Z',
             isNeedTraffic: true,
             isNeedHotel: true,
             businessDistrict: '22.733669,114.253232',
             hotelName: '天健花园',
-            subsidy: [Object],
             reason: ''
         }],
     originPlace: '1796231',
@@ -217,7 +215,7 @@ let params8 = {
 
 let testFn = async () => {
     console.log("ok ok ok ok ok ok");
-    let result = await budget.getBudget(params7);
+    let result = await budget.getBudget(params8);
     // console.log("result result ===>", result);
 }
 

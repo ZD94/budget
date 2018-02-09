@@ -17,10 +17,8 @@ export interface SearchHotelParams {
     checkInDate: string;
     checkOutDate: string;
     city: string;
-    location?: {
-        latitude: number,
-        longitude: number,
-    }
+    latitude?: number,
+    longitude?: number,
 }
 
 export interface SearchTicketParams {

@@ -69,7 +69,8 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
                         checkInDate: destination.leaveDate,
                         checkOutDate: destination.goBackDate,
                         city: destination.destinationPlace,
-                        index
+                        index,
+                        location: destination.businessDistrict
                     }));
                 }
             } else {
@@ -81,7 +82,8 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
                         checkInDate: destination.leaveDate,
                         checkOutDate: destination.goBackDate,
                         city: destination.destinationPlace,
-                        index
+                        index,
+                        location: destination.businessDistrict
                     }));
                 }
             }
@@ -214,11 +216,20 @@ function createSubsidy(params: { beginTime: string, endTime: string, city: strin
     };
 }
 
-function createHotel(params: { checkInDate: string, checkOutDate: string, city: string, index, location?: any, backOrGo?: TripType }) {
+function createHotel(params: { checkInDate: string, checkOutDate: string, city: string, index, location?: string, backOrGo?: TripType }) {
     let { checkInDate, checkOutDate, city, index, backOrGo = TripType.GoTrip, location } = params;
     let mBeginTime = moment(moment(checkInDate).format("YYYY-MM-DD")),
         mEndTime = moment(moment(checkOutDate).format("YYYY-MM-DD"));
     let days = mEndTime.diff(mBeginTime, "days");
+
+    let latitude = null, longitude = null;
+    if (location) {
+        if (location.indexOf(",") > 0) {
+            latitude = location.split(",")[0];
+            longitude = location.split(",")[1];
+        }
+    }
+
     return {
         id: uuid.v1(),
         type: BudgetType.HOTEL,
@@ -226,7 +237,8 @@ function createHotel(params: { checkInDate: string, checkOutDate: string, city: 
             checkInDate,
             checkOutDate,
             city,
-            location: location || {}
+            latitude,
+            longitude
         },
         days,
         index,

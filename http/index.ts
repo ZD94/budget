@@ -87,14 +87,19 @@ export async function initHttp(app) {
 
 export function jlReply(req, res, next) {
     res.jlReply = function (data: any) {
-        let { appId, appSecret } = req.session || { appId: '00000000', appSecret: '00000000' };
-        let timestamp = Math.floor(Date.now() / 1000);
-        let sign = genSign(data, timestamp, appSecret);
-        res.setHeader('appid', appId);
-        res.setHeader('sign', sign);
-        res.setHeader('Content-Type', 'application/json');
-        res.write(JSON.stringify(data));
-        res.end();
+        try {
+            let { appId, appSecret } = req.session || { appId: '00000000', appSecret: '00000000' };
+            let timestamp = Math.floor(Date.now() / 1000);
+            let sign = genSign(data, timestamp, appSecret);
+            res.setHeader('appid', appId);
+            res.setHeader('sign', sign);
+            res.setHeader('Content-Type', 'application/json');
+            res.write(JSON.stringify(data));
+            res.end();
+        } catch (err) { 
+            logger.error(err);
+            return next(err);
+        }
     }
     next();
 }

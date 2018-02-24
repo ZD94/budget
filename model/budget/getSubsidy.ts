@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 10:11:47 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-30 17:39:52
+ * @Last Modified time: 2018-02-06 16:55:44
  * @content what is the content of this file. 
  * */
 
@@ -45,6 +45,7 @@ export class GetSubsidy {
         let budget: any = {};
         budget.fromDate = beginTime;
         budget.endDate = endTime;
+        budget.singlePrice = totalMoney / days;    //准确性，依赖与 subsidyType.period 周期为 1.
         budget.price = totalMoney;
         budget.duringDays = days;
         budget.templates = templates;

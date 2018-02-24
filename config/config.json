@@ -72,5 +72,6 @@
     "qmtrip@jingli365.com"
   ],
   "placeAPI": "${JL_APP_PLACE}",
-  "dataStore": "${JL_APP_DATA_STORE_URL}"
+  "dataStore": "${JL_APP_DATA_STORE_URL}",
+  "defaultCurrency": "CNY"
 }

@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-22 10:56:07 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-29 17:21:41
+ * @Last Modified time: 2018-02-07 16:25:02
  * @content 计算预算 */
 
 import { BudgetType, SearchHotelParams, SearchTicketParams, defaultCurrencyUnit, DataOrder } from "./interface";
@@ -18,7 +18,8 @@ export class ComputeBudget {
         let transParams = {
             prefer: params.prefer,
             data: params.data,
-            days: params.days || 0
+            days: params.days || 0,
+            step: params.step
         }
         for (let key in params.input) {
             transParams[key] = params.input[key];
@@ -31,7 +32,7 @@ export class ComputeBudget {
     }
 
     async getHotelBudget(params): Promise<IHotelBudgetItem> {
-        let { checkInDate, checkOutDate, city, location, data, prefer, days } = params;
+        let { checkInDate, checkOutDate, city, location, data, prefer, days, selectAddress } = params;
         if (typeof city == "string") {
             city = await CityService.getCity(city);
         }
@@ -45,25 +46,9 @@ export class ComputeBudget {
             location,
         }, { isRecord: true });
 
-        let preferedCurrency = defaultCurrencyUnit;
-        let isRetMarkedData = true;
-        let budget = await strategy.getResult(data, isRetMarkedData, preferedCurrency);
+        let budget = await strategy.getResult(data, params.step);
 
-        /* let maxPriceLimit = 0;
-        let minPriceLimit = 0;
-
-        let selector: string;
-        if (!city['isAbroad']) {
-            selector = 'domestic'
-        } else {
-            selector = 'abroad';
-        }
-
-        let policies = prefer.policies;
-
-        maxPriceLimit = policies[selector].maxPriceLimit;
-        minPriceLimit = policies[selector].minPriceLimit;
-        budget.price = this.limitHotelBudgetByPrefer(minPriceLimit, maxPriceLimit, budget.price); */
+        budget.price = this.limitHotelBudgetByPrefer(prefer.policies.minPriceLimit, prefer.policies.maxPriceLimit, budget.price);
 
         let hotelBudget: IHotelBudgetItem = {
             id: budget.id,
@@ -72,12 +57,12 @@ export class ComputeBudget {
             checkOutDate: params.checkOutDate,
             city: (<ICity>city).id,
             star: budget.star,
+            singlePrice: budget.price,
             price: budget.price * days,
             duringDays: days,
-            unit: budget.unit,
-            rate: budget.rate,
             type: EBudgetType.HOTEL,
             name: budget.name,
+            selectAddress,
             agent: budget.agent,
             link: budget.link,
             markedScoreData: budget.markedScoreData,
@@ -92,24 +77,19 @@ export class ComputeBudget {
     }
 
     limitHotelBudgetByPrefer(min: number, max: number, hotelBudget: number) {
-        if (hotelBudget == -1) {
-            if (max != NoCityPriceLimit) return max;
-            return hotelBudget;
-        }
-        if (min == NoCityPriceLimit && max == NoCityPriceLimit) return hotelBudget;
-
-        if (max != NoCityPriceLimit && min > max) {
-            let tmp = min;
-            min = max;
-            max = tmp;
+        //无预算的情况
+        if (hotelBudget < 0) {
+            return min || max || hotelBudget;
         }
 
-        if (hotelBudget > max) {
-            if (max != NoCityPriceLimit) return max;
+        if (min) {
+            return hotelBudget > min ? hotelBudget : min;
         }
-        if (hotelBudget < min) {
-            if (min != NoCityPriceLimit) return min;
+
+        if (max) {
+            return hotelBudget < max ? hotelBudget : max;
         }
+
         return hotelBudget;
     }
 
@@ -136,9 +116,7 @@ export class ComputeBudget {
             staffs: [staff],
         }, { isRecord: true });
 
-        let preferedCurrency = defaultCurrencyUnit;
-        let isRetMarkedData = true;
-        let budget = await strategy.getResult(data, isRetMarkedData, preferedCurrency);
+        let budget = await strategy.getResult(data, params.step);
 
         let discount = 0;
         if (budget.trafficType == ETrafficType.PLANE) {
@@ -162,9 +140,8 @@ export class ComputeBudget {
             fromCity: budget.fromCity,
             toCity: budget.toCity,
             type: EBudgetType.TRAFFIC,
+            singlePrice: budget.price,
             price: budget.price,
-            unit: budget.unit,
-            rate: budget.rate,
             discount: discount,
             markedScoreData: budget.markedScoreData,
             prefers: allPrefers,

@@ -15,16 +15,17 @@ function preferaircompany(data: IFinalTicket[], airCompanies: { name: string, co
         if (!v['score']) v['score'] = 0;
         if (!v.reasons) v.reasons = [];
 
-        let result = false;
+        let result = false, target;
         for (let item of airCompanies) {
             if (v['carry'] && v.type == ETrafficType.PLANE && item.code == v['carry']) {
                 result = true;
+                target = item;
                 break;
             }
         }
         if (result) {
             v.score += score;
-            v.reasons.push(`期望航空公司+${score}`);
+            v.reasons.push(`期望航空公司:${target.name}, ${target.code} +${score}`);
         } else {
             v.reasons.push(`期望航空公司 0`)
         }

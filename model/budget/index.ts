@@ -223,9 +223,9 @@ export class Budget extends BudgetHelps {
             });
             console.info("事件推送返回值", ret);
         } catch (e) {
-            console.error("事件推送失败, 次数：", num);
-            console.error(e);
             num++;
+            console.error("事件推送失败, 次数：", num);
+            console.error(e.message || e);
             if (num >= 2) {
                 console.error("*****", num, " 次后还是失败。事件推送失败!");
                 return;

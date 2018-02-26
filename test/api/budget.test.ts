@@ -149,6 +149,28 @@ let params5 = {
     goBackPlace: '1814905'
 }
 
+let params51 = {
+    preferedCurrency: 'CNY',
+    travelPolicyId: '7a4ceb50-f9ce-11e7-89c4-73c84750254b',
+    companyId: '625c6110-f9ce-11e7-b540-af4848d193b7',
+    staffs: [{ gender: 1 }],
+    destinationPlacesInfo:
+        [{
+            destinationPlace: '1815551',
+            leaveDate: '2018-03-03T10:00:00.000Z',
+            goBackDate: '2018-03-04T01:00:00.000Z',
+            latestArrivalDateTime: '2018-03-03T10:00:00.000Z',
+            earliestGoBackDateTime: '2018-03-04T01:00:00.000Z',
+            isNeedTraffic: true,
+            isNeedHotel: true,
+            reason: ''
+        }],
+    originPlace: '2038349',
+    isRoundTrip: true,
+    goBackPlace: '2038349'
+};
+
+
 
 /* test enviornment */
 let params6 = {
@@ -215,7 +237,7 @@ let params8 = {
 
 let testFn = async () => {
     console.log("ok ok ok ok ok ok");
-    let result = await budget.getBudget(params8);
+    let result = await budget.getBudget(params51);
     // console.log("result result ===>", result);
 }
 

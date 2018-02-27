@@ -3,12 +3,16 @@
  */
 
 'use strict';
-import {AbstractController, Restful} from "@jingli/restful";
-import {RegionPlace} from "_types/policy";
-import {Models} from "_types";
+import { AbstractController, Restful, Router } from '@jingli/restful';
+import { RegionPlace } from "_types/policy";
+import { Models } from "_types";
 import { autoSignReply } from 'http/reply';
 var regionPlaceCols = RegionPlace['$fieldnames'];
-import {transform} from "./travelPolicy";
+import { transform } from "./travelPolicy";
+import { jlReply } from 'http/index';
+import { DB } from "@jingli/database";
+import { Model } from 'sequelize';
+
 const HOTEL_START = {
     FIVE: 5,
     FOUR: 4,
@@ -42,7 +46,7 @@ const TRAFFIC_TYPE = {
 
 function enumToStr(obj: any, val: number) {
     let result;
-    for(let key in obj) {
+    for (let key in obj) {
         if (obj[key] == val) {
             result = key;
             break;
@@ -59,7 +63,7 @@ const GENDER = {
 //处理staffs
 function transformStaffStrArgsToEnum(staffs) {
     //处理员工性别
-    staffs = staffs.map( (staff) => {
+    staffs = staffs.map((staff) => {
         staff.gender = GENDER[staff.gender];
         return staff;
     });
@@ -82,11 +86,11 @@ export class RegionPlaceController extends AbstractController {
     async get(req, res, next) {
         let params = req.params;
         let id = params.id;
-        if(!id || typeof(id) == 'undefined') {
+        if (!id || typeof (id) == 'undefined') {
             return res.jlReply(this.reply(0, null));
         }
         let result = await Models.regionPlace.get(id);
-        if(result == undefined) result = null;
+        if (result == undefined) result = null;
         res.jlReply(this.reply(0, result));
     }
 
@@ -94,20 +98,20 @@ export class RegionPlaceController extends AbstractController {
     async find(req, res, next) {
         //请求参数中添加page, 表示请求页数
         let params = req.query;
-        let query = {where:{}};
+        let query = { where: {} };
         let limit = 20;
-        for(let key in params){
-            if(regionPlaceCols.indexOf(key) >= 0){
+        for (let key in params) {
+            if (regionPlaceCols.indexOf(key) >= 0) {
                 query.where[key] = params[key];
             }
         }
-        if(!query['order'] || query['order'] == undefined)
+        if (!query['order'] || query['order'] == undefined)
             query["order"] = [["createdAt", "desc"]];
-        if(!query['limit'] || query['limit'] == undefined)
+        if (!query['limit'] || query['limit'] == undefined)
             query["limit"] = limit;
 
         let result = await Models.regionPlace.find(query);
-        if(result == undefined) result = null;
+        if (result == undefined) result = null;
         result = transform(result, regionPlaceCols)
         res.jlReply(this.reply(0, result));
     }
@@ -116,13 +120,13 @@ export class RegionPlaceController extends AbstractController {
     async update(req, res, next) {
         let params = req.body;
         let id = params.id;
-        if(!id || typeof(id) == 'undefined') {
+        if (!id || typeof (id) == 'undefined') {
             return res.jlReply(this.reply(0, null));
         }
         let obj = await Models.regionPlace.get(id);
 
-        for(let key in params){
-            if(regionPlaceCols.indexOf(key) >= 0){
+        for (let key in params) {
+            if (regionPlaceCols.indexOf(key) >= 0) {
                 obj[key] = params[key];
             }
         }
@@ -134,8 +138,8 @@ export class RegionPlaceController extends AbstractController {
     async add(req, res, next) {
         let params = req.body;
         let properties = {};
-        for(let key in params){
-            if(regionPlaceCols.indexOf(key) >= 0){
+        for (let key in params) {
+            if (regionPlaceCols.indexOf(key) >= 0) {
                 properties[key] = params[key];
             }
         }
@@ -144,11 +148,38 @@ export class RegionPlaceController extends AbstractController {
         res.jlReply(this.reply(0, obj));
     }
 
+    @Router("/check", 'GET')
+    async check(req, res, next) {
+        // res.session.companyId
+        let companyId = req.session.companyId;
+        // let companyId = 'ae46c3d0-6ff6-11e6-88a4-57d7e6203407';
+
+        let { placeId } = req.query;
+        // placeId = placeId || '1796231';
+
+        let sql = `select * from travel_policy.region_places where company_region_id in ( 
+            select id from travel_policy.company_regions WHERE company_id = '${companyId}' and deleted_at is null) 
+            and place_id = '${placeId}' and deleted_at is null;`;
+        let result = await DB.query(sql);
+        let regionPlaces = result[0];
+        if (!regionPlaces.length) {
+            return res.jlReply(this.reply(0, []));
+        }
+
+        let companyRegions = await Models.companyRegion.all({
+            where: {
+                id: {
+                    in: regionPlaces.map((item) => item.company_region_id)
+                }
+            }
+        });
+        res.jlReply(this.reply(0, companyRegions));
+    }
 
     async delete(req, res, next) {
         let params = req.params;
         let id = params.id;
-        if(!id || typeof(id) == 'undefined') {
+        if (!id || typeof (id) == 'undefined') {
             return res.jlReply(this.reply(0, null));
         }
         let obj = await Models.regionPlace.get(id);
@@ -161,7 +192,7 @@ export class RegionPlaceController extends AbstractController {
 
 //处理差旅政策
 function transformPolicyStrArgsToEnum(policies) {
-    for(let key in policies) {
+    for (let key in policies) {
         let policy = policies[key];
         if (!policy.trainSeat) {
             policy.trainSeat = [];
@@ -169,7 +200,7 @@ function transformPolicyStrArgsToEnum(policies) {
         if (typeof policy.trainSeat == 'string') {
             policy.trainSeat = [policy.trainSeat]
         }
-        policy.trainSeat = policy.trainSeat.map( (trainSeat) => {
+        policy.trainSeat = policy.trainSeat.map((trainSeat) => {
             return TRAIN_SEAT[trainSeat];
         });
 
@@ -179,7 +210,7 @@ function transformPolicyStrArgsToEnum(policies) {
         if (typeof policy.cabin == 'string') {
             policy.cabin = [policy.cabin];
         }
-        policy.cabin = policy.cabin.map( (cabin) => {
+        policy.cabin = policy.cabin.map((cabin) => {
             return CABIN[cabin];
         });
 
@@ -189,7 +220,7 @@ function transformPolicyStrArgsToEnum(policies) {
         if (typeof policy.hotelStar == 'string') {
             policy.hotelStar = [policy.hotelStar];
         }
-        policy.hotelStar = policy.hotelStar.map( (hotelStar) => {
+        policy.hotelStar = policy.hotelStar.map((hotelStar) => {
             return HOTEL_START[hotelStar];
         })
         policies[key] = policy;

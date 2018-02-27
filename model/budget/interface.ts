@@ -113,7 +113,7 @@ export interface ISegment {
     isNeedTraffic?: boolean;   //后期考虑 是否需要传入
     isNeedHotel?: boolean;     //后期考虑 是否需要传入
     businessDistrict?: any;    //商圈            逗号分隔的经纬度， 没有逗号则取城市
-    selectName: string;        //用户选择的地标名称
+    selectName?: string;        //用户选择的地标名称
     reason?: string;
     latestArrivalDateTime?: string;
     earliestGoBackDateTime?: string;

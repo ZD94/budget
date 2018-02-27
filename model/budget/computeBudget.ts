@@ -14,7 +14,7 @@ var API = require("@jingli/dnode-api");
 import moment = require("moment");
 
 export class ComputeBudget {
-    async getBudget(params: DataOrder) {
+    async getBudget(params: DataOrder, persons: number) {
         let transParams = {
             prefer: params.prefer,
             data: params.data,
@@ -25,13 +25,13 @@ export class ComputeBudget {
             transParams[key] = params.input[key];
         }
         if (params.type == BudgetType.TRAFFICT) {
-            return await this.getTrafficBudget(transParams);
+            return await this.getTrafficBudget(transParams, persons);
         } else {
-            return await this.getHotelBudget(transParams);
+            return await this.getHotelBudget(transParams, persons);
         }
     }
 
-    async getHotelBudget(params): Promise<IHotelBudgetItem> {
+    async getHotelBudget(params, persons: number): Promise<IHotelBudgetItem> {
         let { checkInDate, checkOutDate, city, location, data, prefer, days, selectAddress } = params;
         if (typeof city == "string") {
             city = await CityService.getCity(city);
@@ -58,7 +58,7 @@ export class ComputeBudget {
             city: (<ICity>city).id,
             star: budget.star,
             singlePrice: budget.price,
-            price: budget.price * days,
+            price: budget.price * days * persons,
             duringDays: days,
             type: EBudgetType.HOTEL,
             name: budget.name,
@@ -93,7 +93,7 @@ export class ComputeBudget {
         return hotelBudget;
     }
 
-    async getTrafficBudget(params): Promise<ITrafficBudgetItem> {
+    async getTrafficBudget(params, persons: number): Promise<ITrafficBudgetItem> {
         let { originPlace: fromCity, destination: toCity, earliestGoBackDateTime: earliestDepartTime, latestArrivalDateTime: latestArrivalTime, prefer, data, staff } = params;
 
         if (typeof fromCity == 'string') {
@@ -141,7 +141,7 @@ export class ComputeBudget {
             toCity: budget.toCity,
             type: EBudgetType.TRAFFIC,
             singlePrice: budget.price,
-            price: budget.price,
+            price: budget.price * persons,
             discount: discount,
             markedScoreData: budget.markedScoreData,
             prefers: allPrefers,

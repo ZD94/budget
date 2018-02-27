@@ -14,12 +14,12 @@ export interface IPrefer<T> {
 export abstract class AbstractPrefer<T> implements IPrefer<T> {
     constructor(public name: string, options: any) {
         if (options) {
-            for(let k in options) {
+            for (let k in options) {
                 this[k] = options[k];
             }
         }
     }
-    abstract async markScoreProcess(data: T[]) : Promise<T[]>;
+    abstract async markScoreProcess(data: T[]): Promise<T[]>;
     async markScore(data: T[]): Promise<T[]> {
         // logger.info(`. BEGIN ${this.name}`);
         let ret = await this.markScoreProcess(data);
@@ -28,7 +28,7 @@ export abstract class AbstractPrefer<T> implements IPrefer<T> {
     }
 }
 
-export enum DEFAULT_PREFER_CONFIG_TYPE  {
+export enum DEFAULT_PREFER_CONFIG_TYPE {
     ABROAD_TRAFFIC = 1,
     ABROAD_HOTEL = 2,
     DOMESTIC_TICKET = 3,
@@ -38,10 +38,10 @@ export enum DEFAULT_PREFER_CONFIG_TYPE  {
 const sysPrefer = require("./default-prefer/sys-prefer.json");
 const defaultPrefer = require("./default-prefer/default-company-prefer.json");
 
-export function loadPrefers(prefers: any[], qs: {local: any}, type?: DEFAULT_PREFER_CONFIG_TYPE) {
+export function loadPrefers(prefers: any[], qs: { local: any }, type?: DEFAULT_PREFER_CONFIG_TYPE) {
     let defaultPrefers;
     let sysPrefers;
-    switch(type) {
+    switch (type) {
         case DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL:
             sysPrefers = _.cloneDeep(sysPrefer.domesticHotel);
             if (!prefers || !prefers.length) {
@@ -81,7 +81,7 @@ function mergePrefers(prefers: any[], newPrefers: any[]) {
     if (!newPrefers) {
         newPrefers = [];
     }
-    newPrefers.forEach( (prefer) => {
+    newPrefers.forEach((prefer) => {
         prefers.push(prefer);
     });
     return prefers;
@@ -92,9 +92,9 @@ export var hotelPrefers = {
     blackList: require('./hotel-blacklist'),
     represent: require('./hotel-represent'),
     priceRange: require('./hotel-pricerange'),
-    distance:require('./hotel-distance'),
+    distance: require('./hotel-distance'),
     price: require('./price'),
-    commentScore:require("./hotel-commentScore")
+    commentScore: require("./hotel-commentScore")
 }
 
 export var ticketPrefers = {
@@ -117,6 +117,7 @@ export var ticketPrefers = {
     directArrive: require('./ticket-directArrive'),
     transitWaitDuration: require('./ticket-transitWaitDurationPrefer'),
     transitCityInChina: require("./ticket-transitCityInChinaPrefer"),
-    compareTrainPlanPrice : require("./ticket-compareTrainPlanPrice"),
-    refusedPlane: require("./ticket-refusedPlane")
+    compareTrainPlanPrice: require("./ticket-compareTrainPlanPrice"),
+    refusedPlane: require("./ticket-refusedPlane"),
+    preferAirCompany: require("./ticket-preferaircompany")
 }

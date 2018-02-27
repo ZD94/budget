@@ -59,12 +59,12 @@ export class Budget extends BudgetHelps {
         console.log("预算请求参数分析： ", budgetOrder.budgetData);
 
 
-        /* request data-store */
+        /* request data-store, 获取打分项，打分 */
         let ps = budgetOrder.budgetData.map(async (item: DataOrder, index) => {
             //获取补助，之后获取
             if (item.type == 3) {
                 let input = item.input as SearchSubsidyParams;
-                item.budget = await getSubsidy.getSubsidyItem(companyId, travelPolicyId, input);
+                item.budget = await getSubsidy.getSubsidyItem(companyId, travelPolicyId, input, budgetOrder.persons);
                 if (!item.budget) {
                     return null;
                 }
@@ -87,7 +87,7 @@ export class Budget extends BudgetHelps {
             item.channels = ps[0].channels;
             item.prefer = ps[1];
             //进行打分，得出最终预算
-            item.budget = await computeBudget.getBudget(item);
+            item.budget = await computeBudget.getBudget(item, budgetOrder.persons);
             return item;
         });
 
@@ -182,10 +182,10 @@ export class Budget extends BudgetHelps {
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
             if (item.type != BudgetType.SUBSIDY) {
-                item.budget = await computeBudget.getBudget(item);
+                item.budget = await computeBudget.getBudget(item, budgetOrder.persons);
             } else {
                 let input = item.input as SearchSubsidyParams;
-                item.budget = await getSubsidy.getSubsidyItem(budgetOrder.companyId, budgetOrder.travelPolicyId, input);
+                item.budget = await getSubsidy.getSubsidyItem(budgetOrder.companyId, budgetOrder.travelPolicyId, input, budgetOrder.persons);
             }
             finallyResult.budgets.push(this.completeBudget(item, budgetOrder));
         }
@@ -237,12 +237,13 @@ export class Budget extends BudgetHelps {
         }
     }
 
+    /* 处理汇率 */
     completeBudget(item: DataOrder, budgetOrder: BudgetOrder) {
         let budget = item.budget;
         budget.index = item.index;
         budget.backOrGo = item.backOrGo;
         //处理人数，汇率
-        budget.price = Math.floor(budget.price * budgetOrder.persons * budgetOrder.rate * 100) / 100;
+        budget.price = Math.floor(budget.price * budgetOrder.rate * 100) / 100;
         budget.unit = budgetOrder.currency;
         budget.rate = budgetOrder.rate;
         if (item.type == BudgetType.TRAFFICT) {

@@ -13,7 +13,7 @@ import { EBudgetType } from "_types/budget";
 import { SearchSubsidyParams } from "./interface";
 
 export class GetSubsidy {
-    async getSubsidyItem(companyId: string, travelPolicyId: string, params: SearchSubsidyParams) {
+    async getSubsidyItem(companyId: string, travelPolicyId: string, params: SearchSubsidyParams, persons: number) {
         let { city, beginTime, endTime, days = 1 } = params;
         let tp: TravelPolicy;
         tp = await Models.travelPolicy.get(travelPolicyId);
@@ -31,7 +31,7 @@ export class GetSubsidy {
         let templates = [], totalMoney = 0;
         for (let i = 0; i < subsidies.length; i++) {
             let subsidyDay = Math.floor(days / subsidies[i].subsidyType.period);
-            let price = subsidies[i].subsidyMoney * subsidyDay;
+            let price = subsidies[i].subsidyMoney * subsidyDay * persons;
             totalMoney += price;
             let subsidy = {
                 name: subsidies[i].subsidyType.name, period: subsidies[i].subsidyType.period,

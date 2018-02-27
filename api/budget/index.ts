@@ -939,10 +939,10 @@ class ApiTravelBudget {
             query.prefers = prefers;
             if (type == 1) {
                 let strategy = await TrafficBudgetStrategyFactory.getStrategy(query, { isRecord: false });
-                result = await strategy.getResult(<ITicket[]>originData, true)
+                result = await strategy.getResult(<ITicket[]>originData, STEP.CACHE)
             } else {
                 let strategy = await HotelBudgetStrategyFactory.getStrategy(query, { isRecord: false });
-                result = await strategy.getResult(<IHotel[]>originData, true);
+                result = await strategy.getResult(<IHotel[]>originData, STEP.CACHE);
             }
             // result.prefers = prefers;
             result.markedData = result.markedScoreData;
@@ -955,57 +955,8 @@ class ApiTravelBudget {
 
     }
 
-    static _scheduleTask() {
-        let taskId = "currencyExchangeRate";
-        logger.info('run task ' + taskId);
-        scheduler('0 0 8 * * *', taskId, async function () {
-            let MAX_TRY = 1;
-            let exchangeRate = [];
-            let where = {
-                where: {},
-                order: [['createdAt', 'ASC']]
-            }
-            let currencies = await Models.currency.all(where);
-            for (let i = 0; i < currencies.length; i++) {
-                if (currencies[i]['currencyCode'] == defaultCurrencyUnit) {
-                    continue;
-                }
-                for (let j = 0; j < MAX_TRY; j++) {
-                    try {
-                        await delay(5 * 1000);
-                        exchangeRate = await requestExchangeRate(defaultCurrencyUnit, currencies[i]['currencyCode']);
-                    } catch (err) {
-                        console.log("获取汇率失败")
-                        return;
-                    }
-                    if (exchangeRate && exchangeRate.length && typeof (exchangeRate) != 'undefined') {
-                        break;
-                    }
-                }
-                if (exchangeRate && exchangeRate.length) {
-                    let rate;
-                    for (let j = 0; j < exchangeRate.length; j++) {
-                        if (exchangeRate[j]["currencyF"] == defaultCurrencyUnit) {
-                            rate = exchangeRate[j]["exchange"] || exchangeRate[j]["result"]
-                        }
-                    }
-                    if (rate) {
-                        let params = {
-                            currencyFrom: defaultCurrencyUnit,  //人民币
-                            currencyTo: currencies[i]['currencyCode'],    //美元
-                            postedAt: exchangeRate[0]["updateTime"],
-                            rate: rate
-                        };
-                        let obj = CurrencyRate.create(params);
-                        await obj.save();
-                    }
-                }
-            }
-        });
-    }
 }
 
-ApiTravelBudget._scheduleTask();
 export default ApiTravelBudget;
 
 function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: boolean): FinalBudgetResultInterface {
@@ -1039,43 +990,7 @@ function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: b
     return d;
 }
 
-async function requestExchangeRate(currencyFrom, currencyTo): Promise<any> {
-    let baseUrl = 'http://op.juhe.cn/onebox/exchange/currency';
-    let qs: {
-        [index: string]: string
-    } = {
-            from: currencyFrom,
-            to: currencyTo,
-            key: config.juHeCurrencyAPIKey
-        }
-    return new Promise<any>(async (resolve, reject) => {
-        request({
-            uri: baseUrl,
-            qs: qs,
-            json: true,
-            method: "get"
-        }, async function (err, res) {
-            if (err) return reject(null);
-            let body = res.body;
-            if (typeof (res.body) == 'string') {
-                body = JSON.parse(body);
-            }
-            if (body && body.result && body.error_code == 0) {
-                return resolve(body.result);
-            }
-            return reject(null)
-        });
-    });
 
-}
-
-async function delay(ms: number): Promise<any> {
-    return new Promise((resolve, reject) => {
-        setTimeout(() => {
-            resolve(true);
-        }, ms);
-    });
-}
 
 // async function getHotelPriceLimit(placeId: string, companyId: string, tp: TravelPolicy) {
 //     let hotelPrice: any = {

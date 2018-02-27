@@ -273,8 +273,9 @@ export interface IPolicy {
 
 export interface IBudgetItem {
     price: number;
-    unit?: string;
-    rate?: number;
+    singlePrice: number;     //单价(每人每次)
+    currency?: string;       //币种
+    rate?: number;           //汇率
     type: EBudgetType;
     link?: string;
     agent?: string;
@@ -328,6 +329,11 @@ export interface IHotelBudgetItem extends IBudgetItem {
     checkOutDate: Date;
     star: EHotelStar;                       //酒店星级
     name?: string;
+    selectAddress?: {                       //用户选择的地标
+        selectName: string;
+        latitude: number;
+        longitude: number;
+    };
     latitude?: number;
     longitude?: number;
     bookurl?: string;

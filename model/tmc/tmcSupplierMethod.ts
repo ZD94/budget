@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-28 21:04:36 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-31 17:50:31
+ * @Last Modified time: 2018-02-07 15:00:42
  * @content what is the content of this file. */
 
 import { Models } from "_types";
@@ -138,12 +138,20 @@ export class TmcSupplierMethod {
                         sname: sname
                     }
                 });
+                if (!tmcType.length) {
+                    return "系统还未添加该供应商";
+                }
+
                 let tmcSupplier = await await Models.tmcSupplier.all({
                     where: {
                         company_id: companyId,
                         tmc_type_id: tmcType["0"]["id"]
                     }
                 });
+                if (!tmcSupplier.length) {
+                    return "供应商不存在";
+                }
+
                 tmcSupplier["0"]["target"]["dataValues"]["tmcName"] = tmcType["0"]["tmcName"];
                 tmcSupplier["0"]["target"]["dataValues"]["sname"] = tmcType["0"]["sname"];
                 return tmcSupplier
@@ -156,7 +164,7 @@ export class TmcSupplierMethod {
                     company_id: companyId,
                 }
             });
-            if (!tmcSupplier) {
+            if (!tmcSupplier || !tmcSupplier.length) {
                 return "供应商不存在"
             }
             let newTmcSupplier = tmcSupplier.map(async function (item) {

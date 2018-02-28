@@ -39,8 +39,8 @@ export class PlaceController extends AbstractController {
         let { keyword } = req.params;
         let cities = [];
         const resp: any = keyword
-            ? await restfulAPIUtil.proxyHttp({ uri: `/city/search`, method: 'GET', qs: { keyword } })
-            : await restfulAPIUtil.proxyHttp({ uri: `/city`, method: 'GET' })
+            ? await restfulAPIUtil.proxyHttp({ uri: `${config.placeAPI}/city/search`, method: 'GET', qs: { keyword } })
+            : await restfulAPIUtil.proxyHttp({ uri: `${config.placeAPI}/city`, method: 'GET' })
         let data = await this.processResp(resp)
         return res.send(data);
     }

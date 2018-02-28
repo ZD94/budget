@@ -56,9 +56,9 @@ export class TmcSupplier extends ModelObject {
     set startWay(val: STARTWAY) { }
 
     //启用的 飞机，火车，酒店
-    @Field({ type: Types.JSONB, defaultValue: '[]' })
-    get services(): TmcSupplierService[] { return null; }
-    set services(val: TmcSupplierService[]) { }
+    @Field({ type: Types.INTEGER})
+    get type(): TmcServiceType { return null; }
+    set type(val:TmcServiceType) {}
 
     @ResolveRef({ type: Types.UUID }, Models.tmcTypes)
     get tmcType(): TmcTypes { return null; }

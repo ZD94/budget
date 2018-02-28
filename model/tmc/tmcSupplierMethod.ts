@@ -62,46 +62,20 @@ export class TmcSupplierMethod {
         });
     }
 
-    async getSuppliers(companyId: string): Promise<any> {
-        console.log(companyId, "<=================companyId")
-        let allSuppliers = await Models.tmcSupplier.all({
-            where: {
-                company_id: companyId
-            }
-        })
-        console.log(allSuppliers, "<==========================allSuppliers")
-        return allSuppliers
-    }
-
     async updateSupplier(params, companyId, id): Promise<any> {
         let tmcSupplier = await Models.tmcSupplier.get(id);
         if (!tmcSupplier) {
             throw new Error("供应商不存在")
         }
-        let paramsArr = Object.keys(params)
-        let tmcSupplierArr = Object.keys(tmcSupplier.target.dataValues)
-
+        let paramsArr = Object.keys(params);
+        let tmcSupplierArr = Object.keys(tmcSupplier.target.dataValues);
         for (let item of tmcSupplierArr) {
             if (paramsArr.indexOf(item) >= 0) {
-                tmcSupplier[`${item}`] = params[`${item}`]
-                continue
+                tmcSupplier[`${item}`] = params[`${item}`];
             }
         }
-        for(let item of tmcSupplierArr){
-            if (item == "identify") {
-                for (let val in tmcSupplier[`${item}`]) {
-                    let tmcSuppliers = tmcSupplier.toJSON()
-                    tmcSuppliers["identify"][`${val}`] = params[`${val}`]
-                    // console.log(val,"<============val")
-                    // console.log(tmcSuppliers["identify"][`${val}`],"<=============tmcSuppliers[`${val}`]")
-                    // console.log(tmcSupplier["identify"],"<=============1111111")
-                }
-            }
-        }
-
         if (tmcSupplier.companyId == companyId) {
-            console.log(tmcSupplier.target.dataValues,"<=============tmcSupplier[`${val}`]")
-            return await tmcSupplier.save()
+            return await tmcSupplier.save();
         } else {
             return "供应商与公司不匹配"
         }
@@ -121,11 +95,7 @@ export class TmcSupplierMethod {
         }
         status = Number(status);
         if (tmcSupplier["0"]) {
-            for (let item of tmcSupplier["0"].target.dataValues.services) {
-                if (item.type == type) {
-                    item.status = status
-                }
-            }
+            tmcSupplier["0"].target.dataValues.status = status
         }
         return await tmcSupplier[0].save();
     }
@@ -142,7 +112,6 @@ export class TmcSupplierMethod {
                 });
                 if (!tmcType["0"]) return "供应商不存在";
                 let tmcSupplier = await Models.tmcSupplier.all({
-
                     where: {
                         company_id: companyId,
                         tmc_type_id: tmcType["0"]["id"]

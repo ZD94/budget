@@ -25,8 +25,6 @@ export class TmcSupplierMethod {
         //加入companyID 的检查
         let company = await Models.company.get(companyId);
         let tmcType = await Models.tmcTypes.get(params.tmcTypeId);
-        console.log(company,"<============company")
-        console.log(tmcType,"<============tmcType")
         if (!company || !tmcType) {
             throw new Error("公司或供应商不存在")
         }
@@ -63,12 +61,15 @@ export class TmcSupplierMethod {
             }
         });
     }
+
     async getSuppliers(companyId:string):Promise<any>{
+        console.log(companyId,"<=================companyId")
         let allSuppliers = await Models.tmcSupplier.all({
             where:{
                 company_id:companyId
             }
         })
+        console.log(allSuppliers,"<==========================allSuppliers")
         return allSuppliers
     }
 
@@ -77,13 +78,17 @@ export class TmcSupplierMethod {
         if (!tmcSupplier) {
             throw new Error("供应商不存在")
         }
+        console.log(params,"<============params")
         for (let item in tmcSupplier.target.dataValues) {
             for (let items in params) {
+
                 if (item == items) {
+                    console.log(params[`${items}`],"<==========item")
                     tmcSupplier[`${item}`] = params[`${items}`]
                 }
             }
         }
+
         if (tmcSupplier.companyId == companyId) {
             return await tmcSupplier.save()
         } else {

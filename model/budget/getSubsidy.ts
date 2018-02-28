@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 10:11:47 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-30 17:39:52
+ * @Last Modified time: 2018-02-06 16:55:44
  * @content what is the content of this file. 
  * */
 
@@ -13,7 +13,7 @@ import { EBudgetType } from "_types/budget";
 import { SearchSubsidyParams } from "./interface";
 
 export class GetSubsidy {
-    async getSubsidyItem(companyId: string, travelPolicyId: string, params: SearchSubsidyParams) {
+    async getSubsidyItem(companyId: string, travelPolicyId: string, params: SearchSubsidyParams, persons: number) {
         let { city, beginTime, endTime, days = 1 } = params;
         let tp: TravelPolicy;
         tp = await Models.travelPolicy.get(travelPolicyId);
@@ -31,7 +31,7 @@ export class GetSubsidy {
         let templates = [], totalMoney = 0;
         for (let i = 0; i < subsidies.length; i++) {
             let subsidyDay = Math.floor(days / subsidies[i].subsidyType.period);
-            let price = subsidies[i].subsidyMoney * subsidyDay;
+            let price = subsidies[i].subsidyMoney * subsidyDay * persons;
             totalMoney += price;
             let subsidy = {
                 name: subsidies[i].subsidyType.name, period: subsidies[i].subsidyType.period,
@@ -45,6 +45,7 @@ export class GetSubsidy {
         let budget: any = {};
         budget.fromDate = beginTime;
         budget.endDate = endTime;
+        budget.singlePrice = totalMoney / days;    //准确性，依赖与 subsidyType.period 周期为 1.
         budget.price = totalMoney;
         budget.duringDays = days;
         budget.templates = templates;

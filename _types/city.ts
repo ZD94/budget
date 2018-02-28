@@ -39,23 +39,15 @@ export enum PlaceType {
 export class CityService {
 
     static async getCity(id): Promise<ICity> {
-        if (id == DefaultRegionId.abroad) {
-            return null;
+        if (id == 0) {
+            id = 1;
         }
         let city: ICity;
         let uri = config.placeAPI + "/city/" + id;
-        let result;
-        try {
-            result = await request({
-                uri,
-                method: "get",
-                json: true
-            });
-        } catch (e) {
-            console.error("place 服务获取地点失败 : ", uri);
-            return null;
-        }
-
+        let result: any = await restfulAPIUtil.proxyHttp({
+            uri,
+            method: 'GET'
+        });
 
         if (result.code != 0) {
             throw new Error("place服务地点不存在 : " + id);
@@ -64,7 +56,7 @@ export class CityService {
         city.isAbroad = !(city.countryCode == "CN");
 
         const alternate: any = await restfulAPIUtil.proxyHttp({
-            uri: `/city/${id}/alternate`,
+            uri: config.placeAPI + `/city/${id}/alternate`,
             method: 'GET'
         });
         for (let item of alternate.data) {
@@ -77,7 +69,7 @@ export class CityService {
     }
 
     static async findCities(options): Promise<any> {
-        let result: any = await restfulAPIUtil.proxyHttp({ uri: `/city`, method: 'GET', qs: options });
+        let result: any = await restfulAPIUtil.proxyHttp({ uri: config.placeAPI + `/city`, method: 'GET', qs: options });
         if (result.code == 0) {
             return result.data;
         }
@@ -188,13 +180,3 @@ function orderByDistance(deg: Degree, nearbyStations: any) {
         return item1.distance - item2.distance;
     });
 }
-
-/* setTimeout(async () => {
-    let result = await API.place.getCityInfo({ cityCode: "Global" });
-    console.log(result);
-
-
-
-    let two = await CityService.getCity("CT_289");
-    console.log(two);
-}, 7000); */

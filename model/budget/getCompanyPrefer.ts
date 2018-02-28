@@ -30,7 +30,7 @@ export async function getRegionPlace(companyRegions: string[], placeId: string):
 
 export async function getParentCity(cityCode: string): Promise<any> {
     let cityInfo = await CityService.getCity(cityCode);
-    if (!cityInfo.parentId) {
+    if (!cityInfo.parentId || Number(cityInfo.parentId) == 0) {
         return null;
     }
 

@@ -236,7 +236,7 @@ export class TravelPolicy extends ModelObject{
             if (!cityInfo) {
                 return getDefault(type);
             }
-            if(cityInfo.parentId) {
+            if (cityInfo.parentId && Number(cityInfo.parentId) != 0) {  
                 placeid = cityInfo.parentId;
                 continue;
             }

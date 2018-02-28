@@ -58,7 +58,7 @@ export class ComputeBudget {
             city: (<ICity>city).id,
             star: budget.star,
             singlePrice: budget.price,
-            price: budget.price * days * persons,
+            price: budget.price *  persons,
             duringDays: days,
             type: EBudgetType.HOTEL,
             name: budget.name,

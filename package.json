@@ -19,7 +19,7 @@
   "dependencies": {
     "@jingli/config": "1.0.6",
     "@jingli/database": "1.0.1",
-    "@jingli/dnode-api": "^1.1.8",
+    "@jingli/dnode-api": "^2.0.3",
     "@jingli/language": "^1.0.2",
     "@jingli/logger": "^1.0.1",
     "@jingli/patch-dnode-scrub": "^1.0.0",
@@ -69,13 +69,13 @@
     "server-auth": "^1.0.2",
     "shoe": "0.0.15",
     "sockjs": "^0.3.18",
+    "superagent": "1.4.0",
     "through2": "^2.0.3",
     "traverse": "^0.6.6",
     "ts-node": "^2.1.0",
     "tslib": "^1.6.0",
     "uuid": "^3.0.1",
-    "validator": "8.1.0",
-    "superagent": "1.4.0"
+    "validator": "8.1.0"
   },
   "devDependencies": {
     "@types/bluebird": "3.5.2",

@@ -156,6 +156,9 @@ export class RegionPlaceController extends AbstractController {
 
         let { placeId } = req.query;
         // placeId = placeId || '1796231';
+        if (!placeId || !companyId) {
+            res.jlReply(this.reply(502, "need placeId and companyId."));
+        }
 
         let sql = `select * from travel_policy.region_places where company_region_id in ( 
             select id from travel_policy.company_regions WHERE company_id = '${companyId}' and deleted_at is null) 

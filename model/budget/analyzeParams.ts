@@ -71,7 +71,7 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
                         city: destination.destinationPlace,
                         index,
                         location: destination.businessDistrict,
-                        selectName: destination.selectName
+                        selectName: destination.hotelName
                     }));
                 }
             } else {
@@ -85,7 +85,7 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
                         city: destination.destinationPlace,
                         index,
                         location: destination.businessDistrict,
-                        selectName: destination.selectName
+                        selectName: destination.hotelName
                     }));
                 }
             }

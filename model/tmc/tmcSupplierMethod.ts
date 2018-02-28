@@ -1,23 +1,26 @@
 /*
- * @Author: Mr.He 
- * @Date: 2017-12-28 21:04:36 
+ * @Author: Mr.He
+ * @Date: 2017-12-28 21:04:36
  * @Last Modified by: Mr.He
  * @Last Modified time: 2018-02-07 15:00:42
  * @content what is the content of this file. */
 
-import { Models } from "_types";
+import {Models} from "_types";
 import uuid = require("uuid");
-import { TmcServiceType, TmcSupplier, TMCStatus, TmcSupplierService } from "_types/tmcSupplier";
-import { where } from "sequelize";
-import { obj } from "through2";
+import {TmcServiceType, TmcSupplier, TMCStatus, TmcSupplierService} from "_types/tmcSupplier";
+import {where} from "sequelize";
+import {obj} from "through2";
+import {type} from 'os';
+
 
 export class TmcSupplierMethod {
     async addSupplier(params: {
         companyId: string;
         tmcTypeId: string;
-        services: TmcSupplierService[];
+        type: number;
         name: string;
         identify: any;
+        status: TMCStatus
     }, companyId, tmcTypeId): Promise<TmcSupplier> {
         //加入companyID 的检查
         let company = await Models.company.get(companyId);
@@ -25,38 +28,25 @@ export class TmcSupplierMethod {
         if (!company || !tmcType) {
             throw new Error("公司或供应商不存在")
         }
-
-        let isCmpany = await await Models.tmcSupplier.all({
+        let isCmpany = await Models.tmcSupplier.all({
             where: {
                 company_id: companyId,
-                tmc_type_id: tmcTypeId
+                tmc_type_id: tmcTypeId,
+                type: params.type,
             }
         });
-        if (isCmpany && isCmpany.length) {
-            throw new Error("公司已存在，请勿重复添加")
+        if (isCmpany && isCmpany.length != 0) {
+            throw new Error("服务已开通，请勿重复添加")
         }
-        let obj;
-        let arr = [];
-        for (let item of params.services) {
-            obj = {
-                type: item,
-                status: TMCStatus.TEST,
-                time: new Date()
-            };
-            arr.push(obj)
-        }
-        params.services.splice(0, params.services.length);
-        params.services.push(...arr);
         let tmcSupplier = Models.tmcSupplier.create({
             id: uuid.v1(),
-            services: params.services,
+            type: params.type,
             identify: params.identify,
-            name: params.name
+            name: params.name,
+            status: params.status,
         });
-
         tmcSupplier.company = company;
         tmcSupplier.tmcType = tmcType;
-
         return await tmcSupplier.save();
     }
 
@@ -77,28 +67,13 @@ export class TmcSupplierMethod {
         if (!tmcSupplier) {
             throw new Error("供应商不存在")
         }
-        let arr = [];
-        let obj = {};
         for (let item in tmcSupplier.target.dataValues) {
             for (let items in params) {
                 if (item == items) {
-                    if (item == "services") {
-                        for (let val of params["services"]) {
-                            obj = {
-                                "time": tmcSupplier["services"][0].time,
-                                "type": val.type,
-                                "status": tmcSupplier["services"][0].status
-                            };
-                            arr.push(obj)
-                        }
-                        tmcSupplier["services"] = arr
-                    } else {
-                        tmcSupplier[`${item}`] = params[`${items}`]
-                    }
+                    tmcSupplier[`${item}`] = params[`${items}`]
                 }
             }
         }
-
         if (tmcSupplier.companyId == companyId) {
             return await tmcSupplier.save()
         } else {
@@ -107,9 +82,9 @@ export class TmcSupplierMethod {
     }
 
     async changeState(params, body): Promise<any> {
-        let { companyId, id } = params;
-        let { status, type } = body;
-        let tmcSupplier = await await Models.tmcSupplier.find({
+        let {companyId, id} = params;
+        let {status, type} = body;
+        let tmcSupplier = await Models.tmcSupplier.find({
             where: {
                 company_id: companyId,
                 tmc_type_id: id
@@ -130,7 +105,8 @@ export class TmcSupplierMethod {
     }
 
     async getTmcTypes(params): Promise<any> {
-        let { companyId, sname } = params;
+        let {companyId, sname} = params;
+        let data;
         if (sname) {
             try {
                 let tmcType = await Models.tmcTypes.find({
@@ -138,45 +114,53 @@ export class TmcSupplierMethod {
                         sname: sname
                     }
                 });
-                if (!tmcType.length) {
-                    return "系统还未添加该供应商";
-                }
+                if (!tmcType["0"]) return "供应商不存在";
+                let tmcSupplier = await Models.tmcSupplier.all({
 
-                let tmcSupplier = await await Models.tmcSupplier.all({
                     where: {
                         company_id: companyId,
                         tmc_type_id: tmcType["0"]["id"]
                     }
                 });
-                if (!tmcSupplier.length) {
-                    return "供应商不存在";
+                if (tmcSupplier && tmcSupplier.length != 0) {
+                    let newTmcSupplier = tmcSupplier.map(async function (item) {
+                        let supplier = item.toJSON();
+                        supplier["tmcName"] = tmcType["0"]["tmcName"];
+                        supplier["sname"] = tmcType["0"]["sname"];
+                        return supplier;
+                    });
+                    data = await Promise.all(newTmcSupplier);
+                } else {
+                    throw new Error("供应商未开通")
                 }
+                return data
 
-                tmcSupplier["0"]["target"]["dataValues"]["tmcName"] = tmcType["0"]["tmcName"];
-                tmcSupplier["0"]["target"]["dataValues"]["sname"] = tmcType["0"]["sname"];
-                return tmcSupplier
             } catch (e) {
                 console.log(e)
             }
         } else {
-            let tmcSupplier = await Models.tmcSupplier.all({
-                where: {
-                    company_id: companyId,
+            try {
+                let tmcSupplier = await Models.tmcSupplier.all({
+                    where: {
+                        company_id: companyId,
+                    }
+                });
+                if (!tmcSupplier || tmcSupplier.length == 0) {
+                    return "供应商不存在"
                 }
-            });
-            if (!tmcSupplier || !tmcSupplier.length) {
-                return "供应商不存在"
-            }
-            let newTmcSupplier = tmcSupplier.map(async function (item) {
-                let supplier = item.toJSON();
-                let tmcType = await Models.tmcTypes.get(supplier["tmcTypeId"]);
-                supplier["tmcName"] = tmcType.tmcName;
-                supplier["sname"] = tmcType.sname;
-                return supplier;
-            });
+                let newTmcSupplier = tmcSupplier.map(async function (item) {
+                    let supplier = item.toJSON();
+                    let tmcType = await Models.tmcTypes.get(supplier["tmcTypeId"]);
+                    supplier["tmcName"] = tmcType.tmcName;
+                    supplier["sname"] = tmcType.sname;
+                    return supplier;
+                });
+                let data = await Promise.all(newTmcSupplier);
+                return data
+            } catch (e) {
+                console.log(e)
 
-            let data = await Promise.all(newTmcSupplier);
-            return data
+            }
         }
     }
 }

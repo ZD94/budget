@@ -57,8 +57,8 @@ export class TmcSupplier extends ModelObject {
 
     //启用的 飞机，火车，酒店
     @Field({ type: Types.INTEGER})
-    get type(): number { return null; }
-    set type(val:number) {}
+    get type(): TmcServiceType { return null; }
+    set type(val:TmcServiceType) {}
 
     @ResolveRef({ type: Types.UUID }, Models.tmcTypes)
     get tmcType(): TmcTypes { return null; }

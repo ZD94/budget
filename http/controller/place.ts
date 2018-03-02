@@ -35,17 +35,14 @@ export class PlaceController extends AbstractController {
 
     @Router('/search', 'get')
     async find(req, res, next) {
-        let { keyword } = req.query;
-        try{
-            const resp: any = keyword
-            ? await restfulAPIUtil.proxyHttp({ uri:  `${config.placeAPI}/city/search`, method: 'GET', qs: { keyword } })
+        req.clearTimeout()
+        let { keyword } = req.params;
+        let cities = [];
+        const resp: any = keyword
+            ? await restfulAPIUtil.proxyHttp({ uri: `${config.placeAPI}/city/search`, method: 'GET', qs: { keyword } })
             : await restfulAPIUtil.proxyHttp({ uri: `${config.placeAPI}/city`, method: 'GET' })
-
-            return res.json(await this.processResp(resp));
-        } catch(e) {
-            return res.json(await this.processResp(null));
-        }
-        
+        let data = await this.processResp(resp)
+        return res.send(data);
     }
 
     @Router('/nearby/:latitude/:longitude', 'get')
@@ -60,8 +57,8 @@ export class PlaceController extends AbstractController {
             uri: config.placeAPI + `/city/nearby/${longitude},${latitude}`,
             method: 'GET'
         });
-
-        return res.json(await this.processResp(resp));
+        let data = await this.processResp(resp.data);
+        return res.send(data);
     }
 
     @Router('/:id/children', 'get')
@@ -71,7 +68,8 @@ export class PlaceController extends AbstractController {
             uri: config.placeAPI + `/city/${id}/children`,
             method: 'GET'
         });
-        return res.send(await this.processResp(resp));
+        let data = await this.processResp(resp);
+        return res.send(data);
     }
 
 

@@ -27,10 +27,10 @@ class PriceRangePrefer extends AbstractPrefer<IFinalHotel> {
         hotels = hotels.map( (v) => {
             if (!v['score']) v['score'] = 0;
             if (!v['reasons']) v['reasons'] = [];
-            let d1 = moment(v.checkInDate).format("YYYY-MM-DD");
-            let d2 = moment(v.checkOutDate).format("YYYY-MM-DD");
-            let days = moment(d2).diff(d1, "days") || 1;
-            let oneDayPrice = v.price / days;
+            // let d1 = moment(v.checkInDate).format("YYYY-MM-DD");
+            // let d2 = moment(v.checkOutDate).format("YYYY-MM-DD");
+            // let days = moment(d2).diff(d1, "days") || 1;
+            // let oneDayPrice = v.price / days;
 
             if (!self.range) return v;  //配置不存在
             if (!self.range[v.star]) return v;  //当前星际配置不存在
@@ -44,7 +44,7 @@ class PriceRangePrefer extends AbstractPrefer<IFinalHotel> {
             if (priceLimit.length >= 2) {
                 maxLimit = priceLimit[1];
             }
-            if (oneDayPrice < minLimit || oneDayPrice > maxLimit) {
+            if (v.price < minLimit || v.price > maxLimit) {
                 v['score'] += self.score;
                 v['reasons'].push(`价格在价格区间以外 ${self.score}`)
             } else {

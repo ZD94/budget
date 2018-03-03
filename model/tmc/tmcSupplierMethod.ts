@@ -25,7 +25,7 @@ export class TmcSupplierMethod {
         let company = await Models.company.get(companyId);
         let tmcType = await Models.tmcTypes.get(params.tmcTypeId);
         if (!company || !tmcType) {
-            throw L.ERR.ERROR_CODE_C(500,"公司或供应商不存在")
+            throw new L.ERROR_CODE_C(500,"公司或供应商不存在")
         }
         let companies = await Models.tmcSupplier.all({
             where: {
@@ -35,7 +35,7 @@ export class TmcSupplierMethod {
             }
         });
         if (companies && companies.length != 0) {
-            throw L.ERR.ERROR_CODE_C(500,"服务已开通，请勿重复添加")
+            throw new L.ERROR_CODE_C(500,"服务已开通，请勿重复添加")
         }
         let tmcSupplier = Models.tmcSupplier.create({
             id: uuid.v1(),
@@ -64,7 +64,7 @@ export class TmcSupplierMethod {
     async updateSupplier(params, companyId, id): Promise<any> {
         let tmcSupplier = await Models.tmcSupplier.get(id);
         if (!tmcSupplier) {
-            throw L.ERR.ERROR_CODE_C(500,"供应商不存在")
+            throw new L.ERROR_CODE_C(500,"供应商不存在")
         }
         let paramsArr = Object.keys(params);
         let tmcSupplierArr = Object.keys(tmcSupplier.target.dataValues);
@@ -76,7 +76,7 @@ export class TmcSupplierMethod {
         if (tmcSupplier.companyId == companyId) {
             return tmcSupplier.save();
         }
-        throw L.ERR.ERROR_CODE_C(500,"供应商与公司不匹配")
+        throw new L.ERROR_CODE_C(500,"供应商与公司不匹配")
 
     }
 
@@ -86,11 +86,12 @@ export class TmcSupplierMethod {
         let tmcSupplier = await Models.tmcSupplier.find({
             where: {
                 company_id: companyId,
-                tmc_type_id: id
+                tmc_type_id: id,
+                type:type
             }
         });
         if (!tmcSupplier) {
-            throw L.ERR.ERROR_CODE_C(500,"供应商不存在")
+            throw new L.ERROR_CODE_C(500,"供应商不存在")
         }
         status = Number(status);
         if (tmcSupplier["0"]) {
@@ -124,7 +125,7 @@ export class TmcSupplierMethod {
                     });
                     data = await Promise.all(newTmcSupplier);
                 } else {
-                    throw L.ERR.ERROR_CODE_C(500,"供应商未开通")
+                    throw new L.ERROR_CODE_C(500,"供应商未开通")
                 }
                 return data
         }
@@ -135,7 +136,7 @@ export class TmcSupplierMethod {
             }
         });
         if (!tmcSupplier || tmcSupplier.length == 0) {
-            throw L.ERR.ERROR_CODE_C(500,"供应商不存在")
+            throw new L.ERROR_CODE_C(500,"供应商不存在")
         }
         let newTmcSupplier = tmcSupplier.map(async function (item) {
             let supplier = item.toJSON();

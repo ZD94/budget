@@ -36,7 +36,7 @@ export class PlaceController extends AbstractController {
     @Router('/search', 'get')
     async find(req, res, next) {
         req.clearTimeout()
-        let { keyword } = req.params;
+        let { keyword } = req.query;
         let cities = [];
         const resp: any = keyword
             ? await restfulAPIUtil.proxyHttp({ uri: `${config.placeAPI}/city/search`, method: 'GET', qs: { keyword } })

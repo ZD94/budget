@@ -86,7 +86,8 @@ export class TmcSupplierMethod {
         let tmcSupplier = await Models.tmcSupplier.find({
             where: {
                 company_id: companyId,
-                tmc_type_id: id
+                tmc_type_id: id,
+                type:type
             }
         });
         if (!tmcSupplier) {

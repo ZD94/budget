@@ -90,12 +90,12 @@ export class TmcSupplierMethod {
                 type:type
             }
         });
-        if (!tmcSupplier) {
+        if (!tmcSupplier.length) {
             throw new L.ERROR_CODE_C(500,"供应商不存在")
         }
         status = Number(status);
         if (tmcSupplier["0"]) {
-            tmcSupplier["0"].target.dataValues.status = status
+            tmcSupplier["0"].status = status
         }
         return await tmcSupplier[0].save();
     }

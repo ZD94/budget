@@ -9,6 +9,7 @@ import * as uuid from "uuid";
 import { SearchHotelParams, SearchTicketParams, BudgetType, TripType, BudgetItemParams, DataOrder, BudgetOrder, STEP } from "./interface";
 import moment = require("moment");
 import { Models } from '_types';
+import { CityService } from "_types/city";
 
 /* 分析请求参数 */
 export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<BudgetOrder> {
@@ -23,37 +24,27 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
         if (destination.isNeedTraffic) {
             if (index == 0 && originParams.originPlace) {
                 //第一段，看是否需要去程交通
-                let trip = {
-                    id: uuid.v1(),
-                    type: BudgetType.TRAFFICT,
-                    input: {
-                        leaveDate: destination.latestArrivalDateTime, //第一程的出发时间可优化，理论上应该在此基础上提前一段时间
-                        originPlace: originParams.originPlace,
-                        destination: destination.destinationPlace,
-                        earliestGoBackDateTime: destination.earliestGoBackDateTime,
-                        latestArrivalDateTime: destination.latestArrivalDateTime
-                    },
+                budgetParams.push(createTraffic({
+                    leaveDate: destination.latestArrivalDateTime,
+                    originPlace: originParams.originPlace,
+                    destination: destination.destinationPlace,
+                    earliestGoBackDateTime: destination.earliestGoBackDateTime,     //考虑在各个系统中删除 earliestGoBackDateTime， latestArrivalDateTime
+                    latestArrivalDateTime: destination.latestArrivalDateTime,
                     index,
                     backOrGo: TripType.GoTrip
-                };
-                budgetParams.push(trip);
+                }));
             }
 
             if (index != 0) {
-                let trip = {
-                    id: uuid.v1(),
-                    type: BudgetType.TRAFFICT,
-                    input: {
-                        leaveDate: destinations[index - 1].earliestGoBackDateTime,
-                        originPlace: destinations[index - 1].destinationPlace,
-                        destination: destination.destinationPlace,
-                        earliestGoBackDateTime: destination.earliestGoBackDateTime,
-                        latestArrivalDateTime: destination.latestArrivalDateTime
-                    },
+                budgetParams.push(createTraffic({
+                    leaveDate: destinations[index - 1].earliestGoBackDateTime,
+                    originPlace: destinations[index - 1].destinationPlace,
+                    destination: destination.destinationPlace,
+                    earliestGoBackDateTime: destination.earliestGoBackDateTime,
+                    latestArrivalDateTime: destination.latestArrivalDateTime,
                     index,
                     backOrGo: TripType.GoTrip
-                };
-                budgetParams.push(trip);
+                }));
             }
         }
 
@@ -152,20 +143,15 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
     /* 处理最后返程 */
     if (originParams.goBackPlace && originParams.isRoundTrip) {
         let lastDestinations = destinations[destinations.length - 1];
-        let trip = {
-            id: uuid.v1(),
-            type: BudgetType.TRAFFICT,
-            input: {
-                leaveDate: lastDestinations.goBackDate,
-                originPlace: lastDestinations.destinationPlace,
-                destination: originParams.goBackPlace,
-                earliestGoBackDateTime: lastDestinations.earliestGoBackDateTime,
-                latestArrivalDateTime: lastDestinations.latestArrivalDateTime
-            },
+        budgetParams.push(createTraffic({
             index: destinations.length,
-            backOrGo: TripType.BackTrip
-        };
-        budgetParams.push(trip);
+            backOrGo: TripType.BackTrip,
+            leaveDate: lastDestinations.goBackDate,
+            originPlace: lastDestinations.destinationPlace,
+            destination: originParams.goBackPlace,
+            earliestGoBackDateTime: lastDestinations.earliestGoBackDateTime,
+            latestArrivalDateTime: lastDestinations.latestArrivalDateTime
+        }));
 
         /* 增加一项补助 */
         if (company.isOpenSubsidyBudget) {
@@ -182,6 +168,9 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
 
     /* 分析完参数后，检查预算参数是否正确 */
     checkBudgetParams(budgetParams);
+
+    /* 检查交通，当前城市是否有火车站，机场 */
+    await checkTrafficPlace(budgetParams);
 
     /* perfect the dataOrders, 拼装DataOrder对象 */
     for (let segment of budgetParams) {
@@ -252,10 +241,62 @@ function createHotel(params: { checkInDate: string, checkOutDate: string, city: 
     };
 }
 
+function createTraffic(params: {
+    index: number;
+    leaveDate: string;
+    originPlace: string;
+    destination: string;
+    earliestGoBackDateTime: string;
+    latestArrivalDateTime: string;
+    backOrGo: TripType
+}) {
+    let { index, leaveDate, originPlace, destination, earliestGoBackDateTime, latestArrivalDateTime, backOrGo } = params;
+
+    return {
+        id: uuid.v1(),
+        type: BudgetType.TRAFFICT,
+        input: {
+            leaveDate,
+            originPlace,
+            destination,
+            earliestGoBackDateTime,
+            latestArrivalDateTime
+        },
+        index,
+        backOrGo
+    };
+}
+
 function checkBudgetParams(params) {
     /* 按照分析条件，检查budgetParams */
     let checkParams = params.filter((item) => item.type != BudgetType.SUBSIDY);
     if (!checkParams.length) {
         throw new Error("没有合适的预算项");
     }
+}
+
+async function checkTrafficPlace(params) {
+    let ps = params.map(async (item) => {
+        if (item.type != BudgetType.TRAFFICT) {
+            return item;
+        }
+
+        let originPlace = await CityService.getSuperiorCityInfo({
+            cityId: item.input.originPlace
+        });
+        let destination = await CityService.getSuperiorCityInfo({
+            cityId: item.input.destination
+        });
+
+        if (!originPlace || !destination) {
+            throw new Error("没有找到合适的机场或火车站");
+        }
+
+        item.input.originPlace = originPlace.id;
+        item.input.destination = destination.id;
+
+        return item;
+    });
+
+    return await Promise.all(ps);
 }

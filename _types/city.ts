@@ -69,7 +69,7 @@ export class CityService {
     }
 
     static async findCities(options): Promise<any> {
-        let result: any = await restfulAPIUtil.proxyHttp({ uri: config.placeAPI + `/city`, method: 'GET', qs: options });
+        let result: any = await restfulAPIUtil.proxyHttp({ uri: config.placeAPI + `/city/bywhere`, method: 'GET', qs: options });
         if (result.code == 0) {
             return result.data;
         }
@@ -96,15 +96,12 @@ export class CityService {
             let parentCity = await this.getCity(city.parentId);
             return parentCity;
         }
-
         let child_cities = await this.findCities({
             where: { parentId: city.id, fcode: ["AIRP", "RSTN"] }
         });
-
         if (child_cities && child_cities.length) {
             return city;
         }
-
         let deg = new Degree(parseFloat(city.latitude + ""), parseFloat(city.longitude + ""));
         let result = CoordDispose.GetDegreeCoordinates(deg, 100);
         let nearbyStations: any[] = await this.findCities({
@@ -121,14 +118,13 @@ export class CityService {
             }
         });
 
-
         nearbyStations = nearbyStations.filter((item: any) => {
             if (item.fcode == "AIRP") {
                 return item.countryCode == city.countryCode;
             } else {
                 return item.countryCode == city.countryCode;
             }
-        })
+        });
 
         if (nearbyStations && nearbyStations.length) {
             orderByDistance(deg, nearbyStations);
@@ -136,6 +132,10 @@ export class CityService {
             return parentCity;
         }
 
+        if (city.parentId == '0') {
+            //at the Global.
+            return null;
+        }
         let returnResult = await self.getSuperiorCityInfo({ cityId: city.parentId });
         return returnResult;
     }

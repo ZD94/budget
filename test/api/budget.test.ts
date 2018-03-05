@@ -102,26 +102,27 @@ let params3 = {
 
 
 let params4 = {
-    "goBackPlace": "CT_131",
+    "goBackPlace": "8389501",
     "isRoundTrip": true,
     staffs: [{ gender: 1, policy: 'domestic' }],
-    "originPlace": "CT_131",
+    "originPlace": "8389501",
     "projectName": "",
     currency: "EUR",
-    "travelPolicyId": "7a4ceb50-f9ce-11e7-89c4-73c84750254b",
+    travelPolicyId: '7a4ceb50-f9ce-11e7-89c4-73c84750254b',
+    companyId: '625c6110-f9ce-11e7-b540-af4848d193b7',
     "destinationPlacesInfo": [
         {
             "reason": "",
             "subsidy": {
                 "template": null
             },
-            "leaveDate": "2018-02-15T13:00:00.000Z",
-            "goBackDate": "2018-02-17T02:00:00.000Z",
+            "leaveDate": "2018-03-15T13:00:00.000Z",
+            "goBackDate": "2018-03-17T02:00:00.000Z",
             "isNeedHotel": true,
             "isNeedTraffic": true,
-            "destinationPlace": "1792943",
-            "latestArrivalDateTime": "2018-02-15T13:00:00.000Z",
-            "earliestGoBackDateTime": "2018-02-17T02:00:00.000Z"
+            "destinationPlace": "1808089",
+            "latestArrivalDateTime": "2018-03-15T13:00:00.000Z",
+            "earliestGoBackDateTime": "2018-03-17T02:00:00.000Z"
         }
     ]
 }
@@ -237,7 +238,7 @@ let params8 = {
 
 let testFn = async () => {
     console.log("ok ok ok ok ok ok");
-    let result = await budget.getBudget(params51);
+    let result = await budget.getBudget(params4);
     // console.log("result result ===>", result);
 }
 

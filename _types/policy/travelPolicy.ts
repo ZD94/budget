@@ -22,7 +22,8 @@ export var  MTrainLevel  = {
     7: '硬卧',
     8: '软座',
     9: '硬座',
-    10: '无座'
+    10: '无座',
+    11: '动卧'
 }
 
 export enum ETrainLevel {
@@ -39,6 +40,7 @@ export enum ETrainLevel {
     SOFT_SEAT = 8,
     HARD_SEAT = 9,
     NO_SEAT = 10,
+    PNEUMATIC_HORIZONTAL = 11
 }
 
 export function enumTrainLevelToStr(trainLevels: ETrainLevel[]) :string {

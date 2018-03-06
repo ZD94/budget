@@ -9,7 +9,10 @@ import { ModelObject } from 'common/model/object';
 export enum TmcServiceType {
     FLIGHT = 1,
     TRAIN = 2,
-    HOTEL = 3
+    HOTEL = 3,
+    FLIGHT_ABROAD = 4,
+    TRAIN_ABROAD = 5,
+    HOTEL_ABROAD = 6
 }
 
 

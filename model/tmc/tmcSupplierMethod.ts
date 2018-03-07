@@ -104,6 +104,8 @@ export class TmcSupplierMethod {
         let {companyId, sname, type, status} = params;
         let data;
         let where;
+        let typeNum: number = Number(type);
+        let statusNum: number = Number(status);
         if (sname) {
                 let tmcType = await Models.tmcTypes.find({
                     where: {
@@ -115,20 +117,20 @@ export class TmcSupplierMethod {
                     where = {
                         company_id: companyId,
                         tmc_type_id: tmcType["0"]["id"],
-                        type: type,
-                        status: status
+                        type: typeNum,
+                        status: statusNum
                     }
                 } else if (type) {
                     where = {
                         company_id: companyId,
                         tmc_type_id: tmcType["0"]["id"],
-                        type: type
+                        type: typeNum
                     }
                 } else if (status) {
                     where = {
                         company_id: companyId,
                         tmc_type_id: tmcType["0"]["id"], 
-                        status: status
+                        status: statusNum
                     }
                 } else {
                     where = {
@@ -156,18 +158,18 @@ export class TmcSupplierMethod {
         if (type && status) {
             where = {
                 company_id: companyId,
-                type: type,
-                status: status
+                type: typeNum,
+                status: statusNum
             }
         } else if (type) {
             where = {
                 company_id: companyId,
-                type: type
+                type: typeNum
             }
         } else if (status) {
             where = {
                 company_id: companyId,
-                status: status
+                status: statusNum
             }
         } else {
             where = {

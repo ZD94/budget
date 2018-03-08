@@ -22,7 +22,7 @@
 	{
 		"name": "上海外滩浦华大酒店",
 		"star": 5,
-		"agent": "ctrip",
+		"agent": "好订",
 		"price": 648,
 		"bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/425171.html?daylater=7&days=1&contrl=0&pay=0&latlon=#fromList",
 		"latitude": 31.246540787600924,
@@ -42,7 +42,7 @@
 	{
 		"name": "上海绿地九龙宾馆",
 		"star": 4,
-		"agent": "ctrip",
+		"agent": "hotels.com",
 		"price": 528,
 		"bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/375534.html?daylater=7&days=1&contrl=0&pay=0&latlon=#fromList",
 		"latitude": 31.25019318036093,

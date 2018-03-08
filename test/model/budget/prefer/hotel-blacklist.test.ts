@@ -9,6 +9,10 @@ let data = require("./hotel-data");
 describe("hotel-blacklist", async () => {
 
     before(function () {
+        data.map((item) => {
+            delete item.score;
+            delete item.reasons;
+        });
         const prefer = new HotelBlackListPrefer('hotelBlackListPrefer', {
             score: -1000
         });

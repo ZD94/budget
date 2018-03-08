@@ -1,13 +1,13 @@
 /*
  * @Author: Mr.He 
  * @Date: 2018-02-26 17:32:21 
- * @Last Modified by: Mr.He
- * @Last Modified time: 2018-02-26 17:37:16
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2018-03-08 16:37:46
  * @content 指定航空公司打分. */
 
 
 
-import { IFinalTicket, ETrafficType } from '_types/budget';
+import { IFinalTicket, ETrafficType } from './interface';
 
 function preferaircompany(data: IFinalTicket[], airCompanies: { name: string, code: string }[], score: number): IFinalTicket[] {
 

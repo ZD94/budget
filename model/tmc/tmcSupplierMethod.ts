@@ -104,8 +104,8 @@ export class TmcSupplierMethod {
         let {companyId, sname, type, status} = params;
         let data;
         let where;
-        let typeNum: number = Number(type);
-        let statusNum: number = Number(status);
+        let typeStr = type ? type.toString() : '';
+        let statusStr = status ? status.toString() : '';
         if (sname) {
                 let tmcType = await Models.tmcTypes.find({
                     where: {
@@ -117,20 +117,20 @@ export class TmcSupplierMethod {
                     where = {
                         company_id: companyId,
                         tmc_type_id: tmcType["0"]["id"],
-                        type: typeNum,
-                        status: statusNum
+                        type: typeStr,
+                        status: statusStr
                     }
                 } else if (type) {
                     where = {
                         company_id: companyId,
                         tmc_type_id: tmcType["0"]["id"],
-                        type: typeNum
+                        type: typeStr
                     }
                 } else if (status) {
                     where = {
                         company_id: companyId,
                         tmc_type_id: tmcType["0"]["id"], 
-                        status: statusNum
+                        status: statusStr
                     }
                 } else {
                     where = {
@@ -158,18 +158,18 @@ export class TmcSupplierMethod {
         if (type && status) {
             where = {
                 company_id: companyId,
-                type: typeNum,
-                status: statusNum
+                type: typeStr,
+                status: statusStr
             }
         } else if (type) {
             where = {
                 company_id: companyId,
-                type: typeNum
+                type: typeStr
             }
         } else if (status) {
             where = {
                 company_id: companyId,
-                status: statusNum
+                status: statusStr
             }
         } else {
             where = {

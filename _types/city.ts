@@ -53,17 +53,15 @@ export class CityService {
             throw new Error("place服务地点不存在 : " + id);
         }
         city = <ICity>result.data;
+        //完善是否国外
         city.isAbroad = !(city.countryCode == "CN");
-
-        const alternate: any = await restfulAPIUtil.proxyHttp({
-            uri: config.placeAPI + `/city/${id}/alternate`,
+        //完善IATACODE
+        result = await restfulAPIUtil.proxyHttp({
+            uri: config.placeAPI + `/city/${id}/alternate/iatacode`,
             method: 'GET'
         });
-        for (let item of alternate.data) {
-            if (item.lang == "ctripcode") {
-                city.ctripCode = item.value;
-                break;
-            }
+        if (result.code == 0 || result.code == 200) {
+            city.ctripCode = result.data.value;
         }
         return city;
     }

@@ -22,7 +22,7 @@
 	{
 		"name": "上海外滩浦华大酒店",
 		"star": 5,
-		"agent": "ctrip",
+		"agent": "好订",
 		"price": 648,
 		"bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/425171.html?daylater=7&days=1&contrl=0&pay=0&latlon=#fromList",
 		"latitude": 31.246540787600924,
@@ -42,7 +42,7 @@
 	{
 		"name": "上海绿地九龙宾馆",
 		"star": 4,
-		"agent": "ctrip",
+		"agent": "hotels.com",
 		"price": 528,
 		"bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/375534.html?daylater=7&days=1&contrl=0&pay=0&latlon=#fromList",
 		"latitude": 31.25019318036093,
@@ -120,7 +120,7 @@
 		"index": 5
 	},
 	{
-		"name": "桔子酒店.精选(上海外滩吴淞路店)",
+		"name": "桔子水晶.精选(上海外滩吴淞路店)",
 		"star": 3,
 		"agent": "ctrip",
 		"price": 589,
@@ -1480,8 +1480,8 @@
 		"index": 73
 	},
 	{
-		"name": "万信慧选酒店(上海南京东路步行街店)",
-		"star": 3,
+		"name": "锦江之星",
+		"star": 2,
 		"agent": "ctrip",
 		"price": 239,
 		"bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/4722160.html?daylater=7&days=1&contrl=0&pay=0&latlon=#fromList",
@@ -1580,7 +1580,7 @@
 		"index": 78
 	},
 	{
-		"name": "上海铭德大酒店",
+		"name": "希尔顿",
 		"star": 5,
 		"agent": "ctrip",
 		"price": 526,

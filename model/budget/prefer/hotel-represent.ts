@@ -3,7 +3,7 @@
  */
 
 'use strict';
-import {IFinalHotel} from "_types/budget";
+import {IFinalHotel} from "./interface";
 import {AbstractPrefer} from "./index";
 
 const REFERENCE_HOTELS_PRICE = {

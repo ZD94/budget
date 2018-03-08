@@ -13,5 +13,3 @@ require('./model/budget/prefer/ticket-arrivaltime.test.ts')
 // require('model/budget/prefer/ticket-runningTimePrefer.test')
 // require('model/budget/prefer/ticket-departStandardTimePrefer.test')
 
-require('./model/budget/prefer/hotel-blacklist.test');
-// require('./model/budget/prefer/ticket-refusedPlane.test');

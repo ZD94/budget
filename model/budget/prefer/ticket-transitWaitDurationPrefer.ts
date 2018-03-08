@@ -4,7 +4,7 @@
 
 'use strict';
 import {AbstractPrefer} from "./index";
-import {IFinalTicket, IFlightSeg, ETrafficType} from "_types/budget";
+import {IFinalTicket, IFlightSeg, ETrafficType} from "./interface";
 import moment = require("moment");
 
 /**

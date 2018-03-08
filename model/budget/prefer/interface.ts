@@ -53,7 +53,12 @@ export enum ETrafficType {
     CAR_RENT = 6,
 }
 
-
+export enum EHotelStar {
+    FIVE = 5,
+    FOUR = 4,
+    THREE = 3,
+    TOW = 2,
+}
 export interface IFlightSeg {
     deptAirport: IAirport,
     arriAirport: IAirport,

@@ -5,4 +5,4 @@
 
 require("ts-node").register({fast: true});
 
-require('./model/budget/prefer/hotel-blacklist.test.ts');
+require('./model/budget/prefer/hotel-blacklist.test');

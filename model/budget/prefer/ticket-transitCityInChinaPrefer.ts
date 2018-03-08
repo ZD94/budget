@@ -5,7 +5,7 @@
 'use strict';
 import {AbstractPrefer} from "./index";
 import {IFinalTicket, IFlightSeg, ETrafficType} from "./interface";
-import { CityService } from "_types/city";
+import { CityService } from "./interface";
 const API = require("@jingli/dnode-api");
 
 class TransitCityInChinaPrefer extends AbstractPrefer<IFinalTicket> {

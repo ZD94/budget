@@ -3,7 +3,7 @@
  */
 
 'use strict';
-import {IFinalTicket} from "./interface";
+import {IFinalTicket, ETrafficType} from "./interface";
 import {AbstractPrefer} from "./index";
 
 /* * * * * * * * *

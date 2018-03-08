@@ -22,16 +22,16 @@ process.on('unhandledRejection', (reason, p) => {
 
 var config = require("@jingli/config");
 
-var Logger = require('@jingli/logger');
-Logger.init({
-    path: path.join(__dirname, "../log"),
-    prefix: "mocha_",
-    console: false,
-    mods: {
-        sequelize: { console: false }
-    }
-});
-var logger = new Logger('test');
+// var Logger = require('@jingli/logger');
+// Logger.init({
+//     path: path.join(__dirname, "../log"),
+//     prefix: "mocha_",
+//     console: false,
+//     mods: {
+//         sequelize: { console: false }
+//     }
+// });
+// var logger = new Logger('test');
 
 var API = require('@jingli/dnode-api');
 
@@ -60,33 +60,33 @@ db.init(config.postgres.url_test);
 //     httpModule.initHttp(app);
 // })
 
-zone.forkStackTrace()
-    .fork({name: 'test', properties: {session: {}}})
-    .run(function(){
-        return Promise.resolve()
-            .then( () => {
-                return db.DB.sync({force: false})
-            })
-            .then(function(){
-                return API.initSql(path.join(__dirname, '../api'), config.api_test)
-            })
-            .then(function(ret){
-                return API.init(path.join(__dirname, '../api'), config.api)
-            })
-            .then(function() {
-                loadTest(path.join(__dirname, '../http'));
-            })
-            .then(API.loadTests.bind(API))
-            // .then(function() {
-            //     server.start();
-            // })
-            .then(run)
-            .catch(function(e){
-                logger.error(e.stack?e.stack:e);
-                console.error(e.stack?e.stack:e);
-                process.exit();
-            })
-    });
+// zone.forkStackTrace()
+//     .fork({name: 'test', properties: {session: {}}})
+//     .run(function(){
+//         return Promise.resolve()
+//             .then( () => {
+//                 return db.DB.sync({force: false})
+//             })
+//             .then(function(){
+//                 return API.initSql(path.join(__dirname, '../api'), config.api_test)
+//             })
+//             .then(function(ret){
+//                 return API.init(path.join(__dirname, '../api'), config.api)
+//             })
+//             .then(function() {
+//                 loadTest(path.join(__dirname, '../http'));
+//             })
+//             .then(API.loadTests.bind(API))
+//             // .then(function() {
+//             //     server.start();
+//             // })
+//             .then(run)
+//             .catch(function(e){
+//                 logger.error(e.stack?e.stack:e);
+//                 console.error(e.stack?e.stack:e);
+//                 process.exit();
+//             })
+//     });
 
 const CURRENT_PATH = __dirname;
 

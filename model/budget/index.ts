@@ -34,7 +34,14 @@ export class Budget extends BudgetHelps {
         super();
     }
     async getBudget(params: GetBudgetParams): Promise<BudgetFinallyResult> {
-        let { callbackUrl, companyId, travelPolicyId, staffs, currency = config.defaultCurrency, expectStep = STEP.CACHE } = params;
+        let {
+            callbackUrl,
+            companyId,
+            travelPolicyId,
+            staffs,
+            currency = config.defaultCurrency,
+            expectStep = STEP.CACHE
+        } = params;
 
         console.log('params ===========>', params);
         let times = Date.now();

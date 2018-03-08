@@ -283,21 +283,19 @@ async function checkTrafficPlace(params) {
         if (item.type != BudgetType.TRAFFICT) {
             return item;
         }
-
-        let originPlace = await CityService.getSuperiorCityInfo({
-            cityId: item.input.originPlace
-        });
-        let destination = await CityService.getSuperiorCityInfo({
-            cityId: item.input.destination
-        });
-
-        if (!originPlace || !destination) {
-            throw new Error("没有找到合适的机场或火车站");
-        }
-
-        item.input.originPlace = originPlace.id;
-        item.input.destination = destination.id;
-
+        // let originPlaceId = item.input.originPlace; //判断是否有火车站
+        // let originPlace = await CityService.getCity(originPlaceId);
+        // let originPlace = await CityService.getSuperiorCityInfo({
+        //     cityId: item.input.originPlace
+        // });
+        // let destination = await CityService.getSuperiorCityInfo({
+        //     cityId: item.input.destination
+        // }); 
+        // if (!originPlace || !destination) {
+        //     throw new Error("没有找到合适的机场或火车站");
+        // }
+        // item.input.originPlace = originPlace.id;
+        // item.input.destination = destination.id;
         return item;
     });
 

@@ -3,8 +3,8 @@
  */
 
 'use strict';
-import {IFinalHotel} from "_types/budget";
-import {AbstractPrefer} from "./index";
+import {IFinalHotel} from "./interface";
+import {AbstractPrefer} from "./AbstractPrefer";
 
 const BLACKLIST_HOTEL_AGENTS = ['hotels.com', '好订'];
 

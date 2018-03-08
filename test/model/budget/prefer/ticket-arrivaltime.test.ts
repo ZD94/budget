@@ -10,10 +10,7 @@ describe("ticket-arrivaltime", async () => {
     const prefer = new TicketArrivalTimePrefer("ticketArrivalTime", {});
 
     it("用例1 should be ok", async () => {
-        for(let item of trafficData){
-          let a = prefer.markScoreProcess(item)
-            console.log(a,"<======a")
-        }
+        let a = prefer.markScoreProcess(trafficData)
     })
 
     it("用例2 should be ok", async()=> {

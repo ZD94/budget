@@ -1,4 +1,5 @@
 import { ICity } from './interface';
+import * as L from "@jingli/language";
 
 /**
  * Created by wlh on 2018/3/8.

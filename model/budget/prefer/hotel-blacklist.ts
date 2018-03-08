@@ -26,7 +26,7 @@ class BlackListPrefer extends AbstractPrefer<IFinalHotel> {
             if (!hotel.reasons) hotel.reasons = [];
 
             for (let backHotel of BLACKLIST_HOTEL_AGENTS) {
-                for (let agent of hotel.agents) {
+                for (let agent of hotel.agent) {
 
                 }
             }

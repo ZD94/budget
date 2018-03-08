@@ -15,3 +15,6 @@ require("ts-node").register({fast: true});
 
 require('./model/budget/prefer/hotel-blacklist.test');
 require('./model/budget/prefer/ticket-refusedPlane.test');
+require('./model/budget/prefer/ticket-compareTrainPlanePrice.test');
+require('./model/budget/prefer/ticket-transitCityInChina');
+

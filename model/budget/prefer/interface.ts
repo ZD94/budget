@@ -20,6 +20,19 @@ export interface ICity {
     fcode: string;
     ctripCode?: string;
 }
+
+export enum ETrainSeat {
+    BUSINESS_SEAT = 1,
+    FIRST_SEAT = 2,
+    SECOND_SEAT = 3,
+    PRINCIPAL_SEAT = 4,
+    SENIOR_SOFT_SLEEPER = 5,
+    SOFT_SLEEPER = 6,
+    HARD_SLEEPER = 7,
+    SOFT_SEAT = 8,
+    HARD_SEAT = 9,
+    NO_SEAT = 10,
+}
 export interface IFinalHotel {
     name: string;
     latitude: string;

@@ -3,7 +3,8 @@
  */
 
 'use strict';
-import {IFinalTicket, IFinalHotel, ETrafficType} from "_types/budget";
+// import {IFinalTicket, IFinalHotel, ETrafficType} from "_types/budget";
+import {IFinalTicket, ETrafficType, IFinalHotel} from "./interface";
 import {AbstractPrefer} from "./index";
 
 function price(price:number, type:string, min:number, mid:number, max:number):{scale:number, up:boolean}{

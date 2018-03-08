@@ -1,0 +1,2302 @@
+[
+  {
+    "name": "上海徐汇和颐至尊酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 436,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/455065.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 455065,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.16234220100012,
+    "longitude": 121.40813008299419,
+    "shortName": "和颐至尊",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "宿适轻奢酒店(上海漕河泾虹桥店)",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 266,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6338488.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 6338488,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.153797086298074,
+    "longitude": 121.38462007874529,
+    "shortName": "宿适轻奢",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "上海虹桥书香世家酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 410,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/458785.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 458785,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.168755522988224,
+    "longitude": 121.36311525005006,
+    "shortName": "书香世家",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "如家精选酒店(上海徐家汇店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 379,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1569581.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1569581,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.18295205616908,
+    "longitude": 121.43051219550154,
+    "shortName": "如家精选",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "上海徐汇云睿酒店(原云睿酒店(上海徐家汇八万人体育场店))",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 275,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/473770.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 473770,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.17175472988673,
+    "longitude": 121.43207185588227,
+    "shortName": "云睿酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.2
+  },
+  {
+    "name": "上海礼和酒店",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 288,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1573621.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1573621,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.184767518829005,
+    "longitude": 121.42874133764384,
+    "shortName": "礼和酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.2
+  },
+  {
+    "name": "源涞国际服务公寓(上海徐家汇店)",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 442,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/375464.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 375464,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.18462022410846,
+    "longitude": 121.43185488216,
+    "shortName": "源涞国际",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "上海虹桥云峰宾馆",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 498,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/473775.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 473775,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.19760967925204,
+    "longitude": 121.38176113028781,
+    "shortName": "虹桥云峰",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.6
+  },
+  {
+    "name": "苏荷精选花园别墅酒店(上海泰安路店)",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 498,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/2380039.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 2380039,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.20086180457945,
+    "longitude": 121.42443981196263,
+    "shortName": "苏荷精选",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "宿适商旅酒店(上海徐家汇八万人体育场地铁站店)(原0578心宿酒店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 276,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/10230371.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 10230371,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.18269305373304,
+    "longitude": 121.43112296613907,
+    "shortName": "0578",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.6
+  },
+  {
+    "name": "来来大酒店(上海复旦大学附属儿科医院店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 346,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1613365.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1613365,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.129412685534405,
+    "longitude": 121.38953857649673,
+    "shortName": "来来大酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.6
+  },
+  {
+    "name": "如家精选酒店(上海虹桥路地铁站店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 334,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6391233.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 6391233,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.191341018763787,
+    "longitude": 121.40772047829927,
+    "shortName": "如家精选",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "桔子酒店·精选(上海虹桥古北店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 349,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/7077676.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 7077676,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.184275422310908,
+    "longitude": 121.40206634144864,
+    "shortName": "桔子古北路",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.8
+  },
+  {
+    "name": "上海虹梅嘉廷酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 379,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/378516.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 378516,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.177185502683052,
+    "longitude": 121.38053822485035,
+    "shortName": "虹梅嘉廷",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.2
+  },
+  {
+    "name": "上海宜林君亭酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 499,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6507883.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 6507883,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.17398097943194,
+    "longitude": 121.41383895138522,
+    "shortName": "宜林君亭",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "润都精品酒店(上海虹桥古北店)",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 266,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/3003470.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 3003470,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.182320261095093,
+    "longitude": 121.39355993247194,
+    "shortName": "润都精品酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "如家商旅酒店(上海徐家汇店)(原宛平南路店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 395,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1569556.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1569556,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.186171789983888,
+    "longitude": 121.43621364716125,
+    "shortName": "如家商旅",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.6
+  },
+  {
+    "name": "漫心酒店(上海徐家汇店)",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 455,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/2648889.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 2648889,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.180624690349735,
+    "longitude": 121.42450727295244,
+    "shortName": "漫心酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.2
+  },
+  {
+    "name": "上海田林宾馆",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 368,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/929872.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 929872,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.166949000673686,
+    "longitude": 121.41266179015565,
+    "shortName": "田林宾馆",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.6
+  },
+  {
+    "name": "上海吉祥酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 398,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/440529.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 440529,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.166851914579794,
+    "longitude": 121.36487049790055,
+    "shortName": "吉祥酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "上海隐居繁华雅集公馆",
+    "star": 5,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 1826,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1250785.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1250785,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.198386517359687,
+    "longitude": 121.43307006754348,
+    "shortName": "繁华雅集",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "桔子水晶酒店(上海漕河泾宜山路店)",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 427,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/4389401.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 4389401,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.16806875946265,
+    "longitude": 121.39538169426939,
+    "shortName": "桔子水晶",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.8
+  },
+  {
+    "name": "全季酒店(上海虹桥延安西路店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 341,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/5903313.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 5903313,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.183212822083327,
+    "longitude": 121.36703353514446,
+    "shortName": "全季酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.6
+  },
+  {
+    "name": "上海颐美庭园酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 368,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/484481.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 484481,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.174910674013933,
+    "longitude": 121.36275145893329,
+    "shortName": "颐美庭园",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.6
+  },
+  {
+    "name": "全季酒店(上海古北店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 360,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/450698.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 450698,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.175900959971734,
+    "longitude": 121.38249715733937,
+    "shortName": "全季酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.6
+  },
+  {
+    "name": "上海虹桥元一希尔顿酒店",
+    "star": 5,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 707,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/425587.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 425587,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.183652924762477,
+    "longitude": 121.38410141031203,
+    "shortName": "希尔顿",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "上海利园国际大酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 698,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/417503.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 417503,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.18803476691733,
+    "longitude": 121.44305584746535,
+    "shortName": "利园国际",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.2
+  },
+  {
+    "name": "上海富豪环球东亚酒店",
+    "star": 5,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 650,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/345046.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 345046,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.19732427953432,
+    "longitude": 121.4325518033597,
+    "shortName": "富豪环球",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "上海天禧嘉福璞缇客酒店",
+    "star": 5,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 676,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/374903.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 374903,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.177948928893695,
+    "longitude": 121.38447611216594,
+    "shortName": "天禧嘉福",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "上海徐家汇宜必思酒店",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 439,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/661069.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 661069,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.193096287853756,
+    "longitude": 121.41738073515499,
+    "shortName": "宜必思",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "上海衡山宾馆",
+    "star": 5,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 600,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/425179.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 425179,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.195231326645054,
+    "longitude": 121.43202172373461,
+    "shortName": "衡山宾馆",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "上海千禧海鸥大酒店",
+    "star": 5,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 816,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/387241.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 387241,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.193189473630913,
+    "longitude": 121.38384109295086,
+    "shortName": "千禧",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.2
+  },
+  {
+    "name": "上海斯波特大酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 462,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/434658.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 434658,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.18476767782586,
+    "longitude": 121.4245407588492,
+    "shortName": "斯波特",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "上海帝璟丽致大酒店",
+    "star": 5,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 560,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/427259.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 427259,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.16574666936523,
+    "longitude": 121.36133509226032,
+    "shortName": "帝璟丽致",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "上海天平宾馆",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 478,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/375223.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 375223,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.1927507393901,
+    "longitude": 121.42897333725266,
+    "shortName": "天平宾馆",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "上海安亭别墅酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 626,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/393109.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 393109,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.198250241800093,
+    "longitude": 121.43628511522532,
+    "shortName": "安亭别墅",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.2
+  },
+  {
+    "name": "上海哈一顿大酒店",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 429,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/662464.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 662464,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.184615506843507,
+    "longitude": 121.38580982424779,
+    "shortName": "哈一顿",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "上海虹桥锦江大酒店",
+    "star": 5,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 750,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/345823.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 345823,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.199658296885822,
+    "longitude": 121.39434224844679,
+    "shortName": "锦江大酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "上海光大会展中心国际大酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 438,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/345048.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 345048,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.16331568139974,
+    "longitude": 121.41816930564435,
+    "shortName": "国际大酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8
+  },
+  {
+    "name": "上海西藏大厦万怡酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 810,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/386581.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 386581,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.188290916267558,
+    "longitude": 121.42367657600444,
+    "shortName": "万怡",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "上海虹桥雅高美爵酒店",
+    "star": 5,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 615,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/345044.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 345044,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.202383343357766,
+    "longitude": 121.38534075159633,
+    "shortName": "美爵",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "上海虹桥嘉廷酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 412,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/436152.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 436152,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.206179023272263,
+    "longitude": 121.3957588660611,
+    "shortName": "虹桥嘉廷",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "宿适轻奢酒店(上海延安西路店)(原中山公园店)",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 268,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6082325.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 6082325,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.20278162102479,
+    "longitude": 121.41271425380714,
+    "shortName": "宿适轻奢",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.2
+  },
+  {
+    "name": "上海虹桥漕河泾美居酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 493,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/7937525.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 7937525,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.15236799486427,
+    "longitude": 121.36580033609525,
+    "shortName": "美居酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.6
+  },
+  {
+    "name": "上海富豪东亚酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 399,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/344988.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 344988,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.177167439938366,
+    "longitude": 121.43108869306172,
+    "shortName": "富豪东亚",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "锦江之星品尚(上海新虹桥店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 295,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/450855.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 450855,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.18251563745413,
+    "longitude": 121.40280575818171,
+    "shortName": "锦江之星品尚",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "全季酒店(上海万体馆店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 391,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1741924.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1741924,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.167050807930682,
+    "longitude": 121.42358818327868,
+    "shortName": "全季酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "上海新东苑国际酒店式公寓",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 518,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/447716.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 447716,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.165255802207525,
+    "longitude": 121.36168128225569,
+    "shortName": "新东苑",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "上海中环漕宝路和颐酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 341,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6485297.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 6485297,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.156212501128284,
+    "longitude": 121.38656852138996,
+    "shortName": "",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.6
+  },
+  {
+    "name": "虹桥郁锦香宾馆(原虹桥宾馆)",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 865,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/396376.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 396376,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.19998095427332,
+    "longitude": 121.39902916583029,
+    "shortName": "虹桥郁锦香",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "上海新惠宾馆",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 228,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/438170.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 438170,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.173785018453444,
+    "longitude": 121.43474204923137,
+    "shortName": "新惠宾馆",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.6
+  },
+  {
+    "name": "上海亭枫商务酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 312,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1741267.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1741267,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.206636356598086,
+    "longitude": 121.41238030608156,
+    "shortName": "亭枫商务",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.6
+  },
+  {
+    "name": "浦江精选酒店(上海漕河泾虹梅路地铁站店)(原古美路旗舰店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 178,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/5464099.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 5464099,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.15651263229909,
+    "longitude": 121.3880772996101,
+    "shortName": "浦江精选",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "上海康柏苑大酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 528,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/439828.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 439828,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.194108708388743,
+    "longitude": 121.38407451345098,
+    "shortName": "康柏苑",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.6
+  },
+  {
+    "name": "全季酒店(上海徐家汇天钥桥路店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 427,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1686575.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1686575,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.16963834488815,
+    "longitude": 121.43746748503901,
+    "shortName": "全季酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.6
+  },
+  {
+    "name": "麗枫酒店(上海虹桥机场吴中路店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 298,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/3052795.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 3052795,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.17273116782528,
+    "longitude": 121.37487021969022,
+    "shortName": "麗枫酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "上海哈考特开伦酒店",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 208,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1249502.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1249502,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.2024503597639,
+    "longitude": 121.41583092203084,
+    "shortName": "哈考特开伦",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.4
+  },
+  {
+    "name": "如家(上海徐家汇八万人体育馆地铁站店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 218,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1569722.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1569722,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.1811372485966,
+    "longitude": 121.42531924191839,
+    "shortName": "如家快捷",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "上海新园华美达广场酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 688,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/375215.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 375215,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.159873521295918,
+    "longitude": 121.39443822239774,
+    "shortName": "华美达",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.2
+  },
+  {
+    "name": "上海园林格兰云天大酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 488,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/458825.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 458825,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.139658035059096,
+    "longitude": 121.43666846669012,
+    "shortName": "格兰云天",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "上海虹桥莱帝恩世酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 383,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/433934.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 433934,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.174510094995817,
+    "longitude": 121.36338596566382,
+    "shortName": "莱帝恩",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.4
+  },
+  {
+    "name": "上海漕河泾万丽酒店",
+    "star": 5,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 650,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/374905.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 374905,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.161485987644355,
+    "longitude": 121.38587001284799,
+    "shortName": "万丽酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "维也纳国际酒店(上海虹桥国展中心漕宝路店)(原虹桥机场会展中心漕宝路店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 400,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/452671.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 452671,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.15286032258068,
+    "longitude": 121.36752186787584,
+    "shortName": "维也纳",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.6
+  },
+  {
+    "name": "上海俊龙宾馆南站店",
+    "star": 0,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 183,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6419400.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 6419400,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.152399168902157,
+    "longitude": 121.43964926076124,
+    "shortName": "俊龙南站店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "未来域公寓(上海宜山路店)",
+    "star": 0,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 156,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/4984339.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 4984339,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.173168218051973,
+    "longitude": 121.40934095924517,
+    "shortName": "",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "7天(上海漕宝路地铁站店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 283,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/2148229.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 2148229,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.165518781053517,
+    "longitude": 121.423358913905,
+    "shortName": "7天",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.2
+  },
+  {
+    "name": "锦江之星(上海徐家汇天钥桥路店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 229,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/668861.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 668861,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.17796545028164,
+    "longitude": 121.43333553709753,
+    "shortName": "锦江之星",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "悦圆精品酒店(上海复旦儿科医院七宝古镇店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 327,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1412413.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1412413,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.134691308356736,
+    "longitude": 121.37388211464078,
+    "shortName": "悦圆精品",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.6
+  },
+  {
+    "name": "汉庭(上海漕河泾宜山路店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 219,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/2313340.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 2313340,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.16486330509291,
+    "longitude": 121.37885677289704,
+    "shortName": "汉庭酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "上海领尚国际酒店公寓",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 296,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/447334.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 447334,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.187995766408637,
+    "longitude": 121.40329111788358,
+    "shortName": "领尚国际",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "未来域公寓(上海万体馆店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 289,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/7742840.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 7742840,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.170503330360884,
+    "longitude": 121.42129185704427,
+    "shortName": "未来域",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.2
+  },
+  {
+    "name": "上海天山广场凯悦嘉轩酒店",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 791,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/15726737.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 15726737,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.205009066683516,
+    "longitude": 121.39715814621151,
+    "shortName": "凯悦嘉轩",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.6
+  },
+  {
+    "name": "上海泽恺逸主题酒店",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 203,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/2323643.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 2323643,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.20576913805884,
+    "longitude": 121.41854893364666,
+    "shortName": "泽恺逸主题",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.6
+  },
+  {
+    "name": "精途酒店(上海火车南站锦江乐园店)(原遨舍酒店江南美景店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 210,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/2987934.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 2987934,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.133402038652218,
+    "longitude": 121.39624907893462,
+    "shortName": "精途酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "上海三湘大厦",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 408,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/441351.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 441351,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.190044325848366,
+    "longitude": 121.4071043827533,
+    "shortName": "三湘大厦",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.4
+  },
+  {
+    "name": "上海WeHouse老洋房民宿",
+    "star": 0,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 596,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/5766953.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 5766953,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.198076024184743,
+    "longitude": 121.43523112640872,
+    "shortName": "WeHouse",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.2
+  },
+  {
+    "name": "汉庭(上海虹漕南路上师大酒店)(原艾星时尚旅店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 322,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/835553.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 835553,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.15588738697868,
+    "longitude": 121.40258533650328,
+    "shortName": "汉庭酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.6
+  },
+  {
+    "name": "上海外滩花园酒店新华花园",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 696,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1715153.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1715153,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.197813331110115,
+    "longitude": 121.41768534326434,
+    "shortName": "外滩花园",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "锦江都城酒店(上海徐家汇南华亭宾馆)(原南华亭酒店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 448,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/396373.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 396373,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.176671497629098,
+    "longitude": 121.42362238073763,
+    "shortName": "锦江都城",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.8
+  },
+  {
+    "name": "上海龙享湾精品酒店",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 268,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/768002.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 768002,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.153968210834364,
+    "longitude": 121.38920458194447,
+    "shortName": "龙享湾精品",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "素柏·云酒店(上海吴中路古北路店)",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 246,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/8578446.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 8578446,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.181662163500683,
+    "longitude": 121.39365668725897,
+    "shortName": "素柏云",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "上海帝景苑酒店公寓",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 438,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/444025.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 444025,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.19097314412291,
+    "longitude": 121.43219042796859,
+    "shortName": "帝景苑",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "上海联艺凯文公寓",
+    "star": 4,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 756,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/437919.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 437919,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.196229372745634,
+    "longitude": 121.43282376586845,
+    "shortName": "联艺凯文",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "今晨精品酒店(上海光大会展中心店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 279,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/743817.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 743817,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.16811521983256,
+    "longitude": 121.41297260403655,
+    "shortName": "今晨精品",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.2
+  },
+  {
+    "name": "莫泰168(上海徐家汇八万人体育场天钥桥路店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 256,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/427810.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 427810,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.174589820159227,
+    "longitude": 121.43415568065504,
+    "shortName": "莫泰168",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "如家(上海徐家汇八万人体育场天钥桥路店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 256,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1569731.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1569731,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.174695530520612,
+    "longitude": 121.43475386796469,
+    "shortName": "如家快捷",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "维也纳智好酒店(上海虹桥机场吴中路店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 331,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/4602031.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 4602031,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.17547403299213,
+    "longitude": 121.3762783212315,
+    "shortName": "维也纳",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "上海技贸宾馆",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 378,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1329491.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1329491,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.18246074830416,
+    "longitude": 121.41236612997622,
+    "shortName": "技贸宾馆",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.6
+  },
+  {
+    "name": "维也纳酒店(上海虹桥机场南方商城九星店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 367,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/932304.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 932304,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.139018846583646,
+    "longitude": 121.37513031785912,
+    "shortName": "维也纳",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  },
+  {
+    "name": "宜必思酒店(上海虹桥古北店)(原吴中路店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 259,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/5559675.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 5559675,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.18108966963936,
+    "longitude": 121.39726489936598,
+    "shortName": "宜必思",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "汉庭(上海万体馆南店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 284,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/736448.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 736448,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.169438119268364,
+    "longitude": 121.43544988993975,
+    "shortName": "汉庭酒店",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.6
+  },
+  {
+    "name": "锦江都城酒店(上海虹桥机场吴中路店)",
+    "star": 3,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 271,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/12603706.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 12603706,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.174833206739056,
+    "longitude": 121.37576990776263,
+    "shortName": "锦江都城",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.6
+  },
+  {
+    "name": "莫泰168(上海龙吴路店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 218,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/1211622.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 1211622,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.13084614618196,
+    "longitude": 121.4415838033769,
+    "shortName": "莫泰168",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8
+  },
+  {
+    "name": "如家(上海虹桥古北店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 169,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/436431.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 436431,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.17718737581346,
+    "longitude": 121.3812046185704,
+    "shortName": "如家快捷",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.4
+  },
+  {
+    "name": "上海徐家汇禧玥酒店",
+    "star": 5,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 934,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/15018492.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 15018492,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.18253431648058,
+    "longitude": 121.42206171865385,
+    "shortName": "禧玥",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.6
+  },
+  {
+    "name": "上海三只小熊青年旅舍",
+    "star": 0,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 71,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/6407439.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 6407439,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.16600265818392,
+    "longitude": 121.42453077034746,
+    "shortName": "上海三只小熊青年旅舍",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.2
+  },
+  {
+    "name": "海友良品酒店(上海徐家汇龙华路酒店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 294,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/5565693.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 5565693,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.174353087323944,
+    "longitude": 121.44083409881897,
+    "shortName": "海友良品",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.8
+  },
+  {
+    "name": "城家公寓(上海新虹桥虹中路店)",
+    "star": 2,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 303,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/7528371.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 7528371,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.177715248049296,
+    "longitude": 121.37053301376655,
+    "shortName": "城家公寓",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 8.4
+  },
+  {
+    "name": "上海万豪虹桥大酒店",
+    "star": 5,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 1716,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/429152.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 429152,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.187717951207844,
+    "longitude": 121.36439007967752,
+    "shortName": "万豪虹桥",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9
+  },
+  {
+    "name": "上海中星铂尔曼大酒店",
+    "star": 5,
+    "agents": [
+      {
+        "name": "ctrip",
+        "price": 831,
+        "bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/706587.html?daylater=3&days=1&contrl=0&pay=0&latlon=#fromList",
+        "deeplinkData": {
+          "type": "domestic",
+          "hotelId": 706587,
+          "checkInDate": "2018-03-11",
+          "checkOutDate": "2018-03-12"
+        }
+      }
+    ],
+    "latitude": 31.154760658341036,
+    "longitude": 121.41803108300125,
+    "shortName": "中星铂尔曼",
+    "checkInDate": "2018-03-11",
+    "checkOutDate": "2018-03-12",
+    "commentScore": 9.4
+  }
+]

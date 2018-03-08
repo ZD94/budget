@@ -2,16 +2,15 @@
  * Created by wlh on 2018/3/8.
  */
 'use strict';
-import assert = require("assert");
-import TicketDepartTimePrefer = require('../../../../model/budget/prefer/ticket-departtime');
+import assert = require("assert")
 const trafficData = require("./traffic-data.json");
+import TicketRunningTimePrefer = require("../../../../model/budget/prefer/ticket-runningTimePrefer")
 
-describe("ticket-departtime", async () => {
-
-    const prefer = new TicketDepartTimePrefer('ticketDepartTime', {});
+describe("ticket-runningTimePrefer", async () => {
+    const prefer = new TicketRunningTimePrefer("ticket-runningTimePrefer", {});
 
     it("用例1 should be ok", async () => {
-        //#todo 完善用例1
+
     })
 
     it("用例2 should be ok", async()=> {
@@ -24,4 +23,4 @@ describe("ticket-departtime", async () => {
             //#todo 完善${item}
         })
     })
-})
+});

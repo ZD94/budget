@@ -3,12 +3,27 @@
  */
 'use strict';
 import assert = require("assert")
-import TicketArrivalTime = require("../../../../model/budget/prefer/ticket-arrivaltime")
+const trafficData = require("./traffic-data.json");
+import TicketArrivalTimePrefer = require("../../../../model/budget/prefer/ticket-arrivaltime")
 
 describe("ticket-arrivaltime", async () => {
-    const prefer = new TicketArrivalTime("ticketArrivalTime", {})
+    const prefer = new TicketArrivalTimePrefer("ticketArrivalTime", {});
 
     it("用例1 should be ok", async () => {
+        for(let item of trafficData){
+          let a = prefer.markScoreProcess(item)
+            console.log(a,"<======a")
+        }
+    })
 
+    it("用例2 should be ok", async()=> {
+        //#todo  完善用例2
+    })
+
+    var items = [3, 4, 5, 6];
+    items.forEach( (item) => {
+        it(`用例${item} should be ok`, async() => {
+            //#todo 完善${item}
+        })
     })
 });

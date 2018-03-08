@@ -20,3 +20,9 @@ export interface IFinalHotel {
     outPriceRange: boolean;
     commentScore?: number;
 }
+export enum EHotelStar {
+    FIVE = 5,
+    FOUR = 4,
+    THREE = 3,
+    TOW = 2,
+}

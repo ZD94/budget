@@ -4,29 +4,10 @@
 
 'use strict';
 import _ = require("lodash");
-import Logger from '@jingli/logger';
+// import Logger from '@jingli/logger';
 import moment = require("moment");
-let logger = new Logger('travel-budget');
-export interface IPrefer<T> {
-    markScore(tickets: T[]): Promise<T[]>;
-}
-
-export abstract class AbstractPrefer<T> implements IPrefer<T> {
-    constructor(public name: string, options: any) {
-        if (options) {
-            for (let k in options) {
-                this[k] = options[k];
-            }
-        }
-    }
-    abstract async markScoreProcess(data: T[]): Promise<T[]>;
-    async markScore(data: T[]): Promise<T[]> {
-        // logger.info(`. BEGIN ${this.name}`);
-        let ret = await this.markScoreProcess(data);
-        // logger.info(`. END ${this.name}`);
-        return ret;
-    }
-}
+// let logger = new Logger('travel-budget');
+export {IPrefer, AbstractPrefer} from './AbstractPrefer';
 
 export enum DEFAULT_PREFER_CONFIG_TYPE {
     ABROAD_TRAFFIC = 1,

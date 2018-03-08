@@ -101,8 +101,11 @@ export class TmcSupplierMethod {
     }
 
     async getTmcTypes(params): Promise<any> {
-        let {companyId, sname} = params;
+        let {companyId, sname, type, status} = params;
         let data;
+        let where;
+        let typeNum: number = Number(type);
+        let statusNum: number = Number(status);
         if (sname) {
                 let tmcType = await Models.tmcTypes.find({
                     where: {
@@ -110,11 +113,33 @@ export class TmcSupplierMethod {
                     }
                 });
                 if (!tmcType["0"]) throw L.ERR.ERROR_CODE_C(500,"供应商不存在");
-                let tmcSupplier = await Models.tmcSupplier.all({
-                    where: {
+                if (type && status) {
+                    where = {
+                        company_id: companyId,
+                        tmc_type_id: tmcType["0"]["id"],
+                        type: typeNum,
+                        status: statusNum
+                    }
+                } else if (type) {
+                    where = {
+                        company_id: companyId,
+                        tmc_type_id: tmcType["0"]["id"],
+                        type: typeNum
+                    }
+                } else if (status) {
+                    where = {
+                        company_id: companyId,
+                        tmc_type_id: tmcType["0"]["id"], 
+                        status: statusNum
+                    }
+                } else {
+                    where = {
                         company_id: companyId,
                         tmc_type_id: tmcType["0"]["id"]
                     }
+                }
+                let tmcSupplier = await Models.tmcSupplier.all({
+                    where: where
                 });
                 if (tmcSupplier && tmcSupplier.length != 0) {
                     let newTmcSupplier = tmcSupplier.map(async function (item) {
@@ -130,10 +155,29 @@ export class TmcSupplierMethod {
                 return data
         }
 
-        let tmcSupplier = await Models.tmcSupplier.all({
-            where: {
+        if (type && status) {
+            where = {
+                company_id: companyId,
+                type: typeNum,
+                status: statusNum
+            }
+        } else if (type) {
+            where = {
+                company_id: companyId,
+                type: typeNum
+            }
+        } else if (status) {
+            where = {
+                company_id: companyId,
+                status: statusNum
+            }
+        } else {
+            where = {
                 company_id: companyId,
             }
+        }
+        let tmcSupplier = await Models.tmcSupplier.all({
+            where: where
         });
         if (!tmcSupplier || tmcSupplier.length == 0) {
             throw new L.ERROR_CODE_C(500,"供应商不存在")

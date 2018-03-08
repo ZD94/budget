@@ -104,8 +104,8 @@ export class TmcSupplierMethod {
         let {companyId, sname, type, status} = params;
         let data;
         let where;
-        let typeStr: String = String(type);
-        let statusStr: String= String(status);
+        let typeStr = type ? type.toString() : '';
+        let statusStr = status ? status.toString() : '';
         if (sname) {
                 let tmcType = await Models.tmcTypes.find({
                     where: {

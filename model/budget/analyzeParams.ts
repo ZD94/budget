@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-11-24 17:06:38 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-02-06 19:34:40
+ * @Last Modified time: 2018-03-08 15:45:32
  * @content analyze the budgets request . */
 
 import * as uuid from "uuid";
@@ -18,6 +18,9 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
     let originParams = budgetOrder.originParams;
     let destinations = originParams.destinationPlacesInfo;
     let company = await Models.company.get(budgetOrder.companyId);
+    if (!company) {
+        throw new Error("系统中没有找到这个公司");
+    }
 
     destinations.map((destination, index) => {
         /* deal traffic budget params. 不处理最后返程 */

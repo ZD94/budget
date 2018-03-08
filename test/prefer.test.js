@@ -5,4 +5,6 @@
 
 require("ts-node").register({fast: true});
 
-require('./model/budget/prefer/hotel-blacklist.test.ts');
+// require('./model/budget/prefer/hotel-blacklist.test.ts');
+// require('./model/budget/prefer/ticket-arrivaltime.test.ts')
+require('./model/budget/prefer/ticket-departtime.test.ts')

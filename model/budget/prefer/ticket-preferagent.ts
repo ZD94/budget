@@ -4,7 +4,7 @@
 
 'use strict';
 
-import {IFinalTicket} from '_types/budget';
+import {IFinalTicket} from './interface';
 import {AbstractPrefer} from "./index";
 
 class AgentPrefer extends AbstractPrefer<IFinalTicket> {

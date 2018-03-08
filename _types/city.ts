@@ -36,6 +36,7 @@ export enum PlaceType {
     TRAIN = "RSTN"
 
 }
+
 export class CityService {
 
     static async getCity(id): Promise<ICity> {

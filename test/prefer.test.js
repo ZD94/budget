@@ -14,4 +14,4 @@ require("ts-node").register({fast: true});
 // require('model/budget/prefer/ticket-departStandardTimePrefer.test')
 
 require('./model/budget/prefer/hotel-blacklist.test');
-// require('./model/budget/prefer/ticket-refusedPlane.test');
+require('./model/budget/prefer/ticket-refusedPlane.test');

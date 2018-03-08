@@ -10,6 +10,8 @@ const config = require("@jingli/config");
 import L from '@jingli/language';
 import { restfulAPIUtil } from 'api/restful';
 import { CoordDispose, Degree } from "../libs/place/placeUtil";
+import {getCityInfo} from '@jingli/city';
+
 var DefaultRegionId = {
     domestic: '1814991',  //表示中国
     abroad: '1'          //表示最顶级-全球
@@ -42,28 +44,7 @@ export class CityService {
         if (id == 0) {
             id = 1;
         }
-        let city: ICity;
-        let uri = config.placeAPI + "/city/" + id;
-        let result: any = await restfulAPIUtil.proxyHttp({
-            uri,
-            method: 'GET'
-        });
-
-        if (result.code != 0) {
-            throw new Error("place服务地点不存在 : " + id);
-        }
-        city = <ICity>result.data;
-        //完善是否国外
-        city.isAbroad = !(city.countryCode == "CN");
-        //完善IATACODE
-        result = await restfulAPIUtil.proxyHttp({
-            uri: config.placeAPI + `/city/${id}/alternate/iatacode`,
-            method: 'GET'
-        });
-        if (result.code == 0 || result.code == 200) {
-            city.ctripCode = result.data.value;
-        }
-        return city;
+        return await getCityInfo(id) as ICity;
     }
 
     static async findCities(options): Promise<any> {

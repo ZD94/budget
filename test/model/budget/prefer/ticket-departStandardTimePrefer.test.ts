@@ -3,24 +3,35 @@
  */
 'use strict';
 import assert = require("assert")
-const trafficData = require("./traffic-data.json");
+
+const data = require("./traffic-data.json");
 import TicketDepartStandardTimePrefer = require("../../../../model/budget/prefer/ticket-departStandardTimePrefer")
 
 describe("ticket-ticketDepartStandardTimePrefer", async () => {
-    const prefer = new TicketDepartStandardTimePrefer("ticketDepartStandardTimePrefer", {});
-
-    it("用例1 should be ok", async () => {
-
-    })
-
-    it("用例2 should be ok", async()=> {
-        //#todo  完善用例2
-    })
-
-    var items = [3, 4, 5, 6];
-    items.forEach( (item) => {
-        it(`用例${item} should be ok`, async() => {
-            //#todo 完善${item}
+    before(function () {
+        data.map((item) => {
+            delete data.score
+            delete item.reasons
         })
+        const prefer = new TicketDepartStandardTimePrefer("ticketDepartStandardTimePrefer", {
+            score: 0,
+            begin:'2018-03-11T08:00:00.000Z',
+            end:'2018-03-11T10:15:00.000Z',
+            scoreInterval:1
+        })
+        prefer.markScoreProcess(data)
     })
+
+    it("第133条  出发时间符合出发基准时间  不打分 should be ok", async () => {
+        assert.equal(data[133].score,0)
+    })
+
+    it("第134条  出发时间早于出发基准时间计算值 465 should be ok",async()=>{
+        assert.equal(data[134].score,465)
+    })
+
+    it("第138条  出发时间早于出发基准时间计算值 100 should be ok",async()=>{
+        assert.equal(data[139].score,430)
+    })
+
 });

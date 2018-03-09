@@ -121,7 +121,7 @@ export class CityService {
 
     static async search(options: {keyword?: string}): Promise<any> {
         let { keyword } = options;
-        let cities = [];
+        if(!keyword) return null;
         const result = await restfulAPIUtil.proxyHttp({ uri: `${config.placeAPI}/city/search`, method: 'GET', qs: { keyword } })
         if(result.code != 0) return null;
         if(result.data && result.data instanceof Array) {

@@ -22,7 +22,7 @@ describe("ticket-transitCityInChina", async () => {
     });
     
     let result = await prefer.markScoreProcess(trafficData);
-    fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8');
+    // fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8');
 
     it("multi-trips-contain-one-in-china should be ok", async () => {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {

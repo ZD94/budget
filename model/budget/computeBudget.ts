@@ -94,7 +94,15 @@ export class ComputeBudget {
     }
 
     async getTrafficBudget(params, persons: number): Promise<ITrafficBudgetItem> {
-        let { originPlace: fromCity, destination: toCity, earliestGoBackDateTime: earliestDepartTime, latestArrivalDateTime: latestArrivalTime, prefer, data, staff } = params;
+        let {
+            originPlace: fromCity,
+            destination: toCity,
+            earliestGoBackDateTime: earliestDepartTime,
+            latestArrivalDateTime: latestArrivalTime,
+            prefer,
+            data,
+            staff
+        } = params;
 
         if (typeof fromCity == 'string') {
             fromCity = await CityService.getCity(fromCity);

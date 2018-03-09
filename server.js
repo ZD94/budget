@@ -21,6 +21,9 @@ if (config.debug) {
     Promise.config({ longStackTraces: false });
 }
 
+var city = require('@jingli/city');
+city.init({placeUrl: config.placeAPI + '/city'});
+
 var path = require('path');
 
 var Logger = require('@jingli/logger');

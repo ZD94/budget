@@ -12,7 +12,7 @@ const percent = 0.8;
 var result = null;
 var subResult;
 
-// const fs = require("fs")
+const fs = require("fs")
 // fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8');
 const cabins = [2,3];
 
@@ -29,7 +29,7 @@ describe("ticket-planeNumberPrefer", async () => {
             percent
         })
         result = await prefer.markScoreProcess(trafficData);
-        // fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8')
+        fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8')
     })
 
     it("数据长度 should be ok", async () => {
@@ -39,7 +39,7 @@ describe("ticket-planeNumberPrefer", async () => {
     it(`位置偏好以下 should be ok`, async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([17].indexOf(item.index) >= 0) {
-                assert.equal(item.score, 1065);
+                assert.equal(item.score, 1079);
             }
             if([189].indexOf(item.index) >= 0) {
                 assert.equal(item.score, 4984);
@@ -53,7 +53,7 @@ describe("ticket-planeNumberPrefer", async () => {
                 assert.equal(item.score, -4004);
             } 
             if([265].indexOf(item.index) >= 0) {
-                assert.equal(item.score, 2596);
+                assert.equal(item.score, 1892);
             } 
         }))
     })

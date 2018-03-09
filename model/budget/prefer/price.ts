@@ -84,7 +84,6 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel | IFinalTicket)> {
             midPrice = minPrice + (maxPrice - minPrice) * self.percent;
         }
 
-
         data = data.map((v: (IFinalHotel | IFinalTicket)) => {
             if (v['type'] == ETrafficType.TRAIN) {
                 return v;

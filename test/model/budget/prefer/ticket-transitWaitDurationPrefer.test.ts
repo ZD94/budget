@@ -5,7 +5,7 @@ import { IFinalTicket, ETrainSeat } from '../../../../model/budget/prefer/interf
 import {IFinalTicketTest} from "./ticket-refusedPlane.test"
 const trafficData = require("./traffic-data.json");
 
-const fs = require("fs")
+// const fs = require("fs")
 // fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8');
 
 const baseScore = 5000;
@@ -33,8 +33,6 @@ describe("ticket-transitWaitDurationPrefer", async () => {
             subScore
         });
         result = await prefer.markScoreProcess(trafficData);
-        // fs.writeFileSync("./file-duration.json", JSON.stringify(result), 'utf-8');
-    
     })
 
 
@@ -68,7 +66,7 @@ describe("ticket-transitWaitDurationPrefer", async () => {
         }));
     })
     //index=108, 等待时长为 685min
-    it(`中转等待时长超过最大偏好值${maxDuration}min should be ok should be ok`, async()=> {
+    it(`第108项 中转等待时长超过最大偏好值${maxDuration}min should be ok should be ok`, async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([108].indexOf(item.index) >= 0) {
                 assert.equal(item.score, 43500);
@@ -77,7 +75,7 @@ describe("ticket-transitWaitDurationPrefer", async () => {
     })
 
     //index=97, 等待时长为 55min
-    it(`中转等待时长小于最小偏好值${minDuration}min should be ok should be ok`, async()=> {
+    it(`第97项 中转等待时长小于最小偏好值${minDuration}min should be ok should be ok`, async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([97].indexOf(item.index) >= 0) {
                 assert.equal(item.score, 8500);
@@ -85,7 +83,7 @@ describe("ticket-transitWaitDurationPrefer", async () => {
         }));
     })
     //index=109, 等待时长为 175min
-    it(`中转等待时长满足偏好值范围${minDuration}-${maxDuration}min should be ok should be ok`, async()=> {
+    it(`第109项 中转等待时长满足偏好值范围${minDuration}-${maxDuration}min should be ok should be ok`, async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([109].indexOf(item.index) >= 0) {
                 assert.equal(item.score, 5000);

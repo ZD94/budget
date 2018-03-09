@@ -40,21 +40,21 @@ class PlaneNumberPrefer extends AbstractPrefer<IFinalTicket> {
             maxNumber = targetTickets.length-1;
             midNumber = minNumber + (maxNumber - minNumber) * self.percent;
         }else{
-            return targetTickets;
+            return tickets;
         }
-
+        
         tickets = tickets.map( (v, index) => {
             if (!v.score) v.score = 0;
             if (!v.reasons) v.reasons = [];
             if (self.cabins.indexOf(v.cabin) >= 0){
                 if (index < midNumber) {
                     var a = 1 - Math.pow((1 - (index - minNumber)/(midNumber - minNumber)),3);
-                    var addScore = self.score * a;
+                    var addScore = Math.round(self.score * a);
                     v.score += addScore;
                     v.reasons.push(`位置偏好以下 ${addScore}`)
                 }else if(index > midNumber){
                     var a = 1 - Math.pow((1 - (maxNumber - index)/(maxNumber - midNumber)),3);
-                    var addScore = self.score * a;
+                    var addScore = Math.round(self.score * a);
                     v.score += addScore;
                     v.reasons.push(`位置偏好以上 ${addScore}`)
                 }else if(index = midNumber){

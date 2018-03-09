@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-02-26 17:32:21 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-03-08 16:37:46
+ * @Last Modified time: 2018-03-09 16:10:53
  * @content 指定航空公司打分. */
 
 
@@ -17,7 +17,7 @@ function preferaircompany(data: IFinalTicket[], airCompanies: { name: string, co
 
         let result = false, target;
         for (let item of airCompanies) {
-            if (v['carry'] && v.type == ETrafficType.PLANE && item.code == v['carry']) {
+            if (v['carry'] && v.type == ETrafficType.PLANE && (item.name == v['carry'] || item.code == v['carry'])) {
                 result = true;
                 target = item;
                 break;

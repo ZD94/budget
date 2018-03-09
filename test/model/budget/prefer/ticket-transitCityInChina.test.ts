@@ -5,7 +5,7 @@ import { IFinalTicket, ETrainSeat } from '../../../../model/budget/prefer/interf
 import {IFinalTicketTest} from "./ticket-refusedPlane.test"
 const trafficData = require("./traffic-data.json");
 
-const fs = require("fs")
+// const fs = require("fs")
 // fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8');
 
 const baseScore = 5000;

@@ -10,7 +10,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -19,7 +21,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 0
+    "index": 0,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G13",
@@ -32,7 +38,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -41,7 +49,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 1
+    "index": 1,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G15",
@@ -54,7 +66,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -63,7 +77,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 2
+    "index": 2,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G11",
@@ -76,7 +94,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -85,7 +105,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 3
+    "index": 3,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G41",
@@ -98,7 +122,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -107,7 +133,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 4
+    "index": 4,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G119",
@@ -120,7 +150,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -129,7 +161,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 5
+    "index": 5,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G113",
@@ -142,7 +178,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -151,7 +189,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 6
+    "index": 6,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G127",
@@ -164,7 +206,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -173,7 +217,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 7
+    "index": 7,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G107",
@@ -186,7 +234,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -195,7 +245,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 8
+    "index": 8,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G123",
@@ -208,7 +262,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -217,7 +273,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 9
+    "index": 9,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G129",
@@ -230,7 +290,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -239,7 +301,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 10
+    "index": 10,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G125",
@@ -252,7 +318,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -261,7 +329,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 11
+    "index": 11,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G111",
@@ -274,7 +346,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -283,7 +357,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 12
+    "index": 12,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G115",
@@ -296,7 +374,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -305,7 +385,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 13
+    "index": 13,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G5",
@@ -318,7 +402,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -327,7 +413,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 14
+    "index": 14,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G105",
@@ -340,7 +430,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -349,7 +441,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 15
+    "index": 15,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G103",
@@ -362,7 +458,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -371,7 +469,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 16
+    "index": 16,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G101",
@@ -384,7 +486,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -393,7 +497,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 17
+    "index": 17,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5110",
@@ -452,7 +560,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 18
+    "index": 18,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5112",
@@ -511,7 +623,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 19
+    "index": 19,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5154",
@@ -570,7 +686,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 20
+    "index": 20,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9241",
@@ -629,7 +749,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 21
+    "index": 21,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9239",
@@ -688,7 +812,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 22
+    "index": 22,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU3516",
@@ -747,7 +875,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 23
+    "index": 23,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1531",
@@ -806,7 +938,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 24
+    "index": 24,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1519",
@@ -865,7 +1001,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 25
+    "index": 25,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5152",
@@ -924,7 +1064,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 26
+    "index": 26,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "3U3159",
@@ -983,7 +1127,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 27
+    "index": 27,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5114",
@@ -1042,7 +1190,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 28
+    "index": 28,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1557",
@@ -1101,7 +1253,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 29
+    "index": 29,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9243",
@@ -1160,7 +1316,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 30
+    "index": 30,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9669",
@@ -1219,7 +1379,11 @@
       "code": "PVG",
       "port": "T1"
     },
-    "index": 31
+    "index": 31,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9277",
@@ -1278,7 +1442,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 32
+    "index": 32,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ3951",
@@ -1337,7 +1505,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 33
+    "index": 33,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "Y87611",
@@ -1396,7 +1568,11 @@
       "code": "PVG",
       "port": "T2"
     },
-    "index": 34
+    "index": 34,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5116",
@@ -1455,7 +1631,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 35
+    "index": 35,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G109",
@@ -1468,7 +1648,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -1477,7 +1659,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 36
+    "index": 36,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G121",
@@ -1490,7 +1676,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -1499,7 +1687,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 37
+    "index": 37,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G117",
@@ -1512,7 +1704,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -1521,7 +1715,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 38
+    "index": 38,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA3202",
@@ -1580,7 +1778,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 39
+    "index": 39,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU3924",
@@ -1639,7 +1841,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 40
+    "index": 40,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU3841",
@@ -1698,7 +1904,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 41
+    "index": 41,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU3851",
@@ -1757,7 +1967,11 @@
       "code": "PVG",
       "port": "T1"
     },
-    "index": 42
+    "index": 42,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU3843",
@@ -1816,7 +2030,11 @@
       "code": "PVG",
       "port": "T1"
     },
-    "index": 43
+    "index": 43,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5108",
@@ -1875,7 +2093,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 44
+    "index": 44,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU563",
@@ -1934,7 +2156,11 @@
       "code": "PVG",
       "port": "T1"
     },
-    "index": 45
+    "index": 45,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5104",
@@ -1993,7 +2219,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 46
+    "index": 46,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU271",
@@ -2052,7 +2282,11 @@
       "code": "PVG",
       "port": "T1"
     },
-    "index": 47
+    "index": 47,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1517",
@@ -2111,7 +2345,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 48
+    "index": 48,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1515",
@@ -2170,7 +2408,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 49
+    "index": 49,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1557",
@@ -2229,7 +2471,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 50
+    "index": 50,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1501",
@@ -2288,7 +2534,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 51
+    "index": 51,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1531",
@@ -2347,7 +2597,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 52
+    "index": 52,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1519",
@@ -2406,7 +2660,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 53
+    "index": 53,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1517",
@@ -2465,7 +2723,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 54
+    "index": 54,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1515",
@@ -2524,7 +2786,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 55
+    "index": 55,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1521",
@@ -2583,7 +2849,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 56
+    "index": 56,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1521",
@@ -2642,7 +2912,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 57
+    "index": 57,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9249",
@@ -2701,7 +2975,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 58
+    "index": 58,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9247",
@@ -2760,7 +3038,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 59
+    "index": 59,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9237",
@@ -2819,7 +3101,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 60
+    "index": 60,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9245",
@@ -2878,7 +3164,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 61
+    "index": 61,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1831",
@@ -2937,7 +3227,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 62
+    "index": 62,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1831",
@@ -2996,7 +3290,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 63
+    "index": 63,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU9108",
@@ -3055,7 +3353,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 64
+    "index": 64,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "FM9108",
@@ -3114,7 +3416,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 65
+    "index": 65,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5106",
@@ -3173,7 +3479,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 66
+    "index": 66,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5693",
@@ -3232,7 +3542,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 67
+    "index": 67,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1501",
@@ -3291,7 +3605,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 68
+    "index": 68,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G3",
@@ -3304,7 +3622,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3313,7 +3633,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 69
+    "index": 69,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G1",
@@ -3326,7 +3650,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3335,7 +3661,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 70
+    "index": 70,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G13",
@@ -3348,7 +3678,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3357,7 +3689,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 71
+    "index": 71,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G15",
@@ -3370,7 +3706,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3379,7 +3717,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 72
+    "index": 72,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G11",
@@ -3392,7 +3734,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3401,7 +3745,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 73
+    "index": 73,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G133",
@@ -3414,7 +3762,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3423,7 +3773,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 74
+    "index": 74,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G135",
@@ -3436,7 +3790,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3445,7 +3801,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 75
+    "index": 75,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G41",
@@ -3458,7 +3818,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3467,7 +3829,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 76
+    "index": 76,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G119",
@@ -3480,7 +3846,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3489,7 +3857,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 77
+    "index": 77,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G113",
@@ -3502,7 +3874,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3511,7 +3885,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 78
+    "index": 78,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G127",
@@ -3524,7 +3902,9 @@
     "remainNum": 8,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3533,7 +3913,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 79
+    "index": 79,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G107",
@@ -3546,7 +3930,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3555,7 +3941,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 80
+    "index": 80,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G123",
@@ -3568,7 +3958,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3577,7 +3969,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 81
+    "index": 81,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G125",
@@ -3590,7 +3986,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3599,7 +3997,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 82
+    "index": 82,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G129",
@@ -3612,7 +4014,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3621,7 +4025,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 83
+    "index": 83,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G111",
@@ -3634,7 +4042,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3643,7 +4053,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 84
+    "index": 84,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G115",
@@ -3656,7 +4070,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3665,7 +4081,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 85
+    "index": 85,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G17",
@@ -3678,7 +4098,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3687,7 +4109,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 86
+    "index": 86,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G5",
@@ -3700,7 +4126,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3709,7 +4137,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 87
+    "index": 87,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G137",
@@ -3722,7 +4154,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3731,7 +4165,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 88
+    "index": 88,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G43",
@@ -3744,7 +4182,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3753,7 +4193,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 89
+    "index": 89,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G105",
@@ -3766,7 +4210,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3775,7 +4221,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 90
+    "index": 90,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G141",
@@ -3788,7 +4238,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3797,7 +4249,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 91
+    "index": 91,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G21",
@@ -3810,7 +4266,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3819,7 +4277,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 92
+    "index": 92,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G143",
@@ -3832,7 +4294,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3841,7 +4305,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 93
+    "index": 93,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1831",
@@ -3900,7 +4368,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 94
+    "index": 94,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G103",
@@ -3913,7 +4385,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3922,7 +4396,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 95
+    "index": 95,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G101",
@@ -3935,7 +4413,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -3944,7 +4424,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 96
+    "index": 96,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA155",
@@ -3962,9 +4446,9 @@
           "series": "738"
         },
         "arriAirport": {
-          "city": "上海",
-          "code": "SHA",
-          "name": "浦东",
+          "city": "成都",
+          "code": "CTU",
+          "name": "双流",
           "bname": "T2"
         },
         "deptAirport": {
@@ -3973,8 +4457,35 @@
           "name": "首都",
           "bname": "T3"
         },
-        "arriDateTime": "2018-03-11T01:30:00.000Z",
+        "arriDateTime": "2018-03-11T04:30:00.000Z",
         "deptDateTime": "2018-03-10T23:15:00.000Z"
+      },
+      {
+        "base": {
+          "flgno": "CA154",
+          "aircode": "CA",
+          "ishared": false,
+          "airsname": "国航"
+        },
+        "craft": {
+          "kind": "中",
+          "name": "波音",
+          "series": "738"
+        },
+        "arriAirport": {
+          "city": "上海",
+          "code": "SHA",
+          "name": "浦东",
+          "bname": "T2"
+        },
+        "deptAirport": {
+          "city": "成都",
+          "code": "CTU",
+          "name": "双流",
+          "bname": "T1"
+        },
+        "arriDateTime": "2018-03-11T011:30:00.000Z",
+        "deptDateTime": "2018-03-11T05:35:00.000Z"
       }
     ],
     "type": 1,
@@ -3983,7 +4494,7 @@
     "carry": "国航",
     "price": 550,
     "bookUrl": "http://m.ctrip.com/html5/flight/swift/domestic/BJS/SHA/2018-03-11",
-    "duration": 135,
+    "duration": 735,
     "destination": "1796231",
     "originPlace": "2038349",
     "deeplinkData": {
@@ -3998,12 +4509,16 @@
       "port": "T3"
     },
     "departDateTime": "2018-03-10T23:15:00.000Z",
-    "arrivalDateTime": "2018-03-11T01:30:00.000Z",
+    "arrivalDateTime": "2018-03-11T11:30:00.000Z",
     "destinationStation": {
       "code": "PVG",
       "port": "T2"
     },
-    "index": 97
+    "index": 97,
+    "score": 8500,
+    "reasons": [
+      "中转等待时长打分8500"
+    ]
   },
   {
     "No": "G115",
@@ -4016,7 +4531,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4025,7 +4542,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 98
+    "index": 98,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G149",
@@ -4038,7 +4559,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4047,7 +4570,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 99
+    "index": 99,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G23",
@@ -4060,7 +4587,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4069,7 +4598,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 100
+    "index": 100,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G151",
@@ -4082,7 +4615,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4091,7 +4626,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 101
+    "index": 101,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G153",
@@ -4104,7 +4643,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4113,7 +4654,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 102
+    "index": 102,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G7",
@@ -4126,7 +4671,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4135,7 +4682,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 103
+    "index": 103,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G155",
@@ -4148,7 +4699,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4157,7 +4710,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 104
+    "index": 104,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G9",
@@ -4170,7 +4727,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4179,7 +4738,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 105
+    "index": 105,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G157",
@@ -4192,7 +4755,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4201,7 +4766,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 106
+    "index": 106,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G159",
@@ -4214,7 +4783,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4223,7 +4794,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 107
+    "index": 107,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1531",
@@ -4241,9 +4816,9 @@
           "series": "789"
         },
         "arriAirport": {
-          "city": "上海",
-          "code": "SHA",
-          "name": "虹桥",
+          "city": "成都",
+          "code": "CTU",
+          "name": "双流",
           "bname": "T2"
         },
         "deptAirport": {
@@ -4252,8 +4827,35 @@
           "name": "首都",
           "bname": "T3"
         },
-        "arriDateTime": "2018-03-11T04:35:00.000Z",
+        "arriDateTime": "2018-03-11T07:35:00.000Z",
         "deptDateTime": "2018-03-11T02:30:00.000Z"
+      },
+      {
+        "base": {
+          "flgno": "CA1532",
+          "aircode": "CA",
+          "ishared": false,
+          "airsname": "国航"
+        },
+        "craft": {
+          "kind": "大",
+          "name": "波音",
+          "series": "789"
+        },
+        "arriAirport": {
+          "city": "上海",
+          "code": "SHA",
+          "name": "虹桥",
+          "bname": "T2"
+        },
+        "deptAirport": {
+          "city": "成都",
+          "code": "CTU",
+          "name": "成都",
+          "bname": "T1"
+        },
+        "arriDateTime": "2018-03-11T22:35:00.000Z",
+        "deptDateTime": "2018-03-11T19:00:00.000Z"
       }
     ],
     "type": 1,
@@ -4262,7 +4864,7 @@
     "carry": "国航",
     "price": 1660,
     "bookUrl": "http://m.ctrip.com/html5/flight/swift/domestic/BJS/SHA/2018-03-11",
-    "duration": 125,
+    "duration": 1200,
     "destination": "1796231",
     "originPlace": "2038349",
     "deeplinkData": {
@@ -4277,16 +4879,47 @@
       "port": "T3"
     },
     "departDateTime": "2018-03-11T02:30:00.000Z",
-    "arrivalDateTime": "2018-03-11T04:35:00.000Z",
+    "arrivalDateTime": "2018-03-11T22:35:00.000Z",
     "destinationStation": {
       "code": "SHA",
       "port": "T2"
     },
-    "index": 108
+    "index": 108,
+    "score": 5000,
+    "reasons": [
+      "中转等待时长打分5000"
+    ]
   },
   {
     "No": "CA1519",
     "segs": [
+      {
+        "base": {
+          "flgno": "CA1519",
+          "aircode": "CA",
+          "ishared": false,
+          "airsname": "国航"
+        },
+        "craft": {
+          "kind": "大",
+          "name": "波音",
+          "series": "789"
+        },
+        "arriAirport": {
+          "city": "合肥",
+          "code": "HFE",
+          "name": "新桥",
+          "bname": "T2"
+        },
+        "deptAirport": {
+          "city": "北京",
+          "code": "BJS",
+          "name": "首都",
+          "bname": "T3"
+        },
+        "arriDateTime": "2018-03-11T03:35:00.000Z",
+        "deptDateTime": "2018-03-11T01:30:00.000Z"
+      },
       {
         "base": {
           "flgno": "CA1519",
@@ -4306,13 +4939,13 @@
           "bname": "T2"
         },
         "deptAirport": {
-          "city": "北京",
-          "code": "BJS",
-          "name": "首都",
-          "bname": "T3"
+          "city": "合肥",
+          "code": "HFE",
+          "name": "新桥",
+          "bname": "T2"
         },
-        "arriDateTime": "2018-03-11T03:35:00.000Z",
-        "deptDateTime": "2018-03-11T01:30:00.000Z"
+        "arriDateTime": "2018-03-11T07:35:00.000Z",
+        "deptDateTime": "2018-03-11T06:30:00.000Z"
       }
     ],
     "type": 1,
@@ -4321,7 +4954,7 @@
     "carry": "国航",
     "price": 1660,
     "bookUrl": "http://m.ctrip.com/html5/flight/swift/domestic/BJS/SHA/2018-03-11",
-    "duration": 125,
+    "duration": 360,
     "destination": "1796231",
     "originPlace": "2038349",
     "deeplinkData": {
@@ -4336,12 +4969,16 @@
       "port": "T3"
     },
     "departDateTime": "2018-03-11T01:30:00.000Z",
-    "arrivalDateTime": "2018-03-11T03:35:00.000Z",
+    "arrivalDateTime": "2018-03-11T07:35:00.000Z",
     "destinationStation": {
       "code": "SHA",
       "port": "T2"
     },
-    "index": 109
+    "index": 109,
+    "score": 5000,
+    "reasons": [
+      "中转等待时长打分5000"
+    ]
   },
   {
     "No": "CA1557",
@@ -4400,7 +5037,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 110
+    "index": 110,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5110",
@@ -4459,7 +5100,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 111
+    "index": 111,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5152",
@@ -4518,7 +5163,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 112
+    "index": 112,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5154",
@@ -4577,7 +5226,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 113
+    "index": 113,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5183",
@@ -4636,7 +5289,11 @@
       "code": "PVG",
       "port": "T1"
     },
-    "index": 114
+    "index": 114,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G13",
@@ -4649,7 +5306,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4658,7 +5317,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 115
+    "index": 115,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G1",
@@ -4671,7 +5334,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4680,7 +5345,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 116
+    "index": 116,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G15",
@@ -4693,7 +5362,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4702,7 +5373,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 117
+    "index": 117,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G11",
@@ -4715,7 +5390,9 @@
     "remainNum": 17,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4724,7 +5401,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 118
+    "index": 118,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G41",
@@ -4737,7 +5418,9 @@
     "remainNum": 12,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4746,7 +5429,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 119
+    "index": 119,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G119",
@@ -4759,7 +5446,9 @@
     "remainNum": 6,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4768,7 +5457,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 120
+    "index": 120,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G113",
@@ -4781,7 +5474,9 @@
     "remainNum": 17,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4790,7 +5485,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 121
+    "index": 121,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G127",
@@ -4803,7 +5502,9 @@
     "remainNum": 12,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4812,7 +5513,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 122
+    "index": 122,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G107",
@@ -4825,7 +5530,9 @@
     "remainNum": 13,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4834,7 +5541,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 123
+    "index": 123,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G123",
@@ -4847,7 +5558,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4856,7 +5569,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 124
+    "index": 124,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G129",
@@ -4869,7 +5586,9 @@
     "remainNum": 2,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4878,7 +5597,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 125
+    "index": 125,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G125",
@@ -4891,7 +5614,9 @@
     "remainNum": 3,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4900,7 +5625,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 126
+    "index": 126,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G111",
@@ -4913,7 +5642,9 @@
     "remainNum": 8,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4922,7 +5653,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 127
+    "index": 127,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G115",
@@ -4935,7 +5670,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4944,7 +5681,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 128
+    "index": 128,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G5",
@@ -4957,7 +5698,9 @@
     "remainNum": 1,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4966,7 +5709,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 129
+    "index": 129,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G105",
@@ -4979,7 +5726,9 @@
     "remainNum": 14,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -4988,7 +5737,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 130
+    "index": 130,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G103",
@@ -5001,7 +5754,9 @@
     "remainNum": 12,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -5010,7 +5765,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 131
+    "index": 131,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G101",
@@ -5023,7 +5782,9 @@
     "remainNum": 18,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -5032,7 +5793,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 132
+    "index": 132,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5118",
@@ -5091,7 +5856,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 133
+    "index": 133,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G109",
@@ -5104,7 +5873,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -5113,7 +5884,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 134
+    "index": 134,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G121",
@@ -5126,7 +5901,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -5135,7 +5912,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 135
+    "index": 135,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G117",
@@ -5148,7 +5929,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -5157,7 +5940,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 136
+    "index": 136,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ3907",
@@ -5216,7 +6003,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 137
+    "index": 137,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5122",
@@ -5275,7 +6066,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 138
+    "index": 138,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "3U3157",
@@ -5334,7 +6129,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 139
+    "index": 139,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU3494",
@@ -5393,7 +6192,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 140
+    "index": 140,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5156",
@@ -5452,7 +6255,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 141
+    "index": 141,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "KN5977",
@@ -5511,7 +6318,11 @@
       "code": "PVG",
       "port": "T1"
     },
-    "index": 142
+    "index": 142,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G145",
@@ -5524,7 +6335,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -5533,7 +6346,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 143
+    "index": 143,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5124",
@@ -5592,7 +6409,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 144
+    "index": 144,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G147",
@@ -5605,7 +6426,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -5614,7 +6437,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 145
+    "index": 145,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5120",
@@ -5673,7 +6500,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 146
+    "index": 146,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5126",
@@ -5732,7 +6563,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 147
+    "index": 147,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "FM9106",
@@ -5791,7 +6626,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 148
+    "index": 148,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "KN5955",
@@ -5850,7 +6689,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 149
+    "index": 149,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "KN5981",
@@ -5909,7 +6752,11 @@
       "code": "PVG",
       "port": "T1"
     },
-    "index": 150
+    "index": 150,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5128",
@@ -5968,7 +6815,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 151
+    "index": 151,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1883",
@@ -6027,7 +6878,11 @@
       "code": "PVG",
       "port": "T2"
     },
-    "index": 152
+    "index": 152,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1589",
@@ -6086,7 +6941,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 153
+    "index": 153,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9261",
@@ -6145,7 +7004,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 154
+    "index": 154,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5158",
@@ -6204,7 +7067,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 155
+    "index": 155,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5160",
@@ -6263,7 +7130,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 156
+    "index": 156,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1549",
@@ -6322,7 +7193,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 157
+    "index": 157,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU3847",
@@ -6381,7 +7256,11 @@
       "code": "PVG",
       "port": "T1"
     },
-    "index": 158
+    "index": 158,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1855",
@@ -6440,7 +7319,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 159
+    "index": 159,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9251",
@@ -6499,7 +7382,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 160
+    "index": 160,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1857",
@@ -6558,7 +7445,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 161
+    "index": 161,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5130",
@@ -6617,7 +7508,11 @@
       "code": "PVG",
       "port": "T1"
     },
-    "index": 162
+    "index": 162,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1549",
@@ -6676,7 +7571,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 163
+    "index": 163,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1521",
@@ -6735,7 +7634,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 164
+    "index": 164,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1517",
@@ -6794,7 +7697,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 165
+    "index": 165,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5116",
@@ -6853,7 +7760,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 166
+    "index": 166,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5114",
@@ -6912,7 +7823,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 167
+    "index": 167,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU9106",
@@ -6971,7 +7886,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 168
+    "index": 168,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9253",
@@ -7030,7 +7949,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 169
+    "index": 169,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1855",
@@ -7089,7 +8012,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 170
+    "index": 170,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9255",
@@ -7148,7 +8075,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 171
+    "index": 171,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1885",
@@ -7207,7 +8138,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 172
+    "index": 172,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1885",
@@ -7266,7 +8201,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 173
+    "index": 173,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9279",
@@ -7325,7 +8264,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 174
+    "index": 174,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9257",
@@ -7384,7 +8327,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 175
+    "index": 175,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1857",
@@ -7443,7 +8390,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 176
+    "index": 176,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9263",
@@ -7502,7 +8453,11 @@
       "code": "PVG",
       "port": "T1"
     },
-    "index": 177
+    "index": 177,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D311",
@@ -7515,7 +8470,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -7524,7 +8481,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 178
+    "index": 178,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9259",
@@ -7583,7 +8544,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 179
+    "index": 179,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1883",
@@ -7642,7 +8607,11 @@
       "code": "PVG",
       "port": "T2"
     },
-    "index": 180
+    "index": 180,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "ZH1589",
@@ -7701,7 +8670,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 181
+    "index": 181,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D313",
@@ -7714,7 +8687,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -7723,7 +8698,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 182
+    "index": 182,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D321",
@@ -7736,7 +8715,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -7745,7 +8726,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 183
+    "index": 183,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G3",
@@ -7758,7 +8743,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -7767,7 +8754,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 184
+    "index": 184,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G133",
@@ -7780,7 +8771,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -7789,7 +8782,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 185
+    "index": 185,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G135",
@@ -7802,7 +8799,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -7811,7 +8810,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 186
+    "index": 186,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G17",
@@ -7824,7 +8827,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -7833,7 +8838,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 187
+    "index": 187,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G137",
@@ -7846,7 +8855,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -7855,7 +8866,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 188
+    "index": 188,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G43",
@@ -7868,7 +8883,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -7877,7 +8894,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 189
+    "index": 189,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G141",
@@ -7890,7 +8911,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -7899,7 +8922,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 190
+    "index": 190,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G21",
@@ -7912,7 +8939,9 @@
     "remainNum": 20,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -7921,7 +8950,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 191
+    "index": 191,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G143",
@@ -7934,7 +8967,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -7943,7 +8978,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 192
+    "index": 192,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "HU7609",
@@ -8002,7 +9041,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 193
+    "index": 193,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G149",
@@ -8015,7 +9058,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8024,7 +9069,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 194
+    "index": 194,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G23",
@@ -8037,7 +9086,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8046,7 +9097,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 195
+    "index": 195,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G151",
@@ -8059,7 +9114,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8068,7 +9125,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 196
+    "index": 196,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G153",
@@ -8081,7 +9142,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8090,7 +9153,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 197
+    "index": 197,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G7",
@@ -8103,7 +9170,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8112,7 +9181,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 198
+    "index": 198,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G155",
@@ -8125,7 +9198,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8134,7 +9209,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 199
+    "index": 199,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G9",
@@ -8147,7 +9226,9 @@
     "remainNum": 1,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8156,7 +9237,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 200
+    "index": 200,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G157",
@@ -8169,7 +9254,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8178,7 +9265,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 201
+    "index": 201,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G159",
@@ -8191,7 +9282,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8200,7 +9293,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 202
+    "index": 202,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "HU7601",
@@ -8259,7 +9356,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 203
+    "index": 203,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ3951",
@@ -8318,7 +9419,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 204
+    "index": 204,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "HO1252",
@@ -8377,7 +9482,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 205
+    "index": 205,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1515",
@@ -8436,7 +9545,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 206
+    "index": 206,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9275",
@@ -8495,7 +9608,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 207
+    "index": 207,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G109",
@@ -8508,7 +9625,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8517,7 +9636,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 208
+    "index": 208,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G121",
@@ -8530,7 +9653,9 @@
     "remainNum": 8,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8539,7 +9664,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 209
+    "index": 209,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G117",
@@ -8552,7 +9681,9 @@
     "remainNum": 6,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8561,7 +9692,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 210
+    "index": 210,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU9106",
@@ -8620,7 +9755,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 211
+    "index": 211,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "FM9106",
@@ -8679,7 +9818,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 212
+    "index": 212,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5158",
@@ -8738,7 +9881,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 213
+    "index": 213,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G3",
@@ -8751,7 +9898,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8760,7 +9909,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 214
+    "index": 214,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G133",
@@ -8773,7 +9926,9 @@
     "remainNum": 9,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8782,7 +9937,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 215
+    "index": 215,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G135",
@@ -8795,7 +9954,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8804,7 +9965,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 216
+    "index": 216,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G17",
@@ -8817,7 +9982,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8826,7 +9993,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 217
+    "index": 217,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G137",
@@ -8839,7 +10010,9 @@
     "remainNum": 8,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8848,7 +10021,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 218
+    "index": 218,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G43",
@@ -8861,7 +10038,9 @@
     "remainNum": 2,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8870,7 +10049,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 219
+    "index": 219,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G141",
@@ -8883,7 +10066,9 @@
     "remainNum": 2,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8892,7 +10077,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 220
+    "index": 220,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G21",
@@ -8905,7 +10094,9 @@
     "remainNum": 1,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8914,7 +10105,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 221
+    "index": 221,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G143",
@@ -8927,7 +10122,9 @@
     "remainNum": 18,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8936,7 +10133,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 222
+    "index": 222,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G149",
@@ -8949,7 +10150,9 @@
     "remainNum": 13,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8958,7 +10161,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 223
+    "index": 223,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G23",
@@ -8971,7 +10178,9 @@
     "remainNum": 19,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -8980,7 +10189,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 224
+    "index": 224,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G151",
@@ -8993,7 +10206,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -9002,7 +10217,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 225
+    "index": 225,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G153",
@@ -9015,7 +10234,9 @@
     "remainNum": 12,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -9024,7 +10245,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 226
+    "index": 226,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G7",
@@ -9037,7 +10262,9 @@
     "remainNum": 5,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -9046,7 +10273,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 227
+    "index": 227,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G155",
@@ -9059,7 +10290,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -9068,7 +10301,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 228
+    "index": 228,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G9",
@@ -9081,7 +10318,9 @@
     "remainNum": 5,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -9090,7 +10329,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 229
+    "index": 229,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G157",
@@ -9103,7 +10346,9 @@
     "remainNum": 13,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -9112,7 +10357,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 230
+    "index": 230,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G159",
@@ -9125,7 +10374,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -9134,7 +10385,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 231
+    "index": 231,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G145",
@@ -9147,7 +10402,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -9156,7 +10413,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 232
+    "index": 232,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G147",
@@ -9169,7 +10430,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -9178,7 +10441,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 233
+    "index": 233,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "HU7603",
@@ -9237,7 +10504,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 234
+    "index": 234,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "HO1252",
@@ -9296,7 +10567,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 235
+    "index": 235,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "KN5987",
@@ -9355,7 +10630,11 @@
       "code": "PVG",
       "port": "T1"
     },
-    "index": 236
+    "index": 236,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "HO3720",
@@ -9414,7 +10693,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 237
+    "index": 237,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5118",
@@ -9473,7 +10756,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 238
+    "index": 238,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1549",
@@ -9532,7 +10819,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 239
+    "index": 239,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D313",
@@ -9545,7 +10836,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -9554,7 +10847,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 240
+    "index": 240,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5120",
@@ -9613,7 +10910,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 241
+    "index": 241,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1855",
@@ -9672,7 +10973,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 242
+    "index": 242,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D311",
@@ -9685,7 +10990,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -9694,7 +11001,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 243
+    "index": 243,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D321",
@@ -9707,7 +11018,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -9716,7 +11029,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 244
+    "index": 244,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5122",
@@ -9775,7 +11092,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 245
+    "index": 245,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5156",
@@ -9834,7 +11155,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 246
+    "index": 246,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5124",
@@ -9893,7 +11218,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 247
+    "index": 247,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1857",
@@ -9952,7 +11281,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 248
+    "index": 248,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5126",
@@ -10011,7 +11344,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 249
+    "index": 249,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1589",
@@ -10070,7 +11407,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 250
+    "index": 250,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "T109",
@@ -10083,7 +11424,9 @@
     "remainNum": 12,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京"
     },
@@ -10092,7 +11435,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 251
+    "index": 251,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "T109",
@@ -10105,7 +11452,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京"
     },
@@ -10114,7 +11463,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 252
+    "index": 252,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "1461",
@@ -10127,7 +11480,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京"
     },
@@ -10136,7 +11491,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 253
+    "index": 253,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D313",
@@ -10149,7 +11508,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -10158,7 +11519,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 254
+    "index": 254,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D321",
@@ -10171,7 +11536,9 @@
     "remainNum": 0,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -10180,7 +11547,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 255
+    "index": 255,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "T109",
@@ -10193,7 +11564,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京"
     },
@@ -10202,7 +11575,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 256
+    "index": 256,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "1461",
@@ -10215,7 +11592,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京"
     },
@@ -10224,7 +11603,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 257
+    "index": 257,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ3907",
@@ -10283,7 +11666,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 258
+    "index": 258,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G145",
@@ -10296,7 +11683,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -10305,7 +11694,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 259
+    "index": 259,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CA1885",
@@ -10364,7 +11757,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 260
+    "index": 260,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G147",
@@ -10377,7 +11774,9 @@
     "remainNum": 11,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京南"
     },
@@ -10386,7 +11785,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 261
+    "index": 261,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "T109",
@@ -10399,7 +11802,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京"
     },
@@ -10408,7 +11813,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 262
+    "index": 262,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "T109",
@@ -10421,7 +11830,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京"
     },
@@ -10430,7 +11841,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 263
+    "index": 263,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "MU5130",
@@ -10489,7 +11904,11 @@
       "code": "PVG",
       "port": "T1"
     },
-    "index": 264
+    "index": 264,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9281",
@@ -10548,7 +11967,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 265
+    "index": 265,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "CZ9283",
@@ -10607,7 +12030,11 @@
       "code": "SHA",
       "port": "T2"
     },
-    "index": 266
+    "index": 266,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "1461",
@@ -10620,7 +12047,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京"
     },
@@ -10629,7 +12058,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 267
+    "index": 267,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "1461",
@@ -10642,7 +12075,9 @@
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
-    "deeplinkData": {},
+    "deeplinkData": {
+      
+    },
     "originStation": {
       "name": "北京"
     },
@@ -10651,7 +12086,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 268
+    "index": 268,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G7",
@@ -10682,7 +12121,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 269
+    "index": 269,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G17",
@@ -10713,7 +12156,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 270
+    "index": 270,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G3",
@@ -10744,7 +12191,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 271
+    "index": 271,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G1",
@@ -10775,7 +12226,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 272
+    "index": 272,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G13",
@@ -10806,7 +12261,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 273
+    "index": 273,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G9",
@@ -10837,7 +12296,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 274
+    "index": 274,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G5",
@@ -10868,7 +12331,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 275
+    "index": 275,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G15",
@@ -10899,7 +12366,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 276
+    "index": 276,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G11",
@@ -10930,7 +12401,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 277
+    "index": 277,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G21",
@@ -10961,7 +12436,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 278
+    "index": 278,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G41",
@@ -10992,7 +12471,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 279
+    "index": 279,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G153",
@@ -11023,7 +12506,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 280
+    "index": 280,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G105",
@@ -11054,7 +12541,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 281
+    "index": 281,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G119",
@@ -11085,7 +12576,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 282
+    "index": 282,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G43",
@@ -11116,7 +12611,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 283
+    "index": 283,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G23",
@@ -11147,7 +12646,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 284
+    "index": 284,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G113",
@@ -11178,7 +12681,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 285
+    "index": 285,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G127",
@@ -11209,7 +12716,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 286
+    "index": 286,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G107",
@@ -11240,7 +12751,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 287
+    "index": 287,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G123",
@@ -11271,7 +12786,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 288
+    "index": 288,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G125",
@@ -11302,7 +12821,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 289
+    "index": 289,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G129",
@@ -11333,7 +12856,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 290
+    "index": 290,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G157",
@@ -11364,7 +12891,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 291
+    "index": 291,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G111",
@@ -11395,7 +12926,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 292
+    "index": 292,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G155",
@@ -11426,7 +12961,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 293
+    "index": 293,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G115",
@@ -11457,7 +12996,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 294
+    "index": 294,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G133",
@@ -11488,7 +13031,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 295
+    "index": 295,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G141",
@@ -11519,7 +13066,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 296
+    "index": 296,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G101",
@@ -11550,7 +13101,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 297
+    "index": 297,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G103",
@@ -11581,7 +13136,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 298
+    "index": 298,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G159",
@@ -11612,7 +13171,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 299
+    "index": 299,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G137",
@@ -11643,7 +13206,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 300
+    "index": 300,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G149",
@@ -11674,7 +13241,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 301
+    "index": 301,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G135",
@@ -11705,7 +13276,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 302
+    "index": 302,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G143",
@@ -11736,7 +13311,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 303
+    "index": 303,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G151",
@@ -11767,7 +13346,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 304
+    "index": 304,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G109",
@@ -11798,7 +13381,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 305
+    "index": 305,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G147",
@@ -11829,7 +13416,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 306
+    "index": 306,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G121",
@@ -11860,7 +13451,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 307
+    "index": 307,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G117",
@@ -11891,7 +13486,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 308
+    "index": 308,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G145",
@@ -11922,7 +13521,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 309
+    "index": 309,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D321",
@@ -11953,7 +13556,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 310
+    "index": 310,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D313",
@@ -11984,7 +13591,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 311
+    "index": 311,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G7",
@@ -12015,7 +13626,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 312
+    "index": 312,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G1",
@@ -12046,7 +13661,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 313
+    "index": 313,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G17",
@@ -12077,7 +13696,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 314
+    "index": 314,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G13",
@@ -12108,7 +13731,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 315
+    "index": 315,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G3",
@@ -12139,7 +13766,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 316
+    "index": 316,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G9",
@@ -12170,7 +13801,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 317
+    "index": 317,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G5",
@@ -12201,7 +13836,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 318
+    "index": 318,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G15",
@@ -12232,7 +13871,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 319
+    "index": 319,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G11",
@@ -12263,7 +13906,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 320
+    "index": 320,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G21",
@@ -12294,7 +13941,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 321
+    "index": 321,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G41",
@@ -12325,7 +13976,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 322
+    "index": 322,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G153",
@@ -12356,7 +14011,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 323
+    "index": 323,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G105",
@@ -12387,7 +14046,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 324
+    "index": 324,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G119",
@@ -12418,7 +14081,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 325
+    "index": 325,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G43",
@@ -12449,7 +14116,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 326
+    "index": 326,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G23",
@@ -12480,7 +14151,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 327
+    "index": 327,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G113",
@@ -12511,7 +14186,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 328
+    "index": 328,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G127",
@@ -12542,7 +14221,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 329
+    "index": 329,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G107",
@@ -12573,7 +14256,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 330
+    "index": 330,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G123",
@@ -12604,7 +14291,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 331
+    "index": 331,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G129",
@@ -12635,7 +14326,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 332
+    "index": 332,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G125",
@@ -12666,7 +14361,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 333
+    "index": 333,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G111",
@@ -12697,7 +14396,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 334
+    "index": 334,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G157",
@@ -12728,7 +14431,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 335
+    "index": 335,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G155",
@@ -12759,7 +14466,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 336
+    "index": 336,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G115",
@@ -12790,7 +14501,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 337
+    "index": 337,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G133",
@@ -12821,7 +14536,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 338
+    "index": 338,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G141",
@@ -12852,7 +14571,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 339
+    "index": 339,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G101",
@@ -12883,7 +14606,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 340
+    "index": 340,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G159",
@@ -12914,7 +14641,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 341
+    "index": 341,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G103",
@@ -12945,7 +14676,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 342
+    "index": 342,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G137",
@@ -12976,7 +14711,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 343
+    "index": 343,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G149",
@@ -13007,7 +14746,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 344
+    "index": 344,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G135",
@@ -13038,7 +14781,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 345
+    "index": 345,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G151",
@@ -13069,7 +14816,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 346
+    "index": 346,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G143",
@@ -13100,7 +14851,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 347
+    "index": 347,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G115",
@@ -13131,7 +14886,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 348
+    "index": 348,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G7",
@@ -13162,7 +14921,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 349
+    "index": 349,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G13",
@@ -13193,7 +14956,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 350
+    "index": 350,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G17",
@@ -13224,7 +14991,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 351
+    "index": 351,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G3",
@@ -13255,7 +15026,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 352
+    "index": 352,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G1",
@@ -13286,7 +15061,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 353
+    "index": 353,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G9",
@@ -13317,7 +15096,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 354
+    "index": 354,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G5",
@@ -13348,7 +15131,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 355
+    "index": 355,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G15",
@@ -13379,7 +15166,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 356
+    "index": 356,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G11",
@@ -13410,7 +15201,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 357
+    "index": 357,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G21",
@@ -13441,7 +15236,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 358
+    "index": 358,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G153",
@@ -13472,7 +15271,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 359
+    "index": 359,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G41",
@@ -13503,7 +15306,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 360
+    "index": 360,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G105",
@@ -13534,7 +15341,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 361
+    "index": 361,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G119",
@@ -13565,7 +15376,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 362
+    "index": 362,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G43",
@@ -13596,7 +15411,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 363
+    "index": 363,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G23",
@@ -13627,7 +15446,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 364
+    "index": 364,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G113",
@@ -13658,7 +15481,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 365
+    "index": 365,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G127",
@@ -13689,7 +15516,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 366
+    "index": 366,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G107",
@@ -13720,7 +15551,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 367
+    "index": 367,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G123",
@@ -13751,7 +15586,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 368
+    "index": 368,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G129",
@@ -13782,7 +15621,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 369
+    "index": 369,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G125",
@@ -13813,7 +15656,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 370
+    "index": 370,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G157",
@@ -13844,7 +15691,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 371
+    "index": 371,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G111",
@@ -13875,7 +15726,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 372
+    "index": 372,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G155",
@@ -13906,7 +15761,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 373
+    "index": 373,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G115",
@@ -13937,7 +15796,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 374
+    "index": 374,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G133",
@@ -13968,7 +15831,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 375
+    "index": 375,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G141",
@@ -13999,7 +15866,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 376
+    "index": 376,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G103",
@@ -14030,7 +15901,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 377
+    "index": 377,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G159",
@@ -14061,7 +15936,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 378
+    "index": 378,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G101",
@@ -14092,7 +15971,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 379
+    "index": 379,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G149",
@@ -14123,7 +16006,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 380
+    "index": 380,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G137",
@@ -14154,7 +16041,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 381
+    "index": 381,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G135",
@@ -14185,7 +16076,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 382
+    "index": 382,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G143",
@@ -14216,7 +16111,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 383
+    "index": 383,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G151",
@@ -14247,7 +16146,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 384
+    "index": 384,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G109",
@@ -14278,7 +16181,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 385
+    "index": 385,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G121",
@@ -14309,7 +16216,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 386
+    "index": 386,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G147",
@@ -14340,7 +16251,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 387
+    "index": 387,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G117",
@@ -14371,7 +16286,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 388
+    "index": 388,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G145",
@@ -14402,7 +16321,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 389
+    "index": 389,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D311",
@@ -14433,7 +16356,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 390
+    "index": 390,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D311",
@@ -14464,7 +16391,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 391
+    "index": 391,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D321",
@@ -14495,7 +16426,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 392
+    "index": 392,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D313",
@@ -14526,7 +16461,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 393
+    "index": 393,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "T109",
@@ -14557,7 +16496,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 394
+    "index": 394,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "T109",
@@ -14588,7 +16531,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 395
+    "index": 395,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "1461",
@@ -14619,7 +16566,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 396
+    "index": 396,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D321",
@@ -14650,7 +16601,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 397
+    "index": 397,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "D313",
@@ -14681,7 +16636,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 398
+    "index": 398,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "T109",
@@ -14712,7 +16671,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 399
+    "index": 399,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "1461",
@@ -14743,7 +16706,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 400
+    "index": 400,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "T109",
@@ -14774,7 +16741,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 401
+    "index": 401,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "T109",
@@ -14805,7 +16776,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 402
+    "index": 402,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G109",
@@ -14836,7 +16811,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 403
+    "index": 403,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G147",
@@ -14867,7 +16846,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 404
+    "index": 404,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G121",
@@ -14898,7 +16881,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 405
+    "index": 405,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G145",
@@ -14929,7 +16916,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 406
+    "index": 406,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "G117",
@@ -14960,7 +16951,11 @@
     "destinationStation": {
       "name": "上海虹桥"
     },
-    "index": 407
+    "index": 407,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "1461",
@@ -14991,7 +16986,11 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 408
+    "index": 408,
+    "score": 0,
+    "reasons": [
+      
+    ]
   },
   {
     "No": "1461",
@@ -15022,6 +17021,10 @@
     "destinationStation": {
       "name": "上海"
     },
-    "index": 409
+    "index": 409,
+    "score": 0,
+    "reasons": [
+      
+    ]
   }
 ]

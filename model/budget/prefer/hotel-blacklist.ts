@@ -3,14 +3,14 @@
  */
 
 'use strict';
-import { IFinalHotel } from "./interface";
-import { AbstractPrefer } from "./AbstractPrefer";
+import {IFinalHotel} from "./interface";
+import {AbstractPrefer} from "./AbstractPrefer";
 
 const BLACKLIST_HOTEL_AGENTS = ['hotels.com', '好订'];
 
 class BlackListPrefer extends AbstractPrefer<IFinalHotel> {
 
-    private score: number;
+    private score:number;
 
     constructor(name, options) {
         super(name, options);
@@ -19,10 +19,11 @@ class BlackListPrefer extends AbstractPrefer<IFinalHotel> {
         }
     }
 
-    async markScoreProcess(hotels: IFinalHotel[]): Promise<IFinalHotel[]> {
+    async markScoreProcess(hotels: IFinalHotel[]) : Promise<IFinalHotel[]> {
         let self = this;
-        hotels = hotels.map((hotel) => {
+        hotels = hotels.map( (hotel) => {
             if (!hotel.score) hotel.score = 0;
+
             if (!hotel.reasons) hotel.reasons = [];
 
             if (BLACKLIST_HOTEL_AGENTS.indexOf(hotel.agent) >= 0) {
@@ -37,4 +38,4 @@ class BlackListPrefer extends AbstractPrefer<IFinalHotel> {
     }
 }
 
-export = BlackListPrefer;
+export= BlackListPrefer;

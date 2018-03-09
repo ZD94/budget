@@ -4,6 +4,7 @@
 'use strict';
 import assert = require("assert");
 import HotelBlackListPrefer = require('../../../../model/budget/prefer/hotel-blacklist');
+
 let data = require("./hotel-data");
 
 describe("hotel-blacklist", async () => {

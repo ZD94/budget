@@ -101,7 +101,7 @@
       "name": "北京南"
     },
     "departDateTime": "2018-03-11T00:00:00.000Z",
-    "arrivalDateTime": "2018-03-11T05:06:00.000Z",
+    "arrivalDateTime": "2018-03-11T01:06:00.000Z",
     "destinationStation": {
       "name": "上海虹桥"
     },
@@ -212,8 +212,8 @@
     "originStation": {
       "name": "北京南"
     },
-    "departDateTime": "2018-03-11T03:35:00.000Z",
-    "arrivalDateTime": "2018-03-11T09:16:00.000Z",
+    "departDateTime": "2018-05-11T04:35:00.000Z",
+    "arrivalDateTime": "2018-03-11T05:16:00.000Z",
     "destinationStation": {
       "name": "上海虹桥"
     },
@@ -283,7 +283,7 @@
     "No": "G129",
     "type": 0,
     "agent": "ctrip",
-    "cabin": 3,
+    "cabin": 9,
     "price": 553,
     "bookUrl": "http://m.ctrip.com/webapp/train/v2/index?from=http%3A%2F%2Fm.ctrip.com%2Fhtml5%2F#/index",
     "duration": 346,
@@ -311,7 +311,7 @@
     "No": "G125",
     "type": 0,
     "agent": "ctrip",
-    "cabin": 3,
+    "cabin": null,
     "price": 553,
     "bookUrl": "http://m.ctrip.com/webapp/train/v2/index?from=http%3A%2F%2Fm.ctrip.com%2Fhtml5%2F#/index",
     "duration": 346,
@@ -743,8 +743,8 @@
       "code": "PEK",
       "port": "T2"
     },
-    "departDateTime": "2018-03-11T03:00:00.000Z",
-    "arrivalDateTime": "2018-03-11T05:15:00.000Z",
+    "departDateTime": "",
+    "arrivalDateTime": "",
     "destinationStation": {
       "code": "SHA",
       "port": "T2"
@@ -1355,7 +1355,7 @@
     ],
     "type": 1,
     "agent": "ctrip",
-    "cabin": 2,
+    "cabin": 8,
     "carry": "南航",
     "price": 840,
     "bookUrl": "http://m.ctrip.com/html5/flight/swift/domestic/BJS/SHA/2018-03-11",
@@ -1418,7 +1418,7 @@
     ],
     "type": 1,
     "agent": "ctrip",
-    "cabin": 2,
+    "cabin": null,
     "carry": "南航",
     "price": 1030,
     "bookUrl": "http://m.ctrip.com/html5/flight/swift/domestic/BJS/SHA/2018-03-11",
@@ -1974,7 +1974,7 @@
     ]
   },
   {
-    "No": "MU3843",
+    "No": "KN3843",
     "segs": [
       {
         "base": {
@@ -2592,7 +2592,7 @@
       "port": "T3"
     },
     "departDateTime": "2018-03-11T02:30:00.000Z",
-    "arrivalDateTime": "2018-03-11T04:35:00.000Z",
+    "arrivalDateTime": "2018-03-11T08:35:00.000Z",
     "destinationStation": {
       "code": "SHA",
       "port": "T2"
@@ -3423,7 +3423,7 @@
     ]
   },
   {
-    "No": "MU5106",
+    "No": "9C5106",
     "segs": [
       {
         "base": {
@@ -4431,7 +4431,7 @@
     ]
   },
   {
-    "No": "CA155",
+    "No": "",
     "segs": [
       {
         "base": {
@@ -5107,7 +5107,7 @@
     ]
   },
   {
-    "No": "MU5152",
+    "No": "aaaaaa",
     "segs": [
       {
         "base": {
@@ -6060,8 +6060,8 @@
       "code": "PEK",
       "port": "T2"
     },
-    "departDateTime": "2018-03-11T09:55:00.000Z",
-    "arrivalDateTime": "2018-03-11T12:15:00.000Z",
+    "departDateTime": "2018-09-01T1:55:00.000Z",
+    "arrivalDateTime": "2018-06-02T12:15:00.000Z",
     "destinationStation": {
       "code": "SHA",
       "port": "T2"
@@ -6123,7 +6123,7 @@
       "code": "PEK",
       "port": "T2"
     },
-    "departDateTime": "2018-03-11T09:50:00.000Z",
+    "departDateTime": "2018-03-11T00:50:00.000Z",
     "arrivalDateTime": "2018-03-11T12:05:00.000Z",
     "destinationStation": {
       "code": "SHA",
@@ -6494,7 +6494,7 @@
       "code": "PEK",
       "port": "T2"
     },
-    "departDateTime": "2018-03-11T08:55:00.000Z",
+    "departDateTime": "2018-03-11T48:55:00.000Z",
     "arrivalDateTime": "2018-03-11T11:15:00.000Z",
     "destinationStation": {
       "code": "SHA",
@@ -6557,7 +6557,7 @@
       "code": "PEK",
       "port": "T2"
     },
-    "departDateTime": "2018-03-11T12:00:00.000Z",
+    "departDateTime": null,
     "arrivalDateTime": "2018-03-11T14:15:00.000Z",
     "destinationStation": {
       "code": "SHA",
@@ -6683,7 +6683,7 @@
       "code": "NAY",
       "port": ""
     },
-    "departDateTime": "2018-03-11T07:25:00.000Z",
+    "departDateTime": "",
     "arrivalDateTime": "2018-03-11T09:35:00.000Z",
     "destinationStation": {
       "code": "SHA",
@@ -8767,7 +8767,7 @@
     "cabin": 2,
     "price": 933,
     "bookUrl": "http://m.ctrip.com/webapp/train/v2/index?from=http%3A%2F%2Fm.ctrip.com%2Fhtml5%2F#/index",
-    "duration": 353,
+    "duration": 410,
     "remainNum": 99,
     "destination": "1796231",
     "originPlace": "2038349",
@@ -8974,7 +8974,7 @@
       "name": "北京南"
     },
     "departDateTime": "2018-03-11T06:30:00.000Z",
-    "arrivalDateTime": "2018-03-11T12:30:00.000Z",
+    "arrivalDateTime": "2018-03-13T12:30:00.000Z",
     "destinationStation": {
       "name": "上海虹桥"
     },
@@ -9036,7 +9036,7 @@
       "port": "T1"
     },
     "departDateTime": "2018-03-11T07:35:00.000Z",
-    "arrivalDateTime": "2018-03-11T10:00:00.000Z",
+    "arrivalDateTime": null,
     "destinationStation": {
       "code": "SHA",
       "port": "T2"
@@ -9065,7 +9065,7 @@
       "name": "北京南"
     },
     "departDateTime": "2018-03-11T08:25:00.000Z",
-    "arrivalDateTime": "2018-03-11T14:22:00.000Z",
+    "arrivalDateTime": "",
     "destinationStation": {
       "name": "上海虹桥"
     },
@@ -9093,7 +9093,6 @@
       "name": "北京南"
     },
     "departDateTime": "2018-03-11T09:00:00.000Z",
-    "arrivalDateTime": "2018-03-11T14:39:00.000Z",
     "destinationStation": {
       "name": "上海虹桥"
     },
@@ -9920,7 +9919,7 @@
     "type": 0,
     "agent": "ctrip",
     "cabin": 1,
-    "price": 1748,
+    "price": 120,
     "bookUrl": "http://m.ctrip.com/webapp/train/v2/index?from=http%3A%2F%2Fm.ctrip.com%2Fhtml5%2F#/index",
     "duration": 353,
     "remainNum": 9,
@@ -9948,7 +9947,7 @@
     "type": 0,
     "agent": "ctrip",
     "cabin": 1,
-    "price": 1748,
+    "price": 100,
     "bookUrl": "http://m.ctrip.com/webapp/train/v2/index?from=http%3A%2F%2Fm.ctrip.com%2Fhtml5%2F#/index",
     "duration": 359,
     "remainNum": 99,
@@ -10060,7 +10059,7 @@
     "type": 0,
     "agent": "ctrip",
     "cabin": 1,
-    "price": 1748,
+    "price": 1100.476286,
     "bookUrl": "http://m.ctrip.com/webapp/train/v2/index?from=http%3A%2F%2Fm.ctrip.com%2Fhtml5%2F#/index",
     "duration": 354,
     "remainNum": 2,
@@ -10144,7 +10143,7 @@
     "type": 0,
     "agent": "ctrip",
     "cabin": 1,
-    "price": 1748,
+    "price": 108,
     "bookUrl": "http://m.ctrip.com/webapp/train/v2/index?from=http%3A%2F%2Fm.ctrip.com%2Fhtml5%2F#/index",
     "duration": 357,
     "remainNum": 13,

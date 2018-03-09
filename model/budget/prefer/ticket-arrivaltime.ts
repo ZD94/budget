@@ -28,7 +28,6 @@ class ArrivalTimePrefer extends AbstractPrefer<IFinalTicket> {
         if (d2 && typeof d2 == 'string') {
             d2 = new Date(d2 as string);
         }
-
         tickets = tickets.map( (v) => {
             if (!v['score']) v['score'] = 0;
             if (!v.reasons) v['reasons'] = [];

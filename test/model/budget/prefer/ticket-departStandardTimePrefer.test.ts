@@ -30,8 +30,8 @@ describe("ticket-ticketDepartStandardTimePrefer", async () => {
         assert.equal(data[134].score,465)
     })
 
-    it("第138条  出发时间早于出发基准时间计算值 100 should be ok",async()=>{
-        assert.equal(data[139].score,430)
+    it("第139条  出发时间早于出发基准时间计算值 -4570 should be ok",async()=>{
+        assert.equal(data[139].score,-4570)
     })
 
 });

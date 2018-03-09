@@ -12,7 +12,7 @@ const percent = 0.8;
 var result = null;
 var subResult;
 
-const fs = require("fs")
+// const fs = require("fs")
 // fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8');
 const cabins = [2,3];
 
@@ -29,7 +29,7 @@ describe("ticket-planeNumberPrefer", async () => {
             percent
         })
         result = await prefer.markScoreProcess(trafficData);
-        fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8')
+        // fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8')
     })
 
     it("数据长度 should be ok", async () => {

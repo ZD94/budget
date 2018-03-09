@@ -4,27 +4,54 @@
 'use strict';
 import assert = require("assert");
 import TicketRefusedPlanePrefer = require('../../../../model/budget/prefer/ticket-refusedPlane');
-// import HotelBlackListPrefer = require('../../../../model/budget/prefer/hotel-blacklist');
-// const trafficData = require("./traffic-data.json");
-const dataLength = 100;
+import { IFinalTicket } from '../../../../model/budget/prefer/interface';
+const trafficData = require("./traffic-data.json");
+const dataLength = 410;
+const planeIndex = [264];
+const notPlaneIndex = [9, 186];
+const initScore = 0;
+const finalScore = -5000
+// const fs = require("fs")
+// fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8');
+export interface IFinalTicketTest extends IFinalTicket {
+   index: number
+}
 describe("traffic-refusedPlane", async () => {
 
-    const prefer = new TicketRefusedPlanePrefer('ticketRefusedPlanePrefer', {});
+    var prefer = new TicketRefusedPlanePrefer('ticketRefusedPlanePrefer', {
+        score: finalScore
+    });
+    
 
     it("data length should be ok", async () => {
-        // assert.equal(dataLength, trafficData.length)
-        // assert.equal(dataLength, 100)
-       
+        assert.equal(dataLength, trafficData.length);
     })
 
-    it("用例2 should be ok", async()=> {
+    it("plane-score-minus-5000 should be ok", async()=> {
+        await Promise.all(trafficData.map((item: IFinalTicketTest) => {
+            delete item.score;
+            delete item.reasons;
+        })); 
+        let result = await prefer.markScoreProcess(trafficData);  
         
+        await Promise.all(result.map(async (item: IFinalTicketTest, index: number) => {
+            if(planeIndex.indexOf(item.index) >= 0){
+                assert.equal(item.score, finalScore);
+            }  
+        })); 
     })
 
-    var items = [3, 4, 5, 6];
-    items.forEach( (item) => {
-        it(`用例${item} should be ok`, async() => {
-           
-        })
-    })
+    it("not-planes-score-keep-unchanged should be ok", async()=> {
+        await Promise.all(trafficData.map((item: IFinalTicketTest) => {
+            delete item.score;
+            delete item.reasons;
+        })); 
+        let result = await prefer.markScoreProcess(trafficData);
+        await Promise.all(result.map(async (item: IFinalTicketTest, index: number) => {
+            if(notPlaneIndex.indexOf(item.index) > -1){
+                assert.equal(item.score, initScore);
+            }          
+        }));
+    });
+
 })

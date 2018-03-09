@@ -1,9 +1,38 @@
+
 /**
  * Created by wlh on 2018/3/8.
  */
-
 'use strict';
+const config = require("@jingli/config");
 
+export interface ICity {
+    name: string;
+    id: string;
+    isAbroad: boolean;
+    letter: string;
+    timezone: string;
+    longitude: number;
+    latitude: number;
+    code?: string;  //三字码
+    parentId: string;
+    pinyin: string;
+    countryCode: string;
+    fcode: string;
+    ctripCode?: string;
+}
+
+export enum ETrainSeat {
+    BUSINESS_SEAT = 1,
+    FIRST_SEAT = 2,
+    SECOND_SEAT = 3,
+    PRINCIPAL_SEAT = 4,
+    SENIOR_SOFT_SLEEPER = 5,
+    SOFT_SLEEPER = 6,
+    HARD_SLEEPER = 7,
+    SOFT_SEAT = 8,
+    HARD_SEAT = 9,
+    NO_SEAT = 10,
+}
 export interface IFinalHotel {
     name: string;
     latitude: string;
@@ -87,3 +116,7 @@ export interface IAirport {
     code: string;
     bname: string;
 }
+
+
+
+

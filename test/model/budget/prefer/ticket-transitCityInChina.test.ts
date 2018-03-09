@@ -8,6 +8,8 @@ const trafficData = require("./traffic-data.json");
 const fs = require("fs")
 // fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8');
 
+const baseScore = 5000;
+
 describe("ticket-transitCityInChina", async () => {
     
     await Promise.all(trafficData.map((item: IFinalTicketTest) => {
@@ -16,7 +18,7 @@ describe("ticket-transitCityInChina", async () => {
     })); 
 
     const prefer = new TicketTransitCityInChina("transitCityInChina", {
-        baseScore: 5000
+        baseScore
     });
     
     let result = await prefer.markScoreProcess(trafficData);

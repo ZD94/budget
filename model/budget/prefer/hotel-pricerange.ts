@@ -3,8 +3,8 @@
  */
 
 'use strict';
-import {AbstractPrefer} from "./index";
-import {IFinalHotel} from "./interface";
+import { AbstractPrefer } from "./AbstractPrefer";
+import { IFinalHotel } from "./interface";
 
 import _ = require("lodash");
 import moment = require("moment");
@@ -21,11 +21,11 @@ class PriceRangePrefer extends AbstractPrefer<IFinalHotel> {
         }
     }
 
-    async markScoreProcess(hotels: IFinalHotel[]) : Promise<IFinalHotel[]> {
+    async markScoreProcess(hotels: IFinalHotel[]): Promise<IFinalHotel[]> {
         if (!hotels.length) return hotels;
         let self = this;
 
-        hotels = hotels.map( (v) => {
+        hotels = hotels.map((v) => {
             if (!v['score']) v['score'] = 0;
             if (!v['reasons']) v['reasons'] = [];
             let days = moment(v.checkOutDate).startOf('day').diff(moment(v.checkInDate).startOf('day'), "days") || 1;
@@ -56,4 +56,4 @@ class PriceRangePrefer extends AbstractPrefer<IFinalHotel> {
     }
 }
 
-export=PriceRangePrefer
+export =PriceRangePrefer

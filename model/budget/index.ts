@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-02-06 22:07:57
+ * @Last Modified time: 2018-03-09 11:01:44
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -34,7 +34,14 @@ export class Budget extends BudgetHelps {
         super();
     }
     async getBudget(params: GetBudgetParams): Promise<BudgetFinallyResult> {
-        let { callbackUrl, companyId, travelPolicyId, staffs, currency = config.defaultCurrency, expectStep = STEP.CACHE } = params;
+        let {
+            callbackUrl,
+            companyId,
+            travelPolicyId,
+            staffs,
+            currency = config.defaultCurrency,
+            expectStep = STEP.CACHE
+        } = params;
 
         console.log('params ===========>', params);
         let times = Date.now();

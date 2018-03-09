@@ -120,6 +120,17 @@ export class CityService {
         return returnResult;
     }
 
+    static async search(options: {keyword?: string}): Promise<any> {
+        let { keyword } = options;
+        let cities = [];
+        const result = await restfulAPIUtil.proxyHttp({ uri: `${config.placeAPI}/city/search`, method: 'GET', qs: { keyword } })
+        if(result.code != 0) return null;
+        if(result.data && result.data instanceof Array) {
+            return result.data[0]
+        }
+        return result.data;
+    }
+
     /* 转换新版placeId 为老版本 */
     static async getTransferCity(id: string): Promise<string> {
         let CT_reg = /CT/ig;

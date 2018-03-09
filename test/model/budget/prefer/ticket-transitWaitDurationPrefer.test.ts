@@ -39,15 +39,6 @@ describe("ticket-transitWaitDurationPrefer", async () => {
     it("交通数据长度 should be ok", async () => {
         assert.equal(result.length, dataLength);
     })
-    
-   
-    it("存在中转飞机 should be ok", async () => {
-        await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
-            if([].indexOf(item.index) >= 0) {
-                assert.equal(item.score, 0);
-            } 
-        }))
-    })
 
     it("直达飞机 should be ok should be ok", async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {

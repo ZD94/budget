@@ -9,41 +9,43 @@ const trafficData = require("./traffic-data.json");
 // fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8');
 
 const baseScore = 5000;
-
+var result;
 describe("ticket-transitCityInChina", async () => {
-    
-    await Promise.all(trafficData.map((item: IFinalTicketTest) => {
-        delete item.score;
-        delete item.reasons;
-    })); 
 
-    const prefer = new TicketTransitCityInChina("transitCityInChina", {
-        baseScore
-    });
+    before(async () => {
+        await Promise.all(trafficData.map((item: IFinalTicketTest) => {
+            delete item.score;
+            delete item.reasons;
+        })); 
     
-    let result = await prefer.markScoreProcess(trafficData);
-    // fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8');
-
-    it("multi-trips-contain-one-in-china should be ok", async () => {
+        const prefer = new TicketTransitCityInChina("transitCityInChina", {
+            baseScore
+        });
+        
+        result = await prefer.markScoreProcess(trafficData);
+        // fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8');    
+    })
+    
+  
+    it("第97项 中转城市包含国内机场 should be ok", async () => {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
-            if([].indexOf(item.index) >= 0) {
-                assert.equal(item.score, 0);
+            if([97].indexOf(item.index) >= 0) {
+                assert.equal(item.score, 5000);
             } 
         }))
     })
 
-    it("single-trip should be ok should be ok", async()=> {
+    it("第110项 单程航班 should be ok", async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
-            if([].indexOf(item.index) >= 0) {
+            if([110].indexOf(item.index) >= 0) {
                 assert.equal(item.score, 0);
-            }
-            
+            }      
         }));
     })
 
-    it("multi-trips-oversea should be ok should be ok", async()=> {
+    it("第107 火车 should be ok", async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
-            if([].indexOf(item.index) >= 0) {
+            if([107].indexOf(item.index) >= 0) {
                 assert.equal(item.score, 0);
             }
         }));

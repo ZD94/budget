@@ -42,7 +42,7 @@ describe("ticket-planeNumberPrefer", async () => {
                 assert.equal(item.score, 1079);
             }
             if([189].indexOf(item.index) >= 0) {
-                assert.equal(item.score, 4984);
+                assert.equal(item.score, 4988);
             }
         }));
     })
@@ -50,7 +50,7 @@ describe("ticket-planeNumberPrefer", async () => {
     it("位置偏好以上 should be ok", async () => {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([289].indexOf(item.index) >= 0) {
-                assert.equal(item.score, -4004);
+                assert.equal(item.score, -5810);
             } 
             if([265].indexOf(item.index) >= 0) {
                 assert.equal(item.score, 1892);

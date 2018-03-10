@@ -22,10 +22,14 @@ export class TmcSupplierMethod {
         status: TMCStatus
     }, companyId, tmcTypeId): Promise<TmcSupplier> {
         //加入companyID 的检查
+        console.info("addSupplier==========");
         let company = await Models.company.get(companyId);
         let tmcType = await Models.tmcTypes.get(params.tmcTypeId);
         if (!company || !tmcType) {
             throw new L.ERROR_CODE_C(500,"公司或供应商不存在")
+        }
+        if(typeof params.type == 'string'){
+            params.type = Number(params.type);
         }
         let companies = await Models.tmcSupplier.all({
             where: {
@@ -37,9 +41,7 @@ export class TmcSupplierMethod {
         if (companies && companies.length != 0) {
             throw new L.ERROR_CODE_C(500,"服务已开通，请勿重复添加")
         }
-        if(typeof params.type == 'string'){
-            params.type = Number(params.type);
-        }
+
         let tmcSupplier = Models.tmcSupplier.create({
             id: uuid.v1(),
             type: params.type,

@@ -39,10 +39,10 @@ export class TmcSupplierMethod {
         }
         let tmcSupplier = Models.tmcSupplier.create({
             id: uuid.v1(),
-            type: params.type,
+            type: params.type+'',
             identify: params.identify,
             name: params.name,
-            status: params.status,
+            status: params.status+'',
         });
         tmcSupplier.company = company;
         tmcSupplier.tmcType = tmcType;

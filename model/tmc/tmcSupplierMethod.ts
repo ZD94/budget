@@ -37,15 +37,19 @@ export class TmcSupplierMethod {
         if (companies && companies.length != 0) {
             throw new L.ERROR_CODE_C(500,"服务已开通，请勿重复添加")
         }
+        if(typeof params.type == 'string'){
+            params.type = Number(params.type);
+        }
         let tmcSupplier = Models.tmcSupplier.create({
             id: uuid.v1(),
-            type: params.type+'',
+            type: params.type,
             identify: params.identify,
             name: params.name,
             status: params.status+'',
         });
         tmcSupplier.company = company;
         tmcSupplier.tmcType = tmcType;
+        console.info("tmcSupplier==============", tmcSupplier);
         return await tmcSupplier.save();
     }
 

@@ -22,7 +22,6 @@ export class TmcSupplierMethod {
         status: TMCStatus
     }, companyId, tmcTypeId): Promise<TmcSupplier> {
         //加入companyID 的检查
-        console.info("addSupplier==========");
         let company = await Models.company.get(companyId);
         let tmcType = await Models.tmcTypes.get(params.tmcTypeId);
         if (!company || !tmcType) {
@@ -51,7 +50,6 @@ export class TmcSupplierMethod {
         });
         tmcSupplier.company = company;
         tmcSupplier.tmcType = tmcType;
-        console.info("tmcSupplier==============", tmcSupplier);
         return await tmcSupplier.save();
     }
 

@@ -9,3 +9,4 @@ mytest/
 .vscode/
 .DS_Store
 token.txt
+.nyc_output

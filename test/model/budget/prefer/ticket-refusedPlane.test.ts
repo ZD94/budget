@@ -23,11 +23,11 @@ describe("traffic-refusedPlane", async () => {
     });
     
 
-    it("data length should be ok", async () => {
+    it("源数据长度 should be ok", async () => {
         assert.equal(dataLength, trafficData.length);
     })
 
-    it("plane-score-minus-5000 should be ok", async()=> {
+    it("第264项 交通为飞机，减去5000分 should be ok", async()=> {
         await Promise.all(trafficData.map((item: IFinalTicketTest) => {
             delete item.score;
             delete item.reasons;
@@ -41,7 +41,7 @@ describe("traffic-refusedPlane", async () => {
         })); 
     })
 
-    it("not-planes-score-keep-unchanged should be ok", async()=> {
+    it("第9、186项，交通为火车 打0分 should be ok", async()=> {
         await Promise.all(trafficData.map((item: IFinalTicketTest) => {
             delete item.score;
             delete item.reasons;

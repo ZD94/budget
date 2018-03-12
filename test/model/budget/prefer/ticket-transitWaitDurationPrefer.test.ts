@@ -40,7 +40,7 @@ describe("ticket-transitWaitDurationPrefer", async () => {
         assert.equal(result.length, dataLength);
     })
 
-    it("直达飞机 should be ok should be ok", async()=> {
+    it("第141、207项 满足直达飞机 打0分 should be ok", async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([141, 207].indexOf(item.index) >= 0) {
                 assert.equal(item.score, initScore);
@@ -49,7 +49,7 @@ describe("ticket-transitWaitDurationPrefer", async () => {
         }));
     })
 
-    it("乘坐火车 should be ok should be ok", async()=> {
+    it("第105、136项 乘坐火车 打0分should be ok", async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([105, 136].indexOf(item.index) >= 0) {
                 assert.equal(item.score, initScore);

@@ -37,7 +37,7 @@ describe("ticket-PriorSupplier", async () => {
 
     
 
-    it(`交通类型是火车 should be ok should be ok`, async()=> {
+    it(`第382项 交通类型是火车 打0分 should be ok`, async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([382].indexOf(item.index) >= 0) {
                 assert.equal(item.score, initScore);
@@ -46,7 +46,7 @@ describe("ticket-PriorSupplier", async () => {
     })
     
    
-    it("第174项 不在优选供应商列表中的航班 should be ok", async () => {
+    it("第174项 不在优选供应商列表中的航班 打0分 should be ok", async () => {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([174].indexOf(item.index) >= 0) {
                 assert.equal(item.score, initScore);
@@ -54,7 +54,7 @@ describe("ticket-PriorSupplier", async () => {
         }))
     })
 
-    it("第113项 在优选供应商列表中的航班 should be ok", async () => {
+    it("第113项 在优选供应商列表中的航班 打5000分 should be ok", async () => {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([113].indexOf(item.index) >= 0) {
                 assert.equal(item.score, baseScore);
@@ -62,7 +62,7 @@ describe("ticket-PriorSupplier", async () => {
         }))
     })
     //第266项航班号不存在
-    it("第266项 航班号不存在 should be ok should be ok", async()=> {
+    it("第266项 航班号不存在 打0分 should be ok", async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([266].indexOf(item.index) >= 0) {
                 assert.equal(item.score, initScore);
@@ -71,7 +71,7 @@ describe("ticket-PriorSupplier", async () => {
         }));
     })
     //修改248的航班号
-    it("第248项 航班号存在但长度小于2字符 should be ok should be ok", async()=> {
+    it("第248项 航班号存在但长度小于2字符 打0分 should be ok", async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([248].indexOf(item.index) >= 0) {
                 assert.equal(item.score, initScore);
@@ -93,7 +93,7 @@ describe("ticket-PriorSupplier", async () => {
             // fs.writeFileSync("./file-directive1.json", JSON.stringify(subResult), 'utf-8');
         
         })
-        it(`偏好优选供应商列表不存在, 不打分 should be ok `, async()=> {
+        it(`第110项 偏好优选供应商列表不存在 打0分 should be ok`, async()=> {
             await Promise.all(await subResult.map((item: IFinalTicketTest, index: number) => {
                 if([110].indexOf(item.index) >= 0) {
                     assert.equal(item.score, initScore);

@@ -5,7 +5,7 @@ import { IFinalTicket, ETrainSeat } from '../../../../model/budget/prefer/interf
 import {IFinalTicketTest} from "./ticket-refusedPlane.test";
 
 const trafficData = require("./traffic-data.json");
-// const fs = require("fs")
+const fs = require("fs")
 // fs.writeFileSync("./file.json", JSON.stringify(result), 'utf-8');
 const baseScore = -5000;
 const dataLength = 410;
@@ -35,7 +35,7 @@ describe("ticket-PermitOnlySupplier", async () => {
         assert.equal(result.length, dataLength);
     })
 
-    it(`交通类型是火车,不打分 should be ok should be ok`, async()=> {
+    it(`第97项 交通类型是火车,打0分 should be ok should be ok`, async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([97].indexOf(item.index) >= 0) {
                 assert.equal(item.score, initScore);
@@ -52,7 +52,7 @@ describe("ticket-PermitOnlySupplier", async () => {
         }))
     })
     //248项修改航班号低于2个字符
-    it("航班号存在且小于2个字符，应该不打分 should be ok should be ok", async()=> {
+    it("第248项 航班号存在且小于2个字符，应该不打分 should be ok should be ok", async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([248].indexOf(item.index) >= 0) {
                 assert.equal(item.score, initScore);
@@ -61,7 +61,7 @@ describe("ticket-PermitOnlySupplier", async () => {
         }));
     })
 
-    it("允许乘坐的航空公司的航班, 已打分 should be ok should be ok", async()=> {
+    it("第114、173项 允许乘坐的航空公司的航班, 打0分 should be ok should be ok", async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([114, 173].indexOf(item.index) >= 0) {
                 assert.equal(item.score, initScore);

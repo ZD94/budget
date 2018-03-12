@@ -30,7 +30,7 @@ describe("ticket-preaircompany", async () => {
         assert.equal(result.length, dataLength);
     })
 
-    it(`满足期望航空公司 should be ok should be ok`, async()=> {
+    it(`第113项 满足期望航空公司 打5000分 should be ok should be ok`, async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([113].indexOf(item.index) >= 0) {
                 assert.equal(item.score, baseScore);
@@ -38,7 +38,7 @@ describe("ticket-preaircompany", async () => {
         }));
     })
 
-    it("不满足期望航空公司 should be ok", async () => {
+    it("第108项 不满足期望航空公司 打0分 should be ok", async () => {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([108].indexOf(item.index) >= 0) {
                 assert.equal(item.score, initScore);

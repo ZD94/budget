@@ -36,7 +36,7 @@ describe("ticket-planeNumberPrefer", async () => {
         assert.equal(result.length, dataLength);
     })
 
-    it(`位置偏好以下 should be ok`, async()=> {
+    it(`第17、189项 位置偏好以下 should be ok`, async()=> {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([17].indexOf(item.index) >= 0) {
                 assert.equal(item.score, 1079);
@@ -47,7 +47,7 @@ describe("ticket-planeNumberPrefer", async () => {
         }));
     })
 
-    it("位置偏好以上 should be ok", async () => {
+    it("第289、265项 位置偏好以上 should be ok", async () => {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([289].indexOf(item.index) >= 0) {
                 assert.equal(item.score, -5810);
@@ -59,7 +59,7 @@ describe("ticket-planeNumberPrefer", async () => {
     })
 
 
-    it("位置偏好 不打分 should be ok", async () => {
+    it("第264项 位置偏好 不打分 should be ok", async () => {
         await Promise.all(await result.map((item: IFinalTicketTest, index: number) => {
             if([264].indexOf(item.index) >= 0) {
                 assert.equal(item.score, initScore);

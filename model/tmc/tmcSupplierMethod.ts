@@ -154,7 +154,8 @@ export class TmcSupplierMethod {
                     });
                     data = await Promise.all(newTmcSupplier);
                 } else {
-                    throw new L.ERROR_CODE_C(500,"供应商未开通")
+                    // throw new L.ERROR_CODE_C(500,"供应商未开通")
+                    return null;
                 }
                 return data
         }
@@ -184,7 +185,8 @@ export class TmcSupplierMethod {
             where: where
         });
         if (!tmcSupplier || tmcSupplier.length == 0) {
-            throw new L.ERROR_CODE_C(500,"供应商不存在")
+            // throw new L.ERROR_CODE_C(500,"供应商不存在")
+            return null;
         }
         let newTmcSupplier = tmcSupplier.map(async function (item) {
             let supplier = item.toJSON();

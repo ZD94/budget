@@ -27,6 +27,9 @@ export class TmcSupplierMethod {
         if (!company || !tmcType) {
             throw new L.ERROR_CODE_C(500,"公司或供应商不存在")
         }
+        if(typeof params.type == 'string'){
+            params.type = Number(params.type);
+        }
         let companies = await Models.tmcSupplier.all({
             where: {
                 company_id: companyId,
@@ -37,12 +40,13 @@ export class TmcSupplierMethod {
         if (companies && companies.length != 0) {
             throw new L.ERROR_CODE_C(500,"服务已开通，请勿重复添加")
         }
+
         let tmcSupplier = Models.tmcSupplier.create({
             id: uuid.v1(),
             type: params.type,
             identify: params.identify,
             name: params.name,
-            status: params.status,
+            status: params.status+'',
         });
         tmcSupplier.company = company;
         tmcSupplier.tmcType = tmcType;

@@ -4,7 +4,8 @@
   "description": "jingli budget project",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "coverage": "./node_modules/nyc/bin/nyc.js -e .js -e .ts mocha test/prefer.test.js"
   },
   "repository": {
     "type": "git",

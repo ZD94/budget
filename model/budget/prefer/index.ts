@@ -19,37 +19,36 @@ export enum DEFAULT_PREFER_CONFIG_TYPE {
 const sysPrefer = require("./default-prefer/sys-prefer.json");
 const defaultPrefer = require("./default-prefer/default-company-prefer.json");
 
-export function loadPrefers(prefers: any[], qs: { local: any }, type?: DEFAULT_PREFER_CONFIG_TYPE) {
+export async function loadPrefers(prefers: any[], qs: { local: any }, type?: DEFAULT_PREFER_CONFIG_TYPE) {
     let defaultPrefers;
     let sysPrefers;
     switch (type) {
         case DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL:
             sysPrefers = _.cloneDeep(sysPrefer.domesticHotel);
-            if (!prefers || !prefers.length) {
-                prefers = _.cloneDeep(defaultPrefer.domesticHotel);
-            }
-            defaultPrefers = mergePrefers(sysPrefers, prefers);
+            defaultPrefers = _.cloneDeep(defaultPrefer.domesticHotel);
+            prefers = await mergePrefers(defaultPrefers, prefers)
+            
+            defaultPrefers =await mergePrefers(sysPrefers, prefers, true);
             break;
         case DEFAULT_PREFER_CONFIG_TYPE.ABROAD_TRAFFIC:
-            sysPrefers = _.cloneDeep(sysPrefer.abroadTraffic);
-            if (!prefers || !prefers.length) {
-                prefers = _.cloneDeep(defaultPrefer.abroadTraffic);
-            }
-            defaultPrefers = mergePrefers(sysPrefers, prefers);
+            sysPrefers = _.cloneDeep(sysPrefer.abroadTraffic);  
+            defaultPrefers = _.cloneDeep(defaultPrefer.abroadTraffic);
+            prefers = await mergePrefers(defaultPrefers, prefers)
+
+            defaultPrefers = await mergePrefers(sysPrefers, prefers, true);
             break;
         case DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET:
             sysPrefers = _.cloneDeep(sysPrefer.domesticTraffic);
-            if (!prefers || !prefers.length) {
-                prefers = _.cloneDeep(defaultPrefer.domesticTraffic);
-            }
-            defaultPrefers = mergePrefers(sysPrefers, prefers);
+            defaultPrefers = _.cloneDeep(defaultPrefer.domesticTraffic);
+            prefers = await mergePrefers(defaultPrefers, prefers)
+            
+            defaultPrefers = await mergePrefers(sysPrefers, prefers, true);
             break;
         case DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL:
             sysPrefers = _.cloneDeep(sysPrefer.abroadHotel);
-            if (!prefers || !prefers.length) {
-                prefers = _.cloneDeep(defaultPrefer.abroadHotel);
-            }
-            defaultPrefers = mergePrefers(sysPrefers, prefers);
+            defaultPrefers = _.cloneDeep(defaultPrefer.abroadHotel);
+            prefers = await mergePrefers(defaultPrefers, prefers)
+            defaultPrefers = await mergePrefers(sysPrefers, prefers, true);
             break;
     }
     let _prefers = JSON.stringify(defaultPrefers);
@@ -58,15 +57,26 @@ export function loadPrefers(prefers: any[], qs: { local: any }, type?: DEFAULT_P
     return obj;
 }
 
-function mergePrefers(prefers: any[], newPrefers: any[]) {
-    if (!newPrefers) {
-        newPrefers = [];
+export  async function  mergePrefers(prefers: any[], newPrefers: any[], isConcat?: boolean): Promise<any[]> {
+    if(!newPrefers || !newPrefers.length) return prefers;
+    if(!isConcat) {
+        let preferNames: string[] = [];
+        await Promise.all(newPrefers.map(async (prefer) => {
+            preferNames.push(prefer.name)
+        }));
+    
+        prefers = await Promise.all(prefers.map(async (prefer) => {
+            if(preferNames.indexOf(prefer.name) > -1) return null;
+            return prefer;
+        })).filter(async (prefer) => {
+            if(!prefer) return false;
+            return true;
+        });
     }
-    newPrefers.forEach((prefer) => {
-        prefers.push(prefer);
-    });
-    return prefers;
+    
+    return [...prefers, ...newPrefers];
 }
+
 
 export var hotelPrefers = {
     starMatch: require('./hotel-star-match'),

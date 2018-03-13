@@ -90,6 +90,7 @@ class PriceDeviation extends AbstractPrefer<IFinalHotel> {
                 hotel.score += parseInt(`${pn}`);
                 hotel.reasons.push(`价格偏差惩罚打分 ${hotel.score}`)
             }catch (e){
+                console.log(e.message)
             }
         }
         return hotels

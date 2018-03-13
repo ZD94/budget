@@ -55,19 +55,25 @@ class PriceDeviation extends AbstractPrefer<IFinalHotel> {
 
         for (var i = 0; i <= 2; i++) {
             let len = series[i].length;
-            let parameter1 = len / 2;
-            let parameter2 = len * 0.05;
-            let parameter3 = len * 0.95;
-            p.push(series[i][parseInt(`${parameter1}`)].price);
-            p1.push(series[i][parseInt(`${parameter2}`)].price);
-            p2.push(series[i][parseInt(`${parameter3}`)].price);
+            if(!len){
+                p.push(0)
+                p1.push(0)
+                p2.push(0)
+            }else {
+                let parameter1 = len / 2;
+                let parameter2 = len * 0.05;
+                let parameter3 = len * 0.95;
+                p.push(series[i][parseInt(`${parameter1}`)].price);
+                p1.push(series[i][parseInt(`${parameter2}`)].price);
+                p2.push(series[i][parseInt(`${parameter3}`)].price);
+            }
         }
 
         for (let hotel of hotels) {
             if (!hotel.reasons) hotel.reasons = [];
             if (!hotel.score) hotel.score = 0;
             if (hotel.price == 0 || hotel.price == undefined) {
-                hotel.price += s;
+                hotel.score += s;
                 continue;
             }
 

@@ -2,7 +2,6 @@
 import {AbstractPrefer} from "./index";
 import {IFinalHotel} from "_types/budget";
 
-let data = require('./hotel-data.json')
 let s = -20000.0;
 let k = 100.0;
 

@@ -1,7 +1,8 @@
-'use strict'
-import {AbstractPrefer} from './index'
-import {IFinalHotel} from "_types/budget"
+'use strict';
+import {AbstractPrefer} from "./index";
+import {IFinalHotel} from "_types/budget";
 
+let data = require('./hotel-data.json')
 class PriceDeviation extends AbstractPrefer<IFinalHotel> {
     private score: number
 
@@ -13,10 +14,19 @@ class PriceDeviation extends AbstractPrefer<IFinalHotel> {
    }
 
     async markScoreProcess(hotels: IFinalHotel[]): Promise<IFinalHotel[]> {
-        let sporadicSeries = hotels.map((hotel)=>{
+        let sporadicSeries = [];
+        let mediumStar = [];
+        hotels.map((hotel)=>{
+            if(hotel.star == 0){
+                sporadicSeries.push(hotel)
+            }else if(hotel.star == 1 || hotel.star == 2 || hotel.star == 3){
+                mediumStar.push(hotel)
+            }else {
+
+            }
 
         })
-
+        return hotels
     }
 
 }
@@ -24,10 +34,3 @@ class PriceDeviation extends AbstractPrefer<IFinalHotel> {
 
 export = PriceDeviation;
 
-let data = {
-
-}
-let obj = new PriceDeviation("PriceDeviation",{
-    score:0
-})
-obj.markScoreProcess(data)

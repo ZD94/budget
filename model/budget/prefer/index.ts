@@ -94,7 +94,8 @@ export var hotelPrefers = {
     priceRange: require('./hotel-pricerange'),
     distance: require('./hotel-distance'),
     price: require('./price'),
-    commentScore: require("./hotel-commentScore")
+    commentScore: require("./hotel-commentScore"),
+    priceDeviationPunishment:require('./hotel-priceDeviationPunishment')
 }
 
 export var ticketPrefers = {

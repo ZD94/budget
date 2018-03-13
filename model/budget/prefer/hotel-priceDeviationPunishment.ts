@@ -2,7 +2,6 @@
 import {AbstractPrefer} from "./index";
 import {IFinalHotel} from "_types/budget";
 
-let s = -20000.0;
 let k = 100.0;
 
 class PriceDeviation extends AbstractPrefer<IFinalHotel> {
@@ -28,7 +27,7 @@ class PriceDeviation extends AbstractPrefer<IFinalHotel> {
     }
 
     async markScoreProcess(hotels: IFinalHotel[]): Promise<IFinalHotel[]> {
-
+        let self = this
         let sporadicSeries = [];
         let mediumStar = [];
         let higherStar = [];
@@ -72,7 +71,7 @@ class PriceDeviation extends AbstractPrefer<IFinalHotel> {
             if (!hotel.reasons) hotel.reasons = [];
             if (!hotel.score) hotel.score = 0;
             if (hotel.price == 0 || hotel.price == undefined) {
-                hotel.score += s;
+                hotel.score += self.score;
                 continue;
             }
 
@@ -91,7 +90,7 @@ class PriceDeviation extends AbstractPrefer<IFinalHotel> {
                 continue;
             }
             try {
-                let pn = (s * (1 - 2 / (1 + Math.exp(Math.abs(hotel.price - _p) / k))));
+                let pn = (self.score * (1 - 2 / (1 + Math.exp(Math.abs(hotel.price - _p) / k))));
                 hotel.score += parseInt(`${pn}`);
                 hotel.reasons.push(`价格偏差惩罚打分 ${hotel.score}`)
             }catch (e){

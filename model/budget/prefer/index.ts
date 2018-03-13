@@ -94,7 +94,7 @@ export var ticketPrefers = {
     price: require('./price'),
     planeNumberPrefer: require('./ticket-planeNumberPrefer'),
     permitOnlySupplier: require('./ticket-permitOnlySupplier'),
-    priorSupplier: require('./ticket-priorSupplier'),
+    // priorSupplier: require('./ticket-priorSupplier'),
     directArrive: require('./ticket-directArrive'),
     transitWaitDuration: require('./ticket-transitWaitDurationPrefer'),
     transitCityInChina: require("./ticket-transitCityInChinaPrefer"),

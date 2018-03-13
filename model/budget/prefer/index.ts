@@ -16,8 +16,8 @@ export enum DEFAULT_PREFER_CONFIG_TYPE {
     DOMESTIC_HOTEL = 4,
 }
 
-const sysPrefer = require("./default-prefer/sys-prefer.json");
-const defaultPrefer = require("./default-prefer/default-company-prefer.json");
+export const sysPrefer = require("./default-prefer/sys-prefer.json");
+export const defaultPrefer = require("./default-prefer/default-company-prefer.json");
 
 export async function loadPrefers(prefers: any[], qs: { local: any }, type?: DEFAULT_PREFER_CONFIG_TYPE) {
     let defaultPrefers;
@@ -68,7 +68,8 @@ export  async function  mergePrefers(prefers: any[], newPrefers: any[], isConcat
         prefers = await Promise.all(prefers.map(async (prefer) => {
             if(preferNames.indexOf(prefer.name) > -1) return null;
             return prefer;
-        })).filter(async (prefer) => {
+        }));
+        prefers = prefers.filter((prefer) => {
             if(!prefer) return false;
             return true;
         });

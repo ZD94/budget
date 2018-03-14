@@ -152,8 +152,8 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
             leaveDate: lastDestinations.goBackDate,
             originPlace: lastDestinations.destinationPlace,
             destination: originParams.goBackPlace,
-            earliestGoBackDateTime: lastDestinations.earliestGoBackDateTime,
-            latestArrivalDateTime: lastDestinations.latestArrivalDateTime
+            earliestGoBackDateTime: lastDestinations.earliestGoBackDateTime, 
+            latestArrivalDateTime: null   //回程的lastestArrivalDateTime应该为空，不应该是上一个目的地的最晚到达时间， latestArrivalDateTime < earliestGoBackDateTime
         }));
 
         /* 增加一项补助 */

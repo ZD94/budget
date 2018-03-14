@@ -17,7 +17,7 @@ import L from '@jingli/language';
 let moment = require("moment");
 require("moment-timezone");
 import { HotelPriceLimitType } from "_types/company";
-import { BudgetType, SearchHotelParams, SearchTicketParams, SearchSubsidyParams } from "./interface";
+import { BudgetType, SearchHotelParams, SearchTicketParams, SearchSubsidyParams, TripType } from "./interface";
 
 
 export interface AllPreferParams {
@@ -25,6 +25,7 @@ export interface AllPreferParams {
     travelPolicyId: string;
     type: BudgetType;
     input: SearchHotelParams | SearchTicketParams | SearchSubsidyParams;
+    backOrGo: TripType;
 }
 
 
@@ -69,7 +70,7 @@ export class GetAllPrefer {
 
     /* 获取交通行程所需全部打分参数 */
     async getTrafficAllPrefer(params: TrafficPreferParams) {
-        let { originPlace, destination, latestArrivalDateTime, earliestGoBackDateTime, companyId, travelPolicyId } = params;
+        let { originPlace, destination, latestArrivalDateTime, earliestGoBackDateTime, companyId, travelPolicyId, backOrGo } = params;
 
         if (typeof originPlace == 'string') {
             originPlace = await CityService.getCity(originPlace);
@@ -126,7 +127,7 @@ export class GetAllPrefer {
         }
 
         let dtimezone = destination && destination.timezone ? destination.timezone : 'Asia/Shanghai';
-        let leaveDate = moment(latestArrivalDateTime || earliestGoBackDateTime).tz(dtimezone).format('YYYY-MM-DD');
+        let leaveDate = moment( (backOrGo == TripType.GoTrip ?latestArrivalDateTime: earliestGoBackDateTime)).tz(dtimezone).format('YYYY-MM-DD');
 
         let staffPolicy = policies || {};
         let trainSeat = staffPolicy.trainSeat;

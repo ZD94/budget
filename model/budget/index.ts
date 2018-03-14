@@ -25,6 +25,7 @@ import { Models } from "_types";
 import { clearTimeout } from 'timers';
 import { BudgetHelps } from "./helper";
 import { getRate } from "model/rate";
+import * as _ from "lodash";
 
 // test
 // import "test/api/budget.test";
@@ -261,15 +262,28 @@ export class Budget extends BudgetHelps {
         return budget;
     }
 
-    async requestDataStore(params: any) {
-        /* 服务稳定后，应当对请求错误执行重复拉取 */
+    /* 如果没有拉取到数据，并且期望请求是cache，立即请求FIN数据 */
+    async requestDataStore(params: DataOrder) {
         try {
-            return await request({
+            let result = await request({
                 uri: config.dataStore + "/searchData",
                 method: "post",
                 body: params,
                 json: true
             });
+
+            if (params.step == STEP.CACHE && !result.length) {
+                let theParams = _.clone(params);
+                theParams.step = STEP.FINAL;
+                return await request({
+                    uri: config.dataStore + "/searchData",
+                    method: "post",
+                    body: params,
+                    json: true
+                });
+            } else {
+                return result;
+            }
         } catch (e) {
             console.error("requestDataStore error. The params : ", {
                 uri: config.dataStore + "/searchData",

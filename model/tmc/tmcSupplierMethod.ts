@@ -116,7 +116,7 @@ export class TmcSupplierMethod {
                         sname: sname
                     }
                 });
-                if (!tmcType["0"]) throw L.ERR.ERROR_CODE_C(500,"供应商不存在");
+                if (!tmcType["0"]) return null;
                 if (type && status) {
                     where = {
                         company_id: companyId,

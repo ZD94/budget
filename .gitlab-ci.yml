@@ -36,6 +36,7 @@ build:dist:
     # - --echo `npmhash`
     - git submodule update --init --checkout
     - npm install
+    - npm run coverage
     - gulp dist
     - ls dist/http/ -al
 

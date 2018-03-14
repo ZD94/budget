@@ -1,12 +1,11 @@
-import { ICity } from './interface';
-import * as L from "@jingli/language";
 
 /**
  * Created by wlh on 2018/3/8.
  */
 
 'use strict';
-var config = require("@jingli/config");
+import { ICity } from './interface';
+import * as L from "@jingli/language";
 
 export interface IPrefer<T> {
     markScore(tickets: T[]): Promise<T[]>;

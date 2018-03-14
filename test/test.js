@@ -20,7 +20,7 @@ process.on('unhandledRejection', (reason, p) => {
 
 // require('./mocha-zone')(global);
 
-var config = require("@jingli/config");
+// var config = require("@jingli/config");
 
 // var Logger = require('@jingli/logger');
 // Logger.init({
@@ -33,10 +33,10 @@ var config = require("@jingli/config");
 // });
 // var logger = new Logger('test');
 
-var API = require('@jingli/dnode-api');
+// var API = require('@jingli/dnode-api');
 
-var db = require('@jingli/database');
-db.init(config.postgres.url_test);
+// var db = require('@jingli/database');
+// db.init(config.postgres.url_test);
 //
 // var Server = require('common/server');
 // var server = new Server(config.appName, config.pid_file);

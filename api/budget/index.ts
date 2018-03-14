@@ -38,7 +38,7 @@ import config = require("@jingli/config");
 import { HotelPriceLimitType } from "_types/company";
 import { ECompanyRegionUsedType } from "_types/policy/companyRegion";
 let haversine = require("haversine");
-import { BudgetType, STEP } from 'model/budget/interface';
+import { BudgetType, STEP, DataOrder } from 'model/budget/interface';
 import getAllPrefer from 'model/budget/getAllPrefer';
 import { Budget } from '_types/budget';
 let md5 = require("md5");
@@ -123,7 +123,7 @@ class ApiTravelBudget {
                 longitude: location.longitude
             },
             step: STEP.CACHE
-        });
+        } as DataOrder);
 
         //computer the distance
         hotels.data.map((item) => {
@@ -155,7 +155,7 @@ class ApiTravelBudget {
                 destination: destinationId
             },
             step: STEP.CACHE
-        });
+        } as DataOrder);
 
         /* compute the discount */
         let fullPrice = await API.place.getFlightFullPrice({ originPlace: originPlaceId, destination: destinationId });

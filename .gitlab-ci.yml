@@ -123,8 +123,7 @@ deploy:tester:
     - ssh test@l.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME tester-$GITLAB_USER_ID -p 8080
 
   after_script:
-    - npm test
-    - mocha
+    - 'npm test 2&>1'
 
 
 deploy:release:

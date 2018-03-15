@@ -154,7 +154,9 @@ export abstract class AbstractHotelStrategy {
                 longitude: 0,
                 price: -1,
                 singlePrice: -1,
-                duringDays: days
+                duringDays: days,
+                rate: 1,
+                agent: null
             }
         }
 

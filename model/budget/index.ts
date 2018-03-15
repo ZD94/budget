@@ -265,21 +265,24 @@ export class Budget extends BudgetHelps {
 
     /* 如果没有拉取到数据，并且期望请求是cache，立即请求FIN数据 */
     async requestDataStore(params: DataOrder) {
+        let dataStoreParams = _.cloneDeep(params);
+        dataStoreParams.data = [];
         try {
-            let result = await request({
+            let result: DataOrder = await request({
                 uri: config.dataStore + "/searchData",
                 method: "post",
-                body: params,
+                body: dataStoreParams,
                 json: true
             });
 
-            if (params.step == STEP.CACHE && !result.length) {
-                let theParams = _.clone(params);
+            if (params.step == STEP.CACHE && !result.data.length) {
+                let theParams = _.clone(dataStoreParams);
                 theParams.step = STEP.FINAL;
+
                 return await request({
                     uri: config.dataStore + "/searchData",
                     method: "post",
-                    body: params,
+                    body: theParams,
                     json: true
                 });
             } else {

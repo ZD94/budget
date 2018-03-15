@@ -115,7 +115,6 @@ deploy:tester:
     JL_APP_COMMONAPI_HOST: t.jingli365.com
     JL_APP_COMMONAPI_PORT: 14201
   script:
-    - npm test
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME
     - docker tag $DOCKER_CI_NAME $DOCKER_REG/$DOCKER_NAME:tester-$GITLAB_USER_ID

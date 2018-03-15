@@ -8,7 +8,7 @@ const API = require("@jingli/dnode-api");
 import request = require("request-promise");
 const config = require("@jingli/config");
 import L from '@jingli/language';
-import { restfulAPIUtil } from 'api/restful';
+import { restfulAPIUtil } from '../api/restful';
 import { CoordDispose, Degree } from "../libs/place/placeUtil";
 import {getCityInfo} from '@jingli/city';
 
@@ -117,6 +117,17 @@ export class CityService {
         }
         let returnResult = await self.getSuperiorCityInfo({ cityId: city.parentId });
         return returnResult;
+    }
+
+    static async search(options: {keyword?: string}): Promise<any> {
+        let { keyword } = options;
+        if(!keyword) return null;
+        const result = await restfulAPIUtil.proxyHttp({ uri: `${config.placeAPI}/city/search`, method: 'GET', qs: { keyword } })
+        if(result.code != 0) return null;
+        if(result.data && result.data instanceof Array) {
+            return result.data[0]
+        }
+        return result.data;
     }
 
     /* 转换新版placeId 为老版本 */

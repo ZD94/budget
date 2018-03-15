@@ -4,7 +4,7 @@
 
 'use strict';
 import {AbstractPrefer} from "./index";
-import {IFinalTicket} from "_types/budget";
+import {IFinalTicket} from "./interface";
 
 class DirectArrivePrefer extends AbstractPrefer<IFinalTicket> {
 
@@ -32,6 +32,7 @@ class DirectArrivePrefer extends AbstractPrefer<IFinalTicket> {
                 let l = v.segs.length;
                 if (l > 1) {
                     let score = self.baseScore * ( 1- (l - 1) * self.rate);
+                    score = Math.round(score);
                     v.score += score;
                     v.reasons.push(`需经过${l-1}次中转: ${score}`);
                 }

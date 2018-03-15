@@ -4,7 +4,7 @@
 
 'use strict';
 import {AbstractPrefer} from "./index";
-import {IFinalHotel} from "_types/budget";
+import {IFinalHotel} from "./interface";
 import _ = require("lodash");
 
 class PricePrefer extends AbstractPrefer<IFinalHotel> {

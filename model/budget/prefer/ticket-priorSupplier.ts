@@ -3,7 +3,7 @@
  */
 
 'use strict';
-import {IFinalTicket, ETrafficType} from "_types/budget";
+import {IFinalTicket, ETrafficType} from "./interface";
 import {AbstractPrefer} from "./index";
 //优先供应商
 
@@ -30,7 +30,8 @@ class PriorSupplierPrefer extends AbstractPrefer<IFinalTicket> {
             if(v.type == ETrafficType.PLANE && v.No && v.No.length > 2){
                 supplier = v.No.substr(0,2);
             }
-            if (v.type == ETrafficType.PLANE && supplier.length > 0 && self.priorSuppliers.indexOf(supplier) >= 0) {
+            
+            if (v.type == ETrafficType.PLANE && supplier.length > 0 && self.priorSuppliers && self.priorSuppliers.indexOf(supplier) >= 0) {
                 v['score'] += self.score;
                 v['reasons'].push(`优先乘坐的供应商 ${self.score}`)
             } else {

@@ -1,8 +1,8 @@
 /*
  * @Author: Mr.He 
  * @Date: 2017-12-16 11:35:17 
- * @Last Modified by: Mr.He
- * @Last Modified time: 2018-01-29 10:53:35
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2018-03-13 14:37:08
  * @content what is the content of this file. */
 
 import { ICity, CityService } from '_types/city';
@@ -85,7 +85,7 @@ export class GetAllPrefer {
             placeId: destination.id
         });
         //由于prefer赋值问题，暂时关闭company单独设置，启用company默认设置
-        preferSet = [];
+        // preferSet = [];
 
         /* 交通的差旅政策 */
         let policies;
@@ -150,10 +150,10 @@ export class GetAllPrefer {
         let allPrefers;
         if ((<ICity>originPlace).isAbroad || (<ICity>destination).isAbroad) {
             let key = DEFAULT_PREFER_CONFIG_TYPE.ABROAD_TRAFFIC;
-            allPrefers = loadPrefers(preferSet["traffic"] || [], qs, key)
+            allPrefers = await loadPrefers(preferSet["traffic"] || [], qs, key)
         } else {
             let key = DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_TICKET;
-            allPrefers = loadPrefers(preferSet["traffic"] || [], qs, key)
+            allPrefers = await loadPrefers(preferSet["traffic"] || [], qs, key)
         }
         //追加员工特殊偏好
         if (typeof staffPolicy.trafficPrefer == 'number' && staffPolicy.trafficPrefer >= 0) {
@@ -247,7 +247,7 @@ export class GetAllPrefer {
 
         let staffPolicy = policies || {};
         let star = staffPolicy.hotelStar;
-        let allPrefers = loadPrefers(companyPrefers, {
+        let allPrefers = await loadPrefers(companyPrefers, {
             local: {
                 checkInDate,
                 checkOutDate,

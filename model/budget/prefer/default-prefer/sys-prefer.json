@@ -155,6 +155,12 @@
                 "expectStar": "<%=local.star%>",
                 "score": 100000
             }
+        },
+        {
+            "name": "priceDeviationPunishment",
+            "options": {
+                "score": -20000
+            }
         }
     ],
     "abroadHotel": [
@@ -175,6 +181,12 @@
             "options": {
                 "expectStar": "<%=local.star%>",
                 "score": 100000
+            }
+        },
+        {
+            "name": "priceDeviationPunishment",
+            "options": {
+                "score": -20000
             }
         }
     ]

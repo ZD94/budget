@@ -3,9 +3,9 @@
  */
 
 'use strict';
-import {IFinalTicket} from "_types/budget";
+import {IFinalTicket, ETrafficType} from "./interface";
 import {AbstractPrefer} from "./index";
-import {ETrafficType} from "_types/budget";
+
 /* * * * * * * * *
  * 仓位信息打分
  * * * * * * * * */

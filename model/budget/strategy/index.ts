@@ -116,30 +116,30 @@ export abstract class AbstractHotelStrategy {
         let checkOutDate = moment(self.qs.checkOutDate).format("YYYY-MM-DD");
         let checkInDate = moment(self.qs.checkInDate).format("YYYY-MM-DD");
         let days = moment(checkOutDate).diff(checkInDate, 'days');
-        if ((!_hotels || !_hotels.length) && self.qs.city && !self.qs.city.isAbroad) {
-            const defaultPrice = {
-                "5": 500,
-                "4": 450,
-                "3": 400,
-                "2": 350
-            }
+        // if ((!_hotels || !_hotels.length) && self.qs.city && !self.qs.city.isAbroad) {
+        //     const defaultPrice = {
+        //         "5": 500,
+        //         "4": 450,
+        //         "3": 400,
+        //         "2": 350
+        //     }
 
-            return {
-                city: self.qs.city ? self.qs.city.id : '',
-                name: null,
-                checkInDate: self.qs.checkInDate,
-                checkOutDate: self.qs.checkOutDate,
-                star: null,
-                singlePrice: defaultPrice[this.qs.star],
-                price: defaultPrice[this.qs.star] as number,
-                rate: 1,
-                agent: null,
-                type: EBudgetType.HOTEL,
-                latitude: 0,
-                longitude: 0,
-                duringDays: days
-            } as IHotelBudgetItem;
-        }
+        //     return {
+        //         city: self.qs.city ? self.qs.city.id : '',
+        //         name: null,
+        //         checkInDate: self.qs.checkInDate,
+        //         checkOutDate: self.qs.checkOutDate,
+        //         star: null,
+        //         singlePrice: defaultPrice[this.qs.star],
+        //         price: defaultPrice[this.qs.star] as number,
+        //         rate: 1,
+        //         agent: null,
+        //         type: EBudgetType.HOTEL,
+        //         latitude: 0,
+        //         longitude: 0,
+        //         duringDays: days
+        //     } as IHotelBudgetItem;
+        // }
 
         //没有预算
         if (!_hotels || !hotels.length) {
@@ -154,7 +154,9 @@ export abstract class AbstractHotelStrategy {
                 longitude: 0,
                 price: -1,
                 singlePrice: -1,
-                duringDays: days
+                duringDays: days,
+                rate: 1,
+                agent: null
             }
         }
 

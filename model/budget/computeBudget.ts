@@ -48,7 +48,7 @@ export class ComputeBudget {
 
         let budget = await strategy.getResult(data, params.step);
 
-        budget.price = this.limitHotelBudgetByPrefer(prefer.policies.minPriceLimit, prefer.policies.maxPriceLimit, budget.price);
+        budget.price = this.limitHotelBudgetByPrefer(prefer.policies.minPriceLimit * days, prefer.policies.maxPriceLimit * days, budget.price);
 
         let hotelBudget: IHotelBudgetItem = {
             id: budget.id,

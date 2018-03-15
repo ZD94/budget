@@ -124,6 +124,7 @@ deploy:tester:
 
   after_script:
     - npm test
+    - mocha
 
 
 deploy:release:

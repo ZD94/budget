@@ -31,7 +31,7 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
                     leaveDate: destination.latestArrivalDateTime,
                     originPlace: originParams.originPlace,
                     destination: destination.destinationPlace,
-                    earliestGoBackDateTime: destination.earliestGoBackDateTime,     //考虑在各个系统中删除 earliestGoBackDateTime， latestArrivalDateTime
+                    earliestGoBackDateTime: null,//destination.earliestGoBackDateTime,     //考虑在各个系统中删除 earliestGoBackDateTime， latestArrivalDateTime
                     latestArrivalDateTime: destination.latestArrivalDateTime,
                     index,
                     backOrGo: TripType.GoTrip
@@ -43,7 +43,7 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
                     leaveDate: destinations[index - 1].earliestGoBackDateTime,
                     originPlace: destinations[index - 1].destinationPlace,
                     destination: destination.destinationPlace,
-                    earliestGoBackDateTime: destination.earliestGoBackDateTime,
+                    earliestGoBackDateTime: null, //destination.earliestGoBackDateTime,
                     latestArrivalDateTime: destination.latestArrivalDateTime,
                     index,
                     backOrGo: TripType.GoTrip
@@ -152,8 +152,8 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
             leaveDate: lastDestinations.goBackDate,
             originPlace: lastDestinations.destinationPlace,
             destination: originParams.goBackPlace,
-            earliestGoBackDateTime: lastDestinations.earliestGoBackDateTime,
-            latestArrivalDateTime: lastDestinations.latestArrivalDateTime
+            earliestGoBackDateTime: lastDestinations.earliestGoBackDateTime, 
+            latestArrivalDateTime: null   //回程的lastestArrivalDateTime应该为空，不应该是上一个目的地的最晚到达时间， latestArrivalDateTime < earliestGoBackDateTime
         }));
 
         /* 增加一项补助 */

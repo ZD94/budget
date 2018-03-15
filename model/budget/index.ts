@@ -86,7 +86,8 @@ export class Budget extends BudgetHelps {
                 companyId,
                 travelPolicyId,
                 type: item.type,
-                input: item.input
+                input: item.input,
+                backOrGo: item.backOrGo
             });
 
             let ps = await Promise.all([await dataStore, await prefer]);

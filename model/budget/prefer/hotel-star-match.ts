@@ -3,15 +3,16 @@
  */
 
 'use strict';
-import {IFinalHotel, EHotelStar} from "_types/budget";
-import {AbstractPrefer} from "./index";
+import { IFinalHotel, EHotelStar } from "./interface";
+
+import { AbstractPrefer } from "./AbstractPrefer";
 import _ = require("lodash");
 
 class StarMatchPrefer extends AbstractPrefer<IFinalHotel> {
 
     private score: number;
     private expectStar: any;
-    
+
     constructor(name, options) {
         super(name, options);
         if (!this.score) {
@@ -23,14 +24,14 @@ class StarMatchPrefer extends AbstractPrefer<IFinalHotel> {
         if (!_.isArray(this.expectStar)) {
             this.expectStar = [this.expectStar];
         }
-        this.expectStar = this.expectStar.map( (v)=> {
+        this.expectStar = this.expectStar.map((v) => {
             return parseInt(v);
         })
     }
-    
-    async markScoreProcess(hotels:IFinalHotel[]):Promise<IFinalHotel[]> {
+
+    async markScoreProcess(hotels: IFinalHotel[]): Promise<IFinalHotel[]> {
         let self = this;
-        hotels = hotels.map( (v) => {
+        hotels = hotels.map((v) => {
             if (!v.score) v.score = 0;
             if (!v.reasons) v.reasons = [];
 
@@ -44,7 +45,7 @@ class StarMatchPrefer extends AbstractPrefer<IFinalHotel> {
         })
         return hotels;
     }
-    
+
 }
 
-export= StarMatchPrefer;
+export = StarMatchPrefer;

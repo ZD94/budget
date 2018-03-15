@@ -3,7 +3,7 @@
  */
 
 'use strict';
-import {IFinalTicket, ETrafficType} from "_types/budget";
+import {IFinalTicket, ETrafficType} from "./interface";
 import {AbstractPrefer} from "./index";
 
 const ONLY_TRAIN_DURATION = 3.5 * 60;

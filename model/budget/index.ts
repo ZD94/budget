@@ -258,6 +258,13 @@ export class Budget extends BudgetHelps {
         if (item.type == BudgetType.TRAFFICT) {
             budget.leaveDate = (item.input as SearchTicketParams).leaveDate;
         }
+        if (item.type != BudgetType.SUBSIDY) {
+            let data = _.cloneDeep(budget.markedScoreData);
+                data.sort();
+            let highestItem = data[data.length-1]
+            budget.highestPrice = highestItem.price
+        }
+
         delete budget.prefers;
         delete budget.markedScoreData;
         return budget;

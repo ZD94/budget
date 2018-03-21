@@ -16,7 +16,7 @@ function loadTest(dir) {
         let fullPath = path.join(dir, f)
         var stat = fs.statSync(fullPath)
         if (stat.isDirectory()) {
-            loadTest(fullPath);
+           return loadTest(fullPath);
         }
 
         if (!/\.test\.(js|ts)$/.test(fullPath)) {

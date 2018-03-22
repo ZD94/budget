@@ -16,7 +16,7 @@ describe("测试loadPrefers功能", async () => {
 
     it("公司设置偏好为空数据 类型为国外酒店 should be ok", async () => {
         let allPrefers = await loadPrefers([], {local: {}}, DEFAULT_PREFER_CONFIG_TYPE.ABROAD_HOTEL)
-        assert.equal(allPrefers.length, 7)
+        assert.equal(allPrefers.length, 8)
     });
     it("公司设置偏好为空数据 类型为国外交通 should be ok", async () => {
         let allPrefers = await loadPrefers([], {local: {}}, DEFAULT_PREFER_CONFIG_TYPE.ABROAD_TRAFFIC)
@@ -25,7 +25,7 @@ describe("测试loadPrefers功能", async () => {
 
     it("公司设置偏好为空数据, 类型为国内酒店 should be ok", async () => {
         let allPrefers = await loadPrefers([], {local: {}}, DEFAULT_PREFER_CONFIG_TYPE.DOMESTIC_HOTEL)
-        assert.equal(allPrefers.length, 10)
+        assert.equal(allPrefers.length, 11)
     });
 
     it("公司设置偏好为空数据, 类型为国内交通 should be ok", async () => {

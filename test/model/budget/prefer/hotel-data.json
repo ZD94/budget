@@ -703,7 +703,7 @@
 		"name": "上海和平饭店",
 		"star": 5,
 		"agent": "ctrip",
-		"price": 2209,
+		"price": "2209",
 		"bookUrl": "http://m.ctrip.com/webapp/hotel/hoteldetail/375539.html?daylater=7&days=1&contrl=0&pay=0&latlon=#fromList",
 		"latitude": 31.235210584793766,
 		"longitude": 121.47838864373891,

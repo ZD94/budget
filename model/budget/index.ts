@@ -272,10 +272,12 @@ export class Budget extends BudgetHelps {
         }
         if (item.type != BudgetType.SUBSIDY) {
             let data = _.cloneDeep(budget.markedScoreData);
+            for (let item of data){
+                item.price ? item.price = Number(item.price) : item.price = 0
+            }
             let scoreDataSortByPrice = data.sort(this.compare);
-            budget.highestPrice = scoreDataSortByPrice[0].price
+            budget.highestPrice = scoreDataSortByPrice[0].price * budgetOrder.persons
         }
-
         delete budget.prefers;
         delete budget.markedScoreData;
         return budget;

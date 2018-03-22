@@ -246,6 +246,18 @@ export class Budget extends BudgetHelps {
         }
     }
 
+    compare(obj1, obj2) {
+        let val1 = obj1.price;
+        let val2 = obj2.price;
+        if (val1 < val2) {
+            return 1
+        } else if (val1 > val2) {
+            return -1
+        } else {
+            return 0
+        }
+    }
+
     /* 处理汇率 */
     completeBudget(item: DataOrder, budgetOrder: BudgetOrder) {
         let budget = item.budget;
@@ -260,9 +272,8 @@ export class Budget extends BudgetHelps {
         }
         if (item.type != BudgetType.SUBSIDY) {
             let data = _.cloneDeep(budget.markedScoreData);
-                data.sort();
-            let highestItem = data[data.length-1]
-            budget.highestPrice = highestItem.price
+            let scoreDataSortByPrice = data.sort(this.compare);
+            budget.highestPrice = scoreDataSortByPrice[0].price
         }
 
         delete budget.prefers;

@@ -21,16 +21,22 @@ class StoppingPrefer extends AbstractPrefer<IFinalTicket> {
         data = data.map((v) => {
             if (!v.score) v.score = 0;
             if (!v.reasons) v.reasons = [];
-            for (let item of v.segs) {
-                if (item.fsitem && item.fsitem.length) {
-                    let l = item.fsitem.length
-                    if (l > 1) {
 
+            if (v.segs && v.segs.length) {
+                for (let item of v.segs) {
+                    if (item.fsitem && item.fsitem.length) {
+                        let l = item.fsitem.length;
+                        if (l > 0) {
+                            let score = self.baseScore * (1 - l * self.rate);
+                            score = Math.round(score);
+                            v.score += score;
+                            v.reasons.push(`需经过${l}次经停：${score}`);
+                        }
                     }
                 }
             }
             return v
-        })
+        });
         return data
     }
 

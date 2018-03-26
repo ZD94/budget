@@ -24,8 +24,8 @@ class StoppingPrefer extends AbstractPrefer<IFinalTicket> {
 
             if (v.segs && v.segs.length) {
                 for (let item of v.segs) {
-                    if (item.fsitem && item.fsitem.length) {
-                        let l = item.fsitem.length;
+                    if (item.stopping && item.stopping.length) {
+                        let l = item.stopping.length;
                         if (l > 0) {
                             let score = self.baseScore * (1 - l * self.rate);
                             score = Math.round(score);

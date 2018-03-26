@@ -12,6 +12,7 @@ import { analyzeBudgetParams } from "./analyzeParams";
 import { STEP, BudgetOrder, DataOrder, BudgetType, SearchHotelParams, SearchTicketParams, SearchSubsidyParams, BudgetFinallyResult, GetBudgetParams } from "./interface";
 import uuid = require("uuid");
 var API = require("@jingli/dnode-api");
+import {restfulAPIUtil} from 'api/restful/index'
 import getAllPrefer from "./getAllPrefer";
 import computeBudget from "./computeBudget";
 import getSubsidy from "./getSubsidy";
@@ -134,6 +135,15 @@ export class Budget extends BudgetHelps {
             result: finallyResult
         });
         await budgetItem.save();
+        this.setWebTrackEndPoint({
+            "__topic__":config.serverType,
+            "project":"jlbudget",
+            "eventName":"HttpRequest-FirstBudgetResult",
+            "result":JSON.stringify(finallyResult),
+            "step":finallyResult.step,
+            "persons":`${finallyResult.persons}`,
+            "operationStatus": finallyResult.budgets.length ? 'SUCCESS' : 'FAIL'
+        });
         return finallyResult;
     }
 
@@ -205,7 +215,15 @@ export class Budget extends BudgetHelps {
             budgetItem.resultFinally = finallyResult;
             await budgetItem.save();
         }
-
+        this.setWebTrackEndPoint({
+            "__topic__":config.serverType,
+            "project":'jlbudget',
+            "eventName":"HttpRequest-FinallyDateResult",
+            "result":JSON.stringify(finallyResult.budgets),
+            "step":finallyResult.step,
+            "persons":`${finallyResult.persons}`,
+            "operationStatus": finallyResult.budgets.length ? 'SUCCESS' : 'FAIL'
+        })
         await this.sendBudget(finallyResult, budgetOrder.callbackUrl);
     }
 
@@ -317,6 +335,25 @@ export class Budget extends BudgetHelps {
             });
             throw new Error(e.message || e);
         }
+    }
+
+    async setWebTrackEndPoint(params){
+        let qs = {
+            "APIVersion": '0.6.0',
+        };
+        for (let key in params){
+            qs[key] = params[key]
+        }
+        try{
+            let result = await restfulAPIUtil.proxyHttp({
+                uri: config.aliWebTrackUrl,
+                qs
+            })
+        }catch (err){
+            console.log(err);
+            return
+        }
+
     }
 }
 

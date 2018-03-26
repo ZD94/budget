@@ -56,6 +56,12 @@
                 "score": 100000,
                 "latestArrivalTime": "<%=local.latestArrivalDateTime%>"
             }
+        },
+        {
+            "name": "stopping",
+            "options": {
+                "baseScore": 20000
+            }
         }
     ],
     "abroadTraffic": [

@@ -18,6 +18,7 @@ export class TmcSupplierMethod {
         tmcTypeId: string;
         type: TmcServiceType;
         name: string;
+        sname:string;
         identify: any;
         status: TMCStatus
     }, companyId, tmcTypeId): Promise<TmcSupplier> {
@@ -46,6 +47,7 @@ export class TmcSupplierMethod {
             type: params.type,
             identify: params.identify,
             name: params.name,
+            sname:params.sname,
             status: params.status+'',
         });
         tmcSupplier.company = company;

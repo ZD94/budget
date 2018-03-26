@@ -28,7 +28,7 @@ import { getRate } from "model/rate";
 import * as _ from "lodash";
 
 // test
-// import "test/api/budget.test";
+import "test/api/budget.test";
 
 export class Budget extends BudgetHelps {
     constructor() {
@@ -95,7 +95,7 @@ export class Budget extends BudgetHelps {
             item.step = ps[0].step;
             item.channels = ps[0].channels;
             item.prefer = ps[1];
-            //进行打分，得出最终预算
+            //进行打分，得出最终预算   入口
             item.budget = await computeBudget.getBudget(item, budgetOrder.persons);
             return item;
         });

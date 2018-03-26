@@ -25,6 +25,7 @@ export class ComputeBudget {
             transParams[key] = params.input[key];
         }
         if (params.type == BudgetType.TRAFFICT) {
+            //入口
             return await this.getTrafficBudget(transParams, persons);
         } else {
             return await this.getHotelBudget(transParams, persons);

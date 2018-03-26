@@ -7,8 +7,8 @@ import { IFinalHotel, EHotelStar } from "./interface";
 import { AbstractPrefer } from "./AbstractPrefer";
 /**
  * @method 符合指定品牌酒店，进行打分
- * @params.category 支持两种模式[{contains: [], percentage: 30},{contains: [], percentage: 20}] 
- *       或者{1: {contains: [], percentage: 30}, 2: {contains: [], percentage: 30}}
+ * @params.category 支持两种模式 {1: {contains: [], percentage: 30}, 2: {contains: [], percentage: 30}}
+ *     或者[{contains: [], percentage: 30},{contains: [], percentage: 20}] 
  */
 class HotelBrandPrefer extends AbstractPrefer<IFinalHotel> {
 
@@ -35,10 +35,14 @@ class HotelBrandPrefer extends AbstractPrefer<IFinalHotel> {
             if (!v.reasons) v.reasons = [];
            
             for(let key in this.category){
-                if(!this.category[key] || !this.category[key].contains || !this.category[key].contains.length) continue;
-                if(!this.category[key].percentage || this.category[key].percentage < 0 || this.category[key].percentage > 100)
-                    this.category[key].percentage = 0;
-       
+                if(!this.category[key] || !this.category[key].contains 
+                    || !this.category[key].contains.length) continue;
+                if(!this.category[key].percentage || this.category[key].percentage < 0 
+                    || this.category[key].percentage > 100) {
+                    v.reasons.push(`第${key}级别标准的偏好度设置问题`);
+                    continue;
+                }
+                        
                 let i = 0;
                 for( ; i < this.category[key].contains.length; i++) {
                     if(v.name && v.name.length >0 && ~v.name.indexOf(this.category[key].contains[i])){

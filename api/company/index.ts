@@ -20,9 +20,9 @@ export interface CreateCompanyParams {
     password: string;
 }
 
-export default class CompanyModule {
+export class CompanyModule {
 
-    public static async create(params: CreateCompanyParams) {
+    public async create(params: CreateCompanyParams) {
         let id = params.companyId;
         let { mobile } = params;
         if (!id || typeof (id) == 'undefined') {
@@ -67,3 +67,5 @@ const getUniqAccount = async (mobile: string) => {
     }
     return mobile;
 }
+
+export default new CompanyModule();

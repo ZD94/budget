@@ -8,7 +8,7 @@ const API = require("@jingli/dnode-api");
 import request = require("request-promise");
 const config = require("@jingli/config");
 import L from '@jingli/language';
-import { restfulAPIUtil } from '../api/restful';
+import restfulAPIUtil from '../api/restful';
 import { CoordDispose, Degree } from "../libs/place/placeUtil";
 import {getCityInfo} from '@jingli/city';
 

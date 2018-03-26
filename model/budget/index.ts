@@ -317,5 +317,5 @@ export class Budget extends BudgetHelps {
         }
     }
 }
-
-export let budget = new Budget();
+let budget = new Budget();
+export default budget;

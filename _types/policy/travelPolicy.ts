@@ -157,8 +157,8 @@ export class TravelPolicy extends ModelObject{
     get companyId(): string { return null;}
     set companyId(val: string) {}
 
-    @Field({type: Types.BOOLEAN})
-    get isOpenAbroad() : boolean { return false}
+    @Field({type: Types.BOOLEAN, defaultValue: true})
+    get isOpenAbroad() : boolean { return true}
     set isOpenAbroad(b: boolean) {}
 
     // @RemoteCall()

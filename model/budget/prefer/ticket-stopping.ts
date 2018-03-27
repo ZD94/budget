@@ -5,7 +5,7 @@
 import {IFinalTicket, ETrafficType} from "./interface";
 import {AbstractPrefer} from "./index";
 
-class StoppingPrefer extends AbstractPrefer<IFinalTicket> {
+class StopsPrefer extends AbstractPrefer<IFinalTicket> {
 
     private baseScore: number;
     private rate: number;
@@ -24,8 +24,8 @@ class StoppingPrefer extends AbstractPrefer<IFinalTicket> {
 
             if (v.segs && v.segs.length) {
                 for (let item of v.segs) {
-                    if (item.stopping && item.stopping.length) {
-                        let l = item.stopping.length;
+                    if (item.stops && item.stops.length) {
+                        let l = item.stops.length;
                         if (l > 0) {
                             let score = self.baseScore * (1 - l * self.rate);
                             score = Math.round(score);
@@ -42,4 +42,4 @@ class StoppingPrefer extends AbstractPrefer<IFinalTicket> {
 
 }
 
-export = StoppingPrefer
+export = StopsPrefer

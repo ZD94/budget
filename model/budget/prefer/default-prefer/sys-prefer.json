@@ -58,7 +58,7 @@
             }
         },
         {
-            "name": "stopping",
+            "name": "Stops",
             "options": {
                 "baseScore": 20000
             }

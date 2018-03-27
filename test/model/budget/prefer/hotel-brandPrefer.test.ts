@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2018-03-23 17:53:36 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-03-26 11:25:03
+ * @Last Modified time: 2018-03-27 17:23:49
  * @content what is the content of this file. */
 
 
@@ -10,38 +10,41 @@ import assert = require("assert");
 import HotelBrandPrefer = require('../../../../model/budget/prefer/hotel-brandPrefer');
 let data = require("./hotel-data");
 
-
 let pre = {
     "name": "hotelBrand",
-    "baseScore": 1000,
     "category": {
         "1": {
+            "baseScore": 1000,
             "contains": ['桔子水晶', '香格里拉'],
-            "percentage": 50
+            "preference": 50
         },
         "2": {
+            "baseScore": 1000,
             "contains": ['宿适精选酒店'],
-            "percentage": 30
+            "preference": 30
         },
         "3": {
+            "baseScore": 1000,
             "contains": ['金茂君悦'],
-            "percentage": 80
+            "preference": 80
         }
     },
     "options": {
-        "baseScore": 1000,
         "category": {
             "1": {
+                "baseScore": 1000,
                 "contains": ['桔子水晶', '香格里拉'],
-                "percentage": 50
+                "preference": 50
             },
             "2": {
+                "baseScore": 1000,
                 "contains": ['宿适精选酒店'],
-                "percentage": 30
+                "preference": 30
             },
             "3": {
+                "baseScore": 1000,
                 "contains": ['金茂君悦'],
-                "percentage": 80
+                "preference": 80
             }
         }   
     }
@@ -50,35 +53,39 @@ let pre = {
 
 let preSet = {
     "name": "hotelBrand",
-    "baseScore": 1000,
     "category": [
         {
+            "baseScore": 1000,
             "contains": ['桔子水晶', '香格里拉'],
-            "percentage": 50
+            "preference": 50
         },
         {
+            "baseScore": 1000,
             "contains": ['宿适精选酒店'],
-            "percentage": 30
+            "preference": 30
         },
         {
+            "baseScore": 1000,
             "contains": ['金茂君悦'],
-            "percentage": 80
+            "preference": 80
         }
     ],
     "options": {
-        "baseScore": 0,
         "category": [
             {
+                "baseScore": 1000,
                 "contains": ['桔子水晶', '香格里拉'],
-                "percentage": 50
+                "preference": 50
             },
             {
+                "baseScore": 1000,
                 "contains": ['宿适精选酒店'],
-                "percentage": 30
+                "preference": 30
             },
             {
+                "baseScore": 1000,
                 "contains": ['金茂君悦'],
-                "percentage": 80
+                "preference": 80
             }
         ]
     }

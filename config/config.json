@@ -73,5 +73,7 @@
   ],
   "placeAPI": "${JL_APP_PLACE}",
   "dataStore": "${JL_APP_DATA_STORE_URL}",
+  "aliWebTrackUrl": "${JL_APP_ALI_WEBTRACK_URL}",
+  "serverType": "${JL_APP_SERVER_TYPE}",
   "defaultCurrency": "CNY"
 }

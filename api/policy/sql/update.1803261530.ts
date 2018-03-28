@@ -45,7 +45,7 @@ async function processOldDataByBatch(DB: Sequelize){
                     budget_config.traffic[idx].options.cheapSuppliers.splice(index, 1);
                 }   
             } else {
-                delete budget_config.traffic[idx];
+                budget_config.traffic.splice(idx,1);
             }   
         }
         if(typeof budget_config != 'string') budget_config = JSON.stringify(budget_config)

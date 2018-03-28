@@ -58,7 +58,7 @@
             }
         },
         {
-            "name": "Stops",
+            "name": "planeStop",
             "options": {
                 "baseScore": 20000
             }

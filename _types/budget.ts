@@ -390,6 +390,15 @@ export class BudgetItem extends ModelObject {
     get title(): string { return null }
     set title(title: string) { }
 
+    @Field({ type: Types.TEXT })
+    get travelCity(): string { return null}
+    set travelCity(title: string) { }
+
+    @Field({ type: Types.STRING})
+    get companyName(): string { return null}
+    set companyName(companyName: string) { }
+
+
     @Field({ type: Types.JSONB })
     get query() { return null }
     set query(query) { }

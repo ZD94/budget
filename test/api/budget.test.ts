@@ -101,30 +101,51 @@ let params3 = {
 };
 
 //1808089   1796231
-let params4 = {
-    "goBackPlace": "8389501",
-    "isRoundTrip": false,
-    staffs: [{ gender: 1, policy: 'domestic' }],
-    "originPlace": "8389501",
-    "projectName": "",
+let params4 =
+    {
+    preferedCurrency: 'CNY',
     travelPolicyId: '7a4ceb50-f9ce-11e7-89c4-73c84750254b',
     companyId: '625c6110-f9ce-11e7-b540-af4848d193b7',
-    "destinationPlacesInfo": [
-        {
-            "reason": "",
-            "subsidy": {
-                "template": null
-            },
-            "leaveDate": "2018-03-25T13:00:00.000Z",
-            "goBackDate": "2018-03-30T02:00:00.000Z",
-            "isNeedHotel": true,
-            "isNeedTraffic": true,
-            "destinationPlace": "1808089",
-            "latestArrivalDateTime": "2018-03-25T13:00:00.000Z",
-            "earliestGoBackDateTime": "2018-03-30T02:00:00.000Z"
-        }
-    ]
-}
+    staffs: [ { gender: 1, policy: 'domestic' } ],
+    destinationPlacesInfo:
+        [ { reason: '1231',
+            subsidy: [Object],
+            leaveDate: '2018-03-31T10:00:00.000Z',
+            goBackDate: '2018-04-01T01:00:00.000Z',
+            isNeedHotel: true,
+            isNeedTraffic: true,
+            destinationPlace: '1796231',
+            latestArrivalDateTime: '2018-03-31T10:00:00.000Z',
+            earliestGoBackDateTime: '2018-04-01T01:00:00.000Z' } ],
+    originPlace: '2038349',
+    isRoundTrip: true,
+    goBackPlace: '2038349'
+    }
+
+// let params4 = {
+//     "goBackPlace": "8389501",
+//     "isRoundTrip": false,
+//     staffs: [{ gender: 1, policy: 'domestic' }],
+//     "originPlace": "8389501",
+//     "projectName": "",
+//     travelPolicyId: '7a4ceb50-f9ce-11e7-89c4-73c84750254b',
+//     companyId: '625c6110-f9ce-11e7-b540-af4848d193b7',
+//     "destinationPlacesInfo": [
+//         {
+//             "reason": "",
+//             "subsidy": {
+//                 "template": null
+//             },
+//             "leaveDate": "2018-03-25T13:00:00.000Z",
+//             "goBackDate": "2018-03-30T02:00:00.000Z",
+//             "isNeedHotel": true,
+//             "isNeedTraffic": true,
+//             "destinationPlace": "1808089",
+//             "latestArrivalDateTime": "2018-03-25T13:00:00.000Z",
+//             "earliestGoBackDateTime": "2018-03-30T02:00:00.000Z"
+//         }
+//     ]
+// }
 
 let params5 = {
     // callbackUrl: 'l.jingli365.com/api/v1/budget/7981c4d0-058f-11e8-96e0-afb5c70cc3c3/updateBudget',

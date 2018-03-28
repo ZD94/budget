@@ -109,7 +109,7 @@ export abstract class AbstractHotelStrategy {
 
     abstract async customMarkedScoreData(hotels: IFinalHotel[]): Promise<IFinalHotel[]>;
 
-    async getResult(hotels: IHotel[], step: STEP): Promise<IHotelBudgetItem> {
+    async getResult(hotels: IHotel[], step: STEP,budgetOrder): Promise<IHotelBudgetItem> {
         let self = this;
         let _hotels = formatHotel(hotels);
 
@@ -182,11 +182,13 @@ export abstract class AbstractHotelStrategy {
             deeplinkData: ret.deeplinkData,
             commentScore: ret.commentScore
         }
-
+        let getCompany = await Models.company.get(budgetOrder.companyId);
         if (self.isRecord) {
             //保存调试记录
+            console.log(`${self.qs.city ? (self.qs.city.name ? self.qs.city.name : result.city) : result.city}`,"<===============酒店self.qs.city.name");
             let budgetItem = Models.budgetItem.create({
                 title: `${self.qs.city ? (self.qs.city.name ? self.qs.city.name : result.city) : result.city}(${moment(self.qs.checkInDate).format('YYYY-MM-DD')}-${moment(self.qs.checkOutDate).format('YYYY-MM-DD')})--${step}`,
+                companyName:getCompany['name'],
                 query: _.cloneDeep(self.qs),
                 type: EBudgetType.HOTEL,
                 originData: hotels,
@@ -307,6 +309,7 @@ export abstract class AbstractTicketStrategy {
 
         if (self.isRecord) {
             //保存调试记录
+            console.log(`${self.qs.fromCity.name}-${self.qs.toCity.name}`,"<============交通name");
             let date = self.qs.earliestDepartTime ? self.qs.earliestDepartTime : self.qs.latestArrivalTime
             let budgetItem = Models.budgetItem.create({
                 title: `${self.qs.fromCity.name}-${self.qs.toCity.name}(${moment(`${date}`).format('YYYY/MM/DD')})--${step}`,

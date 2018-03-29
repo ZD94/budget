@@ -325,6 +325,7 @@ export interface IHotelBudgetItem extends IBudgetItem {
     deeplinkData?: object;
     commentScore?: number;
     landmark?: any;
+    highestPrice?: number;
     duringDays: number;                           //天数
 }
 

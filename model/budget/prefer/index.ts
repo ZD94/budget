@@ -87,7 +87,8 @@ export var hotelPrefers = {
     distance: require('./hotel-distance'),
     price: require('./price'),
     commentScore: require("./hotel-commentScore"),
-    priceDeviationPunishment:require('./hotel-priceDeviationPunishment')
+    priceDeviationPunishment:require('./hotel-priceDeviationPunishment'),
+    hotelBrand: require("./hotel-brandPrefer")
 }
 
 export var ticketPrefers = {
@@ -106,6 +107,7 @@ export var ticketPrefers = {
     price: require('./price'),
     planeNumberPrefer: require('./ticket-planeNumberPrefer'),
     permitOnlySupplier: require('./ticket-permitOnlySupplier'),
+    planeStop: require('./ticket-stopping'),
     // priorSupplier: require('./ticket-priorSupplier'),
     directArrive: require('./ticket-directArrive'),
     transitWaitDuration: require('./ticket-transitWaitDurationPrefer'),

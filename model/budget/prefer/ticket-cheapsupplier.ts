@@ -7,8 +7,8 @@ import {IFinalTicket, ETrafficType} from "./interface";
 import {AbstractPrefer} from "./index";
 //廉价供应商
 
-// const CHEAP_SUPPLIERS = ['春秋航空', '中国联合航空', '吉祥航空', '西部航空', '成都航空', '九元航空', '幸福航空'];
-const CHEAP_SUPPLIERS = ["9C", "KN", "HO", "PN", "EU", "AQ", "JR"];
+// const CHEAP_SUPPLIERS = ['春秋航空', '中国联合航空', '西部航空', '成都航空', '九元航空', '幸福航空']; //'吉祥航空',
+const CHEAP_SUPPLIERS = ["9C", "KN", "PN", "EU", "AQ", "JR"];  // "HO",
 class CheapSupplierPrefer extends AbstractPrefer<IFinalTicket> {
 
     private score: number;

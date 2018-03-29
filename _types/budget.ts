@@ -398,6 +398,9 @@ export class BudgetItem extends ModelObject {
     get companyName(): string { return null}
     set companyName(companyName: string) { }
 
+    @Field({type: Types.TEXT})
+    get departureDate(): string { return null}
+    set departureDate(date: string) {}
 
     @Field({ type: Types.JSONB })
     get query() { return null }

@@ -48,6 +48,12 @@
             </td>
         </tr>
         <tr>
+            <th>选择查询条件</th>
+            <td>
+              <span>企业客户</span>  <input style="width:auto" ng-model="prefer.options[x]" type="text">
+            </td>
+        </tr>
+        <tr>
             <th>选择原始数据</th>
             <td>
                 <select ng-model="originData" ng-options="x.title for x in originDatas" ng-change="changeOrigin()">

@@ -124,7 +124,7 @@ export class ComputeBudget {
             data,
             staffs: [staff],
         }, { isRecord: true });
-        let budget = await strategy.getResult(data, params.step);
+        let budget = await strategy.getResult(data, params.step,budgetOrder);
 
         let discount = 0;
         if (budget.trafficType == ETrafficType.PLANE) {

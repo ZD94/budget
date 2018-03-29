@@ -28,7 +28,7 @@ import { getRate } from "model/rate";
 import * as _ from "lodash";
 
 // test
-import "test/api/budget.test";
+// import "test/api/budget.test";
 
 export class Budget extends BudgetHelps {
     constructor() {

@@ -12,7 +12,7 @@ import { analyzeBudgetParams } from "./analyzeParams";
 import { STEP, BudgetOrder, DataOrder, BudgetType, SearchHotelParams, SearchTicketParams, SearchSubsidyParams, BudgetFinallyResult, GetBudgetParams } from "./interface";
 import uuid = require("uuid");
 var API = require("@jingli/dnode-api");
-import {restfulAPIUtil} from 'api/restful/index'
+import restfulAPIUtil from 'api/restful/index'
 import getAllPrefer from "./getAllPrefer";
 import computeBudget from "./computeBudget";
 import getSubsidy from "./getSubsidy";
@@ -356,5 +356,5 @@ export class Budget extends BudgetHelps {
 
     }
 }
-
-export let budget = new Budget();
+let budget = new Budget();
+export default budget;

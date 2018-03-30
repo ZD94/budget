@@ -402,6 +402,7 @@ app.controller('debug', function ($scope, $http, $location) {
     ]
     $scope.changeServer = function () {
         let originServerUrl = $scope.originServer.url + `?key=${url.key}&page=${url.page}&pageSize=${url.pageSize}`;
+        console.log(originServerUrl,"<===========originServerUrl")
         $http.get(originServerUrl).success(function (response) {
             if (response.code != 0) {
                 alert("数据请求出错，请检查key");

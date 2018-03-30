@@ -393,6 +393,7 @@ app.controller('debug', function ($scope, $http, $location) {
     var orderBooleanlast;
     //复制粘贴的功能
     var copyTemp = '';
+    var responseArr;
     //更改服务器
     $scope.originServers = [
         { name: '开发', url: 'https://l.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
@@ -408,7 +409,7 @@ app.controller('debug', function ($scope, $http, $location) {
                 return;
             }
 
-            let responseArr = response.data;
+            responseArr = response.data;
             for (let i = 0; i < responseArr.length; i++) {
                 let arr = responseArr[i].markedData;
                 for (let j = 0; j < arr.length; j++) {
@@ -442,7 +443,7 @@ app.controller('debug', function ($scope, $http, $location) {
         var policy = JSON.stringify($scope.policy);
         let originServer = $scope.originServer;
         let originServerUrl = originServer.url + '?key=' + url.key;
-       
+
         if ($scope.result) {
             if ($scope.result.star != null) {
                 $scope.result.star = MHotelLevel[$scope.result.star];
@@ -465,7 +466,7 @@ app.controller('debug', function ($scope, $http, $location) {
         //翻译舱位
         changeLevel();
     };
-    
+
     $scope.change = function () {
         var single = $scope.prefer;    //string
         var ori = $scope.ori_prefers;   //arr
@@ -523,6 +524,25 @@ app.controller('debug', function ($scope, $http, $location) {
         $scope.ori_prefers = ori;
 
     };
+    var arr;
+    $scope.travelScreening = function () {
+        if (!$scope.custorm || !$scope.city || !$scope.date) alert('请填写查询条件');
+        $scope.originDatas = responseArr;
+        arr = [];
+        if ($scope.originDatas._length) {
+            for (var i = 0; i < $scope.originDatas._length; i++) {
+                if($scope.originDatas[i].companyName == $scope.custorm && $scope.originDatas[i].travelCity == $scope.city && $scope.originDatas[i].departureDate == $scope.date){
+                    arr.push($scope.originDatas[i]);
+                }
+            }
+        }
+        if (arr.length == 0) {
+            alert('暂无匹配数据');
+        } else {
+            $scope.originDatas = arr;
+        }
+    };
+
     $scope.changeOrigin = function () {
         if ($scope.originData) {
             $scope.ori_prefers = $scope.originData.prefers;

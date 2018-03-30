@@ -527,7 +527,10 @@ app.controller('debug', function ($scope, $http, $location) {
     };
     var arr;
     $scope.travelScreening = function () {
-        if (!$scope.custorm || !$scope.city || !$scope.date) alert('请填写查询条件');
+        if (!$scope.custorm || !$scope.city || !$scope.date) {
+            alert('请填写查询条件')
+            return
+        }
         $scope.originDatas = responseArr;
         arr = [];
         if ($scope.originDatas._length) {
@@ -552,6 +555,7 @@ app.controller('debug', function ($scope, $http, $location) {
         ]
         $scope.originDatas = '';
         $scope.custorm = '';
+        $scope.phone = '';
         $scope.city = '';
         $scope.date = '';
     }

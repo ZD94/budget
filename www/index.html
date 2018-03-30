@@ -65,6 +65,7 @@
                 <select ng-model="originData" ng-options="x.title for x in originDatas" ng-change="changeOrigin()">
                 </select>
                 <input style="margin-left: 20px" type="button" class="btn btn-primary" value="获取预算" id="calBudgetBtn" ng-click="getBudget()"/>
+                <input style="margin-left: 20px" type="button" class="btn btn-primary" value="刷新页面" id="reset" ng-click="reset()"/>
             </td>
         </tr>
         <tr>

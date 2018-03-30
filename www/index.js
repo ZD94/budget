@@ -543,6 +543,18 @@ app.controller('debug', function ($scope, $http, $location) {
             $scope.originDatas = arr;
         }
     };
+    
+    $scope.reset = function () {
+        $scope.originServers = [
+            { name: '开发', url: 'https://l.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
+            { name: '测试', url: 'https://t.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
+            { name: '正式', url: 'https://j.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' }
+        ]
+        $scope.originDatas = '';
+        $scope.custorm = '';
+        $scope.city = '';
+        $scope.date = '';
+    }
 
     $scope.changeOrigin = function () {
         if ($scope.originData) {

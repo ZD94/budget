@@ -100,14 +100,13 @@ let params3 = {
     goBackPlace: 'CT_131'
 };
 
-
+//1808089   1796231
 let params4 = {
     "goBackPlace": "8389501",
-    "isRoundTrip": true,
+    "isRoundTrip": false,
     staffs: [{ gender: 1, policy: 'domestic' }],
     "originPlace": "8389501",
     "projectName": "",
-    currency: "EUR",
     travelPolicyId: '7a4ceb50-f9ce-11e7-89c4-73c84750254b',
     companyId: '625c6110-f9ce-11e7-b540-af4848d193b7',
     "destinationPlacesInfo": [
@@ -116,13 +115,13 @@ let params4 = {
             "subsidy": {
                 "template": null
             },
-            "leaveDate": "2018-03-15T13:00:00.000Z",
-            "goBackDate": "2018-03-17T02:00:00.000Z",
+            "leaveDate": "2018-04-02T13:00:00.000Z",
+            "goBackDate": "2018-04-05T02:00:00.000Z",
             "isNeedHotel": true,
             "isNeedTraffic": true,
             "destinationPlace": "1808089",
-            "latestArrivalDateTime": "2018-03-15T13:00:00.000Z",
-            "earliestGoBackDateTime": "2018-03-17T02:00:00.000Z"
+            "latestArrivalDateTime": "2018-04-02T13:00:00.000Z",
+            "earliestGoBackDateTime": "2018-04-06T02:00:00.000Z"
         }
     ]
 }

@@ -83,15 +83,6 @@ export class BudgetController extends AbstractController {
         return /^\w{8}-\w{4}-\w{4}-\w{4}-\w{12}$/.test(id);
     }
 
-    async get(req: IRequest, res: IResponse, next: Function) {
-        /*  let { id } = req.params;
-         let segmentBudgets = await API['budget'].getBudgetCache({ id: id });
-         let budgets = segmentBudgets.budgets;
-         budgets = this.transformBudgets(budgets);
-         segmentBudgets.budgets = budgets;
-         res.jlReply(this.reply(0, segmentBudgets)); */
-    }
-
     async add(req: IRequest, res: IResponse, next: Function) {
         req.clearTimeout();
         let result = await budget.getBudget(req.body);
@@ -103,22 +94,6 @@ export class BudgetController extends AbstractController {
         let result = await ApiTravelBudget.getBudgetItems(req.query);
         res.jlReply(this.reply(0, result))
     }
-
-    /**
-     *  preferedCurrency 逻辑并未考虑
-     * 
-     *  async add(req: IRequest, res: IResponse, next: Function) {
-        req.clearTimeout();
-        //改restful budget api为传travelPolicyId, 同时添加请求货币类型
-        let { staffs, fromCity, segments, ret, travelPolicyId, preferedCurrency, qmUrl, approveId } = req.body;
-        let time = Date.now();
-        if (preferedCurrency && typeof (preferedCurrency) != 'undefined') {
-            let currencyIds = await Models.currency.find({ where: { $or: [{ currency_code: preferedCurrency }, { currency_name: preferedCurrency }] } });
-            if (!currencyIds || !currencyIds.length) {
-                // return res.jlReply(this.reply(400, []));
-            }
-        }
-    } */
 
 
     @Router('/getHotelsData', 'post')

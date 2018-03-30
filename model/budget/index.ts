@@ -2,7 +2,7 @@
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
  * @Last Modified by: Mr.He
- * @Last Modified time: 2018-02-06 22:07:57
+ * @Last Modified time: 2018-03-09 11:01:44
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -12,6 +12,7 @@ import { analyzeBudgetParams } from "./analyzeParams";
 import { STEP, BudgetOrder, DataOrder, BudgetType, SearchHotelParams, SearchTicketParams, SearchSubsidyParams, BudgetFinallyResult, GetBudgetParams } from "./interface";
 import uuid = require("uuid");
 var API = require("@jingli/dnode-api");
+import {restfulAPIUtil} from 'api/restful/index'
 import getAllPrefer from "./getAllPrefer";
 import computeBudget from "./computeBudget";
 import getSubsidy from "./getSubsidy";
@@ -25,6 +26,7 @@ import { Models } from "_types";
 import { clearTimeout } from 'timers';
 import { BudgetHelps } from "./helper";
 import { getRate } from "model/rate";
+import * as _ from "lodash";
 
 // test
 // import "test/api/budget.test";
@@ -34,7 +36,14 @@ export class Budget extends BudgetHelps {
         super();
     }
     async getBudget(params: GetBudgetParams): Promise<BudgetFinallyResult> {
-        let { callbackUrl, companyId, travelPolicyId, staffs, currency = config.defaultCurrency, expectStep = STEP.CACHE } = params;
+        let {
+            callbackUrl,
+            companyId,
+            travelPolicyId,
+            staffs,
+            currency = config.defaultCurrency,
+            expectStep = STEP.CACHE
+        } = params;
 
         console.log('params ===========>', params);
         let times = Date.now();
@@ -78,7 +87,8 @@ export class Budget extends BudgetHelps {
                 companyId,
                 travelPolicyId,
                 type: item.type,
-                input: item.input
+                input: item.input,
+                backOrGo: item.backOrGo
             });
 
             let ps = await Promise.all([await dataStore, await prefer]);
@@ -125,6 +135,15 @@ export class Budget extends BudgetHelps {
             result: finallyResult
         });
         await budgetItem.save();
+        this.setWebTrackEndPoint({
+            "__topic__":config.serverType,
+            "project":"jlbudget",
+            "eventName":"HttpRequest-FirstBudgetResult",
+            "result":JSON.stringify(finallyResult),
+            "step":finallyResult.step,
+            "persons":`${finallyResult.persons}`,
+            "operationStatus": finallyResult.budgets.length ? 'SUCCESS' : 'FAIL'
+        });
         return finallyResult;
     }
 
@@ -196,7 +215,15 @@ export class Budget extends BudgetHelps {
             budgetItem.resultFinally = finallyResult;
             await budgetItem.save();
         }
-
+        this.setWebTrackEndPoint({
+            "__topic__":config.serverType,
+            "project":'jlbudget',
+            "eventName":"HttpRequest-FinallyDateResult",
+            "result":JSON.stringify(finallyResult.budgets),
+            "step":finallyResult.step,
+            "persons":`${finallyResult.persons}`,
+            "operationStatus": finallyResult.budgets.length ? 'SUCCESS' : 'FAIL'
+        })
         await this.sendBudget(finallyResult, budgetOrder.callbackUrl);
     }
 
@@ -237,6 +264,18 @@ export class Budget extends BudgetHelps {
         }
     }
 
+    compare(obj1, obj2) {
+        let val1 = obj1.price;
+        let val2 = obj2.price;
+        if (val1 < val2) {
+            return 1
+        } else if (val1 > val2) {
+            return -1
+        } else {
+            return 0
+        }
+    }
+
     /* 处理汇率 */
     completeBudget(item: DataOrder, budgetOrder: BudgetOrder) {
         let budget = item.budget;
@@ -249,20 +288,44 @@ export class Budget extends BudgetHelps {
         if (item.type == BudgetType.TRAFFICT) {
             budget.leaveDate = (item.input as SearchTicketParams).leaveDate;
         }
+        if (item.type != BudgetType.SUBSIDY) {
+            let data = _.cloneDeep(budget.markedScoreData);
+            for (let item of data){
+                item.price ? item.price = Number(item.price) : item.price = 0
+            }
+            let scoreDataSortByPrice = data.sort(this.compare);
+            budget.highestPrice = scoreDataSortByPrice[0].price * budgetOrder.persons
+        }
         delete budget.prefers;
         delete budget.markedScoreData;
         return budget;
     }
 
-    async requestDataStore(params: any) {
-        /* 服务稳定后，应当对请求错误执行重复拉取 */
+    /* 如果没有拉取到数据，并且期望请求是cache，立即请求FIN数据 */
+    async requestDataStore(params: DataOrder) {
+        let dataStoreParams = _.cloneDeep(params);
+        dataStoreParams.data = [];
         try {
-            return await request({
+            let result: DataOrder = await request({
                 uri: config.dataStore + "/searchData",
                 method: "post",
-                body: params,
+                body: dataStoreParams,
                 json: true
             });
+
+            if (params.step == STEP.CACHE && !result.data.length) {
+                let theParams = _.clone(dataStoreParams);
+                theParams.step = STEP.FINAL;
+
+                return await request({
+                    uri: config.dataStore + "/searchData",
+                    method: "post",
+                    body: theParams,
+                    json: true
+                });
+            } else {
+                return result;
+            }
         } catch (e) {
             console.error("requestDataStore error. The params : ", {
                 uri: config.dataStore + "/searchData",
@@ -272,6 +335,25 @@ export class Budget extends BudgetHelps {
             });
             throw new Error(e.message || e);
         }
+    }
+
+    async setWebTrackEndPoint(params){
+        let qs = {
+            "APIVersion": '0.6.0',
+        };
+        for (let key in params){
+            qs[key] = params[key]
+        }
+        try{
+            let result = await restfulAPIUtil.proxyHttp({
+                uri: config.aliWebTrackUrl,
+                qs
+            })
+        }catch (err){
+            console.log(err);
+            return
+        }
+
     }
 }
 

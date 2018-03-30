@@ -3,8 +3,8 @@
  */
 
 'use strict';
-import {IFinalHotel} from "_types/budget";
-import {AbstractPrefer} from "./index";
+import {IFinalHotel} from "./interface";
+import {AbstractPrefer} from "./AbstractPrefer";
 
 const BLACKLIST_HOTEL_AGENTS = ['hotels.com', '好订'];
 
@@ -23,11 +23,12 @@ class BlackListPrefer extends AbstractPrefer<IFinalHotel> {
         let self = this;
         hotels = hotels.map( (hotel) => {
             if (!hotel.score) hotel.score = 0;
-            if (!hotel.reasons) hotel.reasons=[];
+
+            if (!hotel.reasons) hotel.reasons = [];
 
             if (BLACKLIST_HOTEL_AGENTS.indexOf(hotel.agent) >= 0) {
                 hotel.score += self.score;
-                hotel.reasons.push(`供应商黑名单+${self.score}`);
+                hotel.reasons.push(`供应商黑名单, ${hotel.agent} +${self.score}`);
             } else {
                 hotel.reasons.push(`不在供应商黑名单 0`)
             }

@@ -150,7 +150,7 @@ export class PlaceController extends AbstractController {
             longitude: city.longitude ? city.longitude : city.lng,
             parentId: city.parentId,
             timezone: city.timezone,
-            isAbroad: city.country_code == 'CN' ? true : false,
+            isAbroad: city.countryCode !== 'CN' ? true : false,
             ctripCode: iataCode ? iataCode : city.ctrip_code
         }
     }

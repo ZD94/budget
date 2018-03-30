@@ -48,6 +48,10 @@ export class TmcSupplier extends ModelObject {
     set name(val: string) { }
 
     @Field({ type: Types.STRING })
+    get sname(): string { return null; }
+    set sname(val: string) { }
+
+    @Field({ type: Types.STRING })
     get status(): TMCStatus { return null; }
     set status(val: TMCStatus) { }
 

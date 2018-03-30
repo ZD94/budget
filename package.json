@@ -4,7 +4,8 @@
   "description": "jingli budget project",
   "main": "index.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "coverage": "./node_modules/nyc/bin/nyc.js -e .js -e .ts mocha test/allPrefer.test.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   "author": "jingli",
   "license": "ISC",
   "dependencies": {
+    "@jingli/city": "0.0.7",
     "@jingli/config": "1.0.6",
     "@jingli/database": "1.0.1",
     "@jingli/dnode-api": "^2.0.3",
@@ -104,10 +106,10 @@
     "@types/sequelize": "^4.0.49",
     "@types/serve-static": "^1.7.31",
     "@types/sockjs-node": "^0.3.28",
+    "@types/superagent": "1.4.28",
     "@types/supertest": "2.0.4",
     "@types/through2": "^2.0.33",
     "@types/traverse": "0.6.29",
-    "@types/superagent": "1.4.28",
     "babel-core": "6.2.4",
     "babel-preset-es2015": "^6.1.18",
     "browser-resolve": "1.11.2",
@@ -118,13 +120,14 @@
     "gulp-filter": "^5.0.0",
     "gulp-gzip": "^1.4.0",
     "gulp-if": "^2.0.2",
+    "gulp-sourcemaps": "2.6.2",
     "gulp-tar": "^1.9.0",
     "gulp-typescript": "^3.1.5",
     "gulp-util": "3.0.8",
     "merge2": "1.0.3",
-    "gulp-sourcemaps": "2.6.2",
     "mocha": "2.3.4",
     "mochawesome": "^1.2.2",
+    "nyc": "^11.4.1",
     "run-sequence": "^1.2.2",
     "supertest": "3.0.0",
     "through2": "2.0.3",

@@ -3,39 +3,39 @@
  */
 
 'use strict';
-import {IFinalTicket, IFinalHotel, ETrafficType} from "_types/budget";
-import {AbstractPrefer} from "./index";
+import { IFinalTicket, ETrafficType, IFinalHotel } from "./interface";
+import { AbstractPrefer } from "./AbstractPrefer";
 
-function price(price:number, type:string, min:number, mid:number, max:number):{scale:number, up:boolean}{
-    switch(type){
+function price(price: number, type: string, min: number, mid: number, max: number): { scale: number, up: boolean } {
+    switch (type) {
         case 'line':
-            if(price < mid){
-                let scale = (mid!=min) ? (price - min)/(mid - min) : (price - min)/(max - min);
+            if (price < mid) {
+                let scale = (mid != min) ? (price - min) / (mid - min) : (price - min) / (max - min);
                 return {
                     scale,
                     up: false
                 };
-            }else{
-                let scale = (mid!=max) ? (max - price)/(max - mid) : (max - price)/(max - min);
+            } else {
+                let scale = (mid != max) ? (max - price) / (max - mid) : (max - price) / (max - min);
                 return {
                     scale,
                     up: true
                 };
             }
         default:
-            if(price < mid){
-                let scale = 1 - Math.pow((1 - (price - min)/(mid - min)),3);
+            if (price < mid) {
+                let scale = 1 - Math.pow((1 - (price - min) / (mid - min)), 3);
                 return {
                     scale,
                     up: false
                 };
-            }else if(price > mid){
-                let scale = 1 - Math.pow((1 - (max - price)/(max - mid)),3);
+            } else if (price > mid) {
+                let scale = 1 - Math.pow((1 - (max - price) / (max - mid)), 3);
                 return {
                     scale,
                     up: true
                 };
-            }else{
+            } else {
                 let scale = 1;
                 return {
                     scale,
@@ -45,7 +45,8 @@ function price(price:number, type:string, min:number, mid:number, max:number):{s
     }
 }
 
-class PricePrefer extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
+
+class PricePrefer extends AbstractPrefer<(IFinalHotel | IFinalTicket)> {
     private score: number;
     private percent: number;
     private level: number[];
@@ -59,14 +60,14 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
         this.level = options.level || [];
     }
 
-    async markScoreProcess(data: (IFinalHotel|IFinalTicket)[]): Promise<(IFinalHotel|IFinalTicket)[]> {
+    async markScoreProcess(data: (IFinalHotel | IFinalTicket)[]): Promise<(IFinalHotel | IFinalTicket)[]> {
         if (!data.length) return data;
         let self = this;
         let targetTickets = [];
         let midPrice = 0;
         let maxPrice = 0;
         let minPrice = 0;
-        data.forEach((v:(IFinalHotel|IFinalTicket)) => {
+        data.forEach((v: (IFinalHotel | IFinalTicket)) => {
             if (v['type'] == ETrafficType.TRAIN) {
                 return;
             }
@@ -74,18 +75,15 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
                 targetTickets.push(v);
             }
         });
-
         if (targetTickets.length) {
             targetTickets.sort(function (v1, v2) {
                 return v1.price - v2.price;
             });
-            maxPrice = targetTickets[targetTickets.length - 1].price;
-            minPrice = targetTickets[0].price;
+            maxPrice = Number(targetTickets[targetTickets.length - 1].price);
+            minPrice = Number(targetTickets[0].price);
             midPrice = minPrice + (maxPrice - minPrice) * self.percent;
         }
-
-
-        data = data.map((v:(IFinalHotel|IFinalTicket)) => {
+        data = data.map((v: (IFinalHotel | IFinalTicket)) => {
             if (v['type'] == ETrafficType.TRAIN) {
                 return v;
             }
@@ -97,8 +95,8 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
             }
 
 
-            if(self.percent >= 0 && self.percent <= 1) {
-                let {scale, up} = price(v.price, this.type, minPrice, midPrice, maxPrice);
+            if (self.percent >= 0 && self.percent <= 1) {
+                let { scale, up } = price(v.price, this.type, minPrice, midPrice, maxPrice);
                 let score = Math.floor(scale * this.score);
                 v.score += score;
                 if (scale != 1) {
@@ -107,7 +105,7 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
                     v.reasons.push(`价格偏好相等价格 ${score}`);
                 }
             }
-            if(self.percent < 0 || self.percent > 1) {
+            if (self.percent < 0 || self.percent > 1) {
                 v.reasons.push(`价格偏好取值错误，不加分`);
 
             }
@@ -118,4 +116,5 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel|IFinalTicket)> {
     }
 }
 
-export= PricePrefer;
+export = PricePrefer;
+

@@ -18,6 +18,7 @@ export class TmcSupplierMethod {
         tmcTypeId: string;
         type: TmcServiceType;
         name: string;
+        sname:string;
         identify: any;
         status: TMCStatus
     }, companyId, tmcTypeId): Promise<TmcSupplier> {
@@ -26,6 +27,9 @@ export class TmcSupplierMethod {
         let tmcType = await Models.tmcTypes.get(params.tmcTypeId);
         if (!company || !tmcType) {
             throw new L.ERROR_CODE_C(500,"公司或供应商不存在")
+        }
+        if(typeof params.type == 'string'){
+            params.type = Number(params.type);
         }
         let companies = await Models.tmcSupplier.all({
             where: {
@@ -37,12 +41,14 @@ export class TmcSupplierMethod {
         if (companies && companies.length != 0) {
             throw new L.ERROR_CODE_C(500,"服务已开通，请勿重复添加")
         }
+
         let tmcSupplier = Models.tmcSupplier.create({
             id: uuid.v1(),
             type: params.type,
             identify: params.identify,
             name: params.name,
-            status: params.status,
+            sname:params.sname,
+            status: params.status+'',
         });
         tmcSupplier.company = company;
         tmcSupplier.tmcType = tmcType;
@@ -101,20 +107,45 @@ export class TmcSupplierMethod {
     }
 
     async getTmcTypes(params): Promise<any> {
-        let {companyId, sname} = params;
+        let {companyId, sname, type, status} = params;
         let data;
+        let where;
+        let typeStr = type ? type.toString() : '';
+        let statusStr = status ? status.toString() : '';
         if (sname) {
                 let tmcType = await Models.tmcTypes.find({
                     where: {
                         sname: sname
                     }
                 });
-                if (!tmcType["0"]) throw L.ERR.ERROR_CODE_C(500,"供应商不存在");
-                let tmcSupplier = await Models.tmcSupplier.all({
-                    where: {
+                if (!tmcType["0"]) return null;
+                if (type && status) {
+                    where = {
+                        company_id: companyId,
+                        tmc_type_id: tmcType["0"]["id"],
+                        type: typeStr,
+                        status: statusStr
+                    }
+                } else if (type) {
+                    where = {
+                        company_id: companyId,
+                        tmc_type_id: tmcType["0"]["id"],
+                        type: typeStr
+                    }
+                } else if (status) {
+                    where = {
+                        company_id: companyId,
+                        tmc_type_id: tmcType["0"]["id"], 
+                        status: statusStr
+                    }
+                } else {
+                    where = {
                         company_id: companyId,
                         tmc_type_id: tmcType["0"]["id"]
                     }
+                }
+                let tmcSupplier = await Models.tmcSupplier.all({
+                    where: where
                 });
                 if (tmcSupplier && tmcSupplier.length != 0) {
                     let newTmcSupplier = tmcSupplier.map(async function (item) {
@@ -125,18 +156,39 @@ export class TmcSupplierMethod {
                     });
                     data = await Promise.all(newTmcSupplier);
                 } else {
-                    throw new L.ERROR_CODE_C(500,"供应商未开通")
+                    // throw new L.ERROR_CODE_C(500,"供应商未开通")
+                    return null;
                 }
                 return data
         }
 
-        let tmcSupplier = await Models.tmcSupplier.all({
-            where: {
+        if (type && status) {
+            where = {
+                company_id: companyId,
+                type: typeStr,
+                status: statusStr
+            }
+        } else if (type) {
+            where = {
+                company_id: companyId,
+                type: typeStr
+            }
+        } else if (status) {
+            where = {
+                company_id: companyId,
+                status: statusStr
+            }
+        } else {
+            where = {
                 company_id: companyId,
             }
+        }
+        let tmcSupplier = await Models.tmcSupplier.all({
+            where: where
         });
         if (!tmcSupplier || tmcSupplier.length == 0) {
-            throw new L.ERROR_CODE_C(500,"供应商不存在")
+            // throw new L.ERROR_CODE_C(500,"供应商不存在")
+            return null;
         }
         let newTmcSupplier = tmcSupplier.map(async function (item) {
             let supplier = item.toJSON();

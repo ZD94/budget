@@ -56,6 +56,12 @@
                 "score": 100000,
                 "latestArrivalTime": "<%=local.latestArrivalDateTime%>"
             }
+        },
+        {
+            "name": "planeStop",
+            "options": {
+                "baseScore": 20000
+            }
         }
     ],
     "abroadTraffic": [
@@ -155,6 +161,12 @@
                 "expectStar": "<%=local.star%>",
                 "score": 100000
             }
+        },
+        {
+            "name": "priceDeviationPunishment",
+            "options": {
+                "score": -20000
+            }
         }
     ],
     "abroadHotel": [
@@ -175,6 +187,12 @@
             "options": {
                 "expectStar": "<%=local.star%>",
                 "score": 100000
+            }
+        },
+        {
+            "name": "priceDeviationPunishment",
+            "options": {
+                "score": -20000
             }
         }
     ]

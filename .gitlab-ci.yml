@@ -65,6 +65,8 @@ deploy:master:
     JL_APP_DATA_STORE_URL: https://l.jingli365.com/proj/svr-data-store
     JL_APP_PLACE: https://l.jingli365.com/proj/svr-place
     JL_APP_COMMONAPI_HOST: l.jingli365.com
+    JL_APP_ALI_WEBTRACK_URL: http://jl-data-stat.cn-beijing.log.aliyuncs.com/logstores/jl-data-stat/track
+    JL_APP_SERVER_TYPE: develpment-server
     JL_APP_COMMONAPI_PORT: 14101
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
@@ -89,6 +91,8 @@ deploy:test:
     JL_APP_DATA_STORE_URL: https://t.jingli365.com/proj/svr-data-store
     JL_APP_PLACE: https://t.jingli365.com/proj/svr-place
     JL_APP_COMMONAPI_HOST: t.jingli365.com
+    JL_APP_ALI_WEBTRACK_URL: http://jl-data-stat.cn-beijing.log.aliyuncs.com/logstores/jl-data-stat/track
+    JL_APP_SERVER_TYPE: test-server
     JL_APP_COMMONAPI_PORT: 14201
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
@@ -112,6 +116,10 @@ deploy:tester:
     JL_APP_OLD_POSTGRES_URL: postgres://times:time0418@l.jingli365.com:15432/times
     JL_APP_DATA_STORE_URL: https://l.jingli365.com/proj/svr-data-store
     JL_APP_PLACE: https://l.jingli365.com/proj/svr-place
+    JL_APP_COMMONAPI_HOST: t.jingli365.com
+    JL_APP_ALI_WEBTRACK_URL: http://jl-data-stat.cn-beijing.log.aliyuncs.com/logstores/jl-data-stat/track
+    JL_APP_SERVER_TYPE: tester-server
+    JL_APP_COMMONAPI_PORT: 14201
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
     - docker pull $DOCKER_CI_NAME
@@ -119,6 +127,9 @@ deploy:tester:
     - docker push $DOCKER_REG/$DOCKER_NAME:tester-$GITLAB_USER_ID
     - echo deploy to https://review.l.jingli365.com/tester/$GITLAB_USER_ID
     - ssh test@l.jingli365.com /home/test/bin/docker_start.sh $DOCKER_REG $DOCKER_NAME tester-$GITLAB_USER_ID -p 8080
+
+  after_script:
+    - 'npm test 2&>1'
 
 
 deploy:release:
@@ -139,6 +150,8 @@ deploy:release:
     JL_APP_REDIS: redis://j.jingli365.com
     JL_APP_PLACE: https://j.jingli365.com/proj/svr-place
     JL_APP_POSTGRES: postgres://jingli:J1n9L1.t3ch@j.jingli365.com:5432/jlbudget
+    JL_APP_ALI_WEBTRACK_URL: http://jl-data-stat.cn-beijing.log.aliyuncs.com/logstores/jl-data-stat/track
+    JL_APP_SERVER_TYPE: release-server
     JL_APP_OLD_POSTGRES_URL: postgres://jingli:J1n9L1.t3ch@j.jingli365.com:5432/qmtrip
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG
@@ -167,6 +180,8 @@ deploy:demo:
     JL_APP_REDIS: redis://demo.jingli365.com
     JL_APP_PLACE: https://j.jingli365.com/proj/svr-place
     JL_APP_POSTGRES: postgres://jingli:J1n9L1.t3ch@demo.jingli365.com:5432/jlbudget-demo
+    JL_APP_ALI_WEBTRACK_URL: http://jl-data-stat.cn-beijing.log.aliyuncs.com/logstores/jl-data-stat/track
+    JL_APP_SERVER_TYPE: demo-server
     JL_APP_OLD_POSTGRES_URL: postgres://jingli:J1n9L1.t3ch@demo.jingli365.com:5432/qmtrip-demo
   script:
     - docker login -u dockeruser -p $DOCKER_PASSWD $DOCKER_REG

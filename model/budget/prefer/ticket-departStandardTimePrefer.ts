@@ -3,7 +3,7 @@
  */
 
 'use strict';
-import {IFinalTicket} from "_types/budget";
+import {IFinalTicket} from "./interface";
 import {AbstractPrefer} from "./index";
 
 class DepartStandardTimePrefer extends AbstractPrefer<IFinalTicket> {
@@ -44,11 +44,11 @@ class DepartStandardTimePrefer extends AbstractPrefer<IFinalTicket> {
             let _d2 = d2.valueOf();
             const oneMinute = 1000 * 60;
             if (_d1 - d > 0) {
-                let cutScore = self.scoreInterval * Math.ceil((_d1 - d)/oneMinute);
+                let cutScore = self.score + self.scoreInterval * Math.ceil((_d1 - d)/oneMinute); //scoreInterval为负值
                 v['score'] += cutScore;
                 v['reasons'].push(`出发时间早于出发基准时间 ${cutScore}`)
             }else if (d - _d2> 0) {
-                let cutScore = self.scoreInterval * Math.ceil((d - _d2)/oneMinute);
+                let cutScore = self.score + self.scoreInterval * Math.ceil((d - _d2)/oneMinute);
                 v['score'] += cutScore;
                 v['reasons'].push(`出发时间晚于出发基准时间 ${cutScore}`)
             }else{

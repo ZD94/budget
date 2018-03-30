@@ -4,7 +4,7 @@
 
 
 'use strict';
-import {IFinalTicket,  ETrafficType} from "_types/budget";
+import {IFinalTicket,  ETrafficType} from "./interface";
 import {AbstractPrefer} from "./index";
 
 
@@ -28,6 +28,7 @@ class compareTrainPlanPrice extends AbstractPrefer<(IFinalTicket)> {
         let trainSeat; 
         try{
             trainSeat = this.policies.domestic.trainSeat;
+            trainSeat = this.policies.domestic.trainSeat ? this.policies.domestic.trainSeat: [2]
         }catch(e){
             trainSeat = [2];
         }
@@ -49,6 +50,7 @@ class compareTrainPlanPrice extends AbstractPrefer<(IFinalTicket)> {
         }
 
         for(let item of data){
+            item.reasons = item.reasons ? item.reasons: [];
             if(item.type == ETrafficType.PLANE && item.price <= planPrice){
                 item.score = item.score || 0;
                 item.score += this.options.score;

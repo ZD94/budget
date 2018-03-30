@@ -82,22 +82,7 @@ export interface IHotel {
     commentScore?: number;
 }
 
-export interface IFinalHotel {
-    name: string;
-    latitude: string;
-    longitude: string;
-    star: number;
-    agent: string;
-    price: number;
-    bookUrl?: string;
-    deeplinkData?: object;
-    score?: number;
-    reasons?: string[];
-    checkInDate: string;
-    checkOutDate: string;
-    outPriceRange: boolean;
-    commentScore?: number;
-}
+export {IFinalHotel} from 'model/budget/prefer/interface';
 
 export interface IQueryHotelBudgetParams {
     city: ICity | string;
@@ -340,6 +325,7 @@ export interface IHotelBudgetItem extends IBudgetItem {
     deeplinkData?: object;
     commentScore?: number;
     landmark?: any;
+    highestPrice?: number;
     duringDays: number;                           //天数
 }
 

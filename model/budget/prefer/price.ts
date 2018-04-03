@@ -45,6 +45,7 @@ function price(price: number, type: string, min: number, mid: number, max: numbe
     }
 }
 
+
 class PricePrefer extends AbstractPrefer<(IFinalHotel | IFinalTicket)> {
     private score: number;
     private percent: number;
@@ -74,16 +75,14 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel | IFinalTicket)> {
                 targetTickets.push(v);
             }
         });
-
         if (targetTickets.length) {
             targetTickets.sort(function (v1, v2) {
                 return v1.price - v2.price;
             });
-            maxPrice = targetTickets[targetTickets.length - 1].price;
-            minPrice = targetTickets[0].price;
+            maxPrice = Number(targetTickets[targetTickets.length - 1].price);
+            minPrice = Number(targetTickets[0].price);
             midPrice = minPrice + (maxPrice - minPrice) * self.percent;
         }
-
         data = data.map((v: (IFinalHotel | IFinalTicket)) => {
             if (v['type'] == ETrafficType.TRAIN) {
                 return v;
@@ -118,3 +117,4 @@ class PricePrefer extends AbstractPrefer<(IFinalHotel | IFinalTicket)> {
 }
 
 export = PricePrefer;
+

@@ -11,8 +11,8 @@ var API = require("@jingli/dnode-api");
 let getSupplier: SupplierGetter;
 
 
-export default class BookLink {
-    static async getBookLink(options: {
+export class BookLink {
+    async getBookLink(options: {
         supplier: any, data?: any, reserveType: string, fromCity?:string, toCity?: string, leaveDate?:Date, backDate?:Date,
         city?: string, checkInDate?: Date, checkOutDate?: Date
     }): Promise<ReserveLink> {
@@ -74,3 +74,5 @@ export default class BookLink {
         return bookLink;
     }
 }
+
+export default new BookLink();

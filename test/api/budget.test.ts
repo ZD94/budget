@@ -5,7 +5,8 @@
  * @Last Modified time: 2018-02-08 15:46:37
  * @content what is the content of this file. */
 
-import { budget, STEP } from "model/budget";
+import { STEP } from "model/budget";
+import budget from "model/budget";
 import { analyzeBudgetParams } from "model/budget/analyzeParams";
 import { Currency } from '_types/currency/currency';
 
@@ -146,6 +147,7 @@ let params4 =
 //         }
 //     ]
 // }
+
 
 let params5 = {
     // callbackUrl: 'l.jingli365.com/api/v1/budget/7981c4d0-058f-11e8-96e0-afb5c70cc3c3/updateBudget',

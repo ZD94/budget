@@ -5,7 +5,7 @@
  * @Last Modified time: 2018-01-17 19:05:19
  * @content what is the content of this file. */
 
-import { budget } from "model/budget";
+import budget from "model/budget";
 import { reply } from "@jingli/restful";
 import { jlReply } from 'http/index';
 import { clearTimeout } from 'timers';

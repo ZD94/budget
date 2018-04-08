@@ -7,7 +7,10 @@ import {AbstractPrefer} from "./index";
 import {IFinalTicket, IFlightSeg, ETrafficType} from "./interface";
 import { CityService } from '../../../_types/city';
 // import { CityService } from "./AbstractPrefer";
-const API = require("@jingli/dnode-api");
+var API = require("@jingli/dnode-api");
+if (API.default) {
+    API = API.default
+}
 
 class TransitCityInChinaPrefer extends AbstractPrefer<IFinalTicket> {
     private baseScore: number;

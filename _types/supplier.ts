@@ -13,6 +13,9 @@ import {ModelObject} from 'common/model/object';
 
 
 var API = require("@jingli/dnode-api");
+if (API.default) {
+    API = API.default
+}
 
 export enum ESupplierType {
     COMPANY_CUSTOM = 1,

@@ -8,6 +8,9 @@ import {SupplierGetter} from 'libs/suppliers';
 import { ICity, CityService } from '_types/city';
 
 var API = require("@jingli/dnode-api");
+if (API.default) {
+    API = API.default
+}
 let getSupplier: SupplierGetter;
 
 

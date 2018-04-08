@@ -12,6 +12,9 @@ import { analyzeBudgetParams } from "./analyzeParams";
 import { STEP, BudgetOrder, DataOrder, BudgetType, SearchHotelParams, SearchTicketParams, SearchSubsidyParams, BudgetFinallyResult, GetBudgetParams } from "./interface";
 import uuid = require("uuid");
 var API = require("@jingli/dnode-api");
+if (API.default) {
+    API = API.default
+}
 import {restfulAPIUtil} from 'api/restful/index'
 import getAllPrefer from "./getAllPrefer";
 import computeBudget from "./computeBudget";

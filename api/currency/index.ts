@@ -3,4 +3,4 @@
  */
 'use strict';
 
-export= {}
+export default {}

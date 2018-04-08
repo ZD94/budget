@@ -5,7 +5,7 @@
 'use strict';
 import { AbstractController, Restful, Router } from "@jingli/restful";
 import { CityService } from "_types/city";
-import { restfulAPIUtil } from 'api/restful';
+import restfulAPIUtil from 'api/restful';
 import * as validator from 'validator';
 var API = require("@jingli/dnode-api");
 if (API.default) {

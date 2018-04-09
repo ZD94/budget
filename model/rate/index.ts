@@ -11,7 +11,7 @@ let scheduler = require('common/scheduler');
 import { Models } from "_types";
 import { CurrencyRate } from "_types/currency";
 import config = require("@jingli/config");
-import { restfulAPIUtil } from "api/restful";
+import restfulAPIUtil from "api/restful";
 let defaultCurrencyUnit = config.defaultCurrency;
 
 function _scheduleTask() {

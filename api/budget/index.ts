@@ -18,7 +18,8 @@ import _ = require("lodash");
 var request = require("request");
 let scheduler = require('common/scheduler');
 import { CurrencyRate } from "_types/currency"
-import { defaultCurrencyUnit, budget } from "model/budget";
+import { defaultCurrencyUnit } from "model/budget";
+import budget from "model/budget";
 import {
     TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory
 } from "model/budget/strategy/index";
@@ -28,6 +29,9 @@ import { Models } from "_types/index";
 import { ICity, CityService } from "_types/city";
 import { countDays } from "model/budget/helper";
 var API = require("@jingli/dnode-api");
+if (API.default) {
+    API = API.default
+}
 import Logger from "@jingli/logger";
 import { ModelInterface } from "../../common/model/interface";
 import { Model } from "sequelize";
@@ -60,8 +64,8 @@ export interface ISearchTicketParams {
 }
 
 
-class ApiTravelBudget {
-    static __initHttpApp(app) {
+export class ApiTravelBudget {
+    __initHttpApp(app) {
         app.get("/deeplink", async (req, res, next) => {
             console.log(req.query.id);
             let bookItem = await Models.deeplink.get(req.query.id);
@@ -72,7 +76,7 @@ class ApiTravelBudget {
         });
     }
 
-    static async getTravelPolicy(travelPolicyId: string, destinationId: string) {
+    async getTravelPolicy(travelPolicyId: string, destinationId: string) {
         let tp = await Models.travelPolicy.get(travelPolicyId);
         return {
             cabin: await tp.getBestTravelPolicy({
@@ -103,7 +107,7 @@ class ApiTravelBudget {
         }
     }
 
-    static async getHotelsData(params: ISearchHotelParams) {
+    async getHotelsData(params: ISearchHotelParams) {
         let { checkInDate, checkOutDate, cityId, location } = params;
         let city = await CityService.getCity(cityId);
         location = location || {
@@ -137,7 +141,7 @@ class ApiTravelBudget {
         return hotels;
     }
 
-    static async getTrafficsData(params: ISearchTicketParams) {
+    async getTrafficsData(params: ISearchTicketParams) {
         let { leaveDate, originPlaceId, destinationId } = params;
 
         let newOriginPlace = await CityService.getCity({ cityId: originPlaceId });
@@ -181,7 +185,7 @@ class ApiTravelBudget {
     }
 
 
-    static async getSubsidyBudget(params: { subsidies: PolicyRegionSubsidy[], leaveDate: Date, goBackDate: Date, isHasBackSubsidy: boolean, preferedCurrency?: string, toCity: ICity }): Promise<any> {
+    async getSubsidyBudget(params: { subsidies: PolicyRegionSubsidy[], leaveDate: Date, goBackDate: Date, isHasBackSubsidy: boolean, preferedCurrency?: string, toCity: ICity }): Promise<any> {
         let { subsidies, leaveDate, goBackDate, isHasBackSubsidy, preferedCurrency, toCity } = params;
         let budget: any = null;
         let timezone = toCity ? (toCity.timezone || 'Asia/Shanghai') : 'Asia/Shanghai';
@@ -244,7 +248,7 @@ class ApiTravelBudget {
     * content 判断是否可以生产过期预算
     */
 
-    static async judgeExpriedBudget(params: { companyId?: string, expiredBudget?: boolean }): Promise<boolean> {
+    async judgeExpriedBudget(params: { companyId?: string, expiredBudget?: boolean }): Promise<boolean> {
         let { companyId, expiredBudget } = params;
         let companyConfig = await Models.companyConfig.get(companyId);
         if (!companyConfig || !companyConfig.openExpiredBudget) {
@@ -267,7 +271,7 @@ class ApiTravelBudget {
      * @param {json} qs 查询条件
      * @returns {Promise<Budget>}
      */
-    static async debugBudgetItem(params: { type: number, originData: IHotel[] | ITicket[], query: any, prefers: any[] }) {
+    async debugBudgetItem(params: { type: number, originData: IHotel[] | ITicket[], query: any, prefers: any[] }) {
         try {
             let result;
             let { query, prefers, type, originData } = params;
@@ -292,7 +296,7 @@ class ApiTravelBudget {
 
 }
 
-export default ApiTravelBudget;
+export default new ApiTravelBudget();
 
 function handleBudgetResult(data: FinalBudgetResultInterface, isRetMarkedData: boolean): FinalBudgetResultInterface {
     let result;

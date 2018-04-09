@@ -11,7 +11,8 @@ import API from '@jingli/dnode-api';
 var ApiTravelBudget = require("api/budget/index");
 import { ISearchHotelParams, ISearchTicketParams } from "api/budget/index";
 import { autoSignReply } from 'http/reply';
-import { STEP, budget } from "model/budget";
+import { STEP } from "model/budget";
+import budget from "model/budget";
 import uuid = require("uuid");
 
 const HOTEL_START = {

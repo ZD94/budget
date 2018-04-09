@@ -6,7 +6,7 @@
 
 import {AbstractController, Restful, Router} from "@jingli/restful";
 import {Models} from "_types";
-import { signIn } from "api/auth";
+import  auth from "api/auth";
 import { Request, Response, NextFunction } from 'express-serve-static-core';
 
 let cache = require("common/cache");
@@ -26,7 +26,7 @@ export class AuthController extends AbstractController {
     async login(req: Request, res, next: NextFunction) {
         let result;
         try {
-            result = await signIn(req.body);
+            result = await auth.signIn(req.body);
         } catch (e) {
             console.error(e)
             return res.jlReply(this.reply(403, null));

@@ -6,6 +6,9 @@
 
 var assert = require("assert");
 var API = require("@jingli/dnode-api");
+if (API.default) {
+    API = API.default
+}
 import moment = require("moment");
 import { countRoom, countDays } from "../helper";
 import { EGender, EHotelStar, ETrainSeat, EAirCabin, IQueryBudgetParams } from "_types/budget";

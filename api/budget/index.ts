@@ -29,6 +29,9 @@ import { Models } from "_types/index";
 import { ICity, CityService } from "_types/city";
 import { countDays } from "model/budget/helper";
 var API = require("@jingli/dnode-api");
+if (API.default) {
+    API = API.default
+}
 import Logger from "@jingli/logger";
 import { ModelInterface } from "../../common/model/interface";
 import { Model } from "sequelize";

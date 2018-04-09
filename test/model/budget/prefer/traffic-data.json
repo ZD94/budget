@@ -11494,8 +11494,8 @@
     "originStation": {
       "name": "北京"
     },
-    "departDateTime": "2018-03-11T11:31:00.000Z",
-    "arrivalDateTime": "2018-03-12T02:43:00.000Z",
+    "departDateTime": "2018-03-10T23:31:00.000Z",
+    "arrivalDateTime": "2018-03-11T00:43:00.000Z",
     "destinationStation": {
       "name": "上海"
     },
@@ -11522,7 +11522,7 @@
     "originStation": {
       "name": "北京"
     },
-    "departDateTime": "2018-03-11T03:54:00.000Z",
+    "departDateTime": "2018-03-10T03:54:00.000Z",
     "arrivalDateTime": "2018-03-11T23:19:00.000Z",
     "destinationStation": {
       "name": "上海"
@@ -11550,8 +11550,8 @@
     "originStation": {
       "name": "北京南"
     },
-    "departDateTime": "2018-03-11T11:34:00.000Z",
-    "arrivalDateTime": "2018-03-11T23:41:00.000Z",
+    "departDateTime": null,
+    "arrivalDateTime": "2018-03-11T01:00:00.000Z",
     "destinationStation": {
       "name": "上海"
     },
@@ -11579,7 +11579,7 @@
       "name": "北京南"
     },
     "departDateTime": "2018-03-11T13:23:00.000Z",
-    "arrivalDateTime": "2018-03-12T01:15:00.000Z",
+    "arrivalDateTime": null,
     "destinationStation": {
       "name": "上海"
     },

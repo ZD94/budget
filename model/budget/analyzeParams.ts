@@ -33,6 +33,8 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
                     destination: destination.destinationPlace,
                     earliestGoBackDateTime: null,//destination.earliestGoBackDateTime,     //考虑在各个系统中删除 earliestGoBackDateTime， latestArrivalDateTime
                     latestArrivalDateTime: destination.latestArrivalDateTime,
+                    desiredFromDateTime : destination.earliestGoBackDateTime,
+                    desiredToDateTime : destination.latestArrivalDateTime,
                     index,
                     backOrGo: TripType.GoTrip
                 }));
@@ -45,6 +47,8 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
                     destination: destination.destinationPlace,
                     earliestGoBackDateTime: null, //destination.earliestGoBackDateTime,
                     latestArrivalDateTime: destination.latestArrivalDateTime,
+                    desiredFromDateTime : destination.earliestGoBackDateTime,
+                    desiredToDateTime : destination.latestArrivalDateTime,
                     index,
                     backOrGo: TripType.GoTrip
                 }));
@@ -152,8 +156,12 @@ export async function analyzeBudgetParams(budgetOrder: BudgetOrder): Promise<Bud
             leaveDate: lastDestinations.goBackDate,
             originPlace: lastDestinations.destinationPlace,
             destination: originParams.goBackPlace,
-            earliestGoBackDateTime: lastDestinations.earliestGoBackDateTime, 
-            latestArrivalDateTime: null   //回程的lastestArrivalDateTime应该为空，不应该是上一个目的地的最晚到达时间， latestArrivalDateTime < earliestGoBackDateTime
+            earliestGoBackDateTime: lastDestinations.earliestGoBackDateTime,
+            desiredFromDateTime : lastDestinations.earliestGoBackDateTime,
+            desiredToDateTime : lastDestinations.latestArrivalDateTime,
+            latestArrivalDateTime: null,   //回程的lastestArrivalDateTime应该为空，不应该是上一个目的地的最晚到达时间， latestArrivalDateTime
+            // < earliestGoBackDateTime
+
         }));
 
         /* 增加一项补助 */
@@ -251,6 +259,8 @@ function createTraffic(params: {
     destination: string;
     earliestGoBackDateTime: string;
     latestArrivalDateTime: string;
+    desiredFromDateTime: string;
+    desiredToDateTime:string;
     backOrGo: TripType
 }) {
     let { index, leaveDate, originPlace, destination, earliestGoBackDateTime, latestArrivalDateTime, backOrGo } = params;

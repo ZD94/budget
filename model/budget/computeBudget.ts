@@ -8,7 +8,7 @@
 import { BudgetType, BudgetOrder,SearchHotelParams, SearchTicketParams, defaultCurrencyUnit, DataOrder } from "./interface";
 import { ICity, CityService } from '_types/city';
 import { IHotelBudgetItem, ITrafficBudgetItem, EBudgetType, ETrafficType, EAirCabin } from "_types/budget";
-import {TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory, budget} from "model/budget";
+import {TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory} from "model/budget";
 export var NoCityPriceLimit = 0;
 var API = require("@jingli/dnode-api");
 if (API.default) {

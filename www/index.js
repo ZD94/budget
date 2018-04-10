@@ -58,10 +58,13 @@ var translate_prefer = {
     },
     planeStop: {
         title: "[交通]飞机经停",
-        value: '{"name": "planeStop", "options": {"baseScore": "20000"}}',
+        value: '{"name": "planeStop", "options": {"aStops": -1000, "twoStops": -22000, "threeStops": -43000}}',
         template: {
-            planeStop: "[系统项]飞机经停",
-            baseScore: "基准分"
+            planeStop: "[交通]飞机经停",
+            baseScore:"基准分",
+            aStops:"一次经停",
+            twoStops:"两次经停",
+            threeStops:"三次经停"
         }
     },
     priceDeviationPunishment: {

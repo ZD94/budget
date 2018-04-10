@@ -63,7 +63,7 @@
                 "baseScore": 20000,
                 "aStops":-1000,
                 "twoStops":-22000,
-                "threeStops":-21000
+                "threeStops":-43000
             }
         }
     ],

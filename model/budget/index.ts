@@ -299,7 +299,8 @@ export class Budget extends BudgetHelps {
                 item.price ? item.price = Number(item.price) : item.price = 0
             }
             let scoreDataSortByPrice = data.sort(this.compare);
-            budget.highestPrice = scoreDataSortByPrice && scoreDataSortByPrice.length? scoreDataSortByPrice[0].price * budgetOrder.persons: 0;
+            budget.highestPrice = scoreDataSortByPrice && scoreDataSortByPrice.length? 
+                scoreDataSortByPrice[0].price * budgetOrder.persons: 0;
         }
         delete budget.prefers;
         delete budget.markedScoreData;

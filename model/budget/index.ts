@@ -100,8 +100,8 @@ export class Budget extends BudgetHelps {
             item.step = ps[0].step;
             item.channels = ps[0].channels;
             item.prefer = ps[1];
-            //进行打分，得出最终预算
-            item.budget = await computeBudget.getBudget(item, budgetOrder.persons);
+            //进行打分，得出最终预算   入口
+            item.budget = await computeBudget.getBudget(item, budgetOrder.persons,budgetOrder);
             return item;
         });
 
@@ -205,7 +205,7 @@ export class Budget extends BudgetHelps {
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
             if (item.type != BudgetType.SUBSIDY) {
-                item.budget = await computeBudget.getBudget(item, budgetOrder.persons);
+                item.budget = await computeBudget.getBudget(item, budgetOrder.persons,budgetOrder);
             } else {
                 let input = item.input as SearchSubsidyParams;
                 item.budget = await getSubsidy.getSubsidyItem(budgetOrder.companyId, budgetOrder.travelPolicyId, input, budgetOrder.persons);

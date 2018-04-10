@@ -109,7 +109,7 @@ export abstract class AbstractHotelStrategy {
 
     abstract async customMarkedScoreData(hotels: IFinalHotel[]): Promise<IFinalHotel[]>;
 
-    async getResult(hotels: IHotel[], step: STEP): Promise<IHotelBudgetItem> {
+    async getResult(hotels: IHotel[], step: STEP,budgetOrder): Promise<IHotelBudgetItem> {
         let self = this;
         let _hotels = formatHotel(hotels);
 
@@ -182,11 +182,14 @@ export abstract class AbstractHotelStrategy {
             deeplinkData: ret.deeplinkData,
             commentScore: ret.commentScore
         }
-
+        let getCompany = await Models.company.get(budgetOrder.companyId);
         if (self.isRecord) {
             //保存调试记录
             let budgetItem = Models.budgetItem.create({
                 title: `${self.qs.city ? (self.qs.city.name ? self.qs.city.name : result.city) : result.city}(${moment(self.qs.checkInDate).format('YYYY-MM-DD')}-${moment(self.qs.checkOutDate).format('YYYY-MM-DD')})--${step}`,
+                companyName:getCompany['name'],
+                departureDate:`${moment(self.qs.checkInDate).format('YYYY-MM-DD')}-${moment(self.qs.checkOutDate).format('YYYY-MM-DD')}`,
+                travelCity:`${self.qs.city ? (self.qs.city.name ? self.qs.city.name : result.city) : result.city}`,
                 query: _.cloneDeep(self.qs),
                 type: EBudgetType.HOTEL,
                 originData: hotels,
@@ -263,7 +266,7 @@ export abstract class AbstractTicketStrategy {
 
     abstract async customerMarkedScoreData(tickets: IFinalTicket[]): Promise<IFinalTicket[]>;
 
-    async getResult(tickets: ITicket[], step: STEP): Promise<ITrafficBudgetItem> {
+    async getResult(tickets: ITicket[], step: STEP,budgetOrder): Promise<ITrafficBudgetItem> {
         let self = this;
         let _tickets = formatTicketData(tickets);
         if (!_tickets || !_tickets.length) {
@@ -304,12 +307,15 @@ export abstract class AbstractTicketStrategy {
             originStation: ret.originStation,
             segs: ret.segs
         }
-
+        let getCompany = await Models.company.get(budgetOrder.companyId);
         if (self.isRecord) {
             //保存调试记录
             let date = self.qs.earliestDepartTime ? self.qs.earliestDepartTime : self.qs.latestArrivalTime
             let budgetItem = Models.budgetItem.create({
                 title: `${self.qs.fromCity.name}-${self.qs.toCity.name}(${moment(`${date}`).format('YYYY/MM/DD')})--${step}`,
+                travelCity:`${self.qs.fromCity.name}-${self.qs.toCity.name}`,
+                companyName:getCompany['name'],
+                departureDate:`${moment(`${date}`).format('YYYY-MM-DD')}`,
                 query: _.cloneDeep(self.qs),
                 type: EBudgetType.TRAFFIC,
                 originData: tickets,
@@ -340,7 +346,7 @@ export class CommonTicketStrategy extends AbstractTicketStrategy {
         return tickets;
     }
 }
-
+ 
 export class TrafficBudgetStrategyFactory {
     static async getStrategy(qs, options) {
         let prefers = qs.prefers || [];  //保存的是企业打分参数信息

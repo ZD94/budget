@@ -527,7 +527,7 @@ app.controller('debug', function ($scope, $http, $location) {
     };
     var arr;
     $scope.travelScreening = function () {
-        if (!$scope.custorm || !$scope.city || !$scope.date) {
+        if (!$scope.custorm && !$scope.city && !$scope.date) {
             alert('请填写查询条件')
             return
         }
@@ -535,7 +535,22 @@ app.controller('debug', function ($scope, $http, $location) {
         arr = [];
         if ($scope.originDatas._length) {
             for (var i = 0; i < $scope.originDatas._length; i++) {
-                if($scope.originDatas[i].companyName == $scope.custorm && $scope.originDatas[i].travelCity == $scope.city && $scope.originDatas[i].departureDate == $scope.date){
+                // if($scope.city && $scope.originDatas[i].travelCity != null && $scope.originDatas[i].travelCity == $scope.city){
+                //     arr.push($scope.originDatas[i]);
+                // }
+                // if($scope.custorm &&  $scope.originDatas[i].companyName != null && $scope.originDatas[i].companyName == $scope.custorm){
+                //     arr.push($scope.originDatas[i]);
+                // }
+                // if($scope.date && $scope.originDatas[i].departureDate != null && $scope.originDatas[i].departureDate == $scope.date){
+                //     arr.push($scope.originDatas[i]);
+                // }
+
+            //     if(($scope.custorm ||  $scope.originDatas[i].companyName != null && $scope.originDatas[i].companyName == $scope.custorm) || ($scope.city && $scope.originDatas[i].travelCity != null && $scope.originDatas[i].travelCity == $scope.city) || ($scope.date.departureDate && $scope.originDatas[i].departureDate != null && $scope.originDatas[i].departureDate == $scope.date.departureDate)){
+            //         arr.push($scope.originDatas[i]);
+            // }
+
+
+                if(($scope.custorm == null ||  $scope.originDatas[i].companyName == $scope.custorm) && ($scope.city == null || $scope.originDatas[i].travelCity == $scope.city) && ($scope.date == null || $scope.originDatas[i].departureDate == $scope.date.departureDate)){
                     arr.push($scope.originDatas[i]);
                 }
             }
@@ -557,7 +572,6 @@ app.controller('debug', function ($scope, $http, $location) {
         $scope.custorm = '';
         $scope.phone = '';
         $scope.city = '';
-        $scope.date = '';
     }
 
     $scope.changeOrigin = function () {

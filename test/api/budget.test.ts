@@ -5,7 +5,8 @@
  * @Last Modified time: 2018-02-08 15:46:37
  * @content what is the content of this file. */
 
-import { budget, STEP } from "model/budget";
+import { STEP } from "model/budget";
+import budget from "model/budget";
 import { analyzeBudgetParams } from "model/budget/analyzeParams";
 import { Currency } from '_types/currency/currency';
 

@@ -9,11 +9,17 @@ class StopsPrefer extends AbstractPrefer<IFinalTicket> {
 
     private baseScore: number;
     private rate: number;
+    private aStops: number;
+    private twoStops: number;
+    private threeStops: number;
 
     constructor(name, options) {
-        super(name, options)
+        super(name, options);
         this.baseScore = options.baseScore || 20000;
         this.rate = options.rate || 1.05;
+        this.aStops = options.aStops || -1000;
+        this.twoStops = options.twoStops || -22000;
+        this.threeStops = options.threeStops || -43000
     }
 
     async markScoreProcess(data: IFinalTicket[]): Promise<IFinalTicket[]> {

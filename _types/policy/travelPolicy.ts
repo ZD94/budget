@@ -295,6 +295,9 @@ export class TravelPolicy extends ModelObject{
                 if (!cityInfo) {
                     return null;
                 }
+                if(cityInfo.id == DefaultRegionId.abroad) {
+                    return null;
+                }
                 if(cityInfo.parentId) {
                     placeId = cityInfo.parentId;
                     continue;
@@ -304,6 +307,7 @@ export class TravelPolicy extends ModelObject{
                     placeId = DefaultRegionId.domestic;
                 if(cityInfo.isAbroad)
                     placeId = DefaultRegionId.abroad;
+
             } while(placeId);
         }else{
             return null;

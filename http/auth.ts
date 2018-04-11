@@ -23,6 +23,7 @@ export interface JLResponse extends Response {
 const pass_urls: (string | RegExp)[] = [
     /^\/auth\/login*/,
     '/agent/gettoken',
+    '/agent/company/create'
     // /\/place/i,
     // /\/aircompany/i,
 ]

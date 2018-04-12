@@ -423,6 +423,7 @@ app.controller('debug', function ($scope, $http, $location) {
                 }
             }
             $scope.originDatas = responseArr;
+            $scope.newOriginDatas = responseArr;
         })
     }
 
@@ -535,22 +536,7 @@ app.controller('debug', function ($scope, $http, $location) {
         arr = [];
         if ($scope.originDatas._length) {
             for (var i = 0; i < $scope.originDatas._length; i++) {
-                // if($scope.city && $scope.originDatas[i].travelCity != null && $scope.originDatas[i].travelCity == $scope.city){
-                //     arr.push($scope.originDatas[i]);
-                // }
-                // if($scope.custorm &&  $scope.originDatas[i].companyName != null && $scope.originDatas[i].companyName == $scope.custorm){
-                //     arr.push($scope.originDatas[i]);
-                // }
-                // if($scope.date && $scope.originDatas[i].departureDate != null && $scope.originDatas[i].departureDate == $scope.date){
-                //     arr.push($scope.originDatas[i]);
-                // }
-
-            //     if(($scope.custorm ||  $scope.originDatas[i].companyName != null && $scope.originDatas[i].companyName == $scope.custorm) || ($scope.city && $scope.originDatas[i].travelCity != null && $scope.originDatas[i].travelCity == $scope.city) || ($scope.date.departureDate && $scope.originDatas[i].departureDate != null && $scope.originDatas[i].departureDate == $scope.date.departureDate)){
-            //         arr.push($scope.originDatas[i]);
-            // }
-
-
-                if(($scope.custorm == null ||  $scope.originDatas[i].companyName == $scope.custorm) && ($scope.city == null || $scope.originDatas[i].travelCity == $scope.city) && ($scope.date == null || $scope.originDatas[i].departureDate == $scope.date.departureDate)){
+                if(($scope.custorm == null || $scope.custorm == '' ||  $scope.originDatas[i].companyName == $scope.custorm) && ($scope.city == null || $scope.city == '' || $scope.originDatas[i].travelCity == $scope.city) && ($scope.date == null || $scope.originDatas[i].departureDate == $scope.date.departureDate)){
                     arr.push($scope.originDatas[i]);
                 }
             }
@@ -569,9 +555,10 @@ app.controller('debug', function ($scope, $http, $location) {
             { name: '正式', url: 'https://j.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' }
         ]
         $scope.originDatas = '';
-        $scope.custorm = '';
-        $scope.phone = '';
-        $scope.city = '';
+        $scope.custorm = null;
+        $scope.phone = null;
+        $scope.newOriginDatas = null;
+        $scope.city = null;
     }
 
     $scope.changeOrigin = function () {

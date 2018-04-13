@@ -14,8 +14,8 @@ class TrainDurationPrefer extends AbstractPrefer<IFinalTicket> {
 
     constructor(name, options) {
         super(name, options);
-        if (!this.trainDuration) {
-            this.trainDuration = TRAIN_DURATION;
+        if (this.trainDuration == null || this.trainDuration == void 0) {
+            this.trainDuration = 0;
         }
         if (!this.score) {
             this.score = 0;

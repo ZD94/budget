@@ -131,6 +131,7 @@ export class ComputeBudget {
 
         let discount = 0;
         if (budget.trafficType == ETrafficType.PLANE) {
+            console.log("API.place====>", API.place);
             let fullPrice = await API.place.getFlightFullPrice({ originPlace: budget.fromCity, destination: budget.toCity });
             let price = fullPrice ? (EAirCabin.ECONOMY ? fullPrice.EPrice : fullPrice.FPrice) : 0;
             if (price) {

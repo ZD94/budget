@@ -1,8 +1,8 @@
 /*
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
- * @Last Modified by: Mr.He
- * @Last Modified time: 2018-03-09 11:01:44
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2018-04-11 11:54:42
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -12,7 +12,11 @@ import { analyzeBudgetParams } from "./analyzeParams";
 import { STEP, BudgetOrder, DataOrder, BudgetType, SearchHotelParams, SearchTicketParams, SearchSubsidyParams, BudgetFinallyResult, GetBudgetParams } from "./interface";
 import uuid = require("uuid");
 var API = require("@jingli/dnode-api");
-import {restfulAPIUtil} from 'api/restful/index'
+if (API.default) {
+    API = API.default
+}
+import restfulAPIUtil from 'api/restful/index'
+
 import getAllPrefer from "./getAllPrefer";
 import computeBudget from "./computeBudget";
 import getSubsidy from "./getSubsidy";
@@ -290,11 +294,13 @@ export class Budget extends BudgetHelps {
         }
         if (item.type != BudgetType.SUBSIDY) {
             let data = _.cloneDeep(budget.markedScoreData);
+            data = data && data.length ? data: [];
             for (let item of data){
                 item.price ? item.price = Number(item.price) : item.price = 0
             }
             let scoreDataSortByPrice = data.sort(this.compare);
-            budget.highestPrice = scoreDataSortByPrice[0].price * budgetOrder.persons
+            budget.highestPrice = scoreDataSortByPrice && scoreDataSortByPrice.length? 
+                Math.floor(scoreDataSortByPrice[0].price * budgetOrder.persons * budgetOrder.rate * 100) /100: 0;
         }
         delete budget.prefers;
         delete budget.markedScoreData;
@@ -356,5 +362,5 @@ export class Budget extends BudgetHelps {
 
     }
 }
-
-export let budget = new Budget();
+let budget = new Budget();
+export default budget;

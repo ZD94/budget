@@ -8,7 +8,10 @@ import {PaginateInterface} from 'common/model/interface';
 import {CompanyRegion} from "_types/policy/companyRegion";
 import {RegionPlace} from "_types/policy/regionPlace";
 var _ = require("lodash");
-const API = require("@jingli/dnode-api")
+var API = require("@jingli/dnode-api");
+if (API.default) {
+    API = API.default
+}
 import {ECompanyRegionUsedType} from "./companyRegion";
 import { ICity, CityService } from '_types/city';
 

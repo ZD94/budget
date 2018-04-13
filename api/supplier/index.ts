@@ -8,11 +8,14 @@ import {SupplierGetter} from 'libs/suppliers';
 import { ICity, CityService } from '_types/city';
 
 var API = require("@jingli/dnode-api");
+if (API.default) {
+    API = API.default
+}
 let getSupplier: SupplierGetter;
 
 
-export default class BookLink {
-    static async getBookLink(options: {
+export class BookLink {
+    async getBookLink(options: {
         supplier: any, data?: any, reserveType: string, fromCity?:string, toCity?: string, leaveDate?:Date, backDate?:Date,
         city?: string, checkInDate?: Date, checkOutDate?: Date
     }): Promise<ReserveLink> {
@@ -74,3 +77,5 @@ export default class BookLink {
         return bookLink;
     }
 }
+
+export default new BookLink();

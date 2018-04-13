@@ -11,6 +11,9 @@ import { IHotelBudgetItem, ITrafficBudgetItem, EBudgetType, ETrafficType, EAirCa
 import { TrafficBudgetStrategyFactory, HotelBudgetStrategyFactory } from "model/budget";
 export var NoCityPriceLimit = 0;
 var API = require("@jingli/dnode-api");
+if (API.default) {
+    API = API.default
+}
 import moment = require("moment");
 
 export class ComputeBudget {
@@ -128,6 +131,7 @@ export class ComputeBudget {
 
         let discount = 0;
         if (budget.trafficType == ETrafficType.PLANE) {
+            console.log("API.place====>", API.place);
             let fullPrice = await API.place.getFlightFullPrice({ originPlace: budget.fromCity, destination: budget.toCity });
             let price = fullPrice ? (EAirCabin.ECONOMY ? fullPrice.EPrice : fullPrice.FPrice) : 0;
             if (price) {

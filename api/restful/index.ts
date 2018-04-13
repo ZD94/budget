@@ -27,4 +27,4 @@ export class RestfulAPIUtil {
 }
 
 
-export let restfulAPIUtil = new RestfulAPIUtil();
+export default new RestfulAPIUtil();

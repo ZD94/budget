@@ -56,6 +56,25 @@ var translate_prefer = {
             minDuration: "合理的最小等待时长--单位/分钟"
         }
     },
+    planeStop: {
+        title: "[交通]飞机经停",
+        value: '{"name": "planeStop", "options": {"aStops": -1000, "twoStops": -22000, "threeStops": -43000}}',
+        template: {
+            planeStop: "[交通]飞机经停",
+            baseScore:"基准分",
+            aStops:"一次经停",
+            twoStops:"两次经停",
+            threeStops:"三次经停"
+        }
+    },
+    priceDeviationPunishment: {
+        title:"价格偏差打分",
+        value: '{"name": "priceDeviationPunishment","options":{"baseScore": "-20000"}}',
+        template:{
+            priceDeviationPunishment:"[系统项]价格偏差打分",
+            baseScore: "基准分"
+        }
+    },
     transitCityInChina: {
         title: "[交通]中转地是否包含国内",
         value: '{"name": "transitCityInChina", "options": {"baseScore": 5000}}',

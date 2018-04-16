@@ -1,8 +1,8 @@
 /*
  * @Author: Mr.He 
  * @Date: 2017-12-20 18:56:43 
- * @Last Modified by: Mr.He
- * @Last Modified time: 2018-03-09 11:01:44
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2018-04-11 11:54:42
  * @content what is the content of this file. */
 
 export * from "./interface";
@@ -100,8 +100,8 @@ export class Budget extends BudgetHelps {
             item.step = ps[0].step;
             item.channels = ps[0].channels;
             item.prefer = ps[1];
-            //进行打分，得出最终预算
-            item.budget = await computeBudget.getBudget(item, budgetOrder.persons);
+            //进行打分，得出最终预算   入口
+            item.budget = await computeBudget.getBudget(item, budgetOrder.persons,budgetOrder);
             return item;
         });
 
@@ -205,7 +205,7 @@ export class Budget extends BudgetHelps {
         budgetOrder.step = STEP.FINAL;
         for (let item of budgetOrder.budgetData) {
             if (item.type != BudgetType.SUBSIDY) {
-                item.budget = await computeBudget.getBudget(item, budgetOrder.persons);
+                item.budget = await computeBudget.getBudget(item, budgetOrder.persons,budgetOrder);
             } else {
                 let input = item.input as SearchSubsidyParams;
                 item.budget = await getSubsidy.getSubsidyItem(budgetOrder.companyId, budgetOrder.travelPolicyId, input, budgetOrder.persons);
@@ -294,11 +294,13 @@ export class Budget extends BudgetHelps {
         }
         if (item.type != BudgetType.SUBSIDY) {
             let data = _.cloneDeep(budget.markedScoreData);
+            data = data && data.length ? data: [];
             for (let item of data){
                 item.price ? item.price = Number(item.price) : item.price = 0
             }
             let scoreDataSortByPrice = data.sort(this.compare);
-            budget.highestPrice = scoreDataSortByPrice[0].price * budgetOrder.persons
+            budget.highestPrice = scoreDataSortByPrice && scoreDataSortByPrice.length? 
+                Math.floor(scoreDataSortByPrice[0].price * budgetOrder.persons * budgetOrder.rate * 100) /100: 0;
         }
         delete budget.prefers;
         delete budget.markedScoreData;

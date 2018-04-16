@@ -56,6 +56,25 @@ var translate_prefer = {
             minDuration: "合理的最小等待时长--单位/分钟"
         }
     },
+    planeStop: {
+        title: "[交通]飞机经停",
+        value: '{"name": "planeStop", "options": {"aStops": -1000, "twoStops": -22000, "threeStops": -43000}}',
+        template: {
+            planeStop: "[交通]飞机经停",
+            baseScore:"基准分",
+            aStops:"一次经停",
+            twoStops:"两次经停",
+            threeStops:"三次经停"
+        }
+    },
+    priceDeviationPunishment: {
+        title:"价格偏差打分",
+        value: '{"name": "priceDeviationPunishment","options":{"baseScore": "-20000"}}',
+        template:{
+            priceDeviationPunishment:"[系统项]价格偏差打分",
+            baseScore: "基准分"
+        }
+    },
     transitCityInChina: {
         title: "[交通]中转地是否包含国内",
         value: '{"name": "transitCityInChina", "options": {"baseScore": 5000}}',
@@ -393,6 +412,7 @@ app.controller('debug', function ($scope, $http, $location) {
     var orderBooleanlast;
     //复制粘贴的功能
     var copyTemp = '';
+    var responseArr;
     //更改服务器
     $scope.originServers = [
         { name: '开发', url: 'https://l.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
@@ -401,6 +421,7 @@ app.controller('debug', function ($scope, $http, $location) {
     ]
     $scope.changeServer = function () {
         let originServerUrl = $scope.originServer.url + `?key=${url.key}&page=${url.page}&pageSize=${url.pageSize}`;
+        console.log(originServerUrl,"<===========originServerUrl")
         $http.get(originServerUrl).success(function (response) {
             if (response.code != 0) {
                 alert("数据请求出错，请检查key");
@@ -408,7 +429,7 @@ app.controller('debug', function ($scope, $http, $location) {
                 return;
             }
 
-            let responseArr = response.data;
+            responseArr = response.data;
             for (let i = 0; i < responseArr.length; i++) {
                 let arr = responseArr[i].markedData;
                 for (let j = 0; j < arr.length; j++) {
@@ -442,7 +463,7 @@ app.controller('debug', function ($scope, $http, $location) {
         var policy = JSON.stringify($scope.policy);
         let originServer = $scope.originServer;
         let originServerUrl = originServer.url + '?key=' + url.key;
-       
+
         if ($scope.result) {
             if ($scope.result.star != null) {
                 $scope.result.star = MHotelLevel[$scope.result.star];
@@ -465,7 +486,7 @@ app.controller('debug', function ($scope, $http, $location) {
         //翻译舱位
         changeLevel();
     };
-    
+
     $scope.change = function () {
         var single = $scope.prefer;    //string
         var ori = $scope.ori_prefers;   //arr
@@ -523,6 +544,41 @@ app.controller('debug', function ($scope, $http, $location) {
         $scope.ori_prefers = ori;
 
     };
+    var arr;
+    $scope.travelScreening = function () {
+        if (!$scope.custorm || !$scope.city || !$scope.date) {
+            alert('请填写查询条件')
+            return
+        }
+        $scope.originDatas = responseArr;
+        arr = [];
+        if ($scope.originDatas._length) {
+            for (var i = 0; i < $scope.originDatas._length; i++) {
+                if($scope.originDatas[i].companyName == $scope.custorm && $scope.originDatas[i].travelCity == $scope.city && $scope.originDatas[i].departureDate == $scope.date){
+                    arr.push($scope.originDatas[i]);
+                }
+            }
+        }
+        if (arr.length == 0) {
+            alert('暂无匹配数据');
+        } else {
+            $scope.originDatas = arr;
+        }
+    };
+    
+    $scope.reset = function () {
+        $scope.originServers = [
+            { name: '开发', url: 'https://l.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
+            { name: '测试', url: 'https://t.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' },
+            { name: '正式', url: 'https://j.jingli365.com/proj/svr-jlbudget/budget/getBudgetItems' }
+        ]
+        $scope.originDatas = '';
+        $scope.custorm = '';
+        $scope.phone = '';
+        $scope.city = '';
+        $scope.date = '';
+    }
+
     $scope.changeOrigin = function () {
         if ($scope.originData) {
             $scope.ori_prefers = $scope.originData.prefers;

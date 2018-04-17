@@ -18,15 +18,15 @@ describe('ticket-flowTimeWindowPrefer', async () => {
     });
 
     it('数据第251条 到达时间超出期望时间窗限制 打分-90000 should be ok', async () => {
-        assert.equal(data[251].score, -90000)
+        assert.equal(data[251].score, -900000)
     })
 
     it('数据第252条 出发时间超出期望时间窗限制 打分-90000 should be ok', async () => {
-        assert.equal(data[252].score, -90000)
+        assert.equal(data[252].score, -900000)
     })
 
     it('数据第253条 出发时间到达时间均超出期望时间窗限制 打分-180000 should be ok', async () => {
-        assert.equal(data[253].score,-180000)
+        assert.equal(data[253].score,-1800000)
     })
 
     it('数据第254条 无出发时间 不打分 should be ok',async()=>{

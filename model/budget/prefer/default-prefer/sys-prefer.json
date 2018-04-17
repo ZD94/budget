@@ -65,6 +65,14 @@
                 "twoStops":-22000,
                 "threeStops":-43000
             }
+        },
+        {
+            "name": "removeOverflowTimeWindowPrefer",
+            "options": {
+                "desiredFromDateTime": "<%=moment(local.desiredFromDateTime).format('YYYY-MM-DD HH:MM:SS')%>",
+                "desiredToDateTime": "<%=moment(local.desiredToDateTime).format('YYYY-MM-DD HH:MM:SS')%>",
+                "score": -900000
+            }
         }
     ],
     "abroadTraffic": [
@@ -126,6 +134,14 @@
             "options": {
                 "score": 100000,
                 "latestArrivalTime": "<%=local.latestArrivalDateTime%>"
+            }
+        },
+        {
+            "name": "removeOverflowTimeWindowPrefer",
+            "options": {
+                "desiredFromDateTime": "<%=moment(local.desiredFromDateTime).format('YYYY-MM-DD HH:MM:SS')%>",
+                "desiredToDateTime": "<%=moment(local.desiredToDateTime).format('YYYY-MM-DD HH:MM:SS')%>",
+                "score": -900000
             }
         }
     ],

@@ -105,6 +105,7 @@ export var ticketPrefers = {
     trainPricePrefer: require('./ticket-trainPricePrefer'),
     planePricePrefer: require('./price'),
     price: require('./price'),
+    removeOverflowTimeWindowPrefer:require('./ticket-flowTimeWindowPrefer'),
     planeNumberPrefer: require('./ticket-planeNumberPrefer'),
     permitOnlySupplier: require('./ticket-permitOnlySupplier'),
     planeStop: require('./ticket-stopping'),

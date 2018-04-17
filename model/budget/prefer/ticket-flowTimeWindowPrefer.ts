@@ -10,7 +10,7 @@ class removeOverflowTimeWindowPrefer extends AbstractPrefer<IFinalTicket> {
     constructor(name, options) {
         super(name, options);
         if (!this.score)
-            this.score = -90000
+            this.score = -900000
     }
 
     async markScoreProcess(tickets: IFinalTicket[]): Promise<IFinalTicket[]> {

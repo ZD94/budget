@@ -52,7 +52,8 @@
             <td>
               <span>企业客户</span>  <input style="width:auto" ng-model="custorm" type="text" >
               <span>提交人手机号</span>  <input style="width:auto" ng-model="phone" type="text">
-              <span>出发日期</span>  <input style="width:auto" ng-model="date"  type="text" placeholder="YYYY-MM-DD">
+              <span>出发日期</span>
+                <select ng-model="date" ng-options="x.departureDate for x in newOriginDatas">  </select>
               <span>行程城市</span>  <input style="width:auto" ng-model="city"  type="text">
               <input style="margin-left: 20px" type="button" ng-model="originDatas" class="btn btn-primary" value="筛选行程"
                      id="calBudgetBtns"
